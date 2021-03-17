@@ -1,3 +1,3 @@
 public class Global {
-	static short test;
+	static int test;
 }
