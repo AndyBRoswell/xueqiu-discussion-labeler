@@ -2,6 +2,7 @@ import java.time.LocalDateTime;
 
 public class Main {
 	public static void main(String[] args){
+		new GUI();
 		System.out.println("TEST:");
 		String dt = "2021-04-23T22:26:30";
 		DiscussionItem item = new DiscussionItem(
