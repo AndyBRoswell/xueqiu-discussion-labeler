@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config>
+    <crawling>
+		<proxy>
+
+		</proxy>
+	</crawling>
+	<storage>
+		<import-and-export>
+			<default-export-dir></default-export-dir>
+		</import-and-export>
+		<backup-and-restore>
+
+		</backup-and-restore>
+	</storage>
+</config>
