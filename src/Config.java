@@ -57,6 +57,6 @@ public class Config {
 		source = new DOMSource(ConfigXML);
 		File cfgxmlfile = new File(pathname);
 		StreamResult result = new StreamResult(cfgxmlfile);
-		transformer.transform(source,result);
+		transformer.transform(source, result);
 	}
 }
