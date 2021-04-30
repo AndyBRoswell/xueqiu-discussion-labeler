@@ -42,6 +42,11 @@ public class Config {
 		return EvalResult.item(0).getTextContent();
 	}
 
+	public static String ReplaceShellVariable(String string) {
+		Matcher ShellVariableMatcher = ShellVariablePattern.matcher(string);
+
+	}
+
 	public static void ModifySingleConfigEntry(String xpathexpr, String content) throws XPathExpressionException {
 		XPathExpression expr = xpath.compile(xpathexpr);
 		NodeList EvalResult = (NodeList) expr.evaluate(ConfigXML, XPathConstants.STRING);
