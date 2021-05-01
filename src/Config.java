@@ -43,8 +43,9 @@ public class Config {
 	}
 
 	public static String ReplaceShellVariable(String string) {
-		Matcher ShellVariableMatcher = ShellVariablePattern.matcher(string);
-
+		string = string.replaceAll("\\$AppPath", Global.AppPath);
+		string = string.replaceAll("\\$ConfigPath", Global.AppPath);
+		return string;
 	}
 
 	public static void ModifySingleConfigEntry(String xpathexpr, String content) throws XPathExpressionException {
