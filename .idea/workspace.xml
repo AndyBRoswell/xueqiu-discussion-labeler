@@ -2,10 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c143bb1a-020d-480f-ae51-3b04866ac872" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIAddStock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIAddTag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIAddTagSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIBackupAndRestore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIDownLoad.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIExport.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIImport.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIJournal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUIStatistic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xueqiu-discussion-labeler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/xueqiu-discussion-labeler.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +30,20 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="InvalidFacetManager">
     <ignored-facets>
@@ -31,6 +51,9 @@
     </ignored-facets>
   </component>
   <component name="ProjectId" id="1pjFnCUFwI6rBZJ92ogu5j8dkiL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -38,7 +61,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/swtgraphics2d.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Desktop/GUI/xueqiu-discussion-labeler" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
