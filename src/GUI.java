@@ -140,13 +140,13 @@ public class GUI extends JFrame {
 		TPanel2.add(addTag2);
 		/*TPanel3：相关联性*/
 		JPanel TPanel3 = new JPanel(new FlowLayout());
-		JLabel haverelation = new LabelSet("有关", Color.LIGHT_GRAY);
-		JLabel havenrelation = new LabelSet("无关", Color.LIGHT_GRAY);
+		JLabel Relative = new LabelSet("有关", Color.LIGHT_GRAY);
+		JLabel UnRelative = new LabelSet("无关", Color.LIGHT_GRAY);
 		JButton addTag3 = new AddButton();
 		addTag3.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
 		TPanel3.add(Relevance);
-		TPanel3.add(haverelation);
-		TPanel3.add(havenrelation);
+		TPanel3.add(Relative);
+		TPanel3.add(UnRelative);
 		TPanel3.add(addTag3);
 		/*TPanel4：短期趋势*/
 		JPanel TPanel4 = new JPanel(new FlowLayout());
@@ -163,7 +163,7 @@ public class GUI extends JFrame {
 		panel4.add(TPanel2);
 		panel4.add(TPanel3);
 		panel4.add(TPanel4);
-		
+
 		panel3.add(panel4);
 
 		contentPane.add(panel1, BorderLayout.PAGE_START);
@@ -184,9 +184,9 @@ public class GUI extends JFrame {
 	public static class AddButton extends JButton {
 		public AddButton() {
 			super();
-			Icon iconadd = new ImageIcon(Global.IconPath + "\\add.png");
+			Icon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
 			setPreferredSize(new Dimension(20, 20));
-			setIcon(iconadd);
+			setIcon(iconAddSmall);
 
 		}
 	}

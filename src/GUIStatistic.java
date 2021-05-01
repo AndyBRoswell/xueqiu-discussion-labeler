@@ -12,8 +12,8 @@ import java.awt.*;
 
 public class GUIStatistic extends JFrame {
     public GUIStatistic(){
-        JFrame statistic_frame = new JFrame("统计");
-        statistic_frame.setBounds(new Rectangle(800, 500));
+        JFrame frame = new JFrame("统计");
+        frame.setBounds(new Rectangle(800, 500));
         JPanel panel = new JPanel();
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         Border padding = BorderFactory.createEmptyBorder(50, 50, 20, 20);
@@ -39,10 +39,10 @@ public class GUIStatistic extends JFrame {
         panel.add(checkBox3);
         panel.add(checkBox4);
         panel1.add(panel);
-        statistic_frame.add(panel1);
-        statistic_frame.setAlwaysOnTop(true);
-        statistic_frame.setLocationRelativeTo(null);
-        statistic_frame.setVisible(true);
+        frame.add(panel1);
+        frame.setAlwaysOnTop(true);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
 
         DefaultPieDataset dataSet = new DefaultPieDataset();
         dataSet.setValue("好评", 40); dataSet.setValue("差评", 40); dataSet.setValue("中评", 20);

@@ -7,11 +7,11 @@ public class GUIExport extends JFrame {
     JButton yes = new JButton("确定");
     JButton no = new JButton("取消");
     public GUIExport(){
-        JFrame Export_frame = new JFrame("导出");
-        Export_frame.setBounds(new Rectangle(500, 200));
-        Export_frame.setLocationRelativeTo(null);
-        Export_frame.setVisible(true);
-        Container container = Export_frame.getContentPane();
+        JFrame frame = new JFrame("导出");
+        frame.setBounds(new Rectangle(500, 200));
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        Container container = frame.getContentPane();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -25,7 +25,7 @@ public class GUIExport extends JFrame {
         no.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Export_frame.dispose();
+                frame.dispose();
             }
         });
         JPanel panel4 = new JPanel(new FlowLayout());
@@ -39,6 +39,6 @@ public class GUIExport extends JFrame {
         panel3.add(no);
         container.add(panel4);
         container.add(panel3);
-        Export_frame.pack();
+        frame.pack();
     }
 }
