@@ -7,7 +7,7 @@
 	</crawling>
 	<storage>
 		<import-and-export>
-			<default-export-dir></default-export-dir>
+			<default-export-dir>$DefaultSavePath</default-export-dir>
 		</import-and-export>
 		<backup-and-restore>
 

@@ -38,19 +38,20 @@ public class Config {
 
 	public static String QuerySingleConfigEntry(String xpathexpr) throws XPathExpressionException {
 		XPathExpression expr = xpath.compile(xpathexpr);
-		NodeList EvalResult = (NodeList) expr.evaluate(ConfigXML, XPathConstants.STRING);
-		return EvalResult.item(0).getTextContent();
+		NodeList EvalResult = (NodeList) expr.evaluate(ConfigXML, XPathConstants.NODESET);
+		return Config.ReplaceShellVariable(EvalResult.item(0).getTextContent());
 	}
 
 	public static String ReplaceShellVariable(String string) {
 		string = string.replaceAll("\\$AppPath", Global.AppPath);
 		string = string.replaceAll("\\$ConfigPath", Global.AppPath);
+		string = string.replaceAll("\\$DefaultSavePath", Global.DefaultSavePath);
 		return string;
 	}
 
 	public static void ModifySingleConfigEntry(String xpathexpr, String content) throws XPathExpressionException {
 		XPathExpression expr = xpath.compile(xpathexpr);
-		NodeList EvalResult = (NodeList) expr.evaluate(ConfigXML, XPathConstants.STRING);
+		NodeList EvalResult = (NodeList) expr.evaluate(ConfigXML, XPathConstants.NODESET);
 		EvalResult.item(0).setTextContent(content);
 	}
 
