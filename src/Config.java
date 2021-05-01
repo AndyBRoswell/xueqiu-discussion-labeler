@@ -18,7 +18,7 @@ public class Config {
 	static Document ConfigXML;
 	static final XPathFactory xfactory = XPathFactory.newInstance();
 	static final XPath xpath = xfactory.newXPath();
-	static final Pattern ShellVariablePattern = Pattern.compile("\\$[\\w]+[^\\w]");
+	static final Pattern ShellVariablePattern = Pattern.compile("\\$[\\w]+[^\\w]|\\z");
 	static final TransformerFactory tfactory = TransformerFactory.newInstance();
 	static Transformer transformer;
 	static DOMSource source;
@@ -43,9 +43,9 @@ public class Config {
 	}
 
 	public static String ReplaceShellVariable(String string) {
-		string = string.replaceAll("\\$AppPath", Global.AppPath);
-		string = string.replaceAll("\\$ConfigPath", Global.AppPath);
-		string = string.replaceAll("\\$DefaultSavePath", Global.DefaultSavePath);
+		string = string.replaceAll("//AppPath//", Matcher.quoteReplacement(Global.AppPath));
+		string = string.replaceAll("//ConfigPath//", Matcher.quoteReplacement(Global.AppPath));
+		string = string.replaceAll("//DefaultSavePath//", Matcher.quoteReplacement(Global.DefaultSavePath));
 		return string;
 	}
 
