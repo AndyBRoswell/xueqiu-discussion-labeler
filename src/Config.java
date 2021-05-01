@@ -43,9 +43,9 @@ public class Config {
 	}
 
 	public static String ReplaceShellVariable(String string) {
-		string = string.replaceAll("//AppPath//", Matcher.quoteReplacement(Global.AppPath));
-		string = string.replaceAll("//ConfigPath//", Matcher.quoteReplacement(Global.AppPath));
-		string = string.replaceAll("//DefaultSavePath//", Matcher.quoteReplacement(Global.DefaultSavePath));
+		string = string.replaceAll("//app-path//", Matcher.quoteReplacement(Global.AppPath));
+		string = string.replaceAll("//config-path//", Matcher.quoteReplacement(Global.AppPath));
+		string = string.replaceAll("//default-save-path//", Matcher.quoteReplacement(Global.DefaultSavePath));
 		return string;
 	}
 

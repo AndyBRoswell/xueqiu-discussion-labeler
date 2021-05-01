@@ -6,7 +6,10 @@
 	</crawling>
 	<storage>
 		<import-and-export>
-			<default-export-dir>//DefaultSavePath//</default-export-dir>
+			<default-encoding>utf-8</default-encoding>
+			<default-filename>//datetime//</default-filename>
+			<default-export-dir>//default-save-path//</default-export-dir>
+			<operation-for-filename-conflict>auto-rename</operation-for-filename-conflict>
 		</import-and-export>
 		<backup-and-restore>
 
