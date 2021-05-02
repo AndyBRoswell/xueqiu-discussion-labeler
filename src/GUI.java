@@ -44,10 +44,12 @@ public class GUI extends JFrame {
 		JMenuItem ImportMenuItem = new JMenuItem("导入");
 		JMenuItem ExportMenuItem = new JMenuItem("导出");
 		JMenuItem JournalMenuItem = new JMenuItem("日志");
+		JMenuItem SetMenuItem = new JMenuItem("设置");
 		JMenuItem ExitMenuItem = new JMenuItem("退出");
 		FileMenu.add(ImportMenuItem);
 		FileMenu.add(ExportMenuItem);
 		FileMenu.add(JournalMenuItem);
+		FileMenu.add(SetMenuItem);
 		FileMenu.addSeparator();
 		FileMenu.add(ExitMenuItem);
 		ImportMenuItem.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {new GUIImport(); }});
