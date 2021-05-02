@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DataManipulator {
 	static TreeMap<String, ArrayList<DiscussionItem>> DiscussionList = new TreeMap<>();
+	static ConcurrentHashMap<String, String> AllLabel = new ConcurrentHashMap<>();
 }
 
 class DiscussionItem {
