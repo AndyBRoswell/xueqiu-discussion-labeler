@@ -140,9 +140,7 @@ public class GUIConfig extends JFrame {
         DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder= factory.newDocumentBuilder();
-            //因为获取的路径有汉字会报错,所以我使用的是绝对路径
-            //Document doc=builder.parse("file:///D:\\大三下\\团队项目开发\\github\\xueqiu-discussion-labeler\\cfg\\config.xml");
-            Document doc=builder.parse(Global.ConfigPath); //这个是正确的
+            Document doc=builder.parse("file:///"+Global.DefaultConfig); //这个是正确的
             printCrawling(doc,list);
             printStorage(doc,list);
         } catch (Exception e) {
