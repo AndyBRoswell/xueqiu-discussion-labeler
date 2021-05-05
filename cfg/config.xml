@@ -1,7 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><config>
-    <crawling>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config>
+	<crawling>
 		<proxy>
-
+			<name>张三</name>
+			<sex>男</sex>
+			<age>20</age>
 		</proxy>
 	</crawling>
 	<storage>
@@ -12,7 +15,9 @@
 			<operation-for-filename-conflict>auto-rename</operation-for-filename-conflict>
 		</import-and-export>
 		<backup-and-restore>
-
+			<name>张三</name>
+			<sex>男</sex>
+			<age>20</age>
 		</backup-and-restore>
 	</storage>
 </config>
