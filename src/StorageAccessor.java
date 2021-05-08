@@ -11,10 +11,13 @@ public class StorageAccessor {
 	static final CsvParser parser = new CsvParser(ParserSettings);
 	static final CsvWriter writer = new CsvWriter(WriterSettings);
 
+	public static void InitCSVParserWriterSettings() {
+		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
+	}
+
 	public static void ReadDiscussionFromCSV(String pathname) throws XPathExpressionException {
 		final File file = new File(pathname);
 
-		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
 		parser.beginParsing(file, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 
 		String[] SingleRow;
@@ -28,7 +31,18 @@ public class StorageAccessor {
 	public static void SaveDiscussionToCSV(String pathname) {
 		String FileContent = null;
 		for (DiscussionItem discussion : DataManipulator.DiscussionList) {
-			
+
+		}
+	}
+
+	public static void ReadAllLabelsFromFile() throws XPathExpressionException {
+		File file = new File(Global.FileOfAllLabels);
+
+		parser.beginParsing(file, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+
+		String[] SingleRow;
+		while ((SingleRow = parser.parseNext()) != null) {
+
 		}
 	}
 }
