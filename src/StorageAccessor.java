@@ -51,9 +51,7 @@ public class StorageAccessor {
 
 	public static void SaveAllAvailableLabels() throws IOException {
 		final FileWriter LabelFileWriter = new FileWriter(Global.LabelFile);
-		Iterator<Map.Entry<String, ArrayList<String>>> iterator = DataManipulator.AllLabels.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Map.Entry<String, ArrayList<String>> entry = iterator.next();
+		for (Map.Entry<String, ArrayList<String>> entry : DataManipulator.AllLabels.entrySet()) {
 			LabelFileWriter.write(entry.getKey());
 			for (String i : entry.getValue()) {
 				LabelFileWriter.write(' ' + i);
