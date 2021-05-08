@@ -13,9 +13,20 @@ public class StorageAccessor {
 	static final CsvParser parser = new CsvParser(settings);
 
 	public static void ReadCSV(String pathname) throws XPathExpressionException {
-		File file = new File(pathname);
+		final File file = new File(pathname);
 
 		settings.getFormat().setLineSeparator(Global.LineSeparator);
-		List<String[]> Rows =  parser.parseAll(file, Config.QuerySingleConfigEntry("/storage/import-and-export/default-encoding"));
+		//List<String[]> Rows = parser.parseAll(file, Config.QuerySingleConfigEntry("/storage/import-and-export/default-encoding"));
+		parser.beginParsing(file, Config.QuerySingleConfigEntry("/storage/import-and-export/default-encoding"));
+
+		String[] SingleRow;
+		DiscussionItem item;
+//		for (int i = 0; i < Rows.size(); ++i) {
+//			SingleRow = Rows[i].
+//			DataManipulator.DiscussionList.add();
+//		}
+		while ((SingleRow = parser.parseNext()) != null) {
+			System.out.println(SingleRow.length);
+		}
 	}
 }
