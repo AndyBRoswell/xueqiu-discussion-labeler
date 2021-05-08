@@ -8,6 +8,6 @@ public class Main {
 		GUI MainForm = new GUI();
 		GUIConfig guiConfig = new GUIConfig();
 		Config.LoadConfig(Global.DefaultConfig);
-		StorageAccessor.ReadCSV(Global.DefaultSavePath + "\\Book1.csv");
+		StorageAccessor.ReadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv");
 	}
 }

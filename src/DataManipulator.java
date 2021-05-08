@@ -5,6 +5,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DataManipulator {
 	static ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
 	static ConcurrentHashMap<String, String> AllLabel = new ConcurrentHashMap<>();
+
+	static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
+
+	static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
+
+	static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
 }
 
 class DiscussionItem {
@@ -59,6 +65,4 @@ class DiscussionItem {
 	ConcurrentHashMap<String, String> GetLabel() { return Label; }
 
 	void SetText(String Text) { this.Text = Text; }
-
-	void SetLabel() {}
 }
