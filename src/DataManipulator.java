@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DataManipulator {
 	static ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
-	static ConcurrentHashMap<String, String> AllLabels = new ConcurrentHashMap<>();
+	static ConcurrentHashMap<String, ArrayList<String>> AllLabels = new ConcurrentHashMap<>();
 
 	static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
 
