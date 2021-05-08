@@ -35,7 +35,7 @@ public class StorageAccessor {
 		}
 	}
 
-	public static void ReadAllLabelsFromFile() throws XPathExpressionException {
+	public static void LoadAllAvailableLabels() throws XPathExpressionException {
 		File file = new File(Global.FileOfAllLabels);
 
 		parser.beginParsing(file, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
@@ -44,5 +44,9 @@ public class StorageAccessor {
 		while ((SingleRow = parser.parseNext()) != null) {
 
 		}
+	}
+
+	public static void SaveAllAvailableLabels() {
+		
 	}
 }
