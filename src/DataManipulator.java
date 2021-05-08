@@ -32,6 +32,8 @@ class DiscussionItem {
 //		this.Text = Text;
 //	}
 
+	DiscussionItem() {}
+
 	DiscussionItem(String Text) {
 		this.Text = Text;
 	}
@@ -55,4 +57,8 @@ class DiscussionItem {
 	String GetText() { return Text; }
 
 	ConcurrentHashMap<String, String> GetLabel() { return Label; }
+
+	void SetText(String Text) { this.Text = Text; }
+
+	void SetLabel() {}
 }

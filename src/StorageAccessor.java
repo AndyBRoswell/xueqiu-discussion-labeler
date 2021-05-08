@@ -17,18 +17,14 @@ public class StorageAccessor {
 		final File file = new File(pathname);
 
 		settings.getFormat().setLineSeparator(Global.LineSeparator);
-		//List<String[]> Rows = parser.parseAll(file, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 		parser.beginParsing(file, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 
 		String[] SingleRow;
-		DiscussionItem item;
-//		for (int i = 0; i < Rows.size(); ++i) {
-//			SingleRow = Rows[i].
-//			DataManipulator.DiscussionList.add();
-//		}
+		DiscussionItem item = new DiscussionItem();
 		while ((SingleRow = parser.parseNext()) != null) {
 			//System.out.println(SingleRow.length);
-			System.out.println(Arrays.toString(SingleRow));
+			//System.out.println(Arrays.toString(SingleRow));
+			item.SetText(Arrays.toString(SingleRow));
 		}
 	}
 }
