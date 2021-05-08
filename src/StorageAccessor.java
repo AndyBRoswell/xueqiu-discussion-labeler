@@ -6,6 +6,7 @@ import com.univocity.parsers.csv.*;
 
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 public class StorageAccessor {
@@ -16,8 +17,8 @@ public class StorageAccessor {
 		final File file = new File(pathname);
 
 		settings.getFormat().setLineSeparator(Global.LineSeparator);
-		//List<String[]> Rows = parser.parseAll(file, Config.QuerySingleConfigEntry("/storage/import-and-export/default-encoding"));
-		parser.beginParsing(file, Config.QuerySingleConfigEntry("/storage/import-and-export/default-encoding"));
+		//List<String[]> Rows = parser.parseAll(file, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+		parser.beginParsing(file, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 
 		String[] SingleRow;
 		DiscussionItem item;
@@ -26,7 +27,8 @@ public class StorageAccessor {
 //			DataManipulator.DiscussionList.add();
 //		}
 		while ((SingleRow = parser.parseNext()) != null) {
-			System.out.println(SingleRow.length);
+			//System.out.println(SingleRow.length);
+			System.out.println(Arrays.toString(SingleRow));
 		}
 	}
 }
