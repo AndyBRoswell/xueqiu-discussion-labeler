@@ -2,6 +2,7 @@ import com.univocity.parsers.csv.*;
 
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Arrays;
 
 public class StorageAccessor {
@@ -25,6 +26,9 @@ public class StorageAccessor {
 	}
 
 	public static void SaveDiscussionToCSV(String pathname) {
-
+		String FileContent = null;
+		for (DiscussionItem discussion : DataManipulator.DiscussionList) {
+			
+		}
 	}
 }
