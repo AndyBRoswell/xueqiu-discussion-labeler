@@ -24,7 +24,7 @@ class DiscussionItem {
 //	private int NumberOfLikes;
 
 	private String Text;
-	private ConcurrentHashMap<String, String> Label;
+	private ConcurrentHashMap<String, ArrayList<String>> Label;
 
 //	DiscussionItem(String Username, String UserHomePage, boolean Modified, String Client, LocalDateTime DateTime, int NumberOfForwards, int NumberOfComments, int NumberOfLikes, String Text) {
 //		this.Username = Username;
@@ -62,7 +62,7 @@ class DiscussionItem {
 
 	String GetText() { return Text; }
 
-	ConcurrentHashMap<String, String> GetLabel() { return Label; }
+	ConcurrentHashMap<String, ArrayList<String>> GetLabel() { return Label; }
 
 	void SetText(String Text) { this.Text = Text; }
 }

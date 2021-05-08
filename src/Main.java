@@ -10,5 +10,6 @@ public class Main {
 		Config.LoadConfig(Global.DefaultConfig);
 		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv");
 		StorageAccessor.LoadAllAvailableLabels();
+		StorageAccessor.SaveAllAvailableLabels();
 	}
 }
