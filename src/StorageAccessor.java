@@ -19,14 +19,12 @@ public class StorageAccessor {
 		String[] SingleRow;
 		DiscussionItem item = new DiscussionItem();
 		while ((SingleRow = parser.parseNext()) != null) {
-			//System.out.println(SingleRow.length);
-			//System.out.println(Arrays.toString(SingleRow));
 			item.SetText(Arrays.toString(SingleRow));
 			DataManipulator.DiscussionList.add(item);
 		}
 	}
 
 	public static void SaveDiscussionToCSV(String pathname) {
-		
+
 	}
 }
