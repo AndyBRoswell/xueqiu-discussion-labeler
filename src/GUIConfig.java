@@ -1,29 +1,36 @@
 import org.w3c.dom.*;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class GUIConfig extends JFrame {
+    String str_ChooseFileName;
+    ArrayList<String> list ;
 
-    ArrayList<String> list = getConfig();
-
-    public GUIConfig(){
+    public GUIConfig(String defaultConfig){
+            list = getConfig(defaultConfig);
             JButton buttonTrue=new JButton("确定");
             JButton buttonFalse=new JButton("取消");
+            JButton buttonImport=new JButton("导入");
+            JButton buttonExport=new JButton("导出");
+            JButton buttonChoose=new JButton("浏览");
             JFrame ConfigFrame = new JFrame("设置");
-            ConfigFrame.setSize(1000,550);
+            ConfigFrame.setSize(1000,620);
             ConfigFrame.setLocation(600,300);
             ConfigFrame.setLayout(null);
             ConfigFrame.setResizable(false);
             JLabel label_crawing=new JLabel("爬取—crawling-----------------------------------------------------------");
+            JLabel label_file=new JLabel("另存为配置文件：");
             JLabel label_proxy=new JLabel("代理—proxy----------");
             String []rename= {"自动重命名","手动重命名","直接覆盖","弹窗提示"};
             JComboBox jcb=new JComboBox(rename);
@@ -41,6 +48,9 @@ public class GUIConfig extends JFrame {
             JLabel label_filename=new JLabel("默认文件名(当前时间): ");
             JLabel label_export=new JLabel("默认文件目录: ");
             JLabel label_operation=new JLabel("文件名冲突操作: ");
+
+            JTextField jtf_imexportfile=new JTextField(Global.ConfigPath+"\\ceshi.xml");
+
             JTextField jtf_encoding=new JTextField(list.get(3));
             JTextField jtf_filename=new JTextField(list.get(4));
             JTextField jtf_export=new JTextField(list.get(5));
@@ -51,6 +61,7 @@ public class GUIConfig extends JFrame {
             JLabel label_sex1=new JLabel(list.get(9));
 
             label_crawing.setBounds(20,20,500,30);
+            label_file.setBounds(50,440,100,30);
             label_proxy.setBounds(50,70,500,30);
             label_name.setBounds(70,110,100,30);
             label_age.setBounds(380,110,100,30);
@@ -73,10 +84,16 @@ public class GUIConfig extends JFrame {
             label_age1.setBounds(380,380,100,30);
             label_sex1.setBounds(700,380,100,30);
 
-            buttonTrue.setBounds(300,450,80,40);
-            buttonFalse.setBounds(600,450,80,40);
+            jtf_imexportfile.setBounds(150,440,450,30);
+
+            buttonTrue.setBounds(300,520,80,40);
+            buttonFalse.setBounds(600,520,80,40);
+            buttonImport.setBounds(720,440,60,30);
+            buttonExport.setBounds(790,440,60,30);
+            buttonChoose.setBounds(605,440,60,30);
 
             ConfigFrame.add(label_crawing);
+            ConfigFrame.add(label_file);
             ConfigFrame.add(label_proxy);
             ConfigFrame.add(label_name);
             ConfigFrame.add(label_age);
@@ -90,15 +107,20 @@ public class GUIConfig extends JFrame {
             ConfigFrame.add(label_backup);
             ConfigFrame.add(buttonTrue);
             ConfigFrame.add(buttonFalse);
+            ConfigFrame.add(buttonImport);
+            ConfigFrame.add(buttonExport);
+            ConfigFrame.add(buttonChoose);
             ConfigFrame.setVisible(true);
             ConfigFrame.add(jtf_encoding);
             ConfigFrame.add(jtf_filename);
             ConfigFrame.add(jtf_export);
+            ConfigFrame.add(jtf_imexportfile);
             ConfigFrame.add(jcb);
             ConfigFrame.add(jcb1);
             ConfigFrame.add(label_name1);
             ConfigFrame.add(label_age1);
             ConfigFrame.add(label_sex1);
+
 
             buttonTrue.addActionListener(new ActionListener() {
 
@@ -121,8 +143,7 @@ public class GUIConfig extends JFrame {
                     }
                     JOptionPane.showMessageDialog(null, "修改成功！");
                     ConfigFrame.setVisible(false);
-                    getConfig();
-                    new GUIConfig();
+                    new GUIConfig(Global.DefaultConfig);
                 }
             });
 
@@ -133,14 +154,127 @@ public class GUIConfig extends JFrame {
                     ConfigFrame.setVisible(false);
                 }
             });
+        //浏览的按钮,选择文件
+        buttonChoose.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                chooser.showDialog(new JLabel(), "选择");
+                File file = chooser.getSelectedFile();
+
+                jtf_imexportfile.setText(file.getAbsoluteFile().toString());
+                String string=jtf_imexportfile.getText();
+                getChooseFileName(string);
+            }
+        });
+        //导入的按钮
+        buttonImport.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                if(str_ChooseFileName == null)
+                {
+                    JOptionPane.showMessageDialog(null, "导入失败，未选择文件路径！");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "导入成功！");
+                    ConfigFrame.setVisible(false);
+                    //System.out.println(str_ChooseFileName);
+                    //显示加载保存的配置文件
+                    new GUIConfig(str_ChooseFileName);
+                }
+            }
+        });
+        //导出的按钮
+        buttonExport.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                String str_encoding=(String) jcb1.getSelectedItem();
+                String str_filename=jtf_filename.getText();
+                String str_export=jtf_export.getText();
+                String str_operation=(String) jcb.getSelectedItem();
+                String xmlStr = "<config>\n" +
+                        "\t<crawling>\n" +
+                        "\t\t<proxy>\n" +
+                        "\t\t\t<name>张三</name>\n" +
+                        "\t\t\t<sex>男</sex>\n" +
+                        "\t\t\t<age>20</age>\n" +
+                        "\t\t</proxy>\n" +
+                        "\t</crawling>\n" +
+                        "\t<storage>\n" +
+                        "\t\t<import-and-export>\n" +
+                        "\t\t\t<default-encoding>"+str_encoding+"</default-encoding>\n" +
+                        "\t\t\t<default-filename>"+str_filename+"</default-filename>\n" +
+                        "\t\t\t<default-export-dir>"+str_export+"</default-export-dir>\n" +
+                        "\t\t\t<operation-for-filename-conflict>"+str_operation+"</operation-for-filename-conflict>\n" +
+                        "\t\t</import-and-export>\n" +
+                        "\t\t<backup-and-restore>\n" +
+                        "\t\t\t<name>张三</name>\n" +
+                        "\t\t\t<sex>男</sex>\n" +
+                        "\t\t\t<age>20</age>\n" +
+                        "\t\t</backup-and-restore>\n" +
+                        "\t</storage>\n" +
+                        "</config>";
+                StringReader sr = new StringReader(xmlStr);
+                InputSource is = new InputSource(sr);
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder= null;
+                try {
+                    builder = factory.newDocumentBuilder();
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Document doc = builder.parse(is);
+                } catch (SAXException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String str_imexport=jtf_imexportfile.getText();
+                getChooseFileName(str_imexport);
+                String filename = str_ChooseFileName;
+                //暂定为cfg下的ceshi.xml
+                //String de_filename = Global.ConfigPath+"\\ceshi.xml";
+
+                    BufferedWriter bfw = null;
+                    try {
+                        bfw = new BufferedWriter(new FileWriter(new File(filename)));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        bfw.write(xmlStr);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        bfw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    JOptionPane.showMessageDialog(null, "导出成功！");
+
+
+
+            }
+        });
     }
 
-    private static ArrayList<String> getConfig() {
+    private void getChooseFileName(String string) {
+        this.str_ChooseFileName=string;
+    }
+
+    private static ArrayList<String> getConfig(String config_file) {
         ArrayList<String> list=new ArrayList<>();
         DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder= factory.newDocumentBuilder();
-            Document doc=builder.parse("file:///"+Global.DefaultConfig); //这个是正确的
+            Document doc=builder.parse("file:///"+config_file);
             printCrawling(doc,list);
             printStorage(doc,list);
         } catch (Exception e) {
