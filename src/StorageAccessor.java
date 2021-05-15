@@ -4,6 +4,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class StorageAccessor {
 	static final CsvParserSettings ParserSettings = new CsvParserSettings();
@@ -30,15 +31,23 @@ public class StorageAccessor {
 
 		String line;
 		while ((line = BufferedLabelFileReader.readLine()) != null) {
-			ParseLineToLabelCategory(line);
+			ParseSingleLineToLabelCategoryAndAdd(line, DataManipulator.AllLabels);
 		}
+
+		BufferedLabelFileReader.close();
 	}
 
-	private static void ParseLineToLabelCategory(String line) {
-		String[] LabelCategory;
-		LabelCategory = line.split("\\s");
+	private static void ParseSingleLineToLabelCategoryAndAdd(String line, ConcurrentHashMap<String, ArrayList<String>> dest) {
+		final String[] LabelCategory = line.split("\\s");
 		DataManipulator.AllLabels.put(LabelCategory[0], new ArrayList<>());
-		for (int i = 1; i < LabelCategory.length; ++i) DataManipulator.AllLabels.get(LabelCategory[0]).add(LabelCategory[i]);
+		for (int i = 1; i < LabelCategory.length; ++i) dest.get(LabelCategory[0]).add(LabelCategory[i]);
+	}
+
+	private static void ParseStringToLabelCategoriesAndAdd(String string, ConcurrentHashMap<String, ArrayList<String>> dest) {
+		final String[] lines = string.split("\\R+");
+		for (String line : lines) {
+			ParseSingleLineToLabelCategoryAndAdd(line, dest);
+		}
 	}
 
 	public static void SaveAllAvailableLabels() throws IOException, XPathExpressionException {
@@ -54,43 +63,50 @@ public class StorageAccessor {
 		BufferedLabelFileWriter.close();
 	}
 
-	private static void MergeLabelCategoryToLine() {
-
+	private static String MergeLabelCategoriesToString(ConcurrentHashMap<String, ArrayList<String>> labels) {
+		StringBuilder builder = new StringBuilder();
+		for (Map.Entry<String, ArrayList<String>> entry : labels.entrySet()) {
+			builder.append(entry.getKey());
+			
+		}
 	}
 
 	public static void LoadDiscussionFromCSV(String pathname) throws XPathExpressionException {
 		DiscussionCSVFile = new File(pathname);
-		BeginParsingCSVFile(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+		ParseCSVFile(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 	}
 
-	public static void LoadDiscussionFromCSV(String pathname, String encoding) throws XPathExpressionException {
+	public static void LoadDiscussionFromCSV(String pathname, String encoding) {
 		DiscussionCSVFile = new File(pathname);
-		BeginParsingCSVFile(encoding);
+		ParseCSVFile(encoding);
 	}
 
-	private static void BeginParsingCSVFile(String encoding) throws XPathExpressionException {
+	private static void ParseCSVFile(String encoding) {
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
 		String[] SingleRow;
-		DiscussionItem item = new DiscussionItem();
+		final DiscussionItem item = new DiscussionItem();
 		while ((SingleRow = parser.parseNext()) != null) {
-			item.SetText(Arrays.toString(SingleRow));
+			item.SetText(SingleRow[0]);
+			ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
 			DataManipulator.DiscussionList.add(item);
 		}
+
+		parser.stopParsing();
 	}
 
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
 		BeginWritingCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 	}
 
-	public static void SaveDiscussionToCSV(String pathname, String encoding) throws IOException, XPathExpressionException {
-		BeginWritingCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+	public static void SaveDiscussionToCSV(String pathname, String encoding) throws IOException {
+		BeginWritingCSVFile(pathname, encoding);
 	}
 
-	private static void BeginWritingCSVFile(String pathname, String encoding) throws XPathExpressionException, IOException {
+	private static void BeginWritingCSVFile(String pathname, String encoding) throws IOException {
 		CSVFileWriter = new FileWriter(pathname, Charset.forName(encoding));
 		BufferedCSVFileWriter = new BufferedWriter(CSVFileWriter);
-		StringBuilder FileContent = new StringBuilder();
+		final StringBuilder FileContent = new StringBuilder();
 
 		for (DiscussionItem discussion : DataManipulator.DiscussionList) {
 			FileContent.append(writer.writeRowToString(discussion));
