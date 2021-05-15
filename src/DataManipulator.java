@@ -38,7 +38,7 @@ class DiscussionItem {
 //		this.Text = Text;
 //	}
 
-	DiscussionItem() { Labels = new ConcurrentHashMap<String, ArrayList<String>>(); }
+	DiscussionItem() { Labels = new ConcurrentHashMap<>(); }
 
 	DiscussionItem(String Text) {
 		this.Text = Text;

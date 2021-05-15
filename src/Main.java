@@ -17,7 +17,8 @@ public class Main {
 		StorageAccessor.SaveAllAvailableLabels();
 		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
 		for (DiscussionItem entry : DataManipulator.DiscussionList) {
-			System.out.println(entry.toString());
+			System.out.println(entry.GetText());
+			System.out.println(entry.GetLabels().toString());
 		}
 		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GB2312");
 	}

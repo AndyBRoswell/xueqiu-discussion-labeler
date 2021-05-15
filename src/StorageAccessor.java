@@ -39,7 +39,7 @@ public class StorageAccessor {
 
 	private static void ParseSingleLineToLabelCategoryAndAdd(String line, ConcurrentHashMap<String, ArrayList<String>> dest) {
 		final String[] LabelCategory = line.split("\\s");
-		DataManipulator.AllLabels.put(LabelCategory[0], new ArrayList<>());
+		dest.put(LabelCategory[0], new ArrayList<>());
 		for (int i = 1; i < LabelCategory.length; ++i) dest.get(LabelCategory[0]).add(LabelCategory[i]);
 	}
 
