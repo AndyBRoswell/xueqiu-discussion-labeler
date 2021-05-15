@@ -4,14 +4,19 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class StorageAccessor {
 	static final CsvParserSettings ParserSettings = new CsvParserSettings();
 	static final CsvWriterSettings WriterSettings = new CsvWriterSettings();
 	static final CsvParser parser = new CsvParser(ParserSettings);
 	static final CsvWriter writer = new CsvWriter(WriterSettings);
-	static final File LabelFile = new File(Global.LabelFile);
+	static FileReader LabelFileReader = null;
+	static BufferedReader BufferedLabelFileReader = null;
+	static FileWriter LabelFileWriter = null;
+	static BufferedWriter BufferedLabelFileWriter = null;
+	static File DiscussionCSVFile = null;
+	static FileWriter CSVFileWriter = null;
+	static BufferedWriter BufferedCSVFileWriter = null;
 
 	static {
 		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
@@ -20,8 +25,8 @@ public class StorageAccessor {
 	}
 
 	public static void LoadAllAvailableLabels() throws IOException, XPathExpressionException {
-		final FileReader LabelFileReader = new FileReader(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
-		final BufferedReader BufferedLabelFileReader = new BufferedReader(LabelFileReader);
+		LabelFileReader = new FileReader(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
+		BufferedLabelFileReader = new BufferedReader(LabelFileReader);
 
 		String line; String[] LabelCategory;
 		while ((line = BufferedLabelFileReader.readLine()) != null) {
@@ -31,9 +36,9 @@ public class StorageAccessor {
 		}
 	}
 
-	public static void SaveAllAvailableLabels() throws IOException {
-		final FileWriter LabelFileWriter = new FileWriter(Global.LabelFile);
-		final BufferedWriter BufferedLabelFileWriter = new BufferedWriter(LabelFileWriter);
+	public static void SaveAllAvailableLabels() throws IOException, XPathExpressionException {
+		LabelFileWriter = new FileWriter(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
+		BufferedLabelFileWriter = new BufferedWriter(LabelFileWriter);
 
 		for (Map.Entry<String, ArrayList<String>> entry : DataManipulator.AllLabels.entrySet()) {
 			BufferedLabelFileWriter.write(entry.getKey());
@@ -45,9 +50,9 @@ public class StorageAccessor {
 	}
 
 	public static void LoadDiscussionFromCSV(String pathname) throws XPathExpressionException {
-		final File file = new File(pathname);
+		DiscussionCSVFile = new File(pathname);
 
-		parser.beginParsing(file, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+		parser.beginParsing(DiscussionCSVFile, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 
 		String[] SingleRow;
 		DiscussionItem item = new DiscussionItem();
@@ -57,9 +62,9 @@ public class StorageAccessor {
 		}
 	}
 
-	public static void SaveDiscussionToCSV(String pathname) throws IOException {
-		final FileWriter CSVFileWriter = new FileWriter(pathname);
-		final BufferedWriter BufferedCSVFileWriter = new BufferedWriter(CSVFileWriter);
+	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
+		CSVFileWriter = new FileWriter(pathname, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
+		BufferedCSVFileWriter = new BufferedWriter(CSVFileWriter);
 		StringBuilder FileContent = new StringBuilder();
 
 		for (DiscussionItem discussion : DataManipulator.DiscussionList) {
