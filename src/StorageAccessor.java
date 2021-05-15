@@ -28,12 +28,17 @@ public class StorageAccessor {
 		LabelFileReader = new FileReader(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
 		BufferedLabelFileReader = new BufferedReader(LabelFileReader);
 
-		String line; String[] LabelCategory;
+		String line;
 		while ((line = BufferedLabelFileReader.readLine()) != null) {
-			LabelCategory = line.split("\\s");
-			DataManipulator.AllLabels.put(LabelCategory[0], new ArrayList<>());
-			for (int i = 1; i < LabelCategory.length; ++i) DataManipulator.AllLabels.get(LabelCategory[0]).add(LabelCategory[i]);
+			ParseLineToLabelCategory(line);
 		}
+	}
+
+	private static void ParseLineToLabelCategory(String line) {
+		String[] LabelCategory;
+		LabelCategory = line.split("\\s");
+		DataManipulator.AllLabels.put(LabelCategory[0], new ArrayList<>());
+		for (int i = 1; i < LabelCategory.length; ++i) DataManipulator.AllLabels.get(LabelCategory[0]).add(LabelCategory[i]);
 	}
 
 	public static void SaveAllAvailableLabels() throws IOException, XPathExpressionException {
@@ -47,6 +52,10 @@ public class StorageAccessor {
 		}
 
 		BufferedLabelFileWriter.close();
+	}
+
+	private static void MergeLabelCategoryToLine() {
+
 	}
 
 	public static void LoadDiscussionFromCSV(String pathname) throws XPathExpressionException {
