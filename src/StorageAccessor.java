@@ -51,8 +51,16 @@ public class StorageAccessor {
 
 	public static void LoadDiscussionFromCSV(String pathname) throws XPathExpressionException {
 		DiscussionCSVFile = new File(pathname);
+		BeginParsingCSVFile(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+	}
 
-		parser.beginParsing(DiscussionCSVFile, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+	public static void LoadDiscussionFromCSV(String pathname, String encoding) throws XPathExpressionException {
+		DiscussionCSVFile = new File(pathname);
+		BeginParsingCSVFile(encoding);
+	}
+
+	private static void BeginParsingCSVFile(String encoding) throws XPathExpressionException {
+		parser.beginParsing(DiscussionCSVFile, encoding);
 
 		String[] SingleRow;
 		DiscussionItem item = new DiscussionItem();
@@ -63,7 +71,15 @@ public class StorageAccessor {
 	}
 
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
-		CSVFileWriter = new FileWriter(pathname, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
+		BeginWritingCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+	}
+
+	public static void SaveDiscussionToCSV(String pathname, String encoding) throws IOException, XPathExpressionException {
+		BeginWritingCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+	}
+
+	private static void BeginWritingCSVFile(String pathname, String encoding) throws XPathExpressionException, IOException {
+		CSVFileWriter = new FileWriter(pathname, Charset.forName(encoding));
 		BufferedCSVFileWriter = new BufferedWriter(CSVFileWriter);
 		StringBuilder FileContent = new StringBuilder();
 

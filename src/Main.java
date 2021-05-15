@@ -15,10 +15,10 @@ public class Main {
 			System.out.println(entry.toString());
 		}
 		StorageAccessor.SaveAllAvailableLabels();
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv");
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
 		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 			System.out.println(entry.toString());
 		}
-		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv");
+		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GB2312");
 	}
 }
