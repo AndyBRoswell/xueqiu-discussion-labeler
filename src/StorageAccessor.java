@@ -114,7 +114,7 @@ public class StorageAccessor {
 
 		for (DiscussionItem discussion : DataManipulator.DiscussionList) {
 			String[] row = { discussion.GetText(), MergeLabelCategoriesToString(discussion.GetLabels()) };
-			FileContent.append(writer.writeRowToString(row));
+			FileContent.append(writer.writeRowToString(row)).append(Global.LineSeparator);
 		}
 		BufferedCSVFileWriter.append(FileContent);
 
