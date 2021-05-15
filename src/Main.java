@@ -10,11 +10,15 @@ public class Main {
 		GUI MainForm = new GUI();
 //		GUIConfig guiConfig = new GUIConfig(Global.DefaultConfig);
 		Config.LoadConfig(Global.DefaultConfig);
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv");
 		StorageAccessor.LoadAllAvailableLabels();
 		for (Map.Entry<String, ArrayList<String>> entry : DataManipulator.AllLabels.entrySet()) {
 			System.out.println(entry.toString());
 		}
 		StorageAccessor.SaveAllAvailableLabels();
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv");
+		for (DiscussionItem entry : DataManipulator.DiscussionList) {
+			System.out.println(entry.toString());
+		}
+		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv");
 	}
 }
