@@ -89,8 +89,8 @@ public class StorageAccessor {
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
 		String[] SingleRow;
-		final DiscussionItem item = new DiscussionItem();
 		while ((SingleRow = parser.parseNext()) != null) {
+			DiscussionItem item = new DiscussionItem();
 			item.SetText(SingleRow[0]);
 			ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
 			DataManipulator.DiscussionList.add(item);
