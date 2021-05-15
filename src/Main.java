@@ -13,7 +13,7 @@ public class Main {
 		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv");
 		StorageAccessor.LoadAllAvailableLabels();
 		for (Map.Entry<String, ArrayList<String>> entry : DataManipulator.AllLabels.entrySet()) {
-
+			System.out.println(entry.toString());
 		}
 		StorageAccessor.SaveAllAvailableLabels();
 	}

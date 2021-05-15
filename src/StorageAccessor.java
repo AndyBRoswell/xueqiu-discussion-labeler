@@ -19,19 +19,6 @@ public class StorageAccessor {
 		WriterSettings.getFormat().setQuoteEscape('\"');
 	}
 
-//	public static void InitCSVParserWriterSettings() { ParserSettings.getFormat().setLineSeparator(Global.LineSeparator); }
-
-//	public static void LoadAllAvailableLabels() throws XPathExpressionException, FileNotFoundException {
-//		final Scanner LabelFileScanner = new Scanner(LabelFile, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
-//
-//		while (LabelFileScanner.hasNextLine()) {
-//			String Line = LabelFileScanner.nextLine();
-//			String[] LabelCategory = Line.split("\\s");
-//			DataManipulator.AllLabels.put(LabelCategory[0], new ArrayList<>());
-//			for (int i = 1; i < LabelCategory.length; ++i) DataManipulator.AllLabels.get(LabelCategory[0]).add(LabelCategory[i]);
-//		}
-//	}
-
 	public static void LoadAllAvailableLabels() throws IOException, XPathExpressionException {
 		final FileReader LabelFileReader = new FileReader(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
 		final BufferedReader BufferedLabelFileReader = new BufferedReader(LabelFileReader);
