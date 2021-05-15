@@ -67,8 +67,12 @@ public class StorageAccessor {
 		StringBuilder builder = new StringBuilder();
 		for (Map.Entry<String, ArrayList<String>> entry : labels.entrySet()) {
 			builder.append(entry.getKey());
-			
+			for (String i : entry.getValue()) {
+				builder.append(' ' + i);
+			}
+			builder.append(Global.LineSeparator);
 		}
+		return builder.toString();
 	}
 
 	public static void LoadDiscussionFromCSV(String pathname) throws XPathExpressionException {
@@ -109,7 +113,8 @@ public class StorageAccessor {
 		final StringBuilder FileContent = new StringBuilder();
 
 		for (DiscussionItem discussion : DataManipulator.DiscussionList) {
-			FileContent.append(writer.writeRowToString(discussion));
+			String[] row = { discussion.GetText(), MergeLabelCategoriesToString(discussion.GetLabels()) };
+			FileContent.append(writer.writeRowToString(row));
 		}
 		BufferedCSVFileWriter.append(FileContent);
 
