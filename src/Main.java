@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Main {
-	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException {
+	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
 		GUI MainForm = new GUI();
 //		GUIConfig guiConfig = new GUIConfig(Global.DefaultConfig);
 		Config.LoadConfig(Global.DefaultConfig);
@@ -28,10 +28,12 @@ public class Main {
 		}
 
 //		DataManipulator.Search(2, null, null);
-//		//DataManipulator.Search(0, new String[]{ "2A" }, null);
-		DataManipulator.Search(0, null, new String[]{ "是" });
+		DataManipulator.Search(0, new String[]{ "2A" }, null);
+//		DataManipulator.Search(0, null, new String[]{ "是" });
 
-		while (DataManipulator.FinalSearchResult.size() == 0) ;
+		//while (DataManipulator.FinalSearchResult.size() == 0) ;
+		Thread.sleep(5000);
+		System.out.println(DataManipulator.FinalSearchResult.size());
 		for (int i : DataManipulator.FinalSearchResult) {
 			System.out.println(i);
 		}
