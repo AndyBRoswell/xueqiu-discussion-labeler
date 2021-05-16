@@ -40,9 +40,7 @@ class DiscussionItem {
 
 	DiscussionItem() { Labels = new ConcurrentHashMap<>(); }
 
-	DiscussionItem(String Text) {
-		this.Text = Text;
-	}
+	DiscussionItem(String Text) { this.Text = Text; Labels = new ConcurrentHashMap<>(); }
 
 //	String GetUsername() { return Username; }
 //
