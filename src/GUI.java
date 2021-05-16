@@ -7,44 +7,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class GUI extends JFrame {
 	ImageIcon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
 	ImageIcon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
 	ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
 	JFrame frame = new JFrame("雪球网股票评论");
-	String[] title = { "股票编号", "评论", "已选标签" };
+	String[] title = { "评论", "已选标签" };
 	Object[][] rowData = {
-			{ 1, 2, 3 },
-			{ 1, 2, 3 }
+			{ 1, 2},
+			{ 1, 2}
 	};
 	/*按钮*/
 	JButton ButtonDownLoad = new JButton();
 	JButton AddTagButton = new JButton();
-	JButton addTag1 = new JButton();
-	JButton addTag2 = new JButton();
-	JButton addTag3 = new JButton();
-	JButton addTag4 = new JButton();
 	/*搜索栏*/
-	JTextField search = new JTextField(6);
+	JTextField SearchText = new JTextField(6);
+	JTextField SearchTag = new JTextField(6);
 	/*勾选框*/
 	JCheckBox Marked = new JCheckBox("已标注");
 	JCheckBox UnMarked = new JCheckBox("未标注");
 	/*标签*/
 	JLabel ChooseTag = new JLabel("可选标注");
-	JLabel Tendency = new JLabel("短期趋势:");
-	JLabel up = new LabelSet("看涨", Color.LIGHT_GRAY);
-	JLabel down = new LabelSet("看跌", Color.LIGHT_GRAY);
-	JLabel Relevance = new JLabel("相关联性:");
-	JLabel Relative = new LabelSet("有关", Color.LIGHT_GRAY);
-	JLabel UnRelative = new LabelSet("无关", Color.LIGHT_GRAY);
-	JLabel Evaluation = new JLabel("总体评价:");
-	JLabel good = new LabelSet("好评", Color.LIGHT_GRAY);
-	JLabel middle = new LabelSet("中评", Color.LIGHT_GRAY);
-	JLabel bad = new LabelSet("差评", Color.LIGHT_GRAY);
-	JLabel Advertisement = new JLabel("推广情况:");
-	JLabel have = new LabelSet("有", Color.LIGHT_GRAY);
-	JLabel havenot = new LabelSet("无", Color.LIGHT_GRAY);
 	/*表格*/
 	JTable table = new JTable(rowData, title);
 	JTableHeader tableHeader = table.getTableHeader();
@@ -114,36 +101,16 @@ public class GUI extends JFrame {
 		/*标注*/
 		AddTagButton.setIcon(iconAdd);
 		AddTagButton.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTagSort(); }});
-		addTag1.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
-		addTag2.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
-		addTag3.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
-		addTag4.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
 		/*控件添加*/
 		frame.getContentPane().setLayout(null);
-		frame.add(search);
+		frame.add(SearchText);
+		frame.add(SearchTag);
 		frame.add(Marked);
 		frame.add(UnMarked);
 		frame.add(ButtonDownLoad);
 		frame.add(scrollPane);
 		frame.add(ChooseTag);
 		frame.add(AddTagButton);
-		frame.add(Tendency);
-		frame.add(up);
-		frame.add(down);
-		frame.add(Relative);
-		frame.add(Relevance);
-		frame.add(UnRelative);
-		frame.add(Evaluation);
-		frame.add(good);
-		frame.add(middle);
-		frame.add(bad);
-		frame.add(Advertisement);
-		frame.add(have);
-		frame.add(havenot);
-		frame.add(addTag1);
-		frame.add(addTag2);
-		frame.add(addTag3);
-		frame.add(addTag4);
 	}
 	public class FrameListener implements ComponentListener {
 		@Override
@@ -152,32 +119,20 @@ public class GUI extends JFrame {
 			int y=frame.getHeight();
 			/*字体*/
 			Font font = new Font("微软雅黑", 0, x/75);
-			Tendency.setFont(font);
-			up.setFont(font);
-			down.setFont(font);
-			Relative.setFont(font);
-			Relevance.setFont(font);
-			UnRelative.setFont(font);
-			Evaluation.setFont(font);
-			good.setFont(font);
-			middle.setFont(font);
-			bad.setFont(font);
-			Advertisement.setFont(font);
-			have.setFont(font);
-			havenot.setFont(font);
 			Marked.setFont(font);
 			UnMarked.setFont(font);
 			/*搜索行*/
-			search.setBounds(10,5,x*3/4,y/25);
-			Marked.setBounds(10+x*9/12,5,x/13,y/25);
-			UnMarked.setBounds(10+x*10/12,5,x/13,y/25);
+			SearchText.setBounds(10,5,x*3/4,y/25);
+			Marked.setBounds(10+x*9/12,5+y/45,x/13,y/25);
+			UnMarked.setBounds(10+x*10/12,5+y/45,x/13,y/25);
+			SearchTag.setBounds(10,5+y/25,x*3/4,y/25);
 			/*下载按钮*/
-			ButtonDownLoad.setBounds(x*19/20,5,y/30,y/30);
+			ButtonDownLoad.setBounds(x*19/20,5+y/45,y/25,y/25);
 			iconDownload.setImage(iconDownload.getImage().getScaledInstance(ButtonDownLoad.getWidth(),ButtonDownLoad.getHeight(),Image.SCALE_DEFAULT));
 			ButtonDownLoad.setIcon(iconDownload);
 			/*表格*/
 			table.setRowHeight(frame.getHeight()/20);
-			scrollPane.setBounds(10,y/25+5,x-35,y*6/8);
+			scrollPane.setBounds(10,y*2/25+5,x-35,y*7/10);
 			table.setBounds(10,y/25+5,x-35,y*6/8);
 			/*标注*/
 			ChooseTag.setBounds(10,y*8/10-5,x/13,30);
@@ -186,47 +141,61 @@ public class GUI extends JFrame {
 			iconAdd.setImage(iconAdd.getImage().getScaledInstance(AddTagButton.getWidth(),AddTagButton.getHeight(),Image.SCALE_DEFAULT));
 			AddTagButton.setIcon(iconAdd);
 			AddTagButton.setBorderPainted(false);
-			/*短期趋势*/
-			Tendency.setBounds(AddTagButton.getX()+AddTagButton.getWidth()+x/60,y*10/12,x/17,y/25);
-			up.setBounds(Tendency.getX()+Tendency.getWidth(),y*10/12,x/25,y/25);
-			down.setBounds(up.getX()+up.getWidth()+x/200,y*10/12,x/25,y/25);
-			addTag1.setBounds(down.getX()+down.getWidth()+x/200,y*10/12,y/25,y/25);
-			iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(addTag1.getWidth(),addTag1.getHeight(),Image.SCALE_DEFAULT));
-			addTag1.setIcon(iconAddSmall);
-			addTag1.setBorderPainted(false);
-			/*相关联性*/
-			Relevance.setBounds(addTag1.getX()+addTag1.getWidth()+x/60,y*10/12,x/17,y/25);
-			Relative.setBounds(Relevance.getX()+Relevance.getWidth()+x/200,y*10/12,x/25,y/25);
-			UnRelative.setBounds(Relative.getX()+Relative.getWidth()+x/200,y*10/12,x/25,y/25);
-			addTag2.setBounds(UnRelative.getX()+UnRelative.getWidth()+x/200,y*10/12,y/25,y/25);
-			addTag2.setIcon(iconAddSmall);
-			addTag2.setBorderPainted(false);
-			/*总体评价*/
-			Evaluation.setBounds(addTag2.getX()+addTag2.getWidth()+x/60,y*10/12,x/17,y/25);
-			good.setBounds(Evaluation.getX()+Evaluation.getWidth()+x/200,y*10/12,x/25,y/25);
-			middle.setBounds(good.getX()+good.getWidth()+x/200,y*10/12,x/25,y/25);
-			bad.setBounds(middle.getX()+middle.getWidth()+x/200,y*10/12,x/25,y/25);
-			addTag3.setBounds(bad.getX()+bad.getWidth()+x/200,y*10/12,y/25,y/25);
-			addTag3.setIcon(iconAddSmall);
-			addTag3.setBorderPainted(false);
-			/*有无推广*/
-			Advertisement.setBounds(addTag3.getX()+addTag3.getWidth()+x/60,y*10/12,x/17,y/25);
-			have.setBounds(Advertisement.getX()+Advertisement.getWidth()+x/200,y*10/12,x/25,y/25);
-			havenot.setBounds(have.getX()+have.getWidth()+x/200,y*10/12,x/25,y/25);
-			addTag4.setBounds(havenot.getX()+havenot.getWidth()+x/200,y*10/12,y/25,y/25);
-			addTag4.setIcon(iconAddSmall);
-			addTag4.setBorderPainted(false);
+			class LabelSet extends JLabel {
+				public LabelSet(String text, Color bgColor) {
+					super(text);
+					setOpaque(true);
+					setBackground(bgColor);
+					setHorizontalAlignment(SwingConstants.CENTER);
+					setFont(font);
+				}
+			}
+			class SortLabelSet extends JLabel {
+				public SortLabelSet(String text) {
+					super(text);
+					setFont(font);
+				}
+			}
+			class AddButton extends JButton{
+				public AddButton(String text){
+					super(text);
+					iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(ButtonDownLoad.getWidth(),ButtonDownLoad.getHeight(),Image.SCALE_DEFAULT));
+					setIcon(iconAddSmall);
+					setBorderPainted(false);
+					setFont(new Font("微软雅黑", 0, 0));
+					addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(text);}});
+				}
+			}
+			File f=new File(Global.LabelFile);
+			try {
+				BufferedReader br=new BufferedReader(new FileReader(f));
+				String str=null;
+				String Data[][]=new String[10][4];
+				int count=0;
+				int i=0;
+				while ((str=br.readLine())!=null)
+				{
+					String[] Data1=str.split(" ");
+					for(i=0;i<Data1.length;i++) {
+						Data[count][i] = Data1[i];
+						frame.add(new SortLabelSet(Data[count][0])).setBounds(x*(3*count+1)/14,y*10/12,x/17,y/25);
+						if(i>0) {
+							frame.add(new LabelSet(Data[count][i], Color.LIGHT_GRAY)).setBounds(x*(3*count+1)/14+i*x/24+x/60,y*10/12,x/25,y/25);
+							if(i==Data1.length-1)
+							{
+								String text=String.valueOf(count);
+								frame.add(new AddButton(text)).setBounds(x*(3*count+1)/14+(i+1)*x/24+x/60,y*10/12,ButtonDownLoad.getWidth(),ButtonDownLoad.getHeight());
+							}
+						}
+					}
+					count++;
+				}
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 		@Override public void componentMoved(ComponentEvent e) { }
 		@Override public void componentShown(ComponentEvent e) { }
 		@Override public void componentHidden(ComponentEvent e) { }
-	}
-	public static class LabelSet extends JLabel {
-		public LabelSet(String text, Color bgColor) {
-			super(text);
-			setOpaque(true);
-			setBackground(bgColor);
-			setHorizontalAlignment(SwingConstants.CENTER);
-		}
 	}
 }
