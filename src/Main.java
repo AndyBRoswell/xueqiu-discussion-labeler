@@ -15,12 +15,21 @@ public class Main {
 		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) {
 			System.out.println(entry.toString());
 		}
+
 //		StorageAccessor.SaveAllAvailableLabels();
+
 		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
 		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 			System.out.println(entry.GetText());
 			System.out.println(entry.GetLabels().toString());
 		}
+
+		//DataManipulator.Search(2, null, null);
+		
+		for (int i : DataManipulator.FinalSearchResult) {
+			System.out.println(i);
+		}
+
 //		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GB2312");
 	}
 }

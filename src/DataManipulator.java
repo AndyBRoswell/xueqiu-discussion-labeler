@@ -73,17 +73,20 @@ public class DataManipulator {
 		if (LabeledFlag != 0) {
 			SearchResults.add(new ArrayList<>());
 			ArrayList<Integer> FlagSearchResult = SearchResults.get(SearchResults.size() - 1);
-			new Thread(() -> SearchWithLabeledFlag(LabeledFlag, FlagSearchResult));
+			//new Thread(() -> SearchWithLabeledFlag(LabeledFlag, FlagSearchResult));
+			SearchWithLabeledFlag(LabeledFlag, FlagSearchResult);
 		}
-		if (Keywords == null || Keywords.length == 0) {
+		if (Keywords != null && Keywords.length != 0) {
 			SearchResults.add(new ArrayList<>());
 			ArrayList<Integer> KeywordsSearchResult = SearchResults.get(SearchResults.size() - 1);
-			new Thread(() -> SearchWithKeywords(Keywords, KeywordsSearchResult));
+			//new Thread(() -> SearchWithKeywords(Keywords, KeywordsSearchResult));
+			SearchWithKeywords(Keywords, KeywordsSearchResult);
 		}
-		if (Labels == null || Labels.length == 0) {
+		if (Labels != null && Labels.length != 0) {
 			SearchResults.add(new ArrayList<>());
 			ArrayList<Integer> LabelsSearchResult = SearchResults.get(SearchResults.size() - 1);
-			new Thread(() -> SearchWithLabels(Labels, LabelsSearchResult));
+			//new Thread(() -> SearchWithLabels(Labels, LabelsSearchResult));
+			SearchWithLabels(Labels, LabelsSearchResult);
 		}
 		FinalSearchResult.clear();
 		for (ArrayList<Integer> Result : SearchResults) {
