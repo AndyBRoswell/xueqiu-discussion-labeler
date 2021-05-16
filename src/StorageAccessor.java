@@ -38,14 +38,14 @@ public class StorageAccessor {
 	}
 
 	private static void ParseSingleLineToLabelCategoryAndAdd(String line, ConcurrentHashMap<String, HashSet<String>> dest) {
-		final String[] LabelCategory = line.split("\\s");
+		final String[] LabelCategory = line.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签
 		dest.put(LabelCategory[0], new HashSet<>());
 		for (int i = 1; i < LabelCategory.length; ++i) {
-			dest.get(LabelCategory[0]).add(LabelCategory[i]);
-			HashSet<String> categories = DataManipulator.LabelToCategory.get(LabelCategory[1]);
+			dest.get(LabelCategory[0]).add(LabelCategory[i]); // 为该标签类添加具体的标签项
+			HashSet<String> categories = DataManipulator.LabelToCategory.get(LabelCategory[i]);
 			if (categories == null) {
-				DataManipulator.LabelToCategory.put(LabelCategory[1], new HashSet<>());
-				categories = DataManipulator.LabelToCategory.get(LabelCategory[1]);
+				DataManipulator.LabelToCategory.put(LabelCategory[i], new HashSet<>());
+				categories = DataManipulator.LabelToCategory.get(LabelCategory[i]);
 			}
 			categories.add(LabelCategory[0]);
 		}
