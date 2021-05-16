@@ -30,7 +30,7 @@ public class Main {
 		}
 
 //		DataManipulator.Search(2, null, null);
-		DataManipulator.Search(0, new String[]{ "2A" }, null);
+//		DataManipulator.Search(0, new String[]{ "2A" }, null);
 //		DataManipulator.Search(0, null, new String[]{ "是" });
 
 		//while (DataManipulator.FinalSearchResult.size() == 0) ;
