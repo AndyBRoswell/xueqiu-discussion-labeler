@@ -37,13 +37,17 @@ public class StorageAccessor {
 		BufferedLabelFileReader.close();
 	}
 
-	private static void ParseSingleLineToLabelCategoryAndAdd(String line, ConcurrentHashMap<String, ArrayList<String>> dest) {
+	private static void ParseSingleLineToLabelCategoryAndAdd(String line, ConcurrentHashMap<String, HashSet<String>> dest) {
 		final String[] LabelCategory = line.split("\\s");
-		dest.put(LabelCategory[0], new ArrayList<>());
-		for (int i = 1; i < LabelCategory.length; ++i) dest.get(LabelCategory[0]).add(LabelCategory[i]);
+		dest.put(LabelCategory[0], new HashSet<>());
+		for (int i = 1; i < LabelCategory.length; ++i) {
+			dest.get(LabelCategory[0]).add(LabelCategory[i]);
+			ArrayList<String> categories = DataManipulator.LabelToCategory.putIfAbsent(LabelCategory[1], new ArrayList<>());
+			categories.add(LabelCategory[0]);
+		}
 	}
 
-	private static void ParseStringToLabelCategoriesAndAdd(String string, ConcurrentHashMap<String, ArrayList<String>> dest) {
+	private static void ParseStringToLabelCategoriesAndAdd(String string, ConcurrentHashMap<String, HashSet<String>> dest) {
 		final String[] lines = string.split("\\R+");
 		for (String line : lines) {
 			ParseSingleLineToLabelCategoryAndAdd(line, dest);
@@ -54,7 +58,7 @@ public class StorageAccessor {
 		LabelFileWriter = new FileWriter(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
 		BufferedLabelFileWriter = new BufferedWriter(LabelFileWriter);
 
-		for (Map.Entry<String, ArrayList<String>> entry : DataManipulator.AllLabels.entrySet()) {
+		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) {
 			BufferedLabelFileWriter.write(entry.getKey());
 			for (String i : entry.getValue()) BufferedLabelFileWriter.write(' ' + i);
 			BufferedLabelFileWriter.write(Global.LineSeparator);
@@ -63,9 +67,9 @@ public class StorageAccessor {
 		BufferedLabelFileWriter.close();
 	}
 
-	private static String MergeLabelCategoriesToString(ConcurrentHashMap<String, ArrayList<String>> labels) {
+	private static String MergeLabelCategoriesToString(ConcurrentHashMap<String, HashSet<String>> labels) {
 		StringBuilder builder = new StringBuilder();
-		for (Map.Entry<String, ArrayList<String>> entry : labels.entrySet()) {
+		for (Map.Entry<String, HashSet<String>> entry : labels.entrySet()) {
 			builder.append(entry.getKey());
 			for (String i : entry.getValue()) {
 				builder.append(' ' + i);

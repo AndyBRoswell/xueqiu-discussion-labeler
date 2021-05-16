@@ -2,13 +2,66 @@ import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashSet;
+
+class DiscussionItem {
+//	private String Username;
+//	private String UserHomePage;
+//	private boolean Modified;
+//	private String Client;
+//	private LocalDateTime DateTime;
+//	private int NumberOfForwards;
+//	private int NumberOfComments;
+//	private int NumberOfLikes;
+
+	private String Text;
+	private ConcurrentHashMap<String, HashSet<String>> Labels;
+
+//	DiscussionItem(String Username, String UserHomePage, boolean Modified, String Client, LocalDateTime DateTime, int NumberOfForwards, int NumberOfComments, int NumberOfLikes, String Text) {
+//		this.Username = Username;
+//		this.UserHomePage = UserHomePage;
+//		this.Modified = Modified;
+//		this.Client = Client;
+//		this.DateTime = DateTime;
+//		this.NumberOfForwards = NumberOfForwards;
+//		this.NumberOfComments = NumberOfComments;
+//		this.NumberOfLikes = NumberOfLikes;
+//		this.Text = Text;
+//	}
+
+	DiscussionItem() { Labels = new ConcurrentHashMap<>(); }
+
+	DiscussionItem(String Text) { this.Text = Text; Labels = new ConcurrentHashMap<>(); }
+
+//	String GetUsername() { return Username; }
+//
+//	String GetUserHomePage() { return UserHomePage; }
+//
+//	boolean IsModified() { return Modified; }
+//
+//	String GetClient() { return Client; }
+//
+//	LocalDateTime GetDateTime() { return DateTime; }
+//
+//	int GetNumberOfForwards() { return NumberOfForwards; }
+//
+//	int GetNumberOfComments() { return NumberOfComments; }
+//
+//	int GetNumberOfLikes() { return NumberOfLikes; }
+
+	String GetText() { return Text; }
+
+	ConcurrentHashMap<String, HashSet<String>> GetLabels() { return Labels; }
+
+	void SetText(String Text) { this.Text = Text; }
+}
 
 public class DataManipulator {
 	static ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
 	static ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
 	static ArrayList<Integer> FinalSearchResult = new ArrayList<>();
-	static ConcurrentHashMap<String, ArrayList<String>> AllLabels = new ConcurrentHashMap<>();
-	static ConcurrentHashMap<String, String> LabelToCategory = new ConcurrentHashMap<>();
+	static ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
+	static ConcurrentHashMap<String, ArrayList<String>> LabelToCategory = new ConcurrentHashMap<>();
 
 	public static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
 
@@ -62,8 +115,8 @@ public class DataManipulator {
 			new Thread(() -> {
 				for (int j = StartIndex; j < EndIndex; ++j) {
 					boolean found = true;
-					for (int k = 0; k < Keywords.length; ++k) {
-						if (DiscussionList.get(j).GetText().contains(Keywords[k]) == false) { found = false; break; }
+					for (String keyword : Keywords) {
+						if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
 					}
 					if (found == true) {
 						synchronized (SearchResult) {
@@ -78,58 +131,13 @@ public class DataManipulator {
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchResult) {
+		for (DiscussionItem item : DiscussionList) {
+			boolean found = true;
+			for (String Label : Labels) {
+				ArrayList<String> Category = LabelToCategory.get(Label);
+				if (Category == null) { found = false; break; }
 
+			}
+		}
 	}
-}
-
-class DiscussionItem {
-//	private String Username;
-//	private String UserHomePage;
-//	private boolean Modified;
-//	private String Client;
-//	private LocalDateTime DateTime;
-//	private int NumberOfForwards;
-//	private int NumberOfComments;
-//	private int NumberOfLikes;
-
-	private String Text;
-	private ConcurrentHashMap<String, ArrayList<String>> Labels;
-
-//	DiscussionItem(String Username, String UserHomePage, boolean Modified, String Client, LocalDateTime DateTime, int NumberOfForwards, int NumberOfComments, int NumberOfLikes, String Text) {
-//		this.Username = Username;
-//		this.UserHomePage = UserHomePage;
-//		this.Modified = Modified;
-//		this.Client = Client;
-//		this.DateTime = DateTime;
-//		this.NumberOfForwards = NumberOfForwards;
-//		this.NumberOfComments = NumberOfComments;
-//		this.NumberOfLikes = NumberOfLikes;
-//		this.Text = Text;
-//	}
-
-	DiscussionItem() { Labels = new ConcurrentHashMap<>(); }
-
-	DiscussionItem(String Text) { this.Text = Text; Labels = new ConcurrentHashMap<>(); }
-
-//	String GetUsername() { return Username; }
-//
-//	String GetUserHomePage() { return UserHomePage; }
-//
-//	boolean IsModified() { return Modified; }
-//
-//	String GetClient() { return Client; }
-//
-//	LocalDateTime GetDateTime() { return DateTime; }
-//
-//	int GetNumberOfForwards() { return NumberOfForwards; }
-//
-//	int GetNumberOfComments() { return NumberOfComments; }
-//
-//	int GetNumberOfLikes() { return NumberOfLikes; }
-
-	String GetText() { return Text; }
-
-	ConcurrentHashMap<String, ArrayList<String>> GetLabels() { return Labels; }
-
-	void SetText(String Text) { this.Text = Text; }
 }
