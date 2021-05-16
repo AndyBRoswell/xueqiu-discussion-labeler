@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -112,7 +110,6 @@ public class DataManipulator {
 
 	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchResult) {
 		final int CPUThreadCount = Runtime.getRuntime().availableProcessors();
-		//final ArrayList<Integer> IndexBound = new ArrayList<>();
 		int LastEndIndex = 0;
 		for (int i = 1; i <= CPUThreadCount; ++i) {
 			int StartIndex = LastEndIndex;
