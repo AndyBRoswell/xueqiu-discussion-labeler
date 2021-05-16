@@ -24,7 +24,7 @@ public class Main {
 			System.out.println(entry.GetLabels().toString());
 		}
 		for(Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
-			System.out.println(entry.getKey() + '\t' + entry.getValue().toString());
+			System.out.println(entry.toString());
 		}
 
 //		DataManipulator.Search(2, null, null);
