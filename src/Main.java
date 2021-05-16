@@ -24,8 +24,11 @@ public class Main {
 			System.out.println(entry.GetLabels().toString());
 		}
 
-		//DataManipulator.Search(2, null, null);
-		
+//		DataManipulator.Search(2, null, null);
+//		//DataManipulator.Search(0, new String[]{ "2A" }, null);
+		DataManipulator.Search(0, null, new String[]{ "是" });
+
+		while (DataManipulator.FinalSearchResult.size() == 0) ;
 		for (int i : DataManipulator.FinalSearchResult) {
 			System.out.println(i);
 		}

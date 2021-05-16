@@ -129,7 +129,7 @@ public class DataManipulator {
 						}
 					}
 				}
-			});
+			}).start();
 			LastEndIndex = EndIndex;
 		}
 
