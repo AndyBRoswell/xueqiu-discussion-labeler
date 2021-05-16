@@ -14,20 +14,20 @@ public class Main {
 //		GUIConfig guiConfig = new GUIConfig(Global.DefaultConfig);
 		Config.LoadConfig(Global.DefaultConfig);
 		StorageAccessor.LoadAllAvailableLabels();
-		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) {
-			System.out.println(entry.toString());
-		}
+//		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) {
+//			System.out.println(entry.toString());
+//		}
 
 //		StorageAccessor.SaveAllAvailableLabels();
 
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
-		for (DiscussionItem entry : DataManipulator.DiscussionList) {
-			System.out.println(entry.GetText());
-			System.out.println(entry.GetLabels().toString());
-		}
-		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
-			System.out.println(entry.toString());
-		}
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
+//		for (DiscussionItem entry : DataManipulator.DiscussionList) {
+//			System.out.println(entry.GetText());
+//			System.out.println(entry.GetLabels().toString());
+//		}
+//		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
+//			System.out.println(entry.toString());
+//		}
 
 //		DataManipulator.Search(2, null, null);
 //		DataManipulator.Search(0, new String[]{ "2A" }, null);
@@ -35,10 +35,10 @@ public class Main {
 
 		//while (DataManipulator.FinalSearchResult.size() == 0) ;
 //		Thread.sleep(5000);
-		System.out.println(DataManipulator.FinalSearchResult.size());
-		for (int i : DataManipulator.FinalSearchResult) {
-			System.out.println(i);
-		}
+//		System.out.println(DataManipulator.FinalSearchResult.size());
+//		for (int i : DataManipulator.FinalSearchResult) {
+//			System.out.println(i);
+//		}
 
 //		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GB2312");
 	}

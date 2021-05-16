@@ -68,6 +68,10 @@ public class DataManipulator {
 
 //	public static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
 
+	public static void AddLabel(DiscussionItem item) {
+
+	}
+
 	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) throws InterruptedException {
 		SearchResults.clear();
 		if (LabeledFlag != 0) {
@@ -98,7 +102,7 @@ public class DataManipulator {
 		for (ArrayList<Integer> Result : SearchResults) {
 			FinalSearchResult.addAll(Result);
 		}
-		System.out.println(SearchResults.size());
+//		System.out.println(SearchResults.size());
 	}
 
 	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchResult) {
@@ -119,11 +123,11 @@ public class DataManipulator {
 	}
 
 	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchResult) {
-		final int CPUThreadCount = Runtime.getRuntime().availableProcessors();
+		final int AvailableCPUThreadCount = Runtime.getRuntime().availableProcessors();
 		int LastEndIndex = 0;
-		for (int i = 1; i <= CPUThreadCount; ++i) {
+		for (int i = 1; i <= AvailableCPUThreadCount; ++i) {
 			int StartIndex = LastEndIndex;
-			int EndIndex = DiscussionList.size() * i / CPUThreadCount;
+			int EndIndex = DiscussionList.size() * i / AvailableCPUThreadCount;
 			new Thread(() -> {
 				for (int j = StartIndex; j < EndIndex; ++j) {
 					boolean found = true;
