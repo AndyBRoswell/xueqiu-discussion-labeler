@@ -8,6 +8,7 @@ public class DataManipulator {
 	static ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
 	static ArrayList<Integer> FinalSearchResult = new ArrayList<>();
 	static ConcurrentHashMap<String, ArrayList<String>> AllLabels = new ConcurrentHashMap<>();
+	static ConcurrentHashMap<String, String> LabelToCategory = new ConcurrentHashMap<>();
 
 	public static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
 
@@ -53,8 +54,27 @@ public class DataManipulator {
 
 	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchResult) {
 		final int CPUThreadCount = Runtime.getRuntime().availableProcessors();
-		final ArrayList<Integer> IndexBound = new ArrayList<>();
-		
+		//final ArrayList<Integer> IndexBound = new ArrayList<>();
+		int LastEndIndex = 0;
+		for (int i = 1; i <= CPUThreadCount; ++i) {
+			int StartIndex = LastEndIndex;
+			int EndIndex = DiscussionList.size() * i / CPUThreadCount;
+			new Thread(() -> {
+				for (int j = StartIndex; j < EndIndex; ++j) {
+					boolean found = true;
+					for (int k = 0; k < Keywords.length; ++k) {
+						if (DiscussionList.get(j).GetText().contains(Keywords[k]) == false) { found = false; break; }
+					}
+					if (found == true) {
+						synchronized (SearchResult) {
+							SearchResult.add(j);
+						}
+					}
+				}
+			});
+			LastEndIndex = EndIndex;
+		}
+
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchResult) {
