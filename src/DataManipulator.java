@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DataManipulator {
 	static ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
+	static ArrayList<DiscussionItem> SearchResult = new ArrayList<>();
 	static ConcurrentHashMap<String, ArrayList<String>> AllLabels = new ConcurrentHashMap<>();
 
 	static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
@@ -11,6 +12,10 @@ public class DataManipulator {
 	static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
 	static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
+
+	static void Search() {
+		
+	}
 }
 
 class DiscussionItem {
