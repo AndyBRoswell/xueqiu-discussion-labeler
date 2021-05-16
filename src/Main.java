@@ -23,6 +23,9 @@ public class Main {
 			System.out.println(entry.GetText());
 			System.out.println(entry.GetLabels().toString());
 		}
+		for(Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
+			System.out.println(entry.getKey() + '\t' + entry.getValue().toString());
+		}
 
 //		DataManipulator.Search(2, null, null);
 //		//DataManipulator.Search(0, new String[]{ "2A" }, null);

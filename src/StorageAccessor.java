@@ -42,9 +42,9 @@ public class StorageAccessor {
 		dest.put(LabelCategory[0], new HashSet<>());
 		for (int i = 1; i < LabelCategory.length; ++i) {
 			dest.get(LabelCategory[0]).add(LabelCategory[i]);
-			ArrayList<String> categories = DataManipulator.LabelToCategory.get(LabelCategory[1]);
+			HashSet<String> categories = DataManipulator.LabelToCategory.get(LabelCategory[1]);
 			if (categories == null) {
-				DataManipulator.LabelToCategory.put(LabelCategory[1], new ArrayList<>());
+				DataManipulator.LabelToCategory.put(LabelCategory[1], new HashSet<>());
 				categories = DataManipulator.LabelToCategory.get(LabelCategory[1]);
 			}
 			categories.add(LabelCategory[0]);

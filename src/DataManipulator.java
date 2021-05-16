@@ -60,7 +60,7 @@ public class DataManipulator {
 	static ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
 	static TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 	static ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
-	static ConcurrentHashMap<String, ArrayList<String>> LabelToCategory = new ConcurrentHashMap<>();
+	static ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
 
 	public static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
 
@@ -140,7 +140,7 @@ public class DataManipulator {
 			boolean found = true;
 			for (String Label : Labels) {
 				if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue;
-				ArrayList<String> Categories = LabelToCategory.get(Label);
+				HashSet<String> Categories = LabelToCategory.get(Label);
 				if (Categories == null) { found = false; break; }
 				for (String Category : Categories) {
 					if (DiscussionList.get(i).GetLabels().get(Category).contains(Label) == false) { found = false; break; }
