@@ -68,7 +68,7 @@ public class DataManipulator {
 
 //	public static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
 
-	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) {
+	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) throws InterruptedException {
 		SearchResults.clear();
 		if (LabeledFlag != 0) {
 			SearchResults.add(new ArrayList<>());
@@ -89,6 +89,8 @@ public class DataManipulator {
 			SearchWithLabels(Labels, LabelsSearchResult);
 		}
 		FinalSearchResult.clear();
+//		Thread.sleep(1);
+		Thread.sleep(0,1);
 		for (ArrayList<Integer> Result : SearchResults) {
 			FinalSearchResult.addAll(Result);
 		}
