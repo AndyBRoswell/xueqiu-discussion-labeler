@@ -72,6 +72,14 @@ public class DataManipulator {
 
 	}
 
+	public static void ModifyLabel(DiscussionItem item) {
+
+	}
+
+	public static void DeleteLabel(DiscussionItem item) {
+		
+	}
+
 	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) throws InterruptedException {
 		SearchResults.clear();
 		if (LabeledFlag != 0) {
