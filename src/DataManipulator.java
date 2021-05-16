@@ -1,6 +1,7 @@
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashSet;
 
@@ -59,7 +60,7 @@ class DiscussionItem {
 public class DataManipulator {
 	static ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
 	static ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
-	static ArrayList<Integer> FinalSearchResult = new ArrayList<>();
+	static TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 	static ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
 	static ConcurrentHashMap<String, ArrayList<String>> LabelToCategory = new ConcurrentHashMap<>();
 
@@ -85,6 +86,10 @@ public class DataManipulator {
 			SearchResults.add(new ArrayList<>());
 			ArrayList<Integer> LabelsSearchResult = SearchResults.get(SearchResults.size() - 1);
 			new Thread(() -> SearchWithLabels(Labels, LabelsSearchResult));
+		}
+		FinalSearchResult.clear();
+		for (ArrayList<Integer> Result : SearchResults) {
+			FinalSearchResult.addAll(Result);
 		}
 	}
 
@@ -131,13 +136,17 @@ public class DataManipulator {
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchResult) {
-		for (DiscussionItem item : DiscussionList) {
+		for (int i = 0; i < DiscussionList.size(); ++i) {
 			boolean found = true;
 			for (String Label : Labels) {
-				ArrayList<String> Category = LabelToCategory.get(Label);
-				if (Category == null) { found = false; break; }
-
+				if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue;
+				ArrayList<String> Categories = LabelToCategory.get(Label);
+				if (Categories == null) { found = false; break; }
+				for (String Category : Categories) {
+					if (DiscussionList.get(i).GetLabels().get(Category).contains(Label) == false) { found = false; break; }
+				}
 			}
+			if (found == true) SearchResult.add(i);
 		}
 	}
 }
