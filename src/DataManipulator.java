@@ -139,11 +139,13 @@ public class DataManipulator {
 		for (int i = 0; i < DiscussionList.size(); ++i) {
 			boolean found = true;
 			for (String Label : Labels) {
-				if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue;
-				HashSet<String> Categories = LabelToCategory.get(Label);
+				if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue; // 该标签恰好为标签类的名称
+				HashSet<String> Categories = LabelToCategory.get(Label); // 该标签不是某个标签类的名称，查询该标签属于的标签类
 				if (Categories == null) { found = false; break; }
 				for (String Category : Categories) {
-					if (DiscussionList.get(i).GetLabels().get(Category).contains(Label) == false) { found = false; break; }
+					HashSet<String> LabelsOfThisCatOfThisItem = DiscussionList.get(i).GetLabels().get(Category);
+					if (LabelsOfThisCatOfThisItem == null) { found = false; break; }
+					if (LabelsOfThisCatOfThisItem.contains(Label) == false) { found = false; break; }
 				}
 			}
 			if (found == true) SearchResult.add(i);
