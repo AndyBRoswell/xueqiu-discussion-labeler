@@ -2,12 +2,14 @@ import org.xml.sax.SAXException;
 
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.management.ManagementFactory;
 import java.util.HashSet;
 import java.util.Map;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
+//		System.out.println(System.getProperty("java.version"));
+		System.out.println(ManagementFactory.getRuntimeMXBean().getSpecVersion());
 		GUI MainForm = new GUI();
 //		GUIConfig guiConfig = new GUIConfig(Global.DefaultConfig);
 		Config.LoadConfig(Global.DefaultConfig);

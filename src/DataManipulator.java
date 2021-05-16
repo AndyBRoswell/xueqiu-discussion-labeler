@@ -89,11 +89,14 @@ public class DataManipulator {
 			SearchWithLabels(Labels, LabelsSearchResult);
 		}
 		FinalSearchResult.clear();
+		// 怪事，这里不加延迟结果就不对，添加不进去
+		Thread.sleep(10);
 //		Thread.sleep(1);
-		Thread.sleep(0,1);
+//		Thread.sleep(0, 1);
 		for (ArrayList<Integer> Result : SearchResults) {
 			FinalSearchResult.addAll(Result);
 		}
+		System.out.println(SearchResults.size());
 	}
 
 	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchResult) {
