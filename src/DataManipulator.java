@@ -62,11 +62,11 @@ public class DataManipulator {
 	static ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
 	static ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
 
-	public static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
+//	public static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
-	public static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
+//	public static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
 
 	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) {
 		SearchResults.clear();

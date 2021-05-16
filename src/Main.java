@@ -23,7 +23,7 @@ public class Main {
 			System.out.println(entry.GetText());
 			System.out.println(entry.GetLabels().toString());
 		}
-		for(Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
+		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
 			System.out.println(entry.toString());
 		}
 
@@ -32,7 +32,7 @@ public class Main {
 //		DataManipulator.Search(0, null, new String[]{ "是" });
 
 		//while (DataManipulator.FinalSearchResult.size() == 0) ;
-		Thread.sleep(5000);
+//		Thread.sleep(5000);
 		System.out.println(DataManipulator.FinalSearchResult.size());
 		for (int i : DataManipulator.FinalSearchResult) {
 			System.out.println(i);
