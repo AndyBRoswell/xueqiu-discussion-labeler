@@ -6,4 +6,5 @@ public class Global {
 	public static final String IconPath = AppPath + "\\Icon";
 	public static final String LabelFile = ConfigPath + "\\labels.txt";
 	public static final String LineSeparator = System.lineSeparator();
+	public static final String TemporaryPath = AppPath + "\\tmp";
 }

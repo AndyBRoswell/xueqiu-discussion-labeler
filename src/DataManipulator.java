@@ -14,7 +14,7 @@ public class DataManipulator {
 	static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
 
 	static void Search(int LabeledFlag, String[] keywords, String[] labels) {
-		
+
 	}
 }
 
