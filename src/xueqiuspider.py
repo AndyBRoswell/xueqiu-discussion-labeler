@@ -33,16 +33,21 @@ def parse_comment_url( url):
         content_list.append(item)
     return content_list, count
 
-stock_num = 'SH601318'  # 输入股票代码
-for i in range(2):
+# stock_num = 'SH601318'  # 输入股票代码
+stock_num = 'NVDA'
+# for i in range(2):
+for i in range(100):
     detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(stock_num, i + 1)
     print("正爬取"+detail_url)
     try:
         comment_data, count = parse_comment_url(detail_url)
-        time.sleep(3)  
+        # time.sleep(3)
+        time.sleep(1)
     except Exception as e: 
         print("Error:", e)
-        time.sleep(5)
+        # time.sleep(5)
+        time.sleep(1)
         comment_data = parse_comment_url(detail_url)  
-        time.sleep(5)
+        # time.sleep(5)
+        time.sleep(1)
 save_file(comment_data)

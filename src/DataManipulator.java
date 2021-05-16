@@ -1,19 +1,63 @@
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DataManipulator {
 	static ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
-	static ArrayList<DiscussionItem> SearchResult = new ArrayList<>();
+	static ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
+	static ArrayList<Integer> FinalSearchResult = new ArrayList<>();
 	static ConcurrentHashMap<String, ArrayList<String>> AllLabels = new ConcurrentHashMap<>();
 
-	static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
+	public static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
 
-	static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
+	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
-	static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
+	public static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
 
-	static void Search(int LabeledFlag, String[] keywords, String[] labels) {
+	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) {
+		SearchResults.clear();
+		if (LabeledFlag != 0) {
+			SearchResults.add(new ArrayList<>());
+			ArrayList<Integer> FlagSearchResult = SearchResults.get(SearchResults.size() - 1);
+			new Thread(() -> SearchWithLabeledFlag(LabeledFlag, FlagSearchResult));
+		}
+		if (Keywords == null || Keywords.length == 0) {
+			SearchResults.add(new ArrayList<>());
+			ArrayList<Integer> KeywordsSearchResult = SearchResults.get(SearchResults.size() - 1);
+			new Thread(() -> SearchWithKeywords(Keywords, KeywordsSearchResult));
+		}
+		if (Labels == null || Labels.length == 0) {
+			SearchResults.add(new ArrayList<>());
+			ArrayList<Integer> LabelsSearchResult = SearchResults.get(SearchResults.size() - 1);
+			new Thread(() -> SearchWithLabels(Labels, LabelsSearchResult));
+		}
+	}
+
+	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchResult) {
+		switch (LabeledFlag) {
+			case 1: // Unlabeled
+				for (int i = 0; i < DiscussionList.size(); ++i) {
+					if (DiscussionList.get(i).GetLabels().size() == 0) SearchResult.add(i);
+				}
+				break;
+			case 2: // Labeled
+				for (int i = 0; i < DiscussionList.size(); ++i) {
+					if (DiscussionList.get(i).GetLabels().size() > 0) SearchResult.add(i);
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
+	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchResult) {
+		final int CPUThreadCount = Runtime.getRuntime().availableProcessors();
+		final ArrayList<Integer> IndexBound = new ArrayList<>();
+		
+	}
+
+	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchResult) {
 
 	}
 }
