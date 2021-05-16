@@ -67,6 +67,9 @@
     </ignored-facets>
   </component>
   <component name="ProjectId" id="1pjFnCUFwI6rBZJ92ogu5j8dkiL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
