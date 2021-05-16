@@ -9,6 +9,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 public class GUI extends JFrame {
+	ImageIcon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
+	ImageIcon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
+	ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
 	JFrame frame = new JFrame("雪球网股票评论");
 	String[] title = { "股票编号", "评论", "已选标签" };
 	Object[][] rowData = {
@@ -18,10 +21,10 @@ public class GUI extends JFrame {
 	/*按钮*/
 	JButton ButtonDownLoad = new JButton();
 	JButton AddTagButton = new JButton();
-	JButton addTag1 = new AddButton();
-	JButton addTag2 = new AddButton();
-	JButton addTag3 = new AddButton();
-	JButton addTag4 = new AddButton();
+	JButton addTag1 = new JButton();
+	JButton addTag2 = new JButton();
+	JButton addTag3 = new JButton();
+	JButton addTag4 = new JButton();
 	/*搜索栏*/
 	JTextField search = new JTextField(6);
 	/*勾选框*/
@@ -32,16 +35,13 @@ public class GUI extends JFrame {
 	JLabel Tendency = new JLabel("短期趋势:");
 	JLabel up = new LabelSet("看涨", Color.LIGHT_GRAY);
 	JLabel down = new LabelSet("看跌", Color.LIGHT_GRAY);
-
 	JLabel Relevance = new JLabel("相关联性:");
 	JLabel Relative = new LabelSet("有关", Color.LIGHT_GRAY);
 	JLabel UnRelative = new LabelSet("无关", Color.LIGHT_GRAY);
-
 	JLabel Evaluation = new JLabel("总体评价:");
 	JLabel good = new LabelSet("好评", Color.LIGHT_GRAY);
 	JLabel middle = new LabelSet("中评", Color.LIGHT_GRAY);
 	JLabel bad = new LabelSet("差评", Color.LIGHT_GRAY);
-
 	JLabel Advertisement = new JLabel("推广情况:");
 	JLabel have = new LabelSet("有", Color.LIGHT_GRAY);
 	JLabel havenot = new LabelSet("无", Color.LIGHT_GRAY);
@@ -49,62 +49,17 @@ public class GUI extends JFrame {
 	JTable table = new JTable(rowData, title);
 	JTableHeader tableHeader = table.getTableHeader();
 	JScrollPane scrollPane = new JScrollPane(table);
-
-	/*字体*/
 	public GUI() {
 		frame.setLocation(500, 250);          //窗口显示位置
 		frame.setSize(1000, 600);      //窗口大小
 		init();
-		frame.addComponentListener(new ComponentListener() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				int x=frame.getWidth();
-				int y=frame.getHeight();
-				Font font = new Font("微软雅黑", 0, x/75);
-				search.setBounds(10,5,x*3/4,y/25);
-				Marked.setBounds(10+x*9/12,5,x/13,y/25);
-				Marked.setFont(font);
-				UnMarked.setFont(font);
-				UnMarked.setBounds(10+x*10/12,5,x/13,y/25);
-				ButtonDownLoad.setBounds(x*19/20,5,y/30,y/30);
-				scrollPane.setBounds(10,y/25+5,x-35,y*6/8);
-				table.setBounds(10,y/25+5,x-35,y*6/8);
-				ChooseTag.setBounds(10,y*8/10-5,x/13,30);
-				ChooseTag.setFont(font);
-				AddTagButton.setBounds(12,y*10/12,x/30,x/30);
-				Tendency.setFont(font);
-				up.setFont(font);
-				down.setFont(font);
-				Relative.setFont(font);
-				Relevance.setFont(font);
-				UnRelative.setFont(font);
-				Evaluation.setFont(font);
-				good.setFont(font);
-				middle.setFont(font);
-				bad.setFont(font);
-				Advertisement.setFont(font);
-				have.setFont(font);
-				havenot.setFont(font);
-				Tendency.setBounds(AddTagButton.getX()+AddTagButton.getWidth()+x/60,y*10/12,x/17,y/25);
-				up.setBounds(Tendency.getX()+Tendency.getWidth(),y*10/12,x/25,y/25);
-				down.setBounds(up.getX()+up.getWidth()+x/200,y*10/12,x/25,y/25);
-				addTag1.setBounds(down.getX()+down.getWidth()+x/200,y*10/12,y/25,y/25);
-
-			}
-			@Override public void componentMoved(ComponentEvent e) { }
-			@Override public void componentShown(ComponentEvent e) { }
-			@Override public void componentHidden(ComponentEvent e) { }
-		});
+		frame.addComponentListener(new FrameListener());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 	private void init() {
-		/*图标*/
-		Icon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
-		Icon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
 		/*按钮*/
-		ButtonDownLoad.setIcon(iconDownload);
 		ButtonDownLoad.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIDownLoad(); }});
 		/*一级菜单创建*/
 		JMenuBar menuBar = new JMenuBar();
@@ -151,19 +106,19 @@ public class GUI extends JFrame {
 			public void menuDeselected(MenuEvent e) { }
 			public void menuCanceled(MenuEvent e) { }
 		});
-		table.setRowHeight(30);
+		/*表格*/
 		tableHeader.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		tableHeader.setResizingAllowed(false);               // 设置不允许手动改变列宽
 		tableHeader.setReorderingAllowed(false);
 		scrollPane.setViewportView(table);
-
+		/*标注*/
 		AddTagButton.setIcon(iconAdd);
 		AddTagButton.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTagSort(); }});
 		addTag1.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
 		addTag2.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
 		addTag3.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
 		addTag4.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { new GUIAddTag(); }});
-
+		/*控件添加*/
 		frame.getContentPane().setLayout(null);
 		frame.add(search);
 		frame.add(Marked);
@@ -190,23 +145,88 @@ public class GUI extends JFrame {
 		frame.add(addTag3);
 		frame.add(addTag4);
 	}
-
+	public class FrameListener implements ComponentListener {
+		@Override
+		public void componentResized(ComponentEvent e) {
+			int x=frame.getWidth();
+			int y=frame.getHeight();
+			/*字体*/
+			Font font = new Font("微软雅黑", 0, x/75);
+			Tendency.setFont(font);
+			up.setFont(font);
+			down.setFont(font);
+			Relative.setFont(font);
+			Relevance.setFont(font);
+			UnRelative.setFont(font);
+			Evaluation.setFont(font);
+			good.setFont(font);
+			middle.setFont(font);
+			bad.setFont(font);
+			Advertisement.setFont(font);
+			have.setFont(font);
+			havenot.setFont(font);
+			Marked.setFont(font);
+			UnMarked.setFont(font);
+			/*搜索行*/
+			search.setBounds(10,5,x*3/4,y/25);
+			Marked.setBounds(10+x*9/12,5,x/13,y/25);
+			UnMarked.setBounds(10+x*10/12,5,x/13,y/25);
+			/*下载按钮*/
+			ButtonDownLoad.setBounds(x*19/20,5,y/30,y/30);
+			iconDownload.setImage(iconDownload.getImage().getScaledInstance(ButtonDownLoad.getWidth(),ButtonDownLoad.getHeight(),Image.SCALE_DEFAULT));
+			ButtonDownLoad.setIcon(iconDownload);
+			/*表格*/
+			table.setRowHeight(frame.getHeight()/20);
+			scrollPane.setBounds(10,y/25+5,x-35,y*6/8);
+			table.setBounds(10,y/25+5,x-35,y*6/8);
+			/*标注*/
+			ChooseTag.setBounds(10,y*8/10-5,x/13,30);
+			ChooseTag.setFont(font);
+			AddTagButton.setBounds(12,y*10/12,x/30,x/30);
+			iconAdd.setImage(iconAdd.getImage().getScaledInstance(AddTagButton.getWidth(),AddTagButton.getHeight(),Image.SCALE_DEFAULT));
+			AddTagButton.setIcon(iconAdd);
+			AddTagButton.setBorderPainted(false);
+			/*短期趋势*/
+			Tendency.setBounds(AddTagButton.getX()+AddTagButton.getWidth()+x/60,y*10/12,x/17,y/25);
+			up.setBounds(Tendency.getX()+Tendency.getWidth(),y*10/12,x/25,y/25);
+			down.setBounds(up.getX()+up.getWidth()+x/200,y*10/12,x/25,y/25);
+			addTag1.setBounds(down.getX()+down.getWidth()+x/200,y*10/12,y/25,y/25);
+			iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(addTag1.getWidth(),addTag1.getHeight(),Image.SCALE_DEFAULT));
+			addTag1.setIcon(iconAddSmall);
+			addTag1.setBorderPainted(false);
+			/*相关联性*/
+			Relevance.setBounds(addTag1.getX()+addTag1.getWidth()+x/60,y*10/12,x/17,y/25);
+			Relative.setBounds(Relevance.getX()+Relevance.getWidth()+x/200,y*10/12,x/25,y/25);
+			UnRelative.setBounds(Relative.getX()+Relative.getWidth()+x/200,y*10/12,x/25,y/25);
+			addTag2.setBounds(UnRelative.getX()+UnRelative.getWidth()+x/200,y*10/12,y/25,y/25);
+			addTag2.setIcon(iconAddSmall);
+			addTag2.setBorderPainted(false);
+			/*总体评价*/
+			Evaluation.setBounds(addTag2.getX()+addTag2.getWidth()+x/60,y*10/12,x/17,y/25);
+			good.setBounds(Evaluation.getX()+Evaluation.getWidth()+x/200,y*10/12,x/25,y/25);
+			middle.setBounds(good.getX()+good.getWidth()+x/200,y*10/12,x/25,y/25);
+			bad.setBounds(middle.getX()+middle.getWidth()+x/200,y*10/12,x/25,y/25);
+			addTag3.setBounds(bad.getX()+bad.getWidth()+x/200,y*10/12,y/25,y/25);
+			addTag3.setIcon(iconAddSmall);
+			addTag3.setBorderPainted(false);
+			/*有无推广*/
+			Advertisement.setBounds(addTag3.getX()+addTag3.getWidth()+x/60,y*10/12,x/17,y/25);
+			have.setBounds(Advertisement.getX()+Advertisement.getWidth()+x/200,y*10/12,x/25,y/25);
+			havenot.setBounds(have.getX()+have.getWidth()+x/200,y*10/12,x/25,y/25);
+			addTag4.setBounds(havenot.getX()+havenot.getWidth()+x/200,y*10/12,y/25,y/25);
+			addTag4.setIcon(iconAddSmall);
+			addTag4.setBorderPainted(false);
+		}
+		@Override public void componentMoved(ComponentEvent e) { }
+		@Override public void componentShown(ComponentEvent e) { }
+		@Override public void componentHidden(ComponentEvent e) { }
+	}
 	public static class LabelSet extends JLabel {
 		public LabelSet(String text, Color bgColor) {
 			super(text);
 			setOpaque(true);
 			setBackground(bgColor);
 			setHorizontalAlignment(SwingConstants.CENTER);
-		}
-	}
-
-	public static class AddButton extends JButton {
-		public AddButton() {
-			super();
-			Icon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
-			setPreferredSize(new Dimension(20, 20));
-			setIcon(iconAddSmall);
-
 		}
 	}
 }

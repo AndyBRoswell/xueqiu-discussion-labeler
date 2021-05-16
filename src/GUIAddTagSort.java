@@ -19,7 +19,7 @@ public class GUIAddTagSort extends JFrame {
         label.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 10));
         JLabel label2 = new JLabel("具体分类:");
         label2.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 10));
-        JButton button = new GUI.AddButton();
+        JButton button = new JButton();
         panel.add(label);
         panel.add(label2);
         container.add(panel);
@@ -31,7 +31,7 @@ public class GUIAddTagSort extends JFrame {
         panel2.add(textField3);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         container.add(panel2);
-        container.add(button);
+
         JButton button1 = new JButton("确定");
         panel3.add(button1);
         container.add(panel3);
