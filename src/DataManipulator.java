@@ -151,7 +151,6 @@ public class DataManipulator {
 			}).start();
 			LastEndIndex = EndIndex;
 		}
-
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchResult) {

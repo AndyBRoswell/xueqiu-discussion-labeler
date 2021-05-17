@@ -25,12 +25,12 @@ public class StorageAccessor {
 		WriterSettings.getFormat().setQuoteEscape('\"');
 	}
 
-	public static void LoadAllAvailableLabels() throws IOException, XPathExpressionException {
+	public static void LoadAllAvailableLabels() throws IOException, XPathExpressionException { // 读取全部可选标注
 		LabelFileReader = new FileReader(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
 		BufferedLabelFileReader = new BufferedReader(LabelFileReader);
 
 		String line;
-		while ((line = BufferedLabelFileReader.readLine()) != null) {
+		while ((line = BufferedLabelFileReader.readLine()) != null) { // 逐行读取并解析为标签类：以空格作为分隔符，第0个词为标签类名称，剩下的词都为该类的标签
 			ParseSingleLineToLabelCategoryAndAdd(line, DataManipulator.AllLabels);
 		}
 
@@ -62,7 +62,7 @@ public class StorageAccessor {
 		LabelFileWriter = new FileWriter(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
 		BufferedLabelFileWriter = new BufferedWriter(LabelFileWriter);
 
-		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) {
+		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) { // 开始逐行写入
 			BufferedLabelFileWriter.write(entry.getKey());
 			for (String i : entry.getValue()) BufferedLabelFileWriter.write(' ' + i);
 			BufferedLabelFileWriter.write(Global.LineSeparator);
@@ -71,9 +71,9 @@ public class StorageAccessor {
 		BufferedLabelFileWriter.close();
 	}
 
-	private static String MergeLabelCategoriesToString(ConcurrentHashMap<String, HashSet<String>> labels) {
+	private static String MergeLabelCategoriesToString(ConcurrentHashMap<String, HashSet<String>> labels) { // 将全部标签类及其标签转换成字符串的形式，供后续保存用
 		StringBuilder builder = new StringBuilder();
-		for (Map.Entry<String, HashSet<String>> entry : labels.entrySet()) {
+		for (Map.Entry<String, HashSet<String>> entry : labels.entrySet()) { // 逐类保存
 			builder.append(entry.getKey());
 			for (String i : entry.getValue()) {
 				builder.append(' ' + i);
@@ -97,7 +97,7 @@ public class StorageAccessor {
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
 		String[] SingleRow;
-		while ((SingleRow = parser.parseNext()) != null) {
+		while ((SingleRow = parser.parseNext()) != null) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
 			DiscussionItem item = new DiscussionItem();
 			item.SetText(SingleRow[0]);
 			ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
@@ -120,7 +120,7 @@ public class StorageAccessor {
 		BufferedCSVFileWriter = new BufferedWriter(CSVFileWriter);
 		final StringBuilder FileContent = new StringBuilder();
 
-		for (DiscussionItem discussion : DataManipulator.DiscussionList) {
+		for (DiscussionItem discussion : DataManipulator.DiscussionList) { // 将每条讨论逐行写入 CSV 文件
 			String[] row = { discussion.GetText(), MergeLabelCategoriesToString(discussion.GetLabels()) };
 			FileContent.append(writer.writeRowToString(row)).append(Global.LineSeparator);
 		}
