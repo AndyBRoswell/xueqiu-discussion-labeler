@@ -9,11 +9,11 @@ import java.util.Map;
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
 //		System.out.println(System.getProperty("java.version"));
-		System.out.println(ManagementFactory.getRuntimeMXBean().getSpecVersion());
+//		System.out.println(ManagementFactory.getRuntimeMXBean().getSpecVersion());
 		GUI MainForm = new GUI();
 //		GUIConfig guiConfig = new GUIConfig(Global.DefaultConfig);
 		Config.LoadConfig(Global.DefaultConfig);
-		StorageAccessor.LoadAllAvailableLabels();
+//		StorageAccessor.LoadAllAvailableLabels();
 //		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) {
 //			System.out.println(entry.toString());
 //		}
@@ -33,7 +33,7 @@ public class Main {
 //		DataManipulator.Search(0, new String[]{ "2A" }, null);
 //		DataManipulator.Search(0, null, new String[]{ "是" });
 
-		//while (DataManipulator.FinalSearchResult.size() == 0) ;
+			//while (DataManipulator.FinalSearchResult.size() == 0) ;
 //		Thread.sleep(5000);
 //		System.out.println(DataManipulator.FinalSearchResult.size());
 //		for (int i : DataManipulator.FinalSearchResult) {
@@ -41,5 +41,5 @@ public class Main {
 //		}
 
 //		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GB2312");
+		}
 	}
-}
