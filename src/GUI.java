@@ -87,6 +87,7 @@ public class GUI extends JFrame {
 		FileMenu.add(ExitMenuItem);
 		ImportMenuItem.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {new GUIImport(); }});
 		ExportMenuItem.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {new GUIExport(); }});
+		SetMenuItem.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {new GUIConfig(Global.DefaultConfig); }});
 		JournalMenuItem.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {new GUIJournal(); }});
 		ExitMenuItem.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { System.exit(0); }});
 		/*任务子菜单*/

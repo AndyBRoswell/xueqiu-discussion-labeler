@@ -1,3 +1,4 @@
+import org.apache.log4j.Logger;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -10,14 +11,18 @@ import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 
 public class GUIConfig extends JFrame {
+    private static Logger logger=Logger.getLogger(GUIConfig.class);
     String str_ChooseFileName;
     ArrayList<String> list ;
 
     public GUIConfig(String defaultConfig){
+            logger.info("打开设置界面");
             list = getConfig(defaultConfig);
             JButton buttonTrue=new JButton("确定");
             JButton buttonFalse=new JButton("取消");
@@ -120,6 +125,13 @@ public class GUIConfig extends JFrame {
             ConfigFrame.add(label_name1);
             ConfigFrame.add(label_age1);
             ConfigFrame.add(label_sex1);
+        ConfigFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                logger.info("关闭设置界面");
+            }
+        });
 
 
             buttonTrue.addActionListener(new ActionListener() {
@@ -134,14 +146,19 @@ public class GUIConfig extends JFrame {
                         changeConfig(str_encoding,str_filename,str_export,str_operation);
                     } catch (IOException e) {
                         e.printStackTrace();
+                        logger.error("数据输入输出流出现问题");
                     } catch (SAXException e) {
                         e.printStackTrace();
+                        logger.error("数据SAX出现问题");
                     } catch (XPathExpressionException e) {
                         e.printStackTrace();
+                        logger.error("数据文件路径出现问题");
                     } catch (TransformerException e) {
                         e.printStackTrace();
+                        logger.error("数据传输出现问题");
                     }
                     JOptionPane.showMessageDialog(null, "修改成功！");
+                    logger.info("成功修改设置信息");
                     ConfigFrame.setVisible(false);
                     new GUIConfig(Global.DefaultConfig);
                 }
@@ -152,6 +169,7 @@ public class GUIConfig extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
                     ConfigFrame.setVisible(false);
+                    logger.info("关闭设置界面");
                 }
             });
         //浏览的按钮,选择文件
@@ -177,6 +195,7 @@ public class GUIConfig extends JFrame {
                 if(str_ChooseFileName == null)
                 {
                     JOptionPane.showMessageDialog(null, "导入失败，未选择文件路径！");
+                    logger.error("导入失败，未选择文件路径");
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "导入成功！");
@@ -184,6 +203,7 @@ public class GUIConfig extends JFrame {
                     //System.out.println(str_ChooseFileName);
                     //显示加载保存的配置文件
                     new GUIConfig(str_ChooseFileName);
+                    logger.info("导入配置文件成功");
                 }
             }
         });
@@ -222,17 +242,21 @@ public class GUIConfig extends JFrame {
                 InputSource is = new InputSource(sr);
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder= null;
+
                 try {
                     builder = factory.newDocumentBuilder();
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
+                    logger.error("数据配置出现问题");
                 }
                 try {
                     Document doc = builder.parse(is);
                 } catch (SAXException e) {
                     e.printStackTrace();
+                    logger.error("数据SAX出现问题");
                 } catch (IOException e) {
                     e.printStackTrace();
+                    logger.error("数据输入输出流出现问题");
                 }
 
                 String str_imexport=jtf_imexportfile.getText();
@@ -246,21 +270,23 @@ public class GUIConfig extends JFrame {
                         bfw = new BufferedWriter(new FileWriter(new File(filename)));
                     } catch (IOException e) {
                         e.printStackTrace();
+                        logger.error("数据输入输出流出现问题");
+
                     }
                     try {
                         bfw.write(xmlStr);
                     } catch (IOException e) {
                         e.printStackTrace();
+                        logger.error("数据输入输出流出现问题");
                     }
                     try {
                         bfw.close();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        logger.error("数据输入输出流出现问题");
                     }
                     JOptionPane.showMessageDialog(null, "导出成功！");
-
-
-
+                logger.info("导出配置文件成功");
             }
         });
     }
