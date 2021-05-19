@@ -68,9 +68,9 @@ public class GUIConfig extends JFrame {
             label_crawing.setBounds(20,20,500,30);
             label_file.setBounds(50,440,100,30);
             label_proxy.setBounds(50,70,500,30);
-            label_name.setBounds(70,110,100,30);
-            label_age.setBounds(380,110,100,30);
-            label_sex.setBounds(700,110,100,30);
+            label_name.setBounds(70,110,200,30);
+            label_age.setBounds(380,110,200,30);
+            label_sex.setBounds(700,110,200,30);
             label_storage.setBounds(20,170,500,30);
             label_import.setBounds(50,220,500,30);
 
@@ -85,9 +85,9 @@ public class GUIConfig extends JFrame {
             jcb.setBounds(630,300,150,30);
 
             label_backup.setBounds(50,340,500,30);
-            label_name1.setBounds(70,380,100,30);
-            label_age1.setBounds(380,380,100,30);
-            label_sex1.setBounds(700,380,100,30);
+            label_name1.setBounds(70,380,200,30);
+            label_age1.setBounds(380,380,200,30);
+            label_sex1.setBounds(700,380,200,30);
 
             jtf_imexportfile.setBounds(150,440,450,30);
 
@@ -219,9 +219,9 @@ public class GUIConfig extends JFrame {
                 String xmlStr = "<config>\n" +
                         "\t<crawling>\n" +
                         "\t\t<proxy>\n" +
-                        "\t\t\t<name>张三</name>\n" +
-                        "\t\t\t<sex>男</sex>\n" +
-                        "\t\t\t<age>20</age>\n" +
+                        "\t\t\t<name>暂无</name>\n" +
+                        "\t\t\t<sex>暂无</sex>\n" +
+                        "\t\t\t<age>暂无</age>\n" +
                         "\t\t</proxy>\n" +
                         "\t</crawling>\n" +
                         "\t<storage>\n" +
@@ -232,9 +232,9 @@ public class GUIConfig extends JFrame {
                         "\t\t\t<operation-for-filename-conflict>"+str_operation+"</operation-for-filename-conflict>\n" +
                         "\t\t</import-and-export>\n" +
                         "\t\t<backup-and-restore>\n" +
-                        "\t\t\t<name>张三</name>\n" +
-                        "\t\t\t<sex>男</sex>\n" +
-                        "\t\t\t<age>20</age>\n" +
+                        "\t\t\t<name>同导入导出</name>\n" +
+                        "\t\t\t<sex>同导入导出</sex>\n" +
+                        "\t\t\t<age>csv文件</age>\n" +
                         "\t\t</backup-and-restore>\n" +
                         "\t</storage>\n" +
                         "</config>";
@@ -343,10 +343,10 @@ public class GUIConfig extends JFrame {
         NodeList nodelists =element.getElementsByTagName("proxy");
         for(int i=0;i<nodelists.getLength();i++){
             Element e=(Element)nodelists.item(i);
-            list.add("name:     "+e.getElementsByTagName("name").item(0).getFirstChild().getNodeValue());
+            list.add("备用:     "+e.getElementsByTagName("name").item(0).getFirstChild().getNodeValue());
             //printNode(e.getElementsByTagName("name").item(0));
-            list.add("age:      "+e.getElementsByTagName("age").item(0).getFirstChild().getNodeValue());
-            list.add("sex:      "+e.getElementsByTagName("sex").item(0).getFirstChild().getNodeValue());
+            list.add("备用:      "+e.getElementsByTagName("age").item(0).getFirstChild().getNodeValue());
+            list.add("备用:      "+e.getElementsByTagName("sex").item(0).getFirstChild().getNodeValue());
         }
     }
     private static void printStorage(Document doc, ArrayList<String> list) {
@@ -364,10 +364,10 @@ public class GUIConfig extends JFrame {
 
         for(int i=0;i<nodelists_backup.getLength();i++){
             Element e=(Element)nodelists_backup.item(i);
-            list.add("name: "+e.getElementsByTagName("name").item(0).getFirstChild().getNodeValue());
+            list.add("编码方式: "+e.getElementsByTagName("name").item(0).getFirstChild().getNodeValue());
             //printNode(e.getElementsByTagName("name").item(0));
-            list.add("age: "+e.getElementsByTagName("age").item(0).getFirstChild().getNodeValue());
-            list.add("sex: "+e.getElementsByTagName("sex").item(0).getFirstChild().getNodeValue());
+            list.add("默认文件格式: "+e.getElementsByTagName("age").item(0).getFirstChild().getNodeValue());
+            list.add("默认文件路径: "+e.getElementsByTagName("sex").item(0).getFirstChild().getNodeValue());
         }
     }
     //识别属性的方法

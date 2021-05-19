@@ -2,9 +2,9 @@
 <config>
 	<crawling>
 		<proxy>
-			<name>张三</name>
-			<sex>男</sex>
-			<age>20</age>
+			<name>暂无</name>
+			<sex>暂无</sex>
+			<age>暂无</age>
 		</proxy>
 	</crawling>
 	<storage>
@@ -15,9 +15,9 @@
 			<operation-for-filename-conflict>auto-rename</operation-for-filename-conflict>
 		</import-and-export>
 		<backup-and-restore>
-			<name>张三</name>
-			<sex>男</sex>
-			<age>20</age>
+			<name>同导入导出</name>
+			<sex>同导入导出</sex>
+			<age>csv文件</age>
 		</backup-and-restore>
 	</storage>
 </config>
