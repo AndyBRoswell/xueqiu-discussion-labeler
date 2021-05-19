@@ -1,9 +1,14 @@
+import org.apache.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUIExport extends JFrame {
+    private static Logger logger=Logger.getLogger(GUIExport.class);
     JButton yes = new JButton("确定");
     JButton no = new JButton("取消");
     public GUIExport(){
@@ -26,6 +31,7 @@ public class GUIExport extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
+                logger.info("关闭导出界面");
             }
         });
         JPanel panel4 = new JPanel(new FlowLayout());
@@ -40,5 +46,12 @@ public class GUIExport extends JFrame {
         container.add(panel4);
         container.add(panel3);
         frame.pack();
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                logger.info("关闭导出界面");
+            }
+        });
     }
 }
