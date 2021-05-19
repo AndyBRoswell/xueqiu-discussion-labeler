@@ -1,0 +1,2 @@
+2021-05-19 22:01:52  [ GUIConfig.<init>(GUIConfig.java:25) ] - [ INFO ]    打开设置界面
+2021-05-19 22:01:59  [ GUIConfig$1.windowClosing(GUIConfig.java:132) ] - [ INFO ]    关闭设置界面
