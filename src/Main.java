@@ -9,7 +9,7 @@ import java.util.Map;
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
 //		System.out.println(System.getProperty("java.version"));
-		System.out.println(ManagementFactory.getRuntimeMXBean().getSpecVersion());
+//		System.out.println(ManagementFactory.getRuntimeMXBean().getSpecVersion());
 		GUI MainForm = new GUI();
 //		GUIConfig guiConfig = new GUIConfig(Global.DefaultConfig);
 		Config.LoadConfig(Global.DefaultConfig);
