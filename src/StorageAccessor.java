@@ -85,23 +85,39 @@ public class StorageAccessor {
 
 	public static void LoadDiscussionFromCSV(String pathname) throws XPathExpressionException {
 		DiscussionCSVFile = new File(pathname);
-		ParseCSVFile(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+		ParseCSVFile(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"), 0);
 	}
 
 	public static void LoadDiscussionFromCSV(String pathname, String encoding) {
 		DiscussionCSVFile = new File(pathname);
-		ParseCSVFile(encoding);
+		ParseCSVFile(encoding, 0);
 	}
 
-	private static void ParseCSVFile(String encoding) {
+	public static void LoadDiscussionFromCSV(String pathname, String encoding, int preprocess) {
+		DiscussionCSVFile = new File(pathname);
+		ParseCSVFile(encoding, 0);
+	}
+
+	private static void ParseCSVFile(String encoding, int preprocess) {
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
 		String[] SingleRow;
-		while ((SingleRow = parser.parseNext()) != null) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
-			DiscussionItem item = new DiscussionItem();
-			item.SetText(SingleRow[0]);
-			ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
-			DataManipulator.DiscussionList.add(item);
+		switch (preprocess) {
+			case 0:
+				while ((SingleRow = parser.parseNext()) != null) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
+					DiscussionItem item = new DiscussionItem();
+					item.SetText(SingleRow[0]);
+					ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
+					DataManipulator.DiscussionList.add(item);
+				}
+				break;
+			case 1:
+				while ((SingleRow = parser.parseNext()) != null) { // 逐行解析保存了刚刚爬取的结果的 CSV 文件中的讨论内容并添加到讨论列表
+					DiscussionItem item = new DiscussionItem();
+					item.SetText(SingleRow[0]);
+					DataManipulator.DiscussionList.add(item);
+				}
+				break;
 		}
 
 		parser.stopParsing();
