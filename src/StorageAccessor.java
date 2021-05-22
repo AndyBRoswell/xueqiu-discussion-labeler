@@ -93,16 +93,16 @@ public class StorageAccessor {
 		ParseCSVFile(encoding, 0);
 	}
 
-	public static void LoadDiscussionFromCSV(String pathname, String encoding, int preprocess) {
+	public static void LoadDiscussionFromCSV(String pathname, String encoding, int PreprocessMode) {
 		DiscussionCSVFile = new File(pathname);
 		ParseCSVFile(encoding, 0);
 	}
 
-	private static void ParseCSVFile(String encoding, int preprocess) {
+	private static void ParseCSVFile(String encoding, int PreprocessMode) {
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
 		String[] SingleRow;
-		switch (preprocess) {
+		switch (PreprocessMode) {
 			case 0:
 				while ((SingleRow = parser.parseNext()) != null) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
 					DiscussionItem item = new DiscussionItem();
