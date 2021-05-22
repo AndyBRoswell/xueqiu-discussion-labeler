@@ -4,49 +4,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashSet;
 
 class DiscussionItem {
-//	private String Username;
-//	private String UserHomePage;
-//	private boolean Modified;
-//	private String Client;
-//	private LocalDateTime DateTime;
-//	private int NumberOfForwards;
-//	private int NumberOfComments;
-//	private int NumberOfLikes;
-
 	private String Text;
 	private ConcurrentHashMap<String, HashSet<String>> Labels;
-
-//	DiscussionItem(String Username, String UserHomePage, boolean Modified, String Client, LocalDateTime DateTime, int NumberOfForwards, int NumberOfComments, int NumberOfLikes, String Text) {
-//		this.Username = Username;
-//		this.UserHomePage = UserHomePage;
-//		this.Modified = Modified;
-//		this.Client = Client;
-//		this.DateTime = DateTime;
-//		this.NumberOfForwards = NumberOfForwards;
-//		this.NumberOfComments = NumberOfComments;
-//		this.NumberOfLikes = NumberOfLikes;
-//		this.Text = Text;
-//	}
 
 	DiscussionItem() { Labels = new ConcurrentHashMap<>(); }
 
 	DiscussionItem(String Text) { this.Text = Text; Labels = new ConcurrentHashMap<>(); }
-
-//	String GetUsername() { return Username; }
-//
-//	String GetUserHomePage() { return UserHomePage; }
-//
-//	boolean IsModified() { return Modified; }
-//
-//	String GetClient() { return Client; }
-//
-//	LocalDateTime GetDateTime() { return DateTime; }
-//
-//	int GetNumberOfForwards() { return NumberOfForwards; }
-//
-//	int GetNumberOfComments() { return NumberOfComments; }
-//
-//	int GetNumberOfLikes() { return NumberOfLikes; }
 
 	String GetText() { return Text; }
 
@@ -62,22 +25,32 @@ public class DataManipulator {
 	static ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
 	static ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
 
-//	public static void AddDiscussionItem(String text) { DiscussionList.add(new DiscussionItem(text)); }
-
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
-//	public static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
-
-	public static void AddLabel(int index) {
-//		DiscussionList.get(index).GetLabels().put();
+	public static void AddLabel(int Index, String Category, String Label) {
+		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
+		HashSet<String> TargetCat = TargetLabels.get(Category);
+		if (TargetCat == null) TargetLabels.put(Category, new HashSet<>());
+		TargetCat.add(Label);
 	}
 
-	public static void ModifyLabel(int index) {
-
+	public static void ModifyLabel(int Index, String Category, String OldLabel, String NewLabel) {
+		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
+		HashSet<String> TargetCat = TargetLabels.get(Category);
+		TargetCat.remove(OldLabel);
+		TargetCat.add(NewLabel);
 	}
 
-	public static void DeleteLabel(int index) {
+	public static void DeleteLabel(int Index, String Category) {
+		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
+		TargetLabels.remove(Category);
+	}
 
+	public static void DeleteLabel(int Index, String Category, String Label) {
+		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
+		HashSet<String> TargetCat = TargetLabels.get(Category);
+		TargetCat.remove(Label);
+		if (TargetCat.size() == 0) TargetLabels.remove(Category);
 	}
 
 	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) throws InterruptedException {
@@ -86,19 +59,16 @@ public class DataManipulator {
 			SearchResults.add(new ArrayList<>());
 			ArrayList<Integer> FlagSearchResult = SearchResults.get(SearchResults.size() - 1);
 			new Thread(() -> SearchWithLabeledFlag(LabeledFlag, FlagSearchResult)).start();
-//			SearchWithLabeledFlag(LabeledFlag, FlagSearchResult);
 		}
 		if (Keywords != null && Keywords.length != 0) {
 			SearchResults.add(new ArrayList<>());
 			ArrayList<Integer> KeywordsSearchResult = SearchResults.get(SearchResults.size() - 1);
 			new Thread(() -> SearchWithKeywords(Keywords, KeywordsSearchResult)).start();
-//			SearchWithKeywords(Keywords, KeywordsSearchResult);
 		}
 		if (Labels != null && Labels.length != 0) {
 			SearchResults.add(new ArrayList<>());
 			ArrayList<Integer> LabelsSearchResult = SearchResults.get(SearchResults.size() - 1);
 			new Thread(() -> SearchWithLabels(Labels, LabelsSearchResult)).start();
-//			SearchWithLabels(Labels, LabelsSearchResult);
 		}
 		FinalSearchResult.clear();
 		// 怪事，这里不加延迟结果就不对，添加不进去
