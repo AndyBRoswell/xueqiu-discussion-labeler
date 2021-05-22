@@ -68,15 +68,15 @@ public class DataManipulator {
 
 //	public static void DeleteDiscussionItem(int index) { DiscussionList.remove(index); }
 
-	public static void AddLabel(DiscussionItem item) {
+	public static void AddLabel(int index) {
+//		DiscussionList.get(index).GetLabels().put();
+	}
+
+	public static void ModifyLabel(int index) {
 
 	}
 
-	public static void ModifyLabel(DiscussionItem item) {
-
-	}
-
-	public static void DeleteLabel(DiscussionItem item) {
+	public static void DeleteLabel(int index) {
 
 	}
 
