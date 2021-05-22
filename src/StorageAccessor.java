@@ -95,7 +95,7 @@ public class StorageAccessor {
 
 	public static void LoadDiscussionFromCSV(String pathname, String encoding, int PreprocessMode) {
 		DiscussionCSVFile = new File(pathname);
-		ParseCSVFile(encoding, 0);
+		ParseCSVFile(encoding, PreprocessMode);
 	}
 
 	private static void ParseCSVFile(String encoding, int PreprocessMode) {
