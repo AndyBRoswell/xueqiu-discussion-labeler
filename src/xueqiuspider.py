@@ -29,7 +29,8 @@ def parse_comment_url( url):
         item = {}
         #item['user_name'] = res['user']['screen_name']
         item['comment'] = res['text']
-        item['comment'] = re.sub("<.*?>",'',item['comment'])
+        item['comment'] = re.sub("<.*?>||&nbsp;||\*",'',item['comment'])
+        item['comment'] = item['comment']+'*'
         content_list.append(item)
     return content_list, count
 
