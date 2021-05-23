@@ -34,6 +34,7 @@ public class StorageAccessor {
 		ParserSettings.setProcessorErrorHandler(new RowProcessorErrorHandler() {
 			@Override public void handleError(DataProcessingException e, Object[] objects, ParsingContext parsingContext) {
 				System.out.println("ERROR when processing row: " + e.getLineIndex() + 1 + ": " + e.getMessage());
+				e.markAsNonFatal();
 			}
 		});
 
