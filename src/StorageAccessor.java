@@ -1,3 +1,5 @@
+import com.sun.source.tree.TryTree;
+import com.univocity.parsers.common.TextParsingException;
 import com.univocity.parsers.csv.*;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -25,7 +27,7 @@ public class StorageAccessor {
 		//ParserSettings.getFormat().setLineSeparator("\n");
 		ParserSettings.getFormat().setDelimiter('*');
 		//ParserSettings.getFormat().setQuote('\0');
-		ParserSettings.setMaxCharsPerColumn(4098);
+		ParserSettings.setMaxCharsPerColumn(-1);
 
 		WriterSettings.getFormat().setQuote('\"');
 		WriterSettings.getFormat().setQuoteEscape('\"');
@@ -111,7 +113,13 @@ public class StorageAccessor {
 //		int CurrentLine = 0;
 		switch (PreprocessMode) {
 			case 0:
-				while ((SingleRow = parser.parseNext()) != null) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
+				while (() != null) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
+					try {
+						SingleRow = parser.parseNext();
+					}
+					catch (TextParsingException e) {
+
+					}
 //					++CurrentLine;
 //					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
 					DiscussionItem item = new DiscussionItem();
@@ -130,9 +138,10 @@ public class StorageAccessor {
 				}
 				break;
 		}
+	}
 
 		parser.stopParsing();
-	}
+}
 
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
 		BeginWritingCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
