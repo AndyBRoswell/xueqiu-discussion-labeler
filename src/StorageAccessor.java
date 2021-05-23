@@ -24,7 +24,7 @@ public class StorageAccessor {
 		//ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
 		ParserSettings.getFormat().setLineSeparator("\n");
 		ParserSettings.getFormat().setDelimiter('*');
-		ParserSettings.getFormat().setQuote('\0');
+		//ParserSettings.getFormat().setQuote('\0');
 		ParserSettings.setMaxCharsPerColumn(-1);
 
 		WriterSettings.getFormat().setQuote('\"');
