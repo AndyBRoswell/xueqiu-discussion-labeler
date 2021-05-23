@@ -20,7 +20,8 @@ public class StorageAccessor {
 	static BufferedWriter BufferedCSVFileWriter = null;
 
 	static {
-		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
+		//ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
+		ParserSettings.getFormat().setLineSeparator("\n");
 		ParserSettings.getFormat().setDelimiter('*');
 		ParserSettings.setMaxCharsPerColumn(-1);
 		WriterSettings.getFormat().setQuote('\"');
