@@ -1,8 +1,4 @@
-import com.sun.source.tree.TryTree;
-import com.univocity.parsers.common.DataProcessingException;
-import com.univocity.parsers.common.ParsingContext;
-import com.univocity.parsers.common.RowProcessorErrorHandler;
-import com.univocity.parsers.common.TextParsingException;
+import com.univocity.parsers.common.*;
 import com.univocity.parsers.csv.*;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -31,7 +27,7 @@ public class StorageAccessor {
 		ParserSettings.getFormat().setDelimiter('*');
 		//ParserSettings.getFormat().setQuote('\0');
 		ParserSettings.setMaxCharsPerColumn(-1);
-		ParserSettings.setProcessorErrorHandler(new RowProcessorErrorHandler() {
+		ParserSettings.setProcessorErrorHandler(new RetryableErrorHandler<ParsingContext>() {
 			@Override public void handleError(DataProcessingException e, Object[] objects, ParsingContext parsingContext) {
 				System.out.println("ERROR when processing row: " + e.getLineIndex() + 1 + ": " + e.getMessage());
 				e.markAsNonFatal();
@@ -147,6 +143,7 @@ public class StorageAccessor {
 					}
 					catch (TextParsingException e) {
 						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
+						e.
 					}
 					++CurrentLine;
 					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
