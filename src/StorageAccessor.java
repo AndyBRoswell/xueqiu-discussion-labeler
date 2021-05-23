@@ -113,47 +113,66 @@ public class StorageAccessor {
 	}
 
 	private static void ParseCSVFile(String encoding, int PreprocessMode) {
-		parser.beginParsing(DiscussionCSVFile, encoding);
+//		parser.beginParsing(DiscussionCSVFile, encoding);
+//
+//		String[] SingleRow = null;
+//		int CurrentLine = 0;
+//		switch (PreprocessMode) {
+//			case 0:
+//				for (; ; ) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
+//					try {
+//						SingleRow = parser.parseNext();
+//						if (SingleRow == null) break;
+//					}
+//					catch (TextParsingException e) {
+//						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
+//					}
+//					++CurrentLine;
+//					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
+//					DiscussionItem item = new DiscussionItem();
+//					item.SetText(SingleRow[0]);
+//					ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
+//					DataManipulator.DiscussionList.add(item);
+//				}
+//				break;
+//			case 1:
+//				for (; ; ) { // 逐行解析保存了刚刚爬取的结果的 CSV 文件中的讨论内容并添加到讨论列表
+//					try {
+//						SingleRow = parser.parseNext();
+//						if (SingleRow == null) break;
+//					}
+//					catch (TextParsingException e) {
+//						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
+//					}
+//					++CurrentLine;
+//					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
+//					DiscussionItem item = new DiscussionItem();
+//					item.SetText(SingleRow[0]);
+//					DataManipulator.DiscussionList.add(item);
+//				}
+//				break;
+//		}
+//
+//		parser.stopParsing();
 
-		String[] SingleRow = null;
-		int CurrentLine = 0;
+		ArrayList<String[]> Rows = (ArrayList<String[]>) parser.parseAll(DiscussionCSVFile, encoding);
 		switch (PreprocessMode) {
 			case 0:
-				for (; ; ) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
-					try {
-						SingleRow = parser.parseNext();
-						if (SingleRow == null) break;
-					}
-					catch (TextParsingException e) {
-						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
-					}
-					++CurrentLine;
-					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
+				for (String[] Row : Rows) {
 					DiscussionItem item = new DiscussionItem();
-					item.SetText(SingleRow[0]);
-					ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
+					item.SetText(Row[0]);
+					ParseStringToLabelCategoriesAndAdd(Row[1], item.GetLabels());
 					DataManipulator.DiscussionList.add(item);
 				}
 				break;
 			case 1:
-				for (; ; ) { // 逐行解析保存了刚刚爬取的结果的 CSV 文件中的讨论内容并添加到讨论列表
-					try {
-						SingleRow = parser.parseNext();
-						if (SingleRow == null) break;
-					}
-					catch (TextParsingException e) {
-						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
-					}
-					++CurrentLine;
-					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
+				for (String[] Row : Rows) {
 					DiscussionItem item = new DiscussionItem();
-					item.SetText(SingleRow[0]);
+					item.SetText(Row[0]);
 					DataManipulator.DiscussionList.add(item);
 				}
 				break;
 		}
-
-		parser.stopParsing();
 	}
 
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
