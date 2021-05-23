@@ -29,6 +29,7 @@ public class StorageAccessor {
 		//ParserSettings.getFormat().setQuote('\0');
 		ParserSettings.setMaxCharsPerColumn(-1);
 
+		WriterSettings.getFormat().setDelimiter('*');
 		WriterSettings.getFormat().setQuote('\"');
 		WriterSettings.getFormat().setQuoteEscape('\"');
 	}
@@ -109,16 +110,17 @@ public class StorageAccessor {
 	private static void ParseCSVFile(String encoding, int PreprocessMode) {
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
-		String[] SingleRow;
+		String[] SingleRow = null;
 //		int CurrentLine = 0;
 		switch (PreprocessMode) {
 			case 0:
-				while (() != null) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
+				for (; ; ) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
 					try {
 						SingleRow = parser.parseNext();
+						if (SingleRow == null) break;
 					}
 					catch (TextParsingException e) {
-
+						System.out.println(e.getLineIndex() + ": " + e.getMessage());
 					}
 //					++CurrentLine;
 //					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
@@ -129,7 +131,14 @@ public class StorageAccessor {
 				}
 				break;
 			case 1:
-				while ((SingleRow = parser.parseNext()) != null) { // 逐行解析保存了刚刚爬取的结果的 CSV 文件中的讨论内容并添加到讨论列表
+				for (; ; ) { // 逐行解析保存了刚刚爬取的结果的 CSV 文件中的讨论内容并添加到讨论列表
+					try {
+						SingleRow = parser.parseNext();
+						if (SingleRow == null) break;
+					}
+					catch (TextParsingException e) {
+						System.out.println(e.getLineIndex() + ": " + e.getMessage());
+					}
 //					++CurrentLine;
 //					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
 					DiscussionItem item = new DiscussionItem();
@@ -138,10 +147,9 @@ public class StorageAccessor {
 				}
 				break;
 		}
-	}
 
 		parser.stopParsing();
-}
+	}
 
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
 		BeginWritingCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
