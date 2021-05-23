@@ -21,9 +21,9 @@ public class StorageAccessor {
 
 	static {
 		ParserSettings.setAutoConfigurationEnabled(false);
-		//ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
-		ParserSettings.getFormat().setLineSeparator("\n");
-		ParserSettings.getFormat().setDelimiter('*');
+		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
+		//ParserSettings.getFormat().setLineSeparator("\n");
+		//ParserSettings.getFormat().setDelimiter('*');
 		//ParserSettings.getFormat().setQuote('\0');
 		ParserSettings.setMaxCharsPerColumn(-1);
 
@@ -107,10 +107,12 @@ public class StorageAccessor {
 	private static void ParseCSVFile(String encoding, int PreprocessMode) {
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
-		String[] SingleRow;
+		String[] SingleRow; int CurrentLine = 0;
 		switch (PreprocessMode) {
 			case 0:
 				while ((SingleRow = parser.parseNext()) != null) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
+					++CurrentLine;
+					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
 					DiscussionItem item = new DiscussionItem();
 					item.SetText(SingleRow[0]);
 					ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
@@ -119,6 +121,8 @@ public class StorageAccessor {
 				break;
 			case 1:
 				while ((SingleRow = parser.parseNext()) != null) { // 逐行解析保存了刚刚爬取的结果的 CSV 文件中的讨论内容并添加到讨论列表
+					++CurrentLine;
+					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
 					DiscussionItem item = new DiscussionItem();
 					item.SetText(SingleRow[0]);
 					DataManipulator.DiscussionList.add(item);
