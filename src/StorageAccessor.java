@@ -143,7 +143,6 @@ public class StorageAccessor {
 					}
 					catch (TextParsingException e) {
 						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
-						e.
 					}
 					++CurrentLine;
 					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
