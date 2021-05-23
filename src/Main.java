@@ -20,7 +20,7 @@ public class Main {
 
 //		StorageAccessor.SaveAllAvailableLabels();
 
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "GB2312", 1);
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "gbk", 1);
 		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 			System.out.println(entry.GetText());
 			System.out.println(entry.GetLabels().toString());
