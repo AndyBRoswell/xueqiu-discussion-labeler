@@ -111,7 +111,7 @@ public class StorageAccessor {
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
 		String[] SingleRow = null;
-//		int CurrentLine = 0;
+		int CurrentLine = 0;
 		switch (PreprocessMode) {
 			case 0:
 				for (; ; ) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
@@ -120,10 +120,10 @@ public class StorageAccessor {
 						if (SingleRow == null) break;
 					}
 					catch (TextParsingException e) {
-						System.out.println(e.getLineIndex() + ": " + e.getMessage());
+						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
 					}
-//					++CurrentLine;
-//					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
+					++CurrentLine;
+					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
 					DiscussionItem item = new DiscussionItem();
 					item.SetText(SingleRow[0]);
 					ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
@@ -137,10 +137,10 @@ public class StorageAccessor {
 						if (SingleRow == null) break;
 					}
 					catch (TextParsingException e) {
-						System.out.println(e.getLineIndex() + ": " + e.getMessage());
+						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
 					}
-//					++CurrentLine;
-//					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
+					++CurrentLine;
+					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
 					DiscussionItem item = new DiscussionItem();
 					item.SetText(SingleRow[0]);
 					DataManipulator.DiscussionList.add(item);

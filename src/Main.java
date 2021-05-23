@@ -25,6 +25,7 @@ public class Main {
 			System.out.println(entry.GetText());
 			System.out.println(entry.GetLabels().toString());
 		}
+		System.out.println(DataManipulator.DiscussionList.size());
 //		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
 //			System.out.println(entry.toString());
 //		}
