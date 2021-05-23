@@ -21,6 +21,8 @@ public class StorageAccessor {
 
 	static {
 		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
+		ParserSettings.getFormat().setDelimiter('*');
+		ParserSettings.setMaxCharsPerColumn(-1);
 		WriterSettings.getFormat().setQuote('\"');
 		WriterSettings.getFormat().setQuoteEscape('\"');
 	}
