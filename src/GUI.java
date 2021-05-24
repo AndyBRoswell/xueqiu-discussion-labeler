@@ -16,8 +16,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Vector;
 
 public class GUI extends JFrame {
@@ -26,7 +24,7 @@ public class GUI extends JFrame {
 	ImageIcon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
 	ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
 
-	JFrame frame = new JFrame("雪球网股票评论");
+	JFrame MainFrame = new JFrame("雪球网股票评论");
 	Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
 	ArrayList<ArrayList<String>> LabelData = new ArrayList<>(); // 标签类及标签的名称
@@ -59,16 +57,16 @@ public class GUI extends JFrame {
 	public DefaultTableModel model;
 
 	public GUI() throws XPathExpressionException, IOException, SAXException {
-		frame.setLocation(500, 250);                            //窗口显示位置
-		frame.setSize(1000, 600);                        //窗口大小
+		MainFrame.setLocation(500, 250);                            //窗口显示位置
+		MainFrame.setSize(1000, 600);                        //窗口大小
 		Config.LoadConfig(Global.DefaultConfig);                    //读取默认配置文件
 		init();                                                        //窗口部件初始化
 		TableInit();
 		LabelInit();
-		frame.addComponentListener(new FrameListener());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		MainFrame.addComponentListener(new FrameListener());
+		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		MainFrame.setLocationRelativeTo(null);
+		MainFrame.setVisible(true);
 	}
 
 	/*public void Directory() throws IOException{
@@ -123,7 +121,7 @@ public class GUI extends JFrame {
 		menuBar.add(TaskMenu);
 		menuBar.add(BackupAndRestoreMenu);
 		menuBar.add(StatisticMenu);
-		frame.setJMenuBar(menuBar);
+		MainFrame.setJMenuBar(menuBar);
 
 		/*文件子菜单*/
 		JMenuItem ImportMenuItem = new JMenuItem("导入");
@@ -207,7 +205,7 @@ public class GUI extends JFrame {
 
 		/*表格*/
 		AllLabelsPanel.setLayout(null);
-		AllLabelsPanel.setPreferredSize(new Dimension(frame.getWidth(), frame.getWidth() / 16));
+		AllLabelsPanel.setPreferredSize(new Dimension(MainFrame.getWidth(), MainFrame.getWidth() / 16));
 
 		/*标注*/
 		AddTagButton.setIcon(iconAdd);
@@ -229,15 +227,15 @@ public class GUI extends JFrame {
 		});
 
 		/*控件添加*/
-		frame.getContentPane().setLayout(null);
-		frame.add(SearchText);
-		frame.add(SearchTag);
-		frame.add(Labeled);
-		frame.add(Unlabeled);
-		frame.add(TaskListButton);
-		frame.add(AllLabelsScrollPane);
-		frame.add(AllAvailableLabelsTag);
-		frame.add(AddTagButton);
+		MainFrame.getContentPane().setLayout(null);
+		MainFrame.add(SearchText);
+		MainFrame.add(SearchTag);
+		MainFrame.add(Labeled);
+		MainFrame.add(Unlabeled);
+		MainFrame.add(TaskListButton);
+		MainFrame.add(AllLabelsScrollPane);
+		MainFrame.add(AllAvailableLabelsTag);
+		MainFrame.add(AddTagButton);
 	}
 
 	public void LabelInit() throws XPathExpressionException, IOException { //从labels.txt文件中导出标签显示在主界面
@@ -335,28 +333,28 @@ public class GUI extends JFrame {
 		/*设置并添加滚动面板到主界面*/
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 		DiscussionScrollPane.setViewportView(DiscussionTable);
-		frame.add(DiscussionScrollPane);
+		MainFrame.add(DiscussionScrollPane);
 	}
 
 	public class FrameListener implements ComponentListener {
 		@Override
 		public void componentResized(ComponentEvent e) {
-			int x = frame.getWidth();
-			int y = frame.getHeight();
-
-			/*搜索行*/
-			SearchText.setBounds(5, 5, x * 3 / 4, Global.FontSizeD * 2);
-			SearchTag.setBounds(5, 5 + Global.FontSizeD * 2, x * 3 / 4, Global.FontSizeD * 2);
-			Labeled.setBounds(10 + x * 9 / 12, 5 + y / 45, x / 13, Global.FontSizeD * 2);
-			Unlabeled.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, Global.FontSizeD * 2);
+			int x = MainFrame.getContentPane().getWidth();
+			int y = MainFrame.getContentPane().getHeight();
 
 			/*下载按钮*/
-			TaskListButton.setBounds(TaskListButton.getParent().getWidth() - iconDownload.getIconWidth(), 16, iconDownload.getIconWidth(), iconDownload.getIconHeight());
+			TaskListButton.setBounds(x - iconDownload.getIconWidth(), 16, iconDownload.getIconWidth(), iconDownload.getIconHeight());
 			iconDownload.setImage(iconDownload.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 			TaskListButton.setIcon(iconDownload);
 
+			/*搜索行*/
+			Labeled.setBounds(x - 7 * Global.FontSizeD - iconDownload.getIconWidth(), 5, x / 13, 2 * Global.FontSizeD);
+			Unlabeled.setBounds(x - 7 * Global.FontSizeD - iconDownload.getIconWidth(), 5 + 2 * Global.FontSizeD, x / 13, 2 * Global.FontSizeD);
+			SearchText.setBounds(5, 5, x * 3 / 4, 2 * Global.FontSizeD);
+			SearchTag.setBounds(5, 5 + 2 * Global.FontSizeD, x * 3 / 4, 2 * Global.FontSizeD);
+
 			/*表格*/
-			DiscussionTable.setRowHeight(Global.FontSizeD * 2);
+			DiscussionTable.setRowHeight(2 * Global.FontSizeD);
 			DiscussionScrollPane.setBounds(10, y * 2 / 25 + 5, x - 35, y * 7 / 10);
 			DiscussionTable.setBounds(10, y / 25 + 5, x - 35, y * 6 / 8);
 
