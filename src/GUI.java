@@ -299,8 +299,7 @@ public class GUI extends JFrame {
 	}
 
 	public void TableInit() {
-		DiscussionListTitle.add("评论");
-		DiscussionListTitle.add("标注");
+		/*获得股票讨论内容*/
 		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
 		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 			Vector<Object> vector = new Vector<Object>();
@@ -308,13 +307,23 @@ public class GUI extends JFrame {
 			vector.add(entry.GetLabels().toString());
 			DiscussionRows.add(vector);
 		}
+
+		/*添加表头*/
+		DiscussionListTitle.add("评论");
+		DiscussionListTitle.add("标注");
+
+		/*根据表格数据和表头创建表格模型，并根据表格模型创建表格*/
 		model = new DefaultTableModel(DiscussionRows, DiscussionListTitle);
 		DiscussionTable = new JTable(model);
+
+		/*设置表格中的表头控件*/
 		JTableHeader tableHeader = DiscussionTable.getTableHeader();
-		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 		tableHeader.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		tableHeader.setResizingAllowed(false);               // 设置不允许手动改变列宽
 		tableHeader.setReorderingAllowed(false);
+		
+		/*设置并添加滚动面板到主界面*/
+		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 		DiscussionScrollPane.setViewportView(DiscussionTable);
 		frame.add(DiscussionScrollPane);
 	}
