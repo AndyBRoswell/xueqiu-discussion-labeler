@@ -339,56 +339,56 @@ public class GUI extends JFrame {
 	public class FrameListener implements ComponentListener {
 		@Override
 		public void componentResized(ComponentEvent e) {
-			int x = MainFrame.getContentPane().getWidth();
-			int y = MainFrame.getContentPane().getHeight();
+			final int X = MainFrame.getContentPane().getWidth();
+			final int Y = MainFrame.getContentPane().getHeight();
 
 			/*下载按钮*/
-			TaskListButton.setBounds(x - iconDownload.getIconWidth(), 16, iconDownload.getIconWidth(), iconDownload.getIconHeight());
+			TaskListButton.setBounds(X - iconDownload.getIconWidth(), 12, iconDownload.getIconWidth(), iconDownload.getIconHeight());
 			iconDownload.setImage(iconDownload.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 			TaskListButton.setIcon(iconDownload);
 
 			/*搜索行*/
-			Labeled.setBounds(x - 7 * Global.FontSizeD - iconDownload.getIconWidth(), 5, x / 13, 2 * Global.FontSizeD);
-			Unlabeled.setBounds(x - 7 * Global.FontSizeD - iconDownload.getIconWidth(), 5 + 2 * Global.FontSizeD, x / 13, 2 * Global.FontSizeD);
-			SearchText.setBounds(5, 5, x * 3 / 4, 2 * Global.FontSizeD);
-			SearchTag.setBounds(5, 5 + 2 * Global.FontSizeD, x * 3 / 4, 2 * Global.FontSizeD);
+			Labeled.setBounds(X - 6 * Global.FontSizeD - iconDownload.getIconWidth(), 0, 6 * Global.FontSizeD, 2 * Global.FontSizeD);
+			Unlabeled.setBounds(X - 6 * Global.FontSizeD - iconDownload.getIconWidth(), 0 + 2 * Global.FontSizeD, 6 * Global.FontSizeD, 2 * Global.FontSizeD);
+			SearchText.setBounds(0, 0, Labeled.getX(), 2 * Global.FontSizeD);
+			SearchTag.setBounds(0, 0 + 2 * Global.FontSizeD, Labeled.getX(), 2 * Global.FontSizeD);
 
 			/*表格*/
 			DiscussionTable.setRowHeight(2 * Global.FontSizeD);
-			DiscussionScrollPane.setBounds(10, y * 2 / 25 + 5, x - 35, y * 7 / 10);
-			DiscussionTable.setBounds(10, y / 25 + 5, x - 35, y * 6 / 8);
+			DiscussionScrollPane.setBounds(0, SearchTag.getY() + SearchTag.getHeight() + 5, X, Y * 7 / 10);
+			DiscussionTable.setBounds(0, SearchTag.getY() + SearchTag.getHeight() + 5, X, Y * 6 / 8);
 
 			/*标注*/
-			AllAvailableLabelsTag.setBounds(10, y * 8 / 10 - 5, x / 13, 30);
+			AllAvailableLabelsTag.setBounds(10, Y * 8 / 10 - 5, X / 13, 30);
 			AllAvailableLabelsTag.setFont(font);
-			AddTagButton.setBounds(12, y * 10 / 12, x / 30, x / 30);
+			AddTagButton.setBounds(12, Y * 10 / 12, X / 30, X / 30);
 			iconAdd.setImage(iconAdd.getImage().getScaledInstance(AddTagButton.getWidth(), AddTagButton.getHeight(), Image.SCALE_DEFAULT));
 			AddTagButton.setIcon(iconAdd);
 			AddTagButton.setBorderPainted(false);
 			iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 
 			/*可选标注滚动面板*/
-			AllLabelsScrollPane.setBounds(x / 15, y * 8 / 10 - 5, x * 20 / 22, x / 16);
+			AllLabelsScrollPane.setBounds(X / 15, Y * 8 / 10 - 5, X * 20 / 22, X / 16);
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			int num = 0;
 			for (int i = 0; i < LabelCategoryControls.size(); i++) {
 				LabelCategoryControls.get(i).setFont(font);
 				if (i == 0) {
-					LabelCategoryControls.get(i).setBounds(0, x / 64, x / 17, y / 25);
+					LabelCategoryControls.get(i).setBounds(0, X / 64, X / 17, Y / 25);
 				}
 				else {
 					num += LabelData.get(i - 1).size() - 1;//前面有的子标签数，此时前面有的标签类数为i
-					LabelCategoryControls.get(i).setBounds(i * x / 17 + num * x / 23 + i * TaskListButton.getWidth(), x / 64, x / 17, y / 25);
+					LabelCategoryControls.get(i).setBounds(i * X / 17 + num * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 17, Y / 25);
 				}
 				for (int j = 0; j < LabelControls.get(i).size(); j++) {//每个子标签坐标为i*x/17+num*x/23+x/17+(j-1)*x/23
 					LabelControls.get(i).get(j).setFont(font);
-					LabelControls.get(i).get(j).setBounds(i * x / 17 + num * x / 23 + x / 17 + j * x / 23 + i * TaskListButton.getWidth(), x / 64, x / 25, y / 25);
+					LabelControls.get(i).get(j).setBounds(i * X / 17 + num * X / 23 + X / 17 + j * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 25, Y / 25);
 					if (j == LabelControls.get(i).size() - 1) {
-						LabelButton.get(i).setBounds(i * x / 17 + num * x / 23 + x / 17 + (j + 1) * x / 23 + i * TaskListButton.getWidth(), x / 64, TaskListButton.getWidth(), TaskListButton.getHeight());
+						LabelButton.get(i).setBounds(i * X / 17 + num * X / 23 + X / 17 + (j + 1) * X / 23 + i * TaskListButton.getWidth(), X / 64, TaskListButton.getWidth(), TaskListButton.getHeight());
 						LabelButton.get(i).setIcon(iconAddSmall);
 						if (i == LabelCategoryControls.size() - 1) {
-							AllLabelsPanel.setPreferredSize(new Dimension(i * x / 17 + num * x / 23 + x / 17 + (j + 1) * x / 23 + (i + 1) * TaskListButton.getWidth(), x / 16));
+							AllLabelsPanel.setPreferredSize(new Dimension(i * X / 17 + num * X / 23 + X / 17 + (j + 1) * X / 23 + (i + 1) * TaskListButton.getWidth(), X / 16));
 						}
 					}
 				}
