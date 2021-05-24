@@ -20,11 +20,12 @@ public class Main {
 
 //		StorageAccessor.SaveAllAvailableLabels();
 
-//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
-//		for (DiscussionItem entry : DataManipulator.DiscussionList) {
-//			System.out.println(entry.GetText());
-//			System.out.println(entry.GetLabels().toString());
-//		}
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "gbk", 1);
+		for (DiscussionItem entry : DataManipulator.DiscussionList) {
+			System.out.println(entry.GetText());
+			System.out.println(entry.GetLabels().toString());
+		}
+		System.out.println(DataManipulator.DiscussionList.size());
 //		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
 //			System.out.println(entry.toString());
 //		}
