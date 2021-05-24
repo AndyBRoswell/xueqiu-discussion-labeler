@@ -355,19 +355,16 @@ public class GUI extends JFrame {
 
 			/*表格*/
 			DiscussionTable.setRowHeight(2 * Global.FontSizeD);
-			DiscussionScrollPane.setBounds(0, SearchTag.getY() + SearchTag.getHeight() + Global.ComponentGapD, X, Y * 7 / 10);
-			DiscussionTable.setBounds(0, SearchTag.getY() + SearchTag.getHeight() + Global.ComponentGapD, X, Y * 7 / 10);
+			DiscussionScrollPane.setBounds(0, SearchTag.getY() + SearchTag.getHeight(), X, Y * 7 / 10);
+			DiscussionTable.setBounds(0, SearchTag.getY() + SearchTag.getHeight(), X, Y * 7 / 10);
 
-			/*标注*/
+			/*标注添加标签与按钮*/
 			AllAvailableLabelsTag.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, 2 * Global.FontSizeD);
 			AddTagButton.setBounds(0, AllAvailableLabelsTag.getY() + AllAvailableLabelsTag.getHeight(), iconAdd.getIconWidth(), iconAdd.getIconHeight());
-//			iconAdd.setImage(iconAdd.getImage().getScaledInstance(AddTagButton.getWidth(), AddTagButton.getHeight(), Image.SCALE_DEFAULT));
-//			AddTagButton.setIcon(iconAdd);
 			AddTagButton.setBorderPainted(false);
-			iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 
 			/*可选标注滚动面板*/
-			AllLabelsScrollPane.setBounds(X / 15, Y * 8 / 10 - 5, X * 20 / 22, X / 16);
+			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getX(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			int num = 0;
