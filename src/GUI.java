@@ -278,16 +278,16 @@ public class GUI extends JFrame {
 //		}
 
 		for (Map.Entry<String, HashSet<String>> SingleCat : DataManipulator.AllLabels.entrySet()) {
-			LabelCategoryControls.add(new LabelCategoryControl(SingleCat.getKey()));
-			AllLabelsPanel.add(LabelCategoryControls.get(LabelCategoryControls.size() - 1));
-			LabelButton.add(new AddButton("+"));
-			AllLabelsPanel.add(LabelButton.get(LabelButton.size() - 1));
+			LabelCategoryControls.add(new LabelCategoryControl(SingleCat.getKey())); // 添加类名标签控件到数据结构
+			AllLabelsPanel.add(LabelCategoryControls.get(LabelCategoryControls.size() - 1)); // 添加标签类到主界面
+			LabelButton.add(new AddButton("+")); // 产生该类标签的添加按钮
+			AllLabelsPanel.add(LabelButton.get(LabelButton.size() - 1)); // 将该类标签的添加按钮添加到主界面
 			ArrayList<ConcreteLabelControl> Label = new ArrayList<>();
 			for (String s : SingleCat.getValue()) {
-				Label.add(new ConcreteLabelControl(s, Color.GRAY));
+				Label.add(new ConcreteLabelControl(s, Color.GRAY)); // 添加新的股评标签控件
 			}
-			LabelControls.add(Label);
-						for (int i = 0; i < LabelCategoryControls.size(); i++) {
+			LabelControls.add(Label); // 添加该类股评标签的控件到数据结构
+			for (int i = 0; i < LabelCategoryControls.size(); i++) {
 				for (int j = 0; j < LabelControls.get(i).size(); j++) {
 					AllLabelsPanel.add(LabelControls.get(i).get(j)); // 将数据结构中的各类标签的控件添加到主界面
 				}
