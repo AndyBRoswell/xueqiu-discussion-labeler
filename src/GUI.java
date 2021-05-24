@@ -351,7 +351,7 @@ public class GUI extends JFrame {
 			Unlabeled.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, Global.FontSizeD * 2);
 
 			/*下载按钮*/
-			TaskListButton.setBounds(x * 19 / 20, 5 + y / 45, iconDownload.getIconWidth(), iconDownload.getIconHeight());
+			TaskListButton.setBounds(TaskListButton.getParent().getWidth() - iconDownload.getIconWidth(), 16, iconDownload.getIconWidth(), iconDownload.getIconHeight());
 			iconDownload.setImage(iconDownload.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 			TaskListButton.setIcon(iconDownload);
 
