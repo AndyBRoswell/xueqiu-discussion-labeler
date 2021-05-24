@@ -356,12 +356,12 @@ public class GUI extends JFrame {
 			Unlabeled.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, Unlabeled.getHeight());
 
 			/*下载按钮*/
-			TaskListButton.setBounds(x * 19 / 20, 5 + y / 45, y / 25, y / 25);
+			TaskListButton.setBounds(x * 19 / 20, 5 + y / 45, iconDownload.getIconWidth(), iconDownload.getIconHeight());
 			iconDownload.setImage(iconDownload.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 			TaskListButton.setIcon(iconDownload);
 
 			/*表格*/
-			DiscussionTable.setRowHeight(frame.getHeight() / 20);
+//			DiscussionTable.setRowHeight(frame.getHeight() / 20);
 			DiscussionScrollPane.setBounds(10, y * 2 / 25 + 5, x - 35, y * 7 / 10);
 			DiscussionTable.setBounds(10, y / 25 + 5, x - 35, y * 6 / 8);
 
