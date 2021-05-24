@@ -282,7 +282,7 @@ public class GUI extends JFrame {
 			AllLabelsPanel.add(LabelCategoryControls.get(LabelCategoryControls.size() - 1)); // 添加标签类到主界面
 			LabelButton.add(new AddButton("+")); // 产生该类标签的添加按钮
 			AllLabelsPanel.add(LabelButton.get(LabelButton.size() - 1)); // 将该类标签的添加按钮添加到主界面
-			ArrayList<ConcreteLabelControl> Label = new ArrayList<>();
+			ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 该类股评标签控件的集合
 			for (String s : SingleCat.getValue()) {
 				Label.add(new ConcreteLabelControl(s, Color.GRAY)); // 添加新的股评标签控件
 			}
