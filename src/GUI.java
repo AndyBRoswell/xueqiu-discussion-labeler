@@ -11,7 +11,6 @@ import java.awt.event.ComponentListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -25,8 +24,8 @@ public class GUI extends JFrame {
 	Font font = new Font("微软雅黑", Font.PLAIN, 12);
 
 	ArrayList<ArrayList<String>> LabelData = new ArrayList<>(); // 标签类及标签的名称
-	ArrayList<ArrayList<LabelSet>> Labels = new ArrayList<>();
-	ArrayList<SortLabelSet> Sort = new ArrayList<>();
+	ArrayList<ArrayList<ConcreteLabelControl>> Labels = new ArrayList<>();
+	ArrayList<LabelCategoryControl> Sort = new ArrayList<>();
 	ArrayList<AddButton> LabelButton = new ArrayList<>();
 
 	/*按钮*/
@@ -240,14 +239,14 @@ public class GUI extends JFrame {
 			}
 			br.close();
 			for (int i = 0; i < LabelData.size(); i++) {
-				Sort.add(new SortLabelSet(LabelData.get(i).get(0))); // 添加类名
+				Sort.add(new LabelCategoryControl(LabelData.get(i).get(0))); // 添加类名
 				AllLabelsPanel.add(Sort.get(i)); // 添加标签类到主界面
 				String text = String.valueOf(i); // int to string
 				LabelButton.add(new AddButton(text)); // 产生该类标签的添加按钮
 				AllLabelsPanel.add(LabelButton.get(i)); // 将该类标签的添加按钮添加到主界面
-				ArrayList<LabelSet> Label = new ArrayList<>(); // 标签控件
+				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 标签控件
 				for (int j = 1; j < LabelData.get(i).size(); j++) {
-					Label.add(new LabelSet(LabelData.get(i).get(j), Color.GRAY));
+					Label.add(new ConcreteLabelControl(LabelData.get(i).get(j), Color.GRAY));
 				}
 				Labels.add(Label);
 			}
@@ -363,8 +362,8 @@ public class GUI extends JFrame {
 		public void componentHidden(ComponentEvent e) {}
 	}
 
-	class LabelSet extends JLabel {
-		public LabelSet(String text, Color bgColor) {
+	class ConcreteLabelControl extends JLabel {
+		public ConcreteLabelControl(String text, Color bgColor) {
 			super(text);
 			setOpaque(true);
 			setBackground(bgColor);
@@ -373,8 +372,8 @@ public class GUI extends JFrame {
 		}
 	}
 
-	class SortLabelSet extends JLabel {
-		public SortLabelSet(String text) {
+	class LabelCategoryControl extends JLabel {
+		public LabelCategoryControl(String text) {
 			super(text);
 			setFont(font);
 		}
