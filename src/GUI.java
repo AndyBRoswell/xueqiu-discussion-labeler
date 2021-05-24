@@ -24,7 +24,7 @@ public class GUI extends JFrame {
 	ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
 
 	JFrame frame = new JFrame("雪球网股票评论");
-	Font font = new Font("微软雅黑", 0, 12);
+	Font font = new Font("微软雅黑", Font.PLAIN, 12);
 
 	ArrayList<ArrayList<String>> LabelData = new ArrayList<>();
 	ArrayList<ArrayList<LabelSet>> Labels = new ArrayList<>();
@@ -39,11 +39,11 @@ public class GUI extends JFrame {
 	JTextField SearchText = new JTextField(6);
 	JTextField SearchTag = new JTextField(6);
 
-	/*勾选框*/
+	/*快捷筛选复选框*/
 	JCheckBox Marked = new JCheckBox("已标注");
 	JCheckBox UnMarked = new JCheckBox("未标注");
 
-	/*标签*/
+	/*全部可选标签*/
 	JPanel panel = new JPanel();
 	JScrollPane LabelscrollPane = new JScrollPane(panel);
 	JLabel ChooseTag = new JLabel("可选标注");
@@ -56,9 +56,9 @@ public class GUI extends JFrame {
 	public DefaultTableModel model;
 
 	public GUI() throws IOException, InterruptedException {
-		frame.setLocation(500, 250);          //窗口显示位置
-		frame.setSize(1000, 600);      //窗口大小
-		init();
+		frame.setLocation(500, 250);							//窗口显示位置
+		frame.setSize(1000, 600);						//窗口大小
+		init();														//窗口部件初始化
 		TableInit();
 		LabelInit();
 		frame.addComponentListener(new FrameListener());
@@ -136,31 +136,31 @@ public class GUI extends JFrame {
 		FileMenu.add(ExitMenuItem);
 
 		/*各菜单项的事件处理程序*/
-		ImportMenuItem.addActionListener(new ActionListener() {
+		ImportMenuItem.addActionListener(new ActionListener() { // 弹出导入窗口
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new GUIImport();
 			}
 		});
-		ExportMenuItem.addActionListener(new ActionListener() {
+		ExportMenuItem.addActionListener(new ActionListener() { // 弹出导出窗口
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new GUIExport();
 			}
 		});
-		SetMenuItem.addActionListener(new ActionListener() {
+		SetMenuItem.addActionListener(new ActionListener() { // 弹出设置窗口
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new GUIConfig(Global.DefaultConfig);
 			}
 		});
-		JournalMenuItem.addActionListener(new ActionListener() {
+		JournalMenuItem.addActionListener(new ActionListener() { // 弹出日志窗口
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new GUIJournal();
 			}
 		});
-		ExitMenuItem.addActionListener(new ActionListener() {
+		ExitMenuItem.addActionListener(new ActionListener() { // 退出本软件
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -170,7 +170,7 @@ public class GUI extends JFrame {
 		/*任务子菜单*/
 		JMenuItem AddMenuItem = new JMenuItem("添加");
 		TaskMenu.add(AddMenuItem);
-		AddMenuItem.addActionListener(new ActionListener() {
+		AddMenuItem.addActionListener(new ActionListener() { // 添加新的爬取任务
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new GUIAddStock();
@@ -178,7 +178,7 @@ public class GUI extends JFrame {
 		});
 
 		/*备份恢复*/
-		BackupAndRestoreMenu.addMenuListener(new MenuListener() {
+		BackupAndRestoreMenu.addMenuListener(new MenuListener() { // 弹出备份恢复界面
 			@Override
 			public void menuSelected(MenuEvent e) {
 				new GUIBackupAndRestore();
@@ -188,7 +188,8 @@ public class GUI extends JFrame {
 
 			public void menuCanceled(MenuEvent e) {}
 		});
-		StatisticMenu.addMenuListener(new MenuListener() {
+
+		StatisticMenu.addMenuListener(new MenuListener() { // 弹出统计图界面
 			@Override
 			public void menuSelected(MenuEvent e) {
 				new GUIStatistic();
