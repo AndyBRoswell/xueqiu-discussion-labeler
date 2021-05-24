@@ -218,7 +218,7 @@ public class GUI extends JFrame {
 			}
 		});
 
-		/*部分事件监听程序*/
+		/*部分动作监听程序*/
 		SearchTag.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {}
@@ -350,10 +350,10 @@ public class GUI extends JFrame {
 //			Unlabeled.setFont(font);
 
 			/*搜索行*/
-			SearchText.setBounds(10, 5, x * 3 / 4, y / 25);
-			Labeled.setBounds(10 + x * 9 / 12, 5 + y / 45, x / 13, y / 25);
-			Unlabeled.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, y / 25);
-			SearchTag.setBounds(10, 5 + y / 25, x * 3 / 4, y / 25);
+			SearchText.setBounds(10, 5, x * 3 / 4, SearchText.getHeight());
+			SearchTag.setBounds(10, 5 + y / 25, x * 3 / 4, SearchTag.getHeight());
+			Labeled.setBounds(10 + x * 9 / 12, 5 + y / 45, x / 13, Labeled.getHeight());
+			Unlabeled.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, Unlabeled.getHeight());
 
 			/*下载按钮*/
 			TaskListButton.setBounds(x * 19 / 20, 5 + y / 45, y / 25, y / 25);
