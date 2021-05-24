@@ -8,4 +8,7 @@ public class Global {
 	public static final String LineSeparator = System.lineSeparator();
 	public static final String TemporaryPath = AppPath + "\\tmp";
 	public static final String LogPath = AppPath + "\\log";
+
+	public static final int FontSizeD = 12;
+	public static final int FontSizeL = 16;
 }
