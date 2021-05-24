@@ -244,15 +244,15 @@ public class GUI extends JFrame {
 				String text = String.valueOf(i); // int to string
 				LabelButton.add(new AddButton(text)); // 产生该类标签的添加按钮
 				AllLabelsPanel.add(LabelButton.get(i)); // 将该类标签的添加按钮添加到主界面
-				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 标签控件
+				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 股评标签控件集合
 				for (int j = 1; j < LabelData.get(i).size(); j++) {
-					Label.add(new ConcreteLabelControl(LabelData.get(i).get(j), Color.GRAY));
+					Label.add(new ConcreteLabelControl(LabelData.get(i).get(j), Color.GRAY)); // 添加新的股评标签控件
 				}
-				Labels.add(Label);
+				Labels.add(Label); // 添加该类股评标签的控件到数据结构
 			}
 			for (int i = 0; i < Sort.size(); i++) {
 				for (int j = 0; j < Labels.get(i).size(); j++) {
-					AllLabelsPanel.add(Labels.get(i).get(j)); // 将类内标签添加到主界面
+					AllLabelsPanel.add(Labels.get(i).get(j)); // 将数据结构中的具体标签添加到主界面
 				}
 			}
 		}
