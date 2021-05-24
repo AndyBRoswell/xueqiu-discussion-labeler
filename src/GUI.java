@@ -1,5 +1,3 @@
-import org.jfree.ui.ApplicationFrame;
-
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -32,7 +30,7 @@ public class GUI extends JFrame {
 	ArrayList<AddButton> LabelButton = new ArrayList<>();
 
 	/*按钮*/
-	JButton ButtonDownLoad = new JButton();
+	JButton TaskListButton = new JButton();
 	JButton AddTagButton = new JButton();
 
 	/*搜索栏*/
@@ -40,19 +38,19 @@ public class GUI extends JFrame {
 	JTextField SearchTag = new JTextField(6);
 
 	/*快捷筛选复选框*/
-	JCheckBox Marked = new JCheckBox("已标注");
-	JCheckBox UnMarked = new JCheckBox("未标注");
+	JCheckBox Labeled = new JCheckBox("已标注");
+	JCheckBox Unlabeled = new JCheckBox("未标注");
 
 	/*全部可选标签*/
-	JPanel panel = new JPanel();
-	JScrollPane LabelscrollPane = new JScrollPane(panel);
-	JLabel ChooseTag = new JLabel("可选标注");
+	JPanel AllLabelsPanel = new JPanel();
+	JScrollPane AllLabelsScrollPane = new JScrollPane(AllLabelsPanel);
+	JLabel AllAvailableLabelsTag = new JLabel("可选标注");
 
 	/*表格*/
-	Vector<Object> title = new Vector<>();
-	Vector<Vector<Object>> rowData = new Vector<Vector<Object>>();
-	public JTable table;
-	public JScrollPane scrollPane;
+	Vector<Object> DiscussionListTitle = new Vector<>();
+	Vector<Vector<Object>> DiscussionRows = new Vector<Vector<Object>>();
+	public JTable DiscussionTable;
+	public JScrollPane DiscussionScrollPane;
 	public DefaultTableModel model;
 
 	public GUI() throws IOException, InterruptedException {
@@ -104,7 +102,7 @@ public class GUI extends JFrame {
 
 	private void init() {
 		/*按钮*/
-		ButtonDownLoad.addActionListener(new ActionListener() {
+		TaskListButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) { new GUIDownLoad(); }
 		});
@@ -201,8 +199,8 @@ public class GUI extends JFrame {
 		});
 
 		/*表格*/
-		panel.setLayout(null);
-		panel.setPreferredSize(new Dimension(frame.getWidth(), frame.getWidth() / 16));
+		AllLabelsPanel.setLayout(null);
+		AllLabelsPanel.setPreferredSize(new Dimension(frame.getWidth(), frame.getWidth() / 16));
 
 		/*标注*/
 		AddTagButton.setIcon(iconAdd);
@@ -217,11 +215,11 @@ public class GUI extends JFrame {
 		frame.getContentPane().setLayout(null);
 		frame.add(SearchText);
 		frame.add(SearchTag);
-		frame.add(Marked);
-		frame.add(UnMarked);
-		frame.add(ButtonDownLoad);
-		frame.add(LabelscrollPane);
-		frame.add(ChooseTag);
+		frame.add(Labeled);
+		frame.add(Unlabeled);
+		frame.add(TaskListButton);
+		frame.add(AllLabelsScrollPane);
+		frame.add(AllAvailableLabelsTag);
 		frame.add(AddTagButton);
 	}
 
@@ -243,10 +241,10 @@ public class GUI extends JFrame {
 			br.close();
 			for (int i = 0; i < LabelData.size(); i++) {
 				Sort.add(new SortLabelSet(LabelData.get(i).get(0)));
-				panel.add(Sort.get(i));
+				AllLabelsPanel.add(Sort.get(i));
 				String text = String.valueOf(i);
 				LabelButton.add(new AddButton(text));
-				panel.add(LabelButton.get(i));
+				AllLabelsPanel.add(LabelButton.get(i));
 				ArrayList<LabelSet> Label = new ArrayList<>();
 				for (int j = 1; j < LabelData.get(i).size(); j++) {
 					Label.add(new LabelSet(LabelData.get(i).get(j), Color.GRAY));
@@ -255,7 +253,7 @@ public class GUI extends JFrame {
 			}
 			for (int i = 0; i < Sort.size(); i++) {
 				for (int j = 0; j < Labels.get(i).size(); j++) {
-					panel.add(Labels.get(i).get(j));
+					AllLabelsPanel.add(Labels.get(i).get(j));
 				}
 			}
 		}
@@ -265,24 +263,24 @@ public class GUI extends JFrame {
 	}
 
 	public void TableInit() {
-		title.add("评论");
-		title.add("标注");
+		DiscussionListTitle.add("评论");
+		DiscussionListTitle.add("标注");
 		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
 		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 			Vector<Object> vector = new Vector<Object>();
 			vector.add(entry.GetText());
 			vector.add(entry.GetLabels().toString());
-			rowData.add(vector);
+			DiscussionRows.add(vector);
 		}
-		model = new DefaultTableModel(rowData, title);
-		table = new JTable(model);
-		JTableHeader tableHeader = table.getTableHeader();
-		scrollPane = new JScrollPane(table);
+		model = new DefaultTableModel(DiscussionRows, DiscussionListTitle);
+		DiscussionTable = new JTable(model);
+		JTableHeader tableHeader = DiscussionTable.getTableHeader();
+		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 		tableHeader.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		tableHeader.setResizingAllowed(false);               // 设置不允许手动改变列宽
 		tableHeader.setReorderingAllowed(false);
-		scrollPane.setViewportView(table);
-		frame.add(scrollPane);
+		DiscussionScrollPane.setViewportView(DiscussionTable);
+		frame.add(DiscussionScrollPane);
 	}
 
 	public class FrameListener implements ComponentListener {
@@ -292,12 +290,12 @@ public class GUI extends JFrame {
 			int y = frame.getHeight();
 			/*字体*/
 			Font font = new Font("微软雅黑", 0, x / 75);
-			Marked.setFont(font);
-			UnMarked.setFont(font);
+			Labeled.setFont(font);
+			Unlabeled.setFont(font);
 			/*搜索行*/
 			SearchText.setBounds(10, 5, x * 3 / 4, y / 25);
-			Marked.setBounds(10 + x * 9 / 12, 5 + y / 45, x / 13, y / 25);
-			UnMarked.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, y / 25);
+			Labeled.setBounds(10 + x * 9 / 12, 5 + y / 45, x / 13, y / 25);
+			Unlabeled.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, y / 25);
 			SearchTag.setBounds(10, 5 + y / 25, x * 3 / 4, y / 25);
 			SearchTag.addActionListener(new ActionListener() {
 				@Override
@@ -312,25 +310,25 @@ public class GUI extends JFrame {
 				}
 			});
 			/*下载按钮*/
-			ButtonDownLoad.setBounds(x * 19 / 20, 5 + y / 45, y / 25, y / 25);
-			iconDownload.setImage(iconDownload.getImage().getScaledInstance(ButtonDownLoad.getWidth(), ButtonDownLoad.getHeight(), Image.SCALE_DEFAULT));
-			ButtonDownLoad.setIcon(iconDownload);
+			TaskListButton.setBounds(x * 19 / 20, 5 + y / 45, y / 25, y / 25);
+			iconDownload.setImage(iconDownload.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
+			TaskListButton.setIcon(iconDownload);
 			/*表格*/
-			table.setRowHeight(frame.getHeight() / 20);
-			scrollPane.setBounds(10, y * 2 / 25 + 5, x - 35, y * 7 / 10);
-			table.setBounds(10, y / 25 + 5, x - 35, y * 6 / 8);
+			DiscussionTable.setRowHeight(frame.getHeight() / 20);
+			DiscussionScrollPane.setBounds(10, y * 2 / 25 + 5, x - 35, y * 7 / 10);
+			DiscussionTable.setBounds(10, y / 25 + 5, x - 35, y * 6 / 8);
 			/*标注*/
-			ChooseTag.setBounds(10, y * 8 / 10 - 5, x / 13, 30);
-			ChooseTag.setFont(font);
+			AllAvailableLabelsTag.setBounds(10, y * 8 / 10 - 5, x / 13, 30);
+			AllAvailableLabelsTag.setFont(font);
 			AddTagButton.setBounds(12, y * 10 / 12, x / 30, x / 30);
 			iconAdd.setImage(iconAdd.getImage().getScaledInstance(AddTagButton.getWidth(), AddTagButton.getHeight(), Image.SCALE_DEFAULT));
 			AddTagButton.setIcon(iconAdd);
 			AddTagButton.setBorderPainted(false);
-			iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(ButtonDownLoad.getWidth(), ButtonDownLoad.getHeight(), Image.SCALE_DEFAULT));
+			iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 			/*可选标注滚动面板*/
-			LabelscrollPane.setBounds(x / 15, y * 8 / 10 - 5, x * 20 / 22, x / 16);
-			LabelscrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-			LabelscrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			AllLabelsScrollPane.setBounds(x / 15, y * 8 / 10 - 5, x * 20 / 22, x / 16);
+			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			int num = 0;
 			for (int i = 0; i < Sort.size(); i++) {
 				Sort.get(i).setFont(font);
@@ -339,16 +337,16 @@ public class GUI extends JFrame {
 				}
 				else {
 					num += LabelData.get(i - 1).size() - 1;//前面有的子标签数，此时前面有的标签类数为i
-					Sort.get(i).setBounds(i * x / 17 + num * x / 23 + i * ButtonDownLoad.getWidth(), x / 64, x / 17, y / 25);
+					Sort.get(i).setBounds(i * x / 17 + num * x / 23 + i * TaskListButton.getWidth(), x / 64, x / 17, y / 25);
 				}
 				for (int j = 0; j < Labels.get(i).size(); j++) {//每个子标签坐标为i*x/17+num*x/23+x/17+(j-1)*x/23
 					Labels.get(i).get(j).setFont(font);
-					Labels.get(i).get(j).setBounds(i * x / 17 + num * x / 23 + x / 17 + j * x / 23 + i * ButtonDownLoad.getWidth(), x / 64, x / 25, y / 25);
+					Labels.get(i).get(j).setBounds(i * x / 17 + num * x / 23 + x / 17 + j * x / 23 + i * TaskListButton.getWidth(), x / 64, x / 25, y / 25);
 					if (j == Labels.get(i).size() - 1) {
-						LabelButton.get(i).setBounds(i * x / 17 + num * x / 23 + x / 17 + (j + 1) * x / 23 + i * ButtonDownLoad.getWidth(), x / 64, ButtonDownLoad.getWidth(), ButtonDownLoad.getHeight());
+						LabelButton.get(i).setBounds(i * x / 17 + num * x / 23 + x / 17 + (j + 1) * x / 23 + i * TaskListButton.getWidth(), x / 64, TaskListButton.getWidth(), TaskListButton.getHeight());
 						LabelButton.get(i).setIcon(iconAddSmall);
 						if (i == Sort.size() - 1) {
-							panel.setPreferredSize(new Dimension(i * x / 17 + num * x / 23 + x / 17 + (j + 1) * x / 23 + (i + 1) * ButtonDownLoad.getWidth(), x / 16));
+							AllLabelsPanel.setPreferredSize(new Dimension(i * x / 17 + num * x / 23 + x / 17 + (j + 1) * x / 23 + (i + 1) * TaskListButton.getWidth(), x / 16));
 						}
 					}
 				}
