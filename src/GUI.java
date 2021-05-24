@@ -53,7 +53,7 @@ public class GUI extends JFrame {
 	public JScrollPane DiscussionScrollPane;
 	public DefaultTableModel model;
 
-	public GUI() throws IOException, InterruptedException {
+	public GUI() {
 		frame.setLocation(500, 250);							//窗口显示位置
 		frame.setSize(1000, 600);						//窗口大小
 		init();														//窗口部件初始化
@@ -175,7 +175,7 @@ public class GUI extends JFrame {
 			}
 		});
 
-		/*备份恢复*/
+		/*备份恢复菜单项*/
 		BackupAndRestoreMenu.addMenuListener(new MenuListener() { // 弹出备份恢复界面
 			@Override
 			public void menuSelected(MenuEvent e) {
@@ -187,6 +187,7 @@ public class GUI extends JFrame {
 			public void menuCanceled(MenuEvent e) {}
 		});
 
+		/*统计图菜单项*/
 		StatisticMenu.addMenuListener(new MenuListener() { // 弹出统计图界面
 			@Override
 			public void menuSelected(MenuEvent e) {
@@ -223,28 +224,27 @@ public class GUI extends JFrame {
 		frame.add(AddTagButton);
 	}
 
-	public void LabelInit() {
-		/*从labels文件中导出标签显示在主界面*/
+	public void LabelInit() { //从labels.txt文件中导出标签显示在主界面
 		File f = new File(Global.LabelFile);
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(f));
-			String str = null;
-			int count = 0;
+			String str;
+			int RowCount = 0;
 			while ((str = br.readLine()) != null) {
 				LabelData.add(new ArrayList<String>());
-				String[] Data = str.split(" ");
+				String[] Data = str.split(" "); // 分离该行的标签类与标签，空格隔开
 				for (int i = 0; i < Data.length; i++) {
-					LabelData.get(count).add(Data[i]);
+					LabelData.get(RowCount).add(Data[i]);
 				}
-				count++;
+				RowCount++;
 			}
 			br.close();
 			for (int i = 0; i < LabelData.size(); i++) {
-				Sort.add(new SortLabelSet(LabelData.get(i).get(0)));
-				AllLabelsPanel.add(Sort.get(i));
+				Sort.add(new SortLabelSet(LabelData.get(i).get(0))); // 添加类名
+				AllLabelsPanel.add(Sort.get(i)); // 添加标签类到主界面
 				String text = String.valueOf(i);
 				LabelButton.add(new AddButton(text));
-				AllLabelsPanel.add(LabelButton.get(i));
+				AllLabelsPanel.add(LabelButton.get(i)); //
 				ArrayList<LabelSet> Label = new ArrayList<>();
 				for (int j = 1; j < LabelData.get(i).size(); j++) {
 					Label.add(new LabelSet(LabelData.get(i).get(j), Color.GRAY));
@@ -253,7 +253,7 @@ public class GUI extends JFrame {
 			}
 			for (int i = 0; i < Sort.size(); i++) {
 				for (int j = 0; j < Labels.get(i).size(); j++) {
-					AllLabelsPanel.add(Labels.get(i).get(j));
+					AllLabelsPanel.add(Labels.get(i).get(j)); // 将类内标签添加到主界面
 				}
 			}
 		}
@@ -384,7 +384,7 @@ public class GUI extends JFrame {
 		public AddButton(String text) {
 			super(text);
 			setBorderPainted(false);
-			setFont(new Font("微软雅黑", 0, 0));
+			setFont(new Font("微软雅黑", Font.PLAIN, 0));
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
