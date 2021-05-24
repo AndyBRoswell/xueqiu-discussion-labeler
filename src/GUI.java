@@ -27,7 +27,7 @@ public class GUI extends JFrame {
 	ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
 
 	JFrame frame = new JFrame("雪球网股票评论");
-	Font font = new Font("微软雅黑", Font.PLAIN, 12);
+	Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
 	ArrayList<ArrayList<String>> LabelData = new ArrayList<>(); // 标签类及标签的名称
 	ArrayList<ArrayList<ConcreteLabelControl>> LabelControls = new ArrayList<>();
@@ -59,10 +59,10 @@ public class GUI extends JFrame {
 	public DefaultTableModel model;
 
 	public GUI() throws XPathExpressionException, IOException, SAXException {
-		frame.setLocation(500, 250);							//窗口显示位置
-		frame.setSize(1000, 600);						//窗口大小
-		Config.LoadConfig(Global.DefaultConfig);					//读取默认配置文件
-		init();														//窗口部件初始化
+		frame.setLocation(500, 250);                            //窗口显示位置
+		frame.setSize(1000, 600);                        //窗口大小
+		Config.LoadConfig(Global.DefaultConfig);                    //读取默认配置文件
+		init();                                                        //窗口部件初始化
 		TableInit();
 		LabelInit();
 		frame.addComponentListener(new FrameListener());
@@ -328,7 +328,7 @@ public class GUI extends JFrame {
 
 		/*设置表格中的表头控件*/
 		JTableHeader tableHeader = DiscussionTable.getTableHeader();
-		tableHeader.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		tableHeader.setFont(new Font("微软雅黑", Font.PLAIN, Global.FontSizeL));
 		tableHeader.setResizingAllowed(false);               // 设置不允许手动改变列宽
 		tableHeader.setReorderingAllowed(false);
 
@@ -344,16 +344,11 @@ public class GUI extends JFrame {
 			int x = frame.getWidth();
 			int y = frame.getHeight();
 
-			/*字体*/
-//			Font font = new Font("微软雅黑", Font.PLAIN, x / 75);
-//			Labeled.setFont(font);
-//			Unlabeled.setFont(font);
-
 			/*搜索行*/
-			SearchText.setBounds(5, 5, x * 3 / 4, SearchText.getFont().getSize() * 2);
-			SearchTag.setBounds(5, 5 + y / 25, x * 3 / 4, SearchTag.getFont().getSize() * 2);
-			Labeled.setBounds(10 + x * 9 / 12, 5 + y / 45, x / 13, Labeled.getFont().getSize());
-			Unlabeled.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, Unlabeled.getFont().getSize());
+			SearchText.setBounds(5, 5, x * 3 / 4, Global.FontSizeD * 2);
+			SearchTag.setBounds(5, 5 + Global.FontSizeD * 2, x * 3 / 4, Global.FontSizeD * 2);
+			Labeled.setBounds(10 + x * 9 / 12, 5 + y / 45, x / 13, Global.FontSizeD * 2);
+			Unlabeled.setBounds(10 + x * 10 / 12, 5 + y / 45, x / 13, Global.FontSizeD * 2);
 
 			/*下载按钮*/
 			TaskListButton.setBounds(x * 19 / 20, 5 + y / 45, iconDownload.getIconWidth(), iconDownload.getIconHeight());
@@ -361,7 +356,7 @@ public class GUI extends JFrame {
 			TaskListButton.setIcon(iconDownload);
 
 			/*表格*/
-//			DiscussionTable.setRowHeight(frame.getHeight() / 20);
+			DiscussionTable.setRowHeight(Global.FontSizeD * 2);
 			DiscussionScrollPane.setBounds(10, y * 2 / 25 + 5, x - 35, y * 7 / 10);
 			DiscussionTable.setBounds(10, y / 25 + 5, x - 35, y * 6 / 8);
 
