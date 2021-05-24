@@ -1,8 +1,11 @@
+import org.xml.sax.SAXException;
+
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +14,10 @@ import java.awt.event.ComponentListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Vector;
 
 public class GUI extends JFrame {
@@ -24,8 +30,8 @@ public class GUI extends JFrame {
 	Font font = new Font("微软雅黑", Font.PLAIN, 12);
 
 	ArrayList<ArrayList<String>> LabelData = new ArrayList<>(); // 标签类及标签的名称
-	ArrayList<ArrayList<ConcreteLabelControl>> Labels = new ArrayList<>();
-	ArrayList<LabelCategoryControl> Sort = new ArrayList<>();
+	ArrayList<ArrayList<ConcreteLabelControl>> LabelControls = new ArrayList<>();
+	ArrayList<LabelCategoryControl> LabelCategoryControls = new ArrayList<>();
 	ArrayList<AddButton> LabelButton = new ArrayList<>();
 
 	/*按钮*/
@@ -52,9 +58,10 @@ public class GUI extends JFrame {
 	public JScrollPane DiscussionScrollPane;
 	public DefaultTableModel model;
 
-	public GUI() {
+	public GUI() throws XPathExpressionException, IOException, SAXException {
 		frame.setLocation(500, 250);							//窗口显示位置
 		frame.setSize(1000, 600);						//窗口大小
+		Config.LoadConfig(Global.DefaultConfig);					//读取默认配置文件
 		init();														//窗口部件初始化
 		TableInit();
 		LabelInit();
@@ -223,7 +230,7 @@ public class GUI extends JFrame {
 		frame.add(AddTagButton);
 	}
 
-	public void LabelInit() { //从labels.txt文件中导出标签显示在主界面
+	public void LabelInit() throws XPathExpressionException, IOException { //从labels.txt文件中导出标签显示在主界面
 		File f = new File(Global.LabelFile);
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(f));
@@ -239,26 +246,36 @@ public class GUI extends JFrame {
 			}
 			br.close();
 			for (int i = 0; i < LabelData.size(); i++) {
-				Sort.add(new LabelCategoryControl(LabelData.get(i).get(0))); // 添加类名
-				AllLabelsPanel.add(Sort.get(i)); // 添加标签类到主界面
+				LabelCategoryControls.add(new LabelCategoryControl(LabelData.get(i).get(0))); // 添加类名标签控件到数据结构
+				AllLabelsPanel.add(LabelCategoryControls.get(i)); // 添加标签类到主界面
 				String text = String.valueOf(i); // int to string
 				LabelButton.add(new AddButton(text)); // 产生该类标签的添加按钮
 				AllLabelsPanel.add(LabelButton.get(i)); // 将该类标签的添加按钮添加到主界面
-				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 股评标签控件集合
+				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 该类股评标签控件的集合
 				for (int j = 1; j < LabelData.get(i).size(); j++) {
 					Label.add(new ConcreteLabelControl(LabelData.get(i).get(j), Color.GRAY)); // 添加新的股评标签控件
 				}
-				Labels.add(Label); // 添加该类股评标签的控件到数据结构
+				LabelControls.add(Label); // 添加该类股评标签的控件到数据结构
 			}
-			for (int i = 0; i < Sort.size(); i++) {
-				for (int j = 0; j < Labels.get(i).size(); j++) {
-					AllLabelsPanel.add(Labels.get(i).get(j)); // 将数据结构中的具体标签添加到主界面
+			for (int i = 0; i < LabelCategoryControls.size(); i++) {
+				for (int j = 0; j < LabelControls.get(i).size(); j++) {
+					AllLabelsPanel.add(LabelControls.get(i).get(j)); // 将数据结构中的各类标签的控件添加到主界面
 				}
 			}
 		}
 		catch (Exception e1) {
 			e1.printStackTrace();
 		}
+
+//		StorageAccessor.LoadAllAvailableLabels(); // 从 \cfg\labels.txt 读取全部可用标签类及标签
+//
+//		for (Map.Entry<String, HashSet<String>> SingleCat : DataManipulator.AllLabels.entrySet()) {
+//			AllLabelsPanel.add(new LabelCategoryControl(SingleCat.getKey())); // 产生该标签类名称的标签控件并添加到主界面
+//			for (String s : SingleCat.getValue()) {
+//				AllLabelsPanel.add(new ConcreteLabelControl(s, Color.GRAY)); // 产生该标签类的标签控件并添加到主界面
+//			}
+//			AllLabelsPanel.add(new AddButton("+")); // 为该类标签产生添加按钮并添加到主界面
+//		}
 	}
 
 	public void TableInit() {
@@ -329,22 +346,22 @@ public class GUI extends JFrame {
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			int num = 0;
-			for (int i = 0; i < Sort.size(); i++) {
-				Sort.get(i).setFont(font);
+			for (int i = 0; i < LabelCategoryControls.size(); i++) {
+				LabelCategoryControls.get(i).setFont(font);
 				if (i == 0) {
-					Sort.get(i).setBounds(0, x / 64, x / 17, y / 25);
+					LabelCategoryControls.get(i).setBounds(0, x / 64, x / 17, y / 25);
 				}
 				else {
 					num += LabelData.get(i - 1).size() - 1;//前面有的子标签数，此时前面有的标签类数为i
-					Sort.get(i).setBounds(i * x / 17 + num * x / 23 + i * TaskListButton.getWidth(), x / 64, x / 17, y / 25);
+					LabelCategoryControls.get(i).setBounds(i * x / 17 + num * x / 23 + i * TaskListButton.getWidth(), x / 64, x / 17, y / 25);
 				}
-				for (int j = 0; j < Labels.get(i).size(); j++) {//每个子标签坐标为i*x/17+num*x/23+x/17+(j-1)*x/23
-					Labels.get(i).get(j).setFont(font);
-					Labels.get(i).get(j).setBounds(i * x / 17 + num * x / 23 + x / 17 + j * x / 23 + i * TaskListButton.getWidth(), x / 64, x / 25, y / 25);
-					if (j == Labels.get(i).size() - 1) {
+				for (int j = 0; j < LabelControls.get(i).size(); j++) {//每个子标签坐标为i*x/17+num*x/23+x/17+(j-1)*x/23
+					LabelControls.get(i).get(j).setFont(font);
+					LabelControls.get(i).get(j).setBounds(i * x / 17 + num * x / 23 + x / 17 + j * x / 23 + i * TaskListButton.getWidth(), x / 64, x / 25, y / 25);
+					if (j == LabelControls.get(i).size() - 1) {
 						LabelButton.get(i).setBounds(i * x / 17 + num * x / 23 + x / 17 + (j + 1) * x / 23 + i * TaskListButton.getWidth(), x / 64, TaskListButton.getWidth(), TaskListButton.getHeight());
 						LabelButton.get(i).setIcon(iconAddSmall);
-						if (i == Sort.size() - 1) {
+						if (i == LabelCategoryControls.size() - 1) {
 							AllLabelsPanel.setPreferredSize(new Dimension(i * x / 17 + num * x / 23 + x / 17 + (j + 1) * x / 23 + (i + 1) * TaskListButton.getWidth(), x / 16));
 						}
 					}
