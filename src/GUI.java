@@ -321,7 +321,7 @@ public class GUI extends JFrame {
 		tableHeader.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		tableHeader.setResizingAllowed(false);               // 设置不允许手动改变列宽
 		tableHeader.setReorderingAllowed(false);
-		
+
 		/*设置并添加滚动面板到主界面*/
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 		DiscussionScrollPane.setViewportView(DiscussionTable);
@@ -333,10 +333,12 @@ public class GUI extends JFrame {
 		public void componentResized(ComponentEvent e) {
 			int x = frame.getWidth();
 			int y = frame.getHeight();
+
 			/*字体*/
 			Font font = new Font("微软雅黑", 0, x / 75);
 			Labeled.setFont(font);
 			Unlabeled.setFont(font);
+
 			/*搜索行*/
 			SearchText.setBounds(10, 5, x * 3 / 4, y / 25);
 			Labeled.setBounds(10 + x * 9 / 12, 5 + y / 45, x / 13, y / 25);
@@ -354,14 +356,17 @@ public class GUI extends JFrame {
 
 				}
 			});
+
 			/*下载按钮*/
 			TaskListButton.setBounds(x * 19 / 20, 5 + y / 45, y / 25, y / 25);
 			iconDownload.setImage(iconDownload.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 			TaskListButton.setIcon(iconDownload);
+
 			/*表格*/
 			DiscussionTable.setRowHeight(frame.getHeight() / 20);
 			DiscussionScrollPane.setBounds(10, y * 2 / 25 + 5, x - 35, y * 7 / 10);
 			DiscussionTable.setBounds(10, y / 25 + 5, x - 35, y * 6 / 8);
+
 			/*标注*/
 			AllAvailableLabelsTag.setBounds(10, y * 8 / 10 - 5, x / 13, 30);
 			AllAvailableLabelsTag.setFont(font);
@@ -370,6 +375,7 @@ public class GUI extends JFrame {
 			AddTagButton.setIcon(iconAdd);
 			AddTagButton.setBorderPainted(false);
 			iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
+
 			/*可选标注滚动面板*/
 			AllLabelsScrollPane.setBounds(x / 15, y * 8 / 10 - 5, x * 20 / 22, x / 16);
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
