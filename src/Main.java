@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Vector;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
@@ -12,8 +13,8 @@ public class Main {
 //		System.out.println(ManagementFactory.getRuntimeMXBean().getSpecVersion());
 		GUI MainForm = new GUI();
 //		GUIConfig guiConfig = new GUIConfig(Global.DefaultConfig);
-		Config.LoadConfig(Global.DefaultConfig);
-		StorageAccessor.LoadAllAvailableLabels();
+//		Config.LoadConfig(Global.DefaultConfig);
+//		StorageAccessor.LoadAllAvailableLabels();
 //		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) {
 //			System.out.println(entry.toString());
 //		}

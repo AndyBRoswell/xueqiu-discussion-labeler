@@ -2,11 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class GUIAddTagSort extends JFrame {
     ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
@@ -15,11 +14,10 @@ public class GUIAddTagSort extends JFrame {
     JLabel label2 = new JLabel("具体分类:");
     JButton buttonNo = new JButton("取消");
     JButton buttonYes = new JButton("确定");
-    JButton add=new JButton();
+    JButton add = new JButton();
     JTextField textField = new JTextField(6);
-    JTextField textField2 = new JTextField(10);
-    JTextField textField3 = new JTextField(10);
-    JTextField textField4=new JTextField(10);
+    ArrayList<JTextField> text = new ArrayList<JTextField>();
+
     public GUIAddTagSort() {
         frame.setBounds(new Rectangle(400, 200));
         frame.setLocationRelativeTo(null);
@@ -31,60 +29,73 @@ public class GUIAddTagSort extends JFrame {
         label2.setFont(font);
         buttonNo.setFont(font);
         buttonYes.setFont(font);
-        label.setBounds(20,10,80,20);
-        label2.setBounds(20,30,80,20);
-        textField.setBounds(100,10,240,20);
-        textField2.setBounds(100,30,160,20);
-        textField3.setBounds(100,50,160,20);
-        textField4.setBounds(100,70,160,20);
-        buttonYes.setBounds(100,110,80,20);
-        buttonNo.setBounds(213,110,80,20);
-        add.setBounds(30,50,20,20);
+        textField.setBounds(100, 10, 240, 20);
+        for (int i = 0; i < 4; i++) {
+            text.add(new JTextField(10));
+            frame.add(text.get(i)).setBounds(100, 30 + 20 * i, 160, 20);
+        }
+        label.setBounds(20, 10, 80, 20);
+        label2.setBounds(20, 30, 80, 20);
+        buttonYes.setBounds(100, 110, 80, 20);
+        buttonNo.setBounds(213, 110, 80, 20);
+        add.setBounds(30, 50, 20, 20);
         buttonNo.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) { frame.dispose(); }});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
         buttonYes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                writeTxt(textField.getText());
-                if (!(textField2.getText().equals(""))) {writeTxt(" ");}
-                writeTxt(textField2.getText());
-                if (!(textField3.getText().equals(""))) {writeTxt(" ");}
-                writeTxt(textField3.getText());
-                if (!(textField4.getText().equals(""))) {writeTxt(" ");}
-                writeTxt(textField4.getText());
+                if (!textField.getText().equals("")) {
+                    writeTxt(textField.getText());
+                    writeTxt(" ");
+                }
+                int i = 0;
+                while (i < text.size() && !text.get(i).getText().equals("")) {
+                    if (i == text.size() - 1) {
+                        writeTxt(text.get(i).getText());
+                    } else {
+                        if ((i + 1) < text.size() && !text.get(i + 1).getText().equals("")) {
+                            writeTxt(text.get(i).getText());
+                            writeTxt(" ");
+                        } else {
+                            writeTxt(text.get(i).getText());
+                        }
+                    }
+                    i++;
+                }
                 writeTxt("\n");
                 frame.dispose();
             }
         });
-        final int[] count = {4};
-        iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(add.getWidth(),add.getHeight(),Image.SCALE_DEFAULT));
+        iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(add.getWidth(), add.getHeight(), Image.SCALE_DEFAULT));
         add.setIcon(iconAddSmall);
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setBounds(new Rectangle(400, 200+(count[0]-3)*20));
+                text.add(new JTextField(10));
+                frame.setBounds(new Rectangle(400, 200 + (text.size() - 4) * 20));
                 frame.setLocationRelativeTo(null);
-                frame.add(new JTextField(10)).setBounds(100,70+20*(count[0]-3),160,20);
-                buttonYes.setBounds(100,110+20*(count[0]-3),80,20);
-                buttonNo.setBounds(213,110+20*(count[0]-3),80,20);
-                count[0]++;
+                frame.add(text.get(text.size() - 1)).setBounds(100, 90 + 20 * (text.size() - 4), 160, 20);
+                buttonYes.setBounds(100, 110 + 20 * (text.size() - 4), 80, 20);
+                buttonNo.setBounds(213, 110 + 20 * (text.size() - 4), 80, 20);
             }
         });
         frame.add(label);
         frame.add(label2);
         frame.add(textField);
-        frame.add(textField2);
-        frame.add(textField3);
-        frame.add(textField4);
         frame.add(buttonNo);
         frame.add(buttonYes);
         frame.add(add);
     }
-    public void writeTxt(String str){
+
+    public void writeTxt(String str) {
         File f = new File(Global.LabelFile);
         try {
-            if(str!=null) {
-                OutputStreamWriter outputStream = new OutputStreamWriter(new FileOutputStream(f,true), "UTF-8");
+            if (str != null) {
+                OutputStreamWriter outputStream = new OutputStreamWriter(new FileOutputStream(f, true), "UTF-8");
                 outputStream.write(str);
                 outputStream.close();
             }
