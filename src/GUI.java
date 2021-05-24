@@ -360,10 +360,9 @@ public class GUI extends JFrame {
 
 			/*标注*/
 			AllAvailableLabelsTag.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, 2 * Global.FontSizeD);
-//			AllAvailableLabelsTag.setFont(font);
 			AddTagButton.setBounds(0, AllAvailableLabelsTag.getY() + AllAvailableLabelsTag.getHeight(), iconAdd.getIconWidth(), iconAdd.getIconHeight());
-			iconAdd.setImage(iconAdd.getImage().getScaledInstance(AddTagButton.getWidth(), AddTagButton.getHeight(), Image.SCALE_DEFAULT));
-			AddTagButton.setIcon(iconAdd);
+//			iconAdd.setImage(iconAdd.getImage().getScaledInstance(AddTagButton.getWidth(), AddTagButton.getHeight(), Image.SCALE_DEFAULT));
+//			AddTagButton.setIcon(iconAdd);
 			AddTagButton.setBorderPainted(false);
 			iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
 
