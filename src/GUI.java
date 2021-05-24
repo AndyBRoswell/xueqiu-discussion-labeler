@@ -231,44 +231,44 @@ public class GUI extends JFrame {
 	}
 
 	public void LabelInit() throws XPathExpressionException, IOException { //从labels.txt文件中导出标签显示在主界面
-		File f = new File(Global.LabelFile);
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(f));
-			String str;
-			int RowCount = 0;
-			while ((str = br.readLine()) != null) {
-				LabelData.add(new ArrayList<String>());
-				String[] Data = str.split(" "); // 分离该行的标签类与标签，空格隔开
-				for (int i = 0; i < Data.length; i++) {
-					LabelData.get(RowCount).add(Data[i]); // 将该标签类及其含有的标签内容放入数据结构
-				}
-				RowCount++;
-			}
-			br.close();
-			for (int i = 0; i < LabelData.size(); i++) {
-				LabelCategoryControls.add(new LabelCategoryControl(LabelData.get(i).get(0))); // 添加类名标签控件到数据结构
-				AllLabelsPanel.add(LabelCategoryControls.get(i)); // 添加标签类到主界面
-				String text = String.valueOf(i); // int to string
-				LabelButton.add(new AddButton(text)); // 产生该类标签的添加按钮
-				AllLabelsPanel.add(LabelButton.get(i)); // 将该类标签的添加按钮添加到主界面
-				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 该类股评标签控件的集合
-				for (int j = 1; j < LabelData.get(i).size(); j++) {
-					Label.add(new ConcreteLabelControl(LabelData.get(i).get(j), Color.GRAY)); // 添加新的股评标签控件
-				}
-				LabelControls.add(Label); // 添加该类股评标签的控件到数据结构
-			}
-			for (int i = 0; i < LabelCategoryControls.size(); i++) {
-				for (int j = 0; j < LabelControls.get(i).size(); j++) {
-					AllLabelsPanel.add(LabelControls.get(i).get(j)); // 将数据结构中的各类标签的控件添加到主界面
-				}
-			}
-		}
-		catch (Exception e1) {
-			e1.printStackTrace();
-		}
+//		File f = new File(Global.LabelFile);
+//		try {
+//			BufferedReader br = new BufferedReader(new FileReader(f));
+//			String str;
+//			int RowCount = 0;
+//			while ((str = br.readLine()) != null) {
+//				LabelData.add(new ArrayList<String>());
+//				String[] Data = str.split(" "); // 分离该行的标签类与标签，空格隔开
+//				for (int i = 0; i < Data.length; i++) {
+//					LabelData.get(RowCount).add(Data[i]); // 将该标签类及其含有的标签内容放入数据结构
+//				}
+//				RowCount++;
+//			}
+//			br.close();
+//			for (int i = 0; i < LabelData.size(); i++) {
+//				LabelCategoryControls.add(new LabelCategoryControl(LabelData.get(i).get(0))); // 添加类名标签控件到数据结构
+//				AllLabelsPanel.add(LabelCategoryControls.get(i)); // 添加标签类到主界面
+//				String text = String.valueOf(i); // int to string
+//				LabelButton.add(new AddButton(text)); // 产生该类标签的添加按钮
+//				AllLabelsPanel.add(LabelButton.get(i)); // 将该类标签的添加按钮添加到主界面
+//				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 该类股评标签控件的集合
+//				for (int j = 1; j < LabelData.get(i).size(); j++) {
+//					Label.add(new ConcreteLabelControl(LabelData.get(i).get(j), Color.GRAY)); // 添加新的股评标签控件
+//				}
+//				LabelControls.add(Label); // 添加该类股评标签的控件到数据结构
+//			}
+//			for (int i = 0; i < LabelCategoryControls.size(); i++) {
+//				for (int j = 0; j < LabelControls.get(i).size(); j++) {
+//					AllLabelsPanel.add(LabelControls.get(i).get(j)); // 将数据结构中的各类标签的控件添加到主界面
+//				}
+//			}
+//		}
+//		catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
 
-//		StorageAccessor.LoadAllAvailableLabels(); // 从 \cfg\labels.txt 读取全部可用标签类及标签
-//
+		StorageAccessor.LoadAllAvailableLabels(); // 从 \cfg\labels.txt 读取全部可用标签类及标签
+
 //		for (Map.Entry<String, HashSet<String>> SingleCat : DataManipulator.AllLabels.entrySet()) {
 //			AllLabelsPanel.add(new LabelCategoryControl(SingleCat.getKey())); // 产生该标签类名称的标签控件并添加到主界面
 //			for (String s : SingleCat.getValue()) {
@@ -276,6 +276,26 @@ public class GUI extends JFrame {
 //			}
 //			AllLabelsPanel.add(new AddButton("+")); // 为该类标签产生添加按钮并添加到主界面
 //		}
+
+		for (Map.Entry<String, HashSet<String>> SingleCat : DataManipulator.AllLabels.entrySet()) {
+			LabelCategoryControls.add(new LabelCategoryControl(SingleCat.getKey()));
+			AllLabelsPanel.add(LabelCategoryControls.get(LabelCategoryControls.size() - 1));
+			LabelButton.add(new AddButton("+"));
+			AllLabelsPanel.add(LabelButton.get(LabelButton.size() - 1));
+			ArrayList<ConcreteLabelControl> Label = new ArrayList<>();
+			for (String s : SingleCat.getValue()) {
+				Label.add(new ConcreteLabelControl(s, Color.GRAY));
+			}
+			LabelControls.add(Label);
+						for (int i = 0; i < LabelCategoryControls.size(); i++) {
+				for (int j = 0; j < LabelControls.get(i).size(); j++) {
+					AllLabelsPanel.add(LabelControls.get(i).get(j)); // 将数据结构中的各类标签的控件添加到主界面
+				}
+			}
+		}
+
+//		AllLabelsPanel.validate();
+//		AllLabelsPanel.repaint();
 	}
 
 	public void TableInit() {
