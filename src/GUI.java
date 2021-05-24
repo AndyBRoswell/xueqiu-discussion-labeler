@@ -355,13 +355,13 @@ public class GUI extends JFrame {
 
 			/*表格*/
 			DiscussionTable.setRowHeight(2 * Global.FontSizeD);
-			DiscussionScrollPane.setBounds(0, SearchTag.getY() + SearchTag.getHeight() + 5, X, Y * 7 / 10);
-			DiscussionTable.setBounds(0, SearchTag.getY() + SearchTag.getHeight() + 5, X, Y * 6 / 8);
+			DiscussionScrollPane.setBounds(0, SearchTag.getY() + SearchTag.getHeight() + Global.ComponentGapD, X, Y * 7 / 10);
+			DiscussionTable.setBounds(0, SearchTag.getY() + SearchTag.getHeight() + Global.ComponentGapD, X, Y * 7 / 10);
 
 			/*标注*/
-			AllAvailableLabelsTag.setBounds(10, Y * 8 / 10 - 5, X / 13, 30);
-			AllAvailableLabelsTag.setFont(font);
-			AddTagButton.setBounds(12, Y * 10 / 12, X / 30, X / 30);
+			AllAvailableLabelsTag.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, 2 * Global.FontSizeD);
+//			AllAvailableLabelsTag.setFont(font);
+			AddTagButton.setBounds(0, AllAvailableLabelsTag.getY() + AllAvailableLabelsTag.getHeight(), iconAdd.getIconWidth(), iconAdd.getIconHeight());
 			iconAdd.setImage(iconAdd.getImage().getScaledInstance(AddTagButton.getWidth(), AddTagButton.getHeight(), Image.SCALE_DEFAULT));
 			AddTagButton.setIcon(iconAdd);
 			AddTagButton.setBorderPainted(false);
