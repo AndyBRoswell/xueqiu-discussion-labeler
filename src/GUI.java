@@ -57,10 +57,10 @@ public class GUI extends JFrame {
 	public DefaultTableModel model;
 
 	public GUI() throws XPathExpressionException, IOException, SAXException {
-		MainFrame.setLocation(500, 250);                            //窗口显示位置
-		MainFrame.setSize(1000, 600);                        //窗口大小
-		Config.LoadConfig(Global.DefaultConfig);                    //读取默认配置文件
-		init();                                                        //窗口部件初始化
+		MainFrame.setLocation(500, 250);								//窗口显示位置
+		MainFrame.setSize(1000, 600);							//窗口大小
+		Config.LoadConfig(Global.DefaultConfig);							//读取默认配置文件
+		init();																//窗口部件初始化
 		TableInit();
 		LabelInit();
 		MainFrame.addComponentListener(new FrameListener());
@@ -203,11 +203,11 @@ public class GUI extends JFrame {
 			public void menuCanceled(MenuEvent e) {}
 		});
 
-		/*表格*/
+		/*全部可选标注面板*/
 		AllLabelsPanel.setLayout(null);
 		AllLabelsPanel.setPreferredSize(new Dimension(MainFrame.getWidth(), MainFrame.getWidth() / 16));
 
-		/*标注*/
+		/*添加一类新标注*/
 		AddTagButton.setIcon(iconAdd);
 		AddTagButton.addActionListener(new ActionListener() {
 			@Override
