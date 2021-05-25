@@ -342,6 +342,8 @@ public class GUI extends JFrame {
 		public void componentResized(ComponentEvent e) {
 			final int X = MainFrame.getContentPane().getWidth();
 			final int Y = MainFrame.getContentPane().getHeight();
+			final int w0 = Global.FontSizeD;
+			final int h0 = 2 * Global.FontSizeD;
 
 			/*下载按钮*/
 			TaskListButton.setBounds(X - iconDownload.getIconWidth(), 12, iconDownload.getIconWidth(), iconDownload.getIconHeight());
@@ -349,18 +351,18 @@ public class GUI extends JFrame {
 			TaskListButton.setIcon(iconDownload);
 
 			/*搜索行*/
-			Labeled.setBounds(X - 6 * Global.FontSizeD - iconDownload.getIconWidth(), 0, 6 * Global.FontSizeD, 2 * Global.FontSizeD);
-			Unlabeled.setBounds(X - 6 * Global.FontSizeD - iconDownload.getIconWidth(), 0 + 2 * Global.FontSizeD, 6 * Global.FontSizeD, 2 * Global.FontSizeD);
-			SearchText.setBounds(0, 0, Labeled.getX(), 2 * Global.FontSizeD);
-			SearchTag.setBounds(0, 0 + 2 * Global.FontSizeD, Labeled.getX(), 2 * Global.FontSizeD);
+			Labeled.setBounds(X - 6 * w0 - iconDownload.getIconWidth(), 0, 6 * w0, h0);
+			Unlabeled.setBounds(X - 6 * w0 - iconDownload.getIconWidth(), 0 + 2 * w0, 6 * w0, h0);
+			SearchText.setBounds(0, 0, Labeled.getX(), h0);
+			SearchTag.setBounds(0, 0 + h0, Labeled.getX(), h0);
 
 			/*表格*/
-			DiscussionTable.setRowHeight(2 * Global.FontSizeD);
+			DiscussionTable.setRowHeight(h0);
 			DiscussionScrollPane.setBounds(0, SearchTag.getY() + SearchTag.getHeight(), X, Y * 7 / 10);
 			DiscussionTable.setBounds(0, SearchTag.getY() + SearchTag.getHeight(), X, Y * 7 / 10);
 
 			/*标注添加标签与按钮*/
-			AllAvailableLabelsTag.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, 2 * Global.FontSizeD);
+			AllAvailableLabelsTag.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, h0);
 			AddTagButton.setBounds(0, AllAvailableLabelsTag.getY() + AllAvailableLabelsTag.getHeight(), iconAdd.getIconWidth(), iconAdd.getIconHeight());
 			AddTagButton.setBorderPainted(false);
 
@@ -392,11 +394,9 @@ public class GUI extends JFrame {
 //				}
 //			}
 			int XAllLabelsPanel = 0;
+			int YAllLabelsPanel = 0;
 			for (int i = 0; i < LabelCategoryControls.size(); ++i) {
 				LabelCategoryControl cat = LabelCategoryControls.get(i);
-				final int w0 = Global.FontSizeD;
-				final int w1 = 2 * w0;
-				final int h0 = 2 * Global.FontSizeD;
 				final int gap = Global.ComponentGapD;
 				int l = LabelsAndCategories.get(i).get(0).length() + 2;
 				cat.setBounds(XAllLabelsPanel, 0, l * w0, h0);
