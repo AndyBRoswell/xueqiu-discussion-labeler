@@ -30,7 +30,7 @@ public class GUI extends JFrame {
 	ArrayList<ArrayList<String>> LabelData = new ArrayList<>(); // 标签类及标签的名称
 	ArrayList<ArrayList<ConcreteLabelControl>> LabelControls = new ArrayList<>();
 	ArrayList<LabelCategoryControl> LabelCategoryControls = new ArrayList<>();
-	ArrayList<AddButton> LabelButton = new ArrayList<>();
+	ArrayList<AddButton> AddLabelButton = new ArrayList<>();
 
 	/*按钮*/
 	JButton TaskListButton = new JButton();
@@ -257,8 +257,8 @@ public class GUI extends JFrame {
 				LabelCategoryControls.add(new LabelCategoryControl(LabelData.get(i).get(0))); // 添加类名标签控件到数据结构
 				AllLabelsPanel.add(LabelCategoryControls.get(i)); // 添加标签类到主界面
 				String text = String.valueOf(i); // int to string
-				LabelButton.add(new AddButton(text)); // 产生该类标签的添加按钮并添加到数据结构
-				AllLabelsPanel.add(LabelButton.get(i)); // 将该类标签的添加按钮添加到主界面
+				AddLabelButton.add(new AddButton(text)); // 产生该类标签的添加按钮并添加到数据结构
+				AllLabelsPanel.add(AddLabelButton.get(i)); // 将该类标签的添加按钮添加到主界面
 				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 该类股评标签控件的集合
 				for (int j = 1; j < LabelData.get(i).size(); j++) {
 					Label.add(new ConcreteLabelControl(LabelData.get(i).get(j), Color.GRAY)); // 添加新的股评标签控件到数据结构
@@ -383,8 +383,8 @@ public class GUI extends JFrame {
 					LabelControls.get(i).get(j).setFont(font);
 					LabelControls.get(i).get(j).setBounds(i * X / 17 + num * X / 23 + X / 17 + j * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 25, Y / 25);
 					if (j == LabelControls.get(i).size() - 1) {
-						LabelButton.get(i).setBounds(i * X / 17 + num * X / 23 + X / 17 + (j + 1) * X / 23 + i * TaskListButton.getWidth(), X / 64, TaskListButton.getWidth(), TaskListButton.getHeight());
-						LabelButton.get(i).setIcon(iconAddSmall);
+						AddLabelButton.get(i).setBounds(i * X / 17 + num * X / 23 + X / 17 + (j + 1) * X / 23 + i * TaskListButton.getWidth(), X / 64, TaskListButton.getWidth(), TaskListButton.getHeight());
+						AddLabelButton.get(i).setIcon(iconAddSmall);
 						if (i == LabelCategoryControls.size() - 1) {
 							AllLabelsPanel.setPreferredSize(new Dimension(i * X / 17 + num * X / 23 + X / 17 + (j + 1) * X / 23 + (i + 1) * TaskListButton.getWidth(), X / 16));
 						}
