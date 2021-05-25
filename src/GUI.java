@@ -372,7 +372,6 @@ public class GUI extends JFrame {
 //			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			int LabelControlsAdded = 0;
 			for (int i = 0; i < LabelCategoryControls.size(); i++) {
-				LabelCategoryControls.get(i).setFont(font);
 				if (i == 0) {
 					LabelCategoryControls.get(i).setBounds(0, X / 64, X / 17, Y / 25); // 第一个标签类控件
 				}
