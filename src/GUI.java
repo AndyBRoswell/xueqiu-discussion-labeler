@@ -412,7 +412,7 @@ public class GUI extends JFrame {
 				}
 
 				AddButton button = AddLabelButtons.get(i);
-				button.setBounds(XAllLabelsPanel, 0, 2 * iconAddSmall.getIconWidth(), 2 * iconAddSmall.getIconHeight());
+				button.setBounds(XAllLabelsPanel, 0, iconAddSmall.getIconWidth() * 3 / 2, iconAddSmall.getIconHeight() * 3 / 2);
 				XAllLabelsPanel += 2 * iconAddSmall.getIconWidth() + gap;
 				AllLabelsPanel.add(button);
 			}
