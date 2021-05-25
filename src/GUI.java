@@ -394,17 +394,18 @@ public class GUI extends JFrame {
 			int XAllLabelsPanel = 0;
 			for (int i = 0; i < LabelCategoryControls.size(); ++i) {
 				LabelCategoryControl cat = LabelCategoryControls.get(i);
-				final int w0 = Global.FontSizeD * 2;
-				final int h0 = w0;
+				final int w0 = Global.FontSizeD;
+				final int w1 = 2 * w0;
+				final int h0 = 2 * Global.FontSizeD;
 				final int gap = Global.ComponentGapD;
-				int l = LabelsAndCategories.get(i).get(0).length();
+				int l = LabelsAndCategories.get(i).get(0).length() + 2;
 				cat.setBounds(XAllLabelsPanel, 0, l * w0, h0);
 				XAllLabelsPanel += l * w0 + gap;
 				AllLabelsPanel.add(cat);
 
 				for (int j = 1; j < LabelsAndCategories.get(i).size(); ++j) {
 					ConcreteLabelControl label = LabelControls.get(i).get(j - 1);
-					l = LabelsAndCategories.get(i).get(j).length();
+					l = LabelsAndCategories.get(i).get(j).length() + 2;
 					label.setBounds(XAllLabelsPanel, 0, l * w0, h0);
 					XAllLabelsPanel += l * w0 + gap;
 					AllLabelsPanel.add(label);
