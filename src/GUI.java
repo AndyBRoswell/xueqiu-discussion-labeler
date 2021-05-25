@@ -373,13 +373,13 @@ public class GUI extends JFrame {
 			for (int i = 0; i < LabelCategoryControls.size(); i++) {
 				LabelCategoryControls.get(i).setFont(font);
 				if (i == 0) {
-					LabelCategoryControls.get(i).setBounds(0, X / 64, X / 17, Y / 25);
+					LabelCategoryControls.get(i).setBounds(0, X / 64, X / 17, Y / 25); // 第一个标签类控件
 				}
 				else {
-					num += LabelData.get(i - 1).size() - 1;//前面有的子标签数，此时前面有的标签类数为i
+					num += LabelData.get(i - 1).size() - 1; // 在添加该标签类控件时，累计已经添加的标签控件数量
 					LabelCategoryControls.get(i).setBounds(i * X / 17 + num * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 17, Y / 25);
 				}
-				for (int j = 0; j < LabelControls.get(i).size(); j++) {//每个子标签坐标为i*x/17+num*x/23+x/17+(j-1)*x/23
+				for (int j = 0; j < LabelControls.get(i).size(); j++) { //每个子标签坐标为i*x/17+num*x/23+x/17+(j-1)*x/23
 					LabelControls.get(i).get(j).setFont(font);
 					LabelControls.get(i).get(j).setBounds(i * X / 17 + num * X / 23 + X / 17 + j * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 25, Y / 25);
 					if (j == LabelControls.get(i).size() - 1) {
