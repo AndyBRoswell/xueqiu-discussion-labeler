@@ -370,25 +370,52 @@ public class GUI extends JFrame {
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 //			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 //			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			int LabelControlsAdded = 0;
-			for (int i = 0; i < LabelCategoryControls.size(); i++) {
-				if (i == 0) {
-					LabelCategoryControls.get(i).setBounds(0, X / 64, X / 17, Y / 25); // 第一个标签类控件
+
+			/*全部可选标签类及其标签*/
+//			int LabelControlsAdded = 0;
+//			for (int i = 0; i < LabelCategoryControls.size(); i++) {
+//				if (i == 0) {
+//					LabelCategoryControls.get(i).setBounds(0, X / 64, X / 17, Y / 25); // 第一个标签类控件
+//				}
+//				else { // 第二个及以后的标签类控件
+//					LabelControlsAdded += LabelsAndCategories.get(i - 1).size() - 1; // 在添加该标签类控件时，累计已经添加的子标签控件数量（减去标签类一个）
+//					LabelCategoryControls.get(i).setBounds(i * X / 17 + LabelControlsAdded * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 17, Y / 25);
+//				}
+//				for (int j = 0; j < LabelControls.get(i).size(); j++) { //每个子标签控件的坐标为：i*x/17+num*x/23+x/17+(j-1)*x/23
+//					LabelControls.get(i).get(j).setBounds(i * X / 17 + LabelControlsAdded * X / 23 + X / 17 + j * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 25, Y / 25);
+//					if (j == LabelControls.get(i).size() - 1) {
+//						AddLabelButtons.get(i).setBounds(i * X / 17 + LabelControlsAdded * X / 23 + X / 17 + (j + 1) * X / 23 + i * TaskListButton.getWidth(), X / 64, TaskListButton.getWidth(), TaskListButton.getHeight());
+//						if (i == LabelCategoryControls.size() - 1) {
+//							AllLabelsPanel.setPreferredSize(new Dimension(i * X / 17 + LabelControlsAdded * X / 23 + X / 17 + (j + 1) * X / 23 + (i + 1) * TaskListButton.getWidth(), X / 16));
+//						}
+//					}
+//				}
+//			}
+			int XAllLabelsPanel = 0;
+			for (int i = 0; i < LabelCategoryControls.size(); ++i) {
+				LabelCategoryControl cat = LabelCategoryControls.get(i);
+				final int w0 = Global.FontSizeD * 2;
+				final int h0 = w0;
+				final int gap = Global.ComponentGapD;
+				int l = LabelsAndCategories.get(i).get(0).length();
+				cat.setBounds(XAllLabelsPanel, 0, l * w0, h0);
+				XAllLabelsPanel += l * w0 + gap;
+				AllLabelsPanel.add(cat);
+
+				for (int j = 1; j < LabelsAndCategories.get(i).size(); ++j) {
+					ConcreteLabelControl label = LabelControls.get(i).get(j - 1);
+					l = LabelsAndCategories.get(i).get(j).length();
+					label.setBounds(XAllLabelsPanel, 0, l * w0, h0);
+					XAllLabelsPanel += l * w0 + gap;
+					AllLabelsPanel.add(label);
 				}
-				else { // 第二个及以后的标签类控件
-					LabelControlsAdded += LabelsAndCategories.get(i - 1).size() - 1; // 在添加该标签类控件时，累计已经添加的子标签控件数量（减去标签类一个）
-					LabelCategoryControls.get(i).setBounds(i * X / 17 + LabelControlsAdded * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 17, Y / 25);
-				}
-				for (int j = 0; j < LabelControls.get(i).size(); j++) { //每个子标签控件的坐标为：i*x/17+num*x/23+x/17+(j-1)*x/23
-					LabelControls.get(i).get(j).setBounds(i * X / 17 + LabelControlsAdded * X / 23 + X / 17 + j * X / 23 + i * TaskListButton.getWidth(), X / 64, X / 25, Y / 25);
-					if (j == LabelControls.get(i).size() - 1) {
-						AddLabelButtons.get(i).setBounds(i * X / 17 + LabelControlsAdded * X / 23 + X / 17 + (j + 1) * X / 23 + i * TaskListButton.getWidth(), X / 64, TaskListButton.getWidth(), TaskListButton.getHeight());
-						if (i == LabelCategoryControls.size() - 1) {
-							AllLabelsPanel.setPreferredSize(new Dimension(i * X / 17 + LabelControlsAdded * X / 23 + X / 17 + (j + 1) * X / 23 + (i + 1) * TaskListButton.getWidth(), X / 16));
-						}
-					}
-				}
+
+				AddButton button = AddLabelButtons.get(i);
+				button.setBounds(XAllLabelsPanel, 0, 2 * iconAddSmall.getIconWidth(), 2 * iconAddSmall.getIconHeight());
+				XAllLabelsPanel += 2 * iconAddSmall.getIconWidth() + gap;
+				AllLabelsPanel.add(button);
 			}
+
 		}
 
 		@Override
