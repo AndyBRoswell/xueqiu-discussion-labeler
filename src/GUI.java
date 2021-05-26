@@ -395,6 +395,7 @@ public class GUI extends JFrame {
 //			}
 			int XAllLabelsPanel = 0;
 			int YAllLabelsPanel = 0;
+			AllLabelsPanel.removeAll();
 			for (int i = 0; i < LabelCategoryControls.size(); ++i) {
 				LabelCategoryControl cat = LabelCategoryControls.get(i);
 				final int gap = Global.ComponentGapD;
