@@ -367,7 +367,7 @@ public class GUI extends JFrame {
 			AddTagButton.setBorderPainted(false);
 
 			/*可选标注滚动面板*/
-			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getX(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+//			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getX(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 //			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -416,7 +416,14 @@ public class GUI extends JFrame {
 				XAllLabelsPanel += 2 * iconAddSmall.getIconWidth() + gap;
 				AllLabelsPanel.add(button);
 			}
-
+			System.out.println(XAllLabelsPanel);
+			System.out.println(X - AllAvailableLabelsTag.getWidth());
+			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+//			AllLabelsScrollPane.getHorizontalScrollBar().setMaximum(XAllLabelsPanel);
+//			System.out.println(AllLabelsScrollPane.getHorizontalScrollBar().getMaximum());
+//			AllLabelsScrollPane.getHorizontalScrollBar().setValue(AllLabelsScrollPane.getHorizontalScrollBar().getMaximum());
+//			AllLabelsPanel.revalidate();
+//			AllLabelsScrollPane.revalidate();
 		}
 
 		@Override
