@@ -37,18 +37,20 @@ public class GUIAddTagSort extends JFrame {
         final int X = frame.getContentPane().getWidth();
         final int Y = frame.getContentPane().getHeight();
         final int h0 = 20;
+        final int wlabel = 60;
+        final int wbutton = 100;
 
         final int defaultLabelCount = 4;
 
-        catTextField.setBounds(60, 0, X - 60, h0);
+        catTextField.setBounds(60, 0, X - wlabel, h0);
         for (int i = 0; i < defaultLabelCount; i++) {
             labelTextFields.add(new JTextField());
-            frame.add(labelTextFields.get(i)).setBounds(60, (i + 1) * h0, X - 60, h0);
+            frame.add(labelTextFields.get(i)).setBounds(wlabel, (i + 1) * h0, X - wlabel, h0);
         }
 
-        catNameLabel.setBounds(0, 0, 60, h0);
-        concreteLabelLabel.setBounds(0, 0 + h0, 60, h0);
-        buttonYes.setBounds(X / 2 - 100, Y - h0, 100, h0);
+        catNameLabel.setBounds(0, 0, wlabel, h0);
+        concreteLabelLabel.setBounds(0, 0 + h0, wlabel, h0);
+        buttonYes.setBounds(X / 2 - wbutton, Y - h0, wbutton, h0);
         buttonNo.setBounds(X / 2, Y - h0, 100, h0);
         addButton.setBounds(30, 50, h0, h0);
 
@@ -94,8 +96,8 @@ public class GUIAddTagSort extends JFrame {
                 frame.setBounds(new Rectangle(XF, YF + extraLabelCount * h0));
                 frame.setLocationRelativeTo(null);
                 frame.add(labelTextFields.get(labelTextFields.size() - 1)).setBounds(60, 90 + h0 * extraLabelCount, 160, h0);
-                buttonYes.setBounds(100, 110 + h0 * extraLabelCount, 80, h0);
-                buttonNo.setBounds(213, 110 + h0 * extraLabelCount, 80, h0);
+                buttonYes.setBounds(X / 2 - wbutton, 110 + h0 * extraLabelCount, 80, h0);
+                buttonNo.setBounds(X / 2, 110 + h0 * extraLabelCount, 80, h0);
             }
         });
 
