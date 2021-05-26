@@ -10,13 +10,13 @@ import java.util.ArrayList;
 public class GUIAddTagSort extends JFrame {
     ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
     JFrame frame = new JFrame("添加标注类");
-    JLabel labelCatName = new JLabel("分类名称:");
-    JLabel labelConcreteTag = new JLabel("具体分类:");
+    JLabel catNameLabel = new JLabel("分类名称:");
+    JLabel concreteLabelLabel = new JLabel("具体分类:");
     JButton buttonNo = new JButton("取消");
     JButton buttonYes = new JButton("确定");
     JButton addButton = new JButton();
-    JTextField textField = new JTextField(6);
-    ArrayList<JTextField> textFields = new ArrayList<JTextField>();
+    JTextField catTextField = new JTextField(6);
+    ArrayList<JTextField> labelTextFields = new ArrayList<JTextField>();
 
     public GUIAddTagSort() {
         frame.setBounds(new Rectangle(400, 200));
@@ -26,22 +26,26 @@ public class GUIAddTagSort extends JFrame {
         frame.setVisible(true);
 
         Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
-        labelCatName.setFont(font);
-        labelConcreteTag.setFont(font);
+        catNameLabel.setFont(font);
+        concreteLabelLabel.setFont(font);
         buttonNo.setFont(font);
         buttonYes.setFont(font);
 
-        textField.setBounds(100, 10, 240, 20);
+        final int X = frame.getContentPane().getWidth();
+        final int Y = frame.getContentPane().getHeight();
+        final int h0 = 20;
+
+        catTextField.setBounds(60, 0, 340, h0);
         for (int i = 0; i < 4; i++) {
-            textFields.add(new JTextField(10));
-            frame.add(textFields.get(i)).setBounds(100, 30 + 20 * i, 160, 20);
+            labelTextFields.add(new JTextField(10));
+            frame.add(labelTextFields.get(i)).setBounds(100, 30 + 20 * i, 160, 20);
         }
 
-        labelCatName.setBounds(0, 0, 80, 20);
-        labelConcreteTag.setBounds(0, 30, 80, 20);
-        buttonYes.setBounds(100, 110, 80, 20);
-        buttonNo.setBounds(213, 110, 80, 20);
-        addButton.setBounds(30, 50, 20, 20);
+        catNameLabel.setBounds(0, 0, 60, h0);
+        concreteLabelLabel.setBounds(0, 0 + h0, 60, h0);
+        buttonYes.setBounds(100, Y - h0, 80, h0);
+        buttonNo.setBounds(213, Y - h0, 80, h0);
+        addButton.setBounds(30, 50, h0, h0);
 
         buttonNo.addActionListener(new ActionListener() {
             @Override
@@ -52,20 +56,20 @@ public class GUIAddTagSort extends JFrame {
         buttonYes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!textField.getText().equals("")) {
-                    writeTxt(textField.getText());
+                if (!catTextField.getText().equals("")) {
+                    writeTxt(catTextField.getText());
                     writeTxt(" ");
                 }
                 int i = 0;
-                while (i < textFields.size() && !textFields.get(i).getText().equals("")) {
-                    if (i == textFields.size() - 1) {
-                        writeTxt(textFields.get(i).getText());
+                while (i < labelTextFields.size() && !labelTextFields.get(i).getText().equals("")) {
+                    if (i == labelTextFields.size() - 1) {
+                        writeTxt(labelTextFields.get(i).getText());
                     } else {
-                        if ((i + 1) < textFields.size() && !textFields.get(i + 1).getText().equals("")) {
-                            writeTxt(textFields.get(i).getText());
+                        if ((i + 1) < labelTextFields.size() && !labelTextFields.get(i + 1).getText().equals("")) {
+                            writeTxt(labelTextFields.get(i).getText());
                             writeTxt(" ");
                         } else {
-                            writeTxt(textFields.get(i).getText());
+                            writeTxt(labelTextFields.get(i).getText());
                         }
                     }
                     i++;
@@ -80,18 +84,18 @@ public class GUIAddTagSort extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textFields.add(new JTextField(10));
-                frame.setBounds(new Rectangle(400, 200 + (textFields.size() - 4) * 20));
+                labelTextFields.add(new JTextField(10));
+                frame.setBounds(new Rectangle(400, 200 + (labelTextFields.size() - 4) * 20));
                 frame.setLocationRelativeTo(null);
-                frame.add(textFields.get(textFields.size() - 1)).setBounds(100, 90 + 20 * (textFields.size() - 4), 160, 20);
-                buttonYes.setBounds(100, 110 + 20 * (textFields.size() - 4), 80, 20);
-                buttonNo.setBounds(213, 110 + 20 * (textFields.size() - 4), 80, 20);
+                frame.add(labelTextFields.get(labelTextFields.size() - 1)).setBounds(100, 90 + 20 * (labelTextFields.size() - 4), 160, 20);
+                buttonYes.setBounds(100, 110 + 20 * (labelTextFields.size() - 4), 80, 20);
+                buttonNo.setBounds(213, 110 + 20 * (labelTextFields.size() - 4), 80, 20);
             }
         });
 
-        frame.add(labelCatName);
-        frame.add(labelConcreteTag);
-        frame.add(textField);
+        frame.add(catNameLabel);
+        frame.add(concreteLabelLabel);
+        frame.add(catTextField);
         frame.add(buttonNo);
         frame.add(buttonYes);
         frame.add(addButton);
