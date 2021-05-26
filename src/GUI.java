@@ -205,7 +205,6 @@ public class GUI extends JFrame {
 
 		/*全部可选标注面板*/
 		AllLabelsPanel.setLayout(null);
-		AllLabelsPanel.setPreferredSize(new Dimension(MainFrame.getWidth(), MainFrame.getWidth() / 16));
 
 		/*添加一类新标注*/
 		AddTagButton.setIcon(iconAdd);
@@ -367,11 +366,11 @@ public class GUI extends JFrame {
 			AddTagButton.setBorderPainted(false);
 
 			/*可选标注滚动面板*/
-//			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getX(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
-			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 //			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-//			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 			/*全部可选标签类及其标签*/
 //			int LabelControlsAdded = 0;
@@ -418,12 +417,7 @@ public class GUI extends JFrame {
 			}
 			System.out.println(XAllLabelsPanel);
 			System.out.println(X - AllAvailableLabelsTag.getWidth());
-			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
-//			AllLabelsScrollPane.getHorizontalScrollBar().setMaximum(XAllLabelsPanel);
-//			System.out.println(AllLabelsScrollPane.getHorizontalScrollBar().getMaximum());
-//			AllLabelsScrollPane.getHorizontalScrollBar().setValue(AllLabelsScrollPane.getHorizontalScrollBar().getMaximum());
-//			AllLabelsPanel.revalidate();
-//			AllLabelsScrollPane.revalidate();
+			AllLabelsPanel.setPreferredSize(new Dimension(XAllLabelsPanel, Y - (DiscussionTable.getY() + DiscussionTable.getHeight())));
 		}
 
 		@Override
