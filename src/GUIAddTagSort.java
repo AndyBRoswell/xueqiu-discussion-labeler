@@ -20,7 +20,7 @@ public class GUIAddTagSort extends JFrame {
 
     public GUIAddTagSort() {
         final int XF = 400;
-        final int YF = 200;
+        final int YF = 160;
 
         frame.setBounds(new Rectangle(XF, YF));
         frame.setLocationRelativeTo(null);
