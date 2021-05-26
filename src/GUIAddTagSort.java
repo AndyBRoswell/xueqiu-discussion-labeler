@@ -35,10 +35,10 @@ public class GUIAddTagSort extends JFrame {
         final int Y = frame.getContentPane().getHeight();
         final int h0 = 20;
 
-        catTextField.setBounds(60, 0, 340, h0);
+        catTextField.setBounds(60, 0, X - 60, h0);
         for (int i = 0; i < 4; i++) {
             labelTextFields.add(new JTextField());
-            frame.add(labelTextFields.get(i)).setBounds(100, 30 + 20 * i, 160, 20);
+            frame.add(labelTextFields.get(i)).setBounds(60, (i + 1) * h0, X - 60, h0);
         }
 
         catNameLabel.setBounds(0, 0, 60, h0);
