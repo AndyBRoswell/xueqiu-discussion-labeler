@@ -20,13 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c143bb1a-020d-480f-ae51-3b04866ac872" name="Default Changelist" comment=".">
+      <change afterPath="$PROJECT_DIR$/.idea/csv-plugin.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/junitgenerator-prj-settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/labels.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/labels.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUIAddTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUIAddTag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUIAddTagSort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUIAddTagSort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUIAddStock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUIAddStock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUIDownLoad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUIDownLoad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xueqiu.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xueqiuspider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/xueqiuspider.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xueqiu.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,12 +80,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/test" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="模块" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="Csv.Editor.Settings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -98,7 +101,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="应用程序.Main">
     <configuration name="GUIJournal" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUIJournal" />
       <module name="xueqiu-discussion-labeler" />
@@ -115,12 +118,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.GUIJournal" />
+        <item itemvalue="应用程序.Main" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -174,6 +176,44 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
     <option name="LAST_COMMIT_MESSAGE" value="." />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1622016816599">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622016816599" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1621866918986">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="274" key="FileChooserDialogImpl/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1621866918986" />
+    <state width="1493" height="233" key="GridCell.Tab.0.bottom" timestamp="1622033917924">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1877" height="248" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622018341521" />
+    <state width="1493" height="233" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1622033917924" />
+    <state width="1493" height="233" key="GridCell.Tab.0.center" timestamp="1622033917924">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1877" height="248" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622018341521" />
+    <state width="1493" height="233" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1622033917924" />
+    <state width="1493" height="233" key="GridCell.Tab.0.left" timestamp="1622033917924">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1877" height="248" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622018341521" />
+    <state width="1493" height="233" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1622033917924" />
+    <state width="1493" height="233" key="GridCell.Tab.0.right" timestamp="1622033917924">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1877" height="248" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622018341521" />
+    <state width="1493" height="233" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1622033917924" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1621857444151">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="164" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1621857444151" />
+    <state x="490" y="129" key="new project wizard" timestamp="1621866923183">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="490" y="129" key="new project wizard/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1621866923183" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -2,6 +2,7 @@ import requests
 import time
 import re
 import urllib3
+import sys
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 proxies = {
@@ -34,8 +35,8 @@ def parse_comment_url( url):
         content_list.append(item)
     return content_list, count
 
-stock_num = 'SH000688'  # 输入股票代码
-for i in range(100):
+stock_num = sys.argv[1]  # 输入股票代码
+for i in range(5):
     detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(stock_num, i + 1)
     print("正爬取"+detail_url)
     try:
