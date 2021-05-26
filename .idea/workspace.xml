@@ -177,6 +177,11 @@
           <properties class="java.nio.file.ClosedWatchServiceException" package="java.nio.file" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/DataManipulator.java</url>
+          <line>79</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
