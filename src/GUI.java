@@ -343,6 +343,7 @@ public class GUI extends JFrame {
 			final int Y = MainFrame.getContentPane().getHeight();
 			final int w0 = Global.FontSizeD;
 			final int h0 = 2 * Global.FontSizeD;
+			final int wGUILabel = 6 * w0;
 
 			/*下载按钮*/
 			TaskListButton.setBounds(X - iconDownload.getIconWidth(), 12, iconDownload.getIconWidth(), iconDownload.getIconHeight());
@@ -350,8 +351,8 @@ public class GUI extends JFrame {
 			TaskListButton.setIcon(iconDownload);
 
 			/*搜索行*/
-			Labeled.setBounds(X - 6 * w0 - iconDownload.getIconWidth(), 0, 6 * w0, h0);
-			Unlabeled.setBounds(X - 6 * w0 - iconDownload.getIconWidth(), 0 + 2 * w0, 6 * w0, h0);
+			Labeled.setBounds(X - wGUILabel - iconDownload.getIconWidth(), 0, wGUILabel, h0);
+			Unlabeled.setBounds(X - wGUILabel - iconDownload.getIconWidth(), 0 + h0, wGUILabel, h0);
 			SearchText.setBounds(0, 0, Labeled.getX(), h0);
 			SearchTag.setBounds(0, 0 + h0, Labeled.getX(), h0);
 
