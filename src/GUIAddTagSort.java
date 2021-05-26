@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class GUIAddTagSort extends JFrame {
     ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
     JFrame frame = new JFrame("添加标注类");
-    JLabel label = new JLabel("分类名称:");
-    JLabel label2 = new JLabel("具体分类:");
+    JLabel labelCatName = new JLabel("分类名称:");
+    JLabel labelConcreteTag = new JLabel("具体分类:");
     JButton buttonNo = new JButton("取消");
     JButton buttonYes = new JButton("确定");
-    JButton add = new JButton();
+    JButton addButton = new JButton();
     JTextField textField = new JTextField(6);
     ArrayList<JTextField> text = new ArrayList<JTextField>();
 
@@ -24,21 +24,25 @@ public class GUIAddTagSort extends JFrame {
         frame.setResizable(false);
         frame.setLayout(null);
         frame.setVisible(true);
-        Font font = new Font("微软雅黑", 0, 13);
-        label.setFont(font);
-        label2.setFont(font);
+
+        Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
+        labelCatName.setFont(font);
+        labelConcreteTag.setFont(font);
         buttonNo.setFont(font);
         buttonYes.setFont(font);
+
         textField.setBounds(100, 10, 240, 20);
         for (int i = 0; i < 4; i++) {
             text.add(new JTextField(10));
             frame.add(text.get(i)).setBounds(100, 30 + 20 * i, 160, 20);
         }
-        label.setBounds(20, 10, 80, 20);
-        label2.setBounds(20, 30, 80, 20);
+
+        labelCatName.setBounds(20, 10, 80, 20);
+        labelConcreteTag.setBounds(20, 30, 80, 20);
         buttonYes.setBounds(100, 110, 80, 20);
         buttonNo.setBounds(213, 110, 80, 20);
-        add.setBounds(30, 50, 20, 20);
+        addButton.setBounds(30, 50, 20, 20);
+
         buttonNo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,9 +74,10 @@ public class GUIAddTagSort extends JFrame {
                 frame.dispose();
             }
         });
-        iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(add.getWidth(), add.getHeight(), Image.SCALE_DEFAULT));
-        add.setIcon(iconAddSmall);
-        add.addActionListener(new ActionListener() {
+
+        iconAddSmall.setImage(iconAddSmall.getImage().getScaledInstance(addButton.getWidth(), addButton.getHeight(), Image.SCALE_DEFAULT));
+        addButton.setIcon(iconAddSmall);
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 text.add(new JTextField(10));
@@ -83,12 +88,13 @@ public class GUIAddTagSort extends JFrame {
                 buttonNo.setBounds(213, 110 + 20 * (text.size() - 4), 80, 20);
             }
         });
-        frame.add(label);
-        frame.add(label2);
+
+        frame.add(labelCatName);
+        frame.add(labelConcreteTag);
         frame.add(textField);
         frame.add(buttonNo);
         frame.add(buttonYes);
-        frame.add(add);
+        frame.add(addButton);
     }
 
     public void writeTxt(String str) {
