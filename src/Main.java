@@ -2,13 +2,9 @@ import org.xml.sax.SAXException;
 
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Vector;
 
 public class Main {
-	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
+	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException {
 		GUI MainForm = new GUI();
 
 		/*读取全部可用标注*/
