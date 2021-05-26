@@ -19,7 +19,10 @@ public class GUIAddTagSort extends JFrame {
     ArrayList<JTextField> labelTextFields = new ArrayList<JTextField>();
 
     public GUIAddTagSort() {
-        frame.setBounds(new Rectangle(400, 200));
+        final int XF = 400;
+        final int YF = 200;
+
+        frame.setBounds(new Rectangle(XF, YF));
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setLayout(null);
@@ -35,8 +38,10 @@ public class GUIAddTagSort extends JFrame {
         final int Y = frame.getContentPane().getHeight();
         final int h0 = 20;
 
+        final int defaultLabelCount = 4;
+
         catTextField.setBounds(60, 0, X - 60, h0);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < defaultLabelCount; i++) {
             labelTextFields.add(new JTextField());
             frame.add(labelTextFields.get(i)).setBounds(60, (i + 1) * h0, X - 60, h0);
         }
@@ -84,12 +89,13 @@ public class GUIAddTagSort extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                labelTextFields.add(new JTextField(10));
-                frame.setBounds(new Rectangle(400, 200 + (labelTextFields.size() - 4) * 20));
+                final int extraLabelCount = labelTextFields.size() - defaultLabelCount;
+                labelTextFields.add(new JTextField());
+                frame.setBounds(new Rectangle(XF, YF + extraLabelCount * h0));
                 frame.setLocationRelativeTo(null);
-                frame.add(labelTextFields.get(labelTextFields.size() - 1)).setBounds(100, 90 + 20 * (labelTextFields.size() - 4), 160, 20);
-                buttonYes.setBounds(100, 110 + 20 * (labelTextFields.size() - 4), 80, 20);
-                buttonNo.setBounds(213, 110 + 20 * (labelTextFields.size() - 4), 80, 20);
+                frame.add(labelTextFields.get(labelTextFields.size() - 1)).setBounds(60, 90 + h0 * extraLabelCount, 160, h0);
+                buttonYes.setBounds(100, 110 + h0 * extraLabelCount, 80, h0);
+                buttonNo.setBounds(213, 110 + h0 * extraLabelCount, 80, h0);
             }
         });
 

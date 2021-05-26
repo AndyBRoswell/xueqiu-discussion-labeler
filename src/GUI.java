@@ -415,8 +415,6 @@ public class GUI extends JFrame {
 				XAllLabelsPanel += 2 * iconAddSmall.getIconWidth() + gap;
 				AllLabelsPanel.add(button);
 			}
-			System.out.println(XAllLabelsPanel);
-			System.out.println(X - AllAvailableLabelsTag.getWidth());
 			AllLabelsPanel.setPreferredSize(new Dimension(XAllLabelsPanel, Y - (DiscussionTable.getY() + DiscussionTable.getHeight())));
 		}
 
