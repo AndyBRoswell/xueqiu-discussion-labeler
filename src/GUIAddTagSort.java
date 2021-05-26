@@ -16,7 +16,7 @@ public class GUIAddTagSort extends JFrame {
     JButton buttonYes = new JButton("确定");
     JButton addButton = new JButton();
     JTextField textField = new JTextField(6);
-    ArrayList<JTextField> text = new ArrayList<JTextField>();
+    ArrayList<JTextField> textFields = new ArrayList<JTextField>();
 
     public GUIAddTagSort() {
         frame.setBounds(new Rectangle(400, 200));
@@ -33,12 +33,12 @@ public class GUIAddTagSort extends JFrame {
 
         textField.setBounds(100, 10, 240, 20);
         for (int i = 0; i < 4; i++) {
-            text.add(new JTextField(10));
-            frame.add(text.get(i)).setBounds(100, 30 + 20 * i, 160, 20);
+            textFields.add(new JTextField(10));
+            frame.add(textFields.get(i)).setBounds(100, 30 + 20 * i, 160, 20);
         }
 
-        labelCatName.setBounds(20, 10, 80, 20);
-        labelConcreteTag.setBounds(20, 30, 80, 20);
+        labelCatName.setBounds(0, 0, 80, 20);
+        labelConcreteTag.setBounds(0, 30, 80, 20);
         buttonYes.setBounds(100, 110, 80, 20);
         buttonNo.setBounds(213, 110, 80, 20);
         addButton.setBounds(30, 50, 20, 20);
@@ -57,15 +57,15 @@ public class GUIAddTagSort extends JFrame {
                     writeTxt(" ");
                 }
                 int i = 0;
-                while (i < text.size() && !text.get(i).getText().equals("")) {
-                    if (i == text.size() - 1) {
-                        writeTxt(text.get(i).getText());
+                while (i < textFields.size() && !textFields.get(i).getText().equals("")) {
+                    if (i == textFields.size() - 1) {
+                        writeTxt(textFields.get(i).getText());
                     } else {
-                        if ((i + 1) < text.size() && !text.get(i + 1).getText().equals("")) {
-                            writeTxt(text.get(i).getText());
+                        if ((i + 1) < textFields.size() && !textFields.get(i + 1).getText().equals("")) {
+                            writeTxt(textFields.get(i).getText());
                             writeTxt(" ");
                         } else {
-                            writeTxt(text.get(i).getText());
+                            writeTxt(textFields.get(i).getText());
                         }
                     }
                     i++;
@@ -80,12 +80,12 @@ public class GUIAddTagSort extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                text.add(new JTextField(10));
-                frame.setBounds(new Rectangle(400, 200 + (text.size() - 4) * 20));
+                textFields.add(new JTextField(10));
+                frame.setBounds(new Rectangle(400, 200 + (textFields.size() - 4) * 20));
                 frame.setLocationRelativeTo(null);
-                frame.add(text.get(text.size() - 1)).setBounds(100, 90 + 20 * (text.size() - 4), 160, 20);
-                buttonYes.setBounds(100, 110 + 20 * (text.size() - 4), 80, 20);
-                buttonNo.setBounds(213, 110 + 20 * (text.size() - 4), 80, 20);
+                frame.add(textFields.get(textFields.size() - 1)).setBounds(100, 90 + 20 * (textFields.size() - 4), 160, 20);
+                buttonYes.setBounds(100, 110 + 20 * (textFields.size() - 4), 80, 20);
+                buttonNo.setBounds(213, 110 + 20 * (textFields.size() - 4), 80, 20);
             }
         });
 
