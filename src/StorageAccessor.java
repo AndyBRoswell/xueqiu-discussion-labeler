@@ -125,10 +125,10 @@ public class StorageAccessor {
 						if (SingleRow == null) break;
 					}
 					catch (TextParsingException e) {
-						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
+//						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
 					}
 					++CurrentLine;
-					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
+//					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
 					DiscussionItem item = new DiscussionItem();
 					item.SetText(SingleRow[0]);
 					ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
@@ -142,10 +142,10 @@ public class StorageAccessor {
 						if (SingleRow == null) break;
 					}
 					catch (TextParsingException e) {
-						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
+//						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
 					}
 					++CurrentLine;
-					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
+//					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
 					DiscussionItem item = new DiscussionItem();
 					item.SetText(SingleRow[0]);
 					DataManipulator.DiscussionList.add(item);
