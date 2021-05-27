@@ -17,7 +17,7 @@ public class Main {
 //		StorageAccessor.SaveAllAvailableLabels();
 
 		/*读取指定文件中的股票讨论及其标注*/
-//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "gbk", 0);
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "gbk", 0);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\中国平安.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\科创.csv", "gbk", 1);
@@ -26,7 +26,6 @@ public class Main {
 //			System.out.println(entry.GetText());
 //			System.out.println(entry.GetLabels().toString());
 //		}
-//		System.out.println(DataManipulator.DiscussionList.size());
 //		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
 //			System.out.println(entry.toString());
 //		}
@@ -39,10 +38,10 @@ public class Main {
 //		DataManipulator.Search(0, new String[]{ "梭哈" }, null);
 
 		/*最终的搜索结果*/
-//		System.out.println(DataManipulator.FinalSearchResult.size());
-//		for (int i : DataManipulator.FinalSearchResult) {
-//			System.out.println(i);
-//		}
+		System.out.println(DataManipulator.FinalSearchResult.size());
+		for (int i : DataManipulator.FinalSearchResult) {
+			System.out.println(i);
+		}
 
 		/*保存修改*/
 //		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GB2312");

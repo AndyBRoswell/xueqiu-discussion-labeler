@@ -26,9 +26,7 @@ public class StorageAccessor {
 	static {
 		ParserSettings.setAutoConfigurationEnabled(false);
 		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
-		//ParserSettings.getFormat().setLineSeparator("\n");
 		ParserSettings.getFormat().setDelimiter('`');
-		//ParserSettings.getFormat().setQuote('\0');
 		ParserSettings.setMaxCharsPerColumn(-1);
 		ParserSettings.setProcessorErrorHandler(new RetryableErrorHandler<ParsingContext>() {
 			@Override public void handleError(DataProcessingException e, Object[] objects, ParsingContext parsingContext) {
@@ -119,7 +117,7 @@ public class StorageAccessor {
 		/*DO NOT DELETE THESE ROWS OR THE PARSER SETTINGS WILL HAVE NO EFFECTS (E.G. MaxCharsPerColumn == 4096 AND REMAINS UNCHANGED EVEN THOUGH IT IS -1 IN THE EXCEPTION MESSAGES.).*/
 		CsvParserSettings ParserSettings = new CsvParserSettings();
 		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
-		ParserSettings.getFormat().setDelimiter('`');
+//		ParserSettings.getFormat().setDelimiter('`');
 		ParserSettings.setMaxCharsPerColumn(-1);
 		CsvParser parser = new CsvParser(ParserSettings);
 
