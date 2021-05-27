@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
-		GUI MainForm = new GUI();
+//		GUI MainForm = new GUI();
 
 		/*读取全部可用标注*/
 //		StorageAccessor.LoadAllAvailableLabels();
@@ -18,6 +18,7 @@ public class Main {
 
 		/*读取指定文件中的股票讨论及其标注*/
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "gbk", 0);
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\中国平安.csv", "gbk", 1);
 //		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 //			System.out.println(entry.GetText());

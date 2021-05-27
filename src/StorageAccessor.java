@@ -126,6 +126,7 @@ public class StorageAccessor {
 					}
 					catch (TextParsingException e) {
 //						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
+						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R")[0]);
 					}
 					++CurrentLine;
 //					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
@@ -143,6 +144,7 @@ public class StorageAccessor {
 					}
 					catch (TextParsingException e) {
 //						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
+						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R")[0]);
 					}
 					++CurrentLine;
 //					System.out.println("Line " + CurrentLine + ": Discussion Length = " + SingleRow[0].length());
