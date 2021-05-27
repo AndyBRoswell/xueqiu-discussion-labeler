@@ -116,7 +116,7 @@ public class StorageAccessor {
 	}
 
 	private static void ParseCSVFile(String encoding, int PreprocessMode) {
-		/*DO NOT DELETE THESE ROWS OR THE PARSER SETTINGS WILL HAVE NO EFFECTS (E.G. MaxCharsPerColumn == 4096 AND REMAINS UNCHANGED).*/
+		/*DO NOT DELETE THESE ROWS OR THE PARSER SETTINGS WILL HAVE NO EFFECTS (E.G. MaxCharsPerColumn == 4096 AND REMAINS UNCHANGED EVEN THOUGH IT IS -1 IN THE EXCEPTION MESSAGES.).*/
 		CsvParserSettings ParserSettings = new CsvParserSettings();
 		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
 		ParserSettings.getFormat().setDelimiter('`');
