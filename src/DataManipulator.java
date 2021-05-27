@@ -145,21 +145,32 @@ public class DataManipulator {
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> Range, ArrayList<Integer> SearchResult) {
-		for (int i = 0; i < DiscussionList.size(); ++i) {
-			boolean Found = true;
-			for (String Label : Labels) {
-				if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
-				HashSet<String> Categories = LabelToCategory.get(Label); // 否则，先查询该标签属于的标签类
-				if (Categories == null) { return; } // 该标签不属于任何已知的标签类（每个标签属于的类在读入全部可用标签与指定的股票讨论 CSV 文件时都会被登记），不符合条件
-				boolean FoundSingle = false;
-				for (String Category : Categories) { // 查找该条股票讨论是否包含该标签所属的某一个类；如果包含，则在类中查找
-					HashSet<String> LabelsOfThisCatOfThisItem = DiscussionList.get(i).GetLabels().get(Category);
-					if (LabelsOfThisCatOfThisItem == null) { continue; }
-					if (LabelsOfThisCatOfThisItem.contains(Label) == true) { FoundSingle = true; break; }
-				}
-				if (FoundSingle == false) { Found = false; break; }
+		if (Range == null) {
+			for (int i = 0; i < DiscussionList.size(); ++i) {
+				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
 			}
-			if (Found == true) SearchResult.add(i);
 		}
+		else {
+			for (int i : Range) {
+				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
+			}
+		}
+	}
+
+	private static void SearchDiscussionItemWithLabels(String[] Labels, int index, ArrayList<Integer> SearchResult) {
+		boolean Found = true;
+		for (String Label : Labels) {
+			if (DiscussionList.get(index).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
+			HashSet<String> Categories = LabelToCategory.get(Label); // 否则，先查询该标签属于的标签类
+			if (Categories == null) { return; } // 该标签不属于任何已知的标签类（每个标签属于的类在读入全部可用标签与指定的股票讨论 CSV 文件时都会被登记），不符合条件
+			boolean FoundSingle = false;
+			for (String Category : Categories) { // 查找该条股票讨论是否包含该标签所属的某一个类；如果包含，则在类中查找
+				HashSet<String> LabelsOfThisCatOfThisItem = DiscussionList.get(index).GetLabels().get(Category);
+				if (LabelsOfThisCatOfThisItem == null) { continue; }
+				if (LabelsOfThisCatOfThisItem.contains(Label) == true) { FoundSingle = true; break; }
+			}
+			if (FoundSingle == false) { Found = false; break; }
+		}
+		if (Found == true) SearchResult.add(index);
 	}
 }
