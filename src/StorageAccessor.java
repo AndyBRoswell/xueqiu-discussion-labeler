@@ -24,7 +24,7 @@ public class StorageAccessor {
 		ParserSettings.setAutoConfigurationEnabled(false);
 		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
 		//ParserSettings.getFormat().setLineSeparator("\n");
-		ParserSettings.getFormat().setDelimiter('*');
+		ParserSettings.getFormat().setDelimiter('`');
 		//ParserSettings.getFormat().setQuote('\0');
 		ParserSettings.setMaxCharsPerColumn(-1);
 		ParserSettings.setProcessorErrorHandler(new RetryableErrorHandler<ParsingContext>() {
@@ -34,7 +34,7 @@ public class StorageAccessor {
 			}
 		});
 
-		WriterSettings.getFormat().setDelimiter('*');
+		WriterSettings.getFormat().setDelimiter('`');
 		WriterSettings.getFormat().setQuote('\"');
 		WriterSettings.getFormat().setQuoteEscape('\"');
 	}
