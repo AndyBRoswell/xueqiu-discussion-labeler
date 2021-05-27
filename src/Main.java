@@ -34,7 +34,7 @@ public class Main {
 		/*搜索功能*/
 //		DataManipulator.Search(2, null, null);
 //		DataManipulator.Search(0, new String[]{ "2A" }, null);
-//		DataManipulator.Search(0, null, new String[]{ "是" });
+		DataManipulator.Search(0, null, new String[]{ "是" });
 //		DataManipulator.Search(0, new String[]{ "梭哈" }, null);
 
 		/*最终的搜索结果*/

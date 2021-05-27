@@ -19,11 +19,11 @@ class DiscussionItem {
 }
 
 public class DataManipulator {
-	static ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
-	static ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
-	static TreeSet<Integer> FinalSearchResult = new TreeSet<>();
-	static ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
-	static ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
+	static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
+	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
+	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
+	static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
+	static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
