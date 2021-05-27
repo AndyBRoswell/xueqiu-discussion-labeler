@@ -164,25 +164,6 @@ public class StorageAccessor {
 		}
 
 		parser.stopParsing();
-
-//		ArrayList<String[]> Rows = (ArrayList<String[]>) parser.parseAll(DiscussionCSVFile, encoding);
-//		switch (PreprocessMode) {
-//			case 0:
-//				for (String[] Row : Rows) {
-//					DiscussionItem item = new DiscussionItem();
-//					item.SetText(Row[0]);
-//					ParseStringToLabelCategoriesAndAdd(Row[1], item.GetLabels());
-//					DataManipulator.DiscussionList.add(item);
-//				}
-//				break;
-//			case 1:
-//				for (String[] Row : Rows) {
-//					DiscussionItem item = new DiscussionItem();
-//					item.SetText(Row[0]);
-//					DataManipulator.DiscussionList.add(item);
-//				}
-//				break;
-//		}
 	}
 
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
