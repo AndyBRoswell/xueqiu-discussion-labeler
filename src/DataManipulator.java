@@ -21,7 +21,7 @@ class DiscussionItem {
 public class DataManipulator {
 	static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
 	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
-	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
+//	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 	static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
 	static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
 
@@ -67,16 +67,16 @@ public class DataManipulator {
 			SearchResults.add(new ArrayList<>());
 			new Thread(() -> SearchWithLabels(Labels, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
-		FinalSearchResult.clear();
+//		FinalSearchResult.clear();
 		// 怪事，这里不加延迟结果就不对，添加不进去
 //		Thread.sleep(1000);
 //		Thread.sleep(100);
 		Thread.sleep(10);
 //		Thread.sleep(1);
 //		Thread.sleep(0, 1);
-		for (ArrayList<Integer> Result : SearchResults) {
-			FinalSearchResult.addAll(Result);
-		}
+//		for (ArrayList<Integer> Result : SearchResults) {
+//			FinalSearchResult.addAll(Result);
+//		}
 //		System.out.println(SearchResults.size());
 	}
 
