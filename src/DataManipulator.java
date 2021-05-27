@@ -85,7 +85,7 @@ public class DataManipulator {
 		return SearchResults.get(SearchResults.size() - 2);
 	}
 
-	private static ArrayList<Integer> GetLastSearchResult() {
+	public static ArrayList<Integer> GetLastSearchResult() {
 		if (SearchResults.size() == 0) return null;
 		return SearchResults.get(SearchResults.size() - 1);
 	}
