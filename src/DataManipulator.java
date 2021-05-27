@@ -21,7 +21,7 @@ class DiscussionItem {
 public class DataManipulator {
 	static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
 	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
-	static TreeSet<Integer> FinalSearchResult = new TreeSet<>();
+	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 	static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
 	static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
 
@@ -90,77 +90,76 @@ public class DataManipulator {
 		return SearchResults.get(SearchResults.size() - 1);
 	}
 
-	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> Range, ArrayList<Integer> SearchResult) {
-		if (Range == null) {
-			switch (LabeledFlag) {
-				case 1: // Unlabeled
+	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) {
+		switch (LabeledFlag) {
+			case 1: // Unlabeled
+				if (SearchRange == null) {
 					for (int i = 0; i < DiscussionList.size(); ++i) {
 						if (DiscussionList.get(i).GetLabels().size() == 0) SearchResult.add(i);
 					}
-					break;
-				case 2: // Labeled
+				}
+				else {
+					for (int i : SearchRange) {
+						if (DiscussionList.get(i).GetLabels().size() == 0) SearchResult.add(i);
+					}
+				}
+				break;
+			case 2: // Labeled
+				if (SearchRange == null) {
 					for (int i = 0; i < DiscussionList.size(); ++i) {
 						if (DiscussionList.get(i).GetLabels().size() > 0) SearchResult.add(i);
 					}
-					break;
-				default:
-					break;
-			}
-		}
-		else {
-
+				}
+				else {
+					for (int i : SearchRange) {
+						if (DiscussionList.get(i).GetLabels().size() > 0) SearchResult.add(i);
+					}
+				}
+				break;
+			default:
+				break;
 		}
 	}
 
 	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> Range, ArrayList<Integer> SearchResult) {
-		if (Range == null) {
-			final int AvailableCPUThreadCount = Runtime.getRuntime().availableProcessors();
-			int LastEndIndex = 0;
-			for (int i = 1; i <= AvailableCPUThreadCount; ++i) {
-				int StartIndex = LastEndIndex;
-				int EndIndex = DiscussionList.size() * i / AvailableCPUThreadCount;
-				new Thread(() -> {
-					for (int j = StartIndex; j < EndIndex; ++j) {
-						boolean found = true;
-						for (String keyword : Keywords) {
-							if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
-						}
-						if (found == true) {
-							synchronized (SearchResult) {
-								SearchResult.add(j);
-							}
+		final int AvailableCPUThreadCount = Runtime.getRuntime().availableProcessors();
+		int LastEndIndex = 0;
+		for (int i = 1; i <= AvailableCPUThreadCount; ++i) {
+			int StartIndex = LastEndIndex;
+			int EndIndex = DiscussionList.size() * i / AvailableCPUThreadCount;
+			new Thread(() -> {
+				for (int j = StartIndex; j < EndIndex; ++j) {
+					boolean found = true;
+					for (String keyword : Keywords) {
+						if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
+					}
+					if (found == true) {
+						synchronized (SearchResult) {
+							SearchResult.add(j);
 						}
 					}
-				}).start();
-				LastEndIndex = EndIndex;
-			}
-		}
-		else {
-
+				}
+			}).start();
+			LastEndIndex = EndIndex;
 		}
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> Range, ArrayList<Integer> SearchResult) {
-		if (Range == null) {
-			for (int i = 0; i < DiscussionList.size(); ++i) {
-				boolean Found = true;
-				for (String Label : Labels) {
-					if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
-					HashSet<String> Categories = LabelToCategory.get(Label); // 否则，先查询该标签属于的标签类
-					if (Categories == null) { return; } // 该标签不属于任何已知的标签类（每个标签属于的类在读入全部可用标签与指定的股票讨论 CSV 文件时都会被登记），不符合条件
-					boolean FoundSingle = false;
-					for (String Category : Categories) { // 查找该条股票讨论是否包含该标签所属的某一个类；如果包含，则在类中查找
-						HashSet<String> LabelsOfThisCatOfThisItem = DiscussionList.get(i).GetLabels().get(Category);
-						if (LabelsOfThisCatOfThisItem == null) { continue; }
-						if (LabelsOfThisCatOfThisItem.contains(Label) == true) { FoundSingle = true; break; }
-					}
-					if (FoundSingle == false) { Found = false; break; }
+		for (int i = 0; i < DiscussionList.size(); ++i) {
+			boolean Found = true;
+			for (String Label : Labels) {
+				if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
+				HashSet<String> Categories = LabelToCategory.get(Label); // 否则，先查询该标签属于的标签类
+				if (Categories == null) { return; } // 该标签不属于任何已知的标签类（每个标签属于的类在读入全部可用标签与指定的股票讨论 CSV 文件时都会被登记），不符合条件
+				boolean FoundSingle = false;
+				for (String Category : Categories) { // 查找该条股票讨论是否包含该标签所属的某一个类；如果包含，则在类中查找
+					HashSet<String> LabelsOfThisCatOfThisItem = DiscussionList.get(i).GetLabels().get(Category);
+					if (LabelsOfThisCatOfThisItem == null) { continue; }
+					if (LabelsOfThisCatOfThisItem.contains(Label) == true) { FoundSingle = true; break; }
 				}
-				if (Found == true) SearchResult.add(i);
+				if (FoundSingle == false) { Found = false; break; }
 			}
-		}
-		else {
-			
+			if (Found == true) SearchResult.add(i);
 		}
 	}
 }
