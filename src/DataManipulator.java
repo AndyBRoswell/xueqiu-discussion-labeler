@@ -121,37 +121,59 @@ public class DataManipulator {
 		}
 	}
 
-	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> Range, ArrayList<Integer> SearchResult) {
+	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) {
 		final int AvailableCPUThreadCount = Runtime.getRuntime().availableProcessors();
 		int LastEndIndex = 0;
-		for (int i = 1; i <= AvailableCPUThreadCount; ++i) {
-			int StartIndex = LastEndIndex;
-			int EndIndex = DiscussionList.size() * i / AvailableCPUThreadCount;
-			new Thread(() -> {
-				for (int j = StartIndex; j < EndIndex; ++j) {
-					boolean found = true;
-					for (String keyword : Keywords) {
-						if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
-					}
-					if (found == true) {
-						synchronized (SearchResult) {
-							SearchResult.add(j);
+		if (SearchRange == null) {
+			for (int i = 1; i <= AvailableCPUThreadCount; ++i) {
+				int StartIndex = LastEndIndex;
+				int EndIndex = DiscussionList.size() * i / AvailableCPUThreadCount;
+				new Thread(() -> {
+					for (int j = StartIndex; j < EndIndex; ++j) {
+						boolean found = true;
+						for (String keyword : Keywords) {
+							if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
+						}
+						if (found == true) {
+							synchronized (SearchResult) {
+								SearchResult.add(j);
+							}
 						}
 					}
-				}
-			}).start();
-			LastEndIndex = EndIndex;
+				}).start();
+				LastEndIndex = EndIndex;
+			}
+		}
+		else {
+			for (int i = 1; i <= AvailableCPUThreadCount; ++i) {
+				int StartIndex = LastEndIndex;
+				int EndIndex = DiscussionList.size() * i / AvailableCPUThreadCount;
+				new Thread(() -> {
+					for (int j = StartIndex; j < EndIndex; ++j) {
+						boolean found = true;
+						for (String keyword : Keywords) {
+							if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
+						}
+						if (found == true) {
+							synchronized (SearchResult) {
+								SearchResult.add(j);
+							}
+						}
+					}
+				}).start();
+				LastEndIndex = EndIndex;
+			}
 		}
 	}
 
-	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> Range, ArrayList<Integer> SearchResult) {
-		if (Range == null) {
+	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) {
+		if (SearchRange == null) {
 			for (int i = 0; i < DiscussionList.size(); ++i) {
 				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
 			}
 		}
 		else {
-			for (int i : Range) {
+			for (int i : SearchRange) {
 				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
 			}
 		}
