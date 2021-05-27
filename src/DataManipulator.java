@@ -27,33 +27,33 @@ public class DataManipulator {
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
-	public static void AddLabel(int Index, String Category, String Label) {
+	public static void AddLabel(int Index, String Category, String Label) { // 为指定股票讨论添加新标签
 		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
 		HashSet<String> TargetCat = TargetLabels.get(Category);
 		if (TargetCat == null) TargetLabels.put(Category, new HashSet<>());
 		TargetCat.add(Label);
 	}
 
-	public static void ModifyLabel(int Index, String Category, String OldLabel, String NewLabel) {
+	public static void ModifyLabel(int Index, String Category, String OldLabel, String NewLabel) { // 修改指定股票讨论的标签
 		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
 		HashSet<String> TargetCat = TargetLabels.get(Category);
 		TargetCat.remove(OldLabel);
 		TargetCat.add(NewLabel);
 	}
 
-	public static void DeleteLabel(int Index, String Category) {
+	public static void DeleteLabel(int Index, String Category) { // 为指定股票讨论删除一类标签
 		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
 		TargetLabels.remove(Category);
 	}
 
-	public static void DeleteLabel(int Index, String Category, String Label) {
+	public static void DeleteLabel(int Index, String Category, String Label) { // 为指定股票讨论删除一个标签
 		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
 		HashSet<String> TargetCat = TargetLabels.get(Category);
 		TargetCat.remove(Label);
 		if (TargetCat.size() == 0) TargetLabels.remove(Category);
 	}
 
-	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) throws InterruptedException {
+	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) { // 搜索功能
 		SearchResults.clear();
 		if (LabeledFlag != 0) {
 			SearchResults.add(new ArrayList<>());
@@ -71,7 +71,7 @@ public class DataManipulator {
 		// 怪事，这里不加延迟结果就不对，添加不进去
 //		Thread.sleep(1000);
 //		Thread.sleep(100);
-		Thread.sleep(10);
+//		Thread.sleep(10);
 //		Thread.sleep(1);
 //		Thread.sleep(0, 1);
 //		for (ArrayList<Integer> Result : SearchResults) {
@@ -80,17 +80,17 @@ public class DataManipulator {
 //		System.out.println(SearchResults.size());
 	}
 
-	private static ArrayList<Integer> GetSecondToTheLastSearchResult() {
+	private static ArrayList<Integer> GetSecondToTheLastSearchResult() { // 返回倒数第二个搜索结果（供搜索函数内部使用）
 		if (SearchResults.size() < 2) return null;
 		return SearchResults.get(SearchResults.size() - 2);
 	}
 
-	public static ArrayList<Integer> GetLastSearchResult() {
+	public static ArrayList<Integer> GetLastSearchResult() { // 返回最新的搜索结果
 		if (SearchResults.size() == 0) return null;
 		return SearchResults.get(SearchResults.size() - 1);
 	}
 
-	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) {
+	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按快捷筛选条件（目前主要有已标注、未标注两种）搜索
 		switch (LabeledFlag) {
 			case 1: // Unlabeled
 				if (SearchRange == null) {
@@ -121,7 +121,7 @@ public class DataManipulator {
 		}
 	}
 
-	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) {
+	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按关键词搜索
 		final int AvailableCPUThreadCount = Runtime.getRuntime().availableProcessors();
 		int LastEndIndex = 0;
 		if (SearchRange == null) {
@@ -162,7 +162,7 @@ public class DataManipulator {
 		}
 	}
 
-	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) {
+	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按标签搜索
 		if (SearchRange == null) {
 			for (int i = 0; i < DiscussionList.size(); ++i) {
 				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
@@ -175,7 +175,7 @@ public class DataManipulator {
 		}
 	}
 
-	private static void SearchDiscussionItemWithLabels(String[] Labels, int index, ArrayList<Integer> SearchResult) {
+	private static void SearchDiscussionItemWithLabels(String[] Labels, int index, ArrayList<Integer> SearchResult) { // 按标签搜索（内部使用）
 		boolean Found = true;
 		for (String Label : Labels) {
 			if (DiscussionList.get(index).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
