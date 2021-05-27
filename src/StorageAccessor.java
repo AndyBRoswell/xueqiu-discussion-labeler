@@ -114,7 +114,7 @@ public class StorageAccessor {
 	}
 
 	private static void ParseCSVFile(String encoding, int PreprocessMode) {
-		/*DO NOT DELETE THESE ROWS OR THE PARSER SETTINGS WILL HAVE NO EFFECTS (E.G. MaxCharsPerColumn == 4096 AND REMAINS UNCHANGED EVEN THOUGH IT IS -1 IN THE EXCEPTION MESSAGES.).*/
+		// DO NOT DELETE THESE ROWS OR THE PARSER SETTINGS WILL HAVE NO EFFECTS (E.G. MaxCharsPerColumn == 4096 AND REMAINS UNCHANGED EVEN THOUGH IT IS -1 IN THE EXCEPTION MESSAGES.).
 		CsvParserSettings ParserSettings = new CsvParserSettings();
 		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
 //		ParserSettings.getFormat().setDelimiter('`');
@@ -170,6 +170,12 @@ public class StorageAccessor {
 	}
 
 	private static void BeginWritingCSVFile(String pathname, String encoding) throws IOException {
+		CsvWriterSettings WriterSettings = new CsvWriterSettings();
+		WriterSettings.getFormat().setDelimiter('`');
+		WriterSettings.getFormat().setQuote('\"');
+		WriterSettings.getFormat().setQuoteEscape('\"');
+		CsvWriter writer = new CsvWriter(WriterSettings);
+
 		CSVFileWriter = new FileWriter(pathname, Charset.forName(encoding));
 		BufferedCSVFileWriter = new BufferedWriter(CSVFileWriter);
 		final StringBuilder FileContent = new StringBuilder();
