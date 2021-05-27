@@ -135,9 +135,7 @@ public class DataManipulator {
 							if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
 						}
 						if (found == true) {
-							synchronized (SearchResult) {
-								SearchResult.add(j);
-							}
+							synchronized (SearchResult) { SearchResult.add(j); }
 						}
 					}
 				}).start();
@@ -147,17 +145,15 @@ public class DataManipulator {
 		else {
 			for (int i = 1; i <= AvailableCPUThreadCount; ++i) {
 				int StartIndex = LastEndIndex;
-				int EndIndex = DiscussionList.size() * i / AvailableCPUThreadCount;
+				int EndIndex = SearchRange.size() * i / AvailableCPUThreadCount;
 				new Thread(() -> {
 					for (int j = StartIndex; j < EndIndex; ++j) {
 						boolean found = true;
 						for (String keyword : Keywords) {
-							if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
+							if (DiscussionList.get(SearchRange.get(j)).GetText().contains(keyword) == false) { found = false; break; }
 						}
 						if (found == true) {
-							synchronized (SearchResult) {
-								SearchResult.add(j);
-							}
+							synchronized (SearchResult) { SearchResult.add(j); }
 						}
 					}
 				}).start();
