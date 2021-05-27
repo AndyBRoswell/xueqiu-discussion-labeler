@@ -33,6 +33,16 @@ public class DataManipulator {
 
 	public static int GetIndexOfDiscussionItem(String discussion) { return DiscussionToIndex.get(discussion); }
 
+	public static void AddDiscussionItem(DiscussionItem item) {
+		try {
+			int index = GetIndexOfDiscussionItem(item);
+		}
+		catch (IndexOutOfBoundsException e) {
+			DiscussionList.add(item);
+			DiscussionToIndex.put(item.GetText(), DiscussionList.size() - 1);
+		}
+	}
+
 	public static void AddLabel(int Index, String Category, String Label) { // 为指定股票讨论添加新标签
 		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();
 		HashSet<String> TargetCat = TargetLabels.get(Category);
