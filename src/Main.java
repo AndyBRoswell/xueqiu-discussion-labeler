@@ -20,6 +20,8 @@ public class Main {
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "gbk", 0);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\中国平安.csv", "gbk", 1);
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\科创.csv", "gbk", 1);
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
 //		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 //			System.out.println(entry.GetText());
 //			System.out.println(entry.GetLabels().toString());
@@ -28,6 +30,7 @@ public class Main {
 //		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
 //			System.out.println(entry.toString());
 //		}
+		System.out.println(DataManipulator.DiscussionList.size());
 
 		/*搜索功能*/
 //		DataManipulator.Search(2, null, null);

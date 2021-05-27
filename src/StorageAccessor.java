@@ -1,4 +1,7 @@
 import com.univocity.parsers.common.*;
+import com.univocity.parsers.common.processor.*;
+import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.conversions.*;
 import com.univocity.parsers.csv.*;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -113,6 +116,10 @@ public class StorageAccessor {
 	}
 
 	private static void ParseCSVFile(String encoding, int PreprocessMode) {
+		CsvParserSettings ParserSettings = new CsvParserSettings();
+		ParserSettings.setMaxCharsPerColumn(-1);
+		CsvParser parser = new CsvParser(ParserSettings);
+
 		parser.beginParsing(DiscussionCSVFile, encoding);
 
 		String[] SingleRow = null;
