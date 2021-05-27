@@ -127,13 +127,13 @@ public class DataManipulator {
 		for (int i = 0; i < DiscussionList.size(); ++i) {
 			boolean found = true;
 			for (String Label : Labels) {
-				if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue; // 该标签恰好为标签类的名称
-				HashSet<String> Categories = LabelToCategory.get(Label); // 该标签不是某个标签类的名称，查询该标签属于的标签类
-				if (Categories == null) { found = false; break; }
-				for (String Category : Categories) {
+				if (DiscussionList.get(i).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
+				HashSet<String> Categories = LabelToCategory.get(Label); // 否则，先查询该标签属于的标签类
+				if (Categories == null) { found = false; break; } // 该标签不属于任何已知的标签类，不符合条件
+				for (String Category : Categories) { // 在该条股票讨论的每一类标签中查找是否包含该标签
 					HashSet<String> LabelsOfThisCatOfThisItem = DiscussionList.get(i).GetLabels().get(Category);
-					if (LabelsOfThisCatOfThisItem == null) { found = false; break; }
-					if (LabelsOfThisCatOfThisItem.contains(Label) == false) { found = false; break; }
+					if (LabelsOfThisCatOfThisItem == null) { continue; }
+					if (LabelsOfThisCatOfThisItem.contains(Label) == true) { break; }
 				}
 			}
 			if (found == true) SearchResult.add(i);
