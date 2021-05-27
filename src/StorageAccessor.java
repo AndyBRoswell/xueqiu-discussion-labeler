@@ -11,10 +11,10 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StorageAccessor {
-	static final CsvParserSettings ParserSettings = new CsvParserSettings();
-	static final CsvWriterSettings WriterSettings = new CsvWriterSettings();
-	static final CsvParser parser = new CsvParser(ParserSettings);
-	static final CsvWriter writer = new CsvWriter(WriterSettings);
+//	static final CsvParserSettings ParserSettings = new CsvParserSettings();
+//	static final CsvWriterSettings WriterSettings = new CsvWriterSettings();
+//	static final CsvParser parser = new CsvParser(ParserSettings);
+//	static final CsvWriter writer = new CsvWriter(WriterSettings);
 	static FileReader LabelFileReader = null;
 	static BufferedReader BufferedLabelFileReader = null;
 	static FileWriter LabelFileWriter = null;
@@ -24,20 +24,20 @@ public class StorageAccessor {
 	static BufferedWriter BufferedCSVFileWriter = null;
 
 	static {
-		ParserSettings.setAutoConfigurationEnabled(false);
-		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
-		ParserSettings.getFormat().setDelimiter('`');
-		ParserSettings.setMaxCharsPerColumn(-1);
-		ParserSettings.setProcessorErrorHandler(new RetryableErrorHandler<ParsingContext>() {
-			@Override public void handleError(DataProcessingException e, Object[] objects, ParsingContext parsingContext) {
-				System.out.println("ERROR when processing row: " + e.getLineIndex() + 1 + ": " + e.getMessage());
-				e.markAsNonFatal();
-			}
-		});
-
-		WriterSettings.getFormat().setDelimiter('`');
-		WriterSettings.getFormat().setQuote('\"');
-		WriterSettings.getFormat().setQuoteEscape('\"');
+//		ParserSettings.setAutoConfigurationEnabled(false);
+//		ParserSettings.getFormat().setLineSeparator(Global.LineSeparator);
+//		ParserSettings.getFormat().setDelimiter('`');
+//		ParserSettings.setMaxCharsPerColumn(-1);
+//		ParserSettings.setProcessorErrorHandler(new RetryableErrorHandler<ParsingContext>() {
+//			@Override public void handleError(DataProcessingException e, Object[] objects, ParsingContext parsingContext) {
+//				System.out.println("ERROR when processing row: " + e.getLineIndex() + 1 + ": " + e.getMessage());
+//				e.markAsNonFatal();
+//			}
+//		});
+//
+//		WriterSettings.getFormat().setDelimiter('`');
+//		WriterSettings.getFormat().setQuote('\"');
+//		WriterSettings.getFormat().setQuoteEscape('\"');
 	}
 
 	public static void LoadAllAvailableLabels() throws IOException, XPathExpressionException { // 读取全部可选标注
