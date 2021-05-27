@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashSet;
@@ -20,12 +21,17 @@ class DiscussionItem {
 
 public class DataManipulator {
 	static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
+	static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>();
 	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
 //	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 	static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
 	static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
+
+	public static int GetIndexOfDiscussionItem(DiscussionItem item) { return DiscussionToIndex.get(item.GetText()); }
+
+	public static int GetIndexOfDiscussionItem(String discussion) { return DiscussionToIndex.get(discussion); }
 
 	public static void AddLabel(int Index, String Category, String Label) { // 为指定股票讨论添加新标签
 		ConcurrentHashMap<String, HashSet<String>> TargetLabels = DiscussionList.get(Index).GetLabels();

@@ -67,7 +67,7 @@ public class StorageAccessor {
 	}
 
 	private static void ParseStringToLabelCategoriesAndAdd(String string, ConcurrentHashMap<String, HashSet<String>> dest) {
-		final String[] lines = string.split("\\R+");
+		final String[] lines = string.split("\\R+"); // 空行将被忽略
 		for (String line : lines) {
 			ParseSingleLineToLabelCategoryAndAdd(line, dest);
 		}
