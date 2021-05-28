@@ -56,9 +56,15 @@ public class DataManipulator {
 				if (ExistedLabelsOfThisCat == null) { // 如果已存在的具有相同股评的条目里，没有该类标签，就直接添加这类标签
 					ExistedLabels.put(e.getKey(), e.getValue());
 				}
-				else {
-					for (Map.Entry<String, Integer> f : ExistedLabelsOfThisCat.entrySet()) { // 否则，
-
+				else { // 否则，写入新条目的该类标签的每一个标签及其被选中的次数到已有条目的对应位置
+					for (Map.Entry<String, Integer> f : e.getValue().entrySet()) {
+						Integer Count = ExistedLabelsOfThisCat.get(f.getKey());
+						if (Count == null) { // 已存在条目的该标签类里没有当前标签，直接写入该标签
+							ExistedLabelsOfThisCat.put(f.getKey(), f.getValue());
+						}
+						else { // 否则，累加该标签的被选中次数
+							ExistedLabelsOfThisCat.put(f.getKey(), Count + f.getValue());
+						}
 					}
 				}
 			}
