@@ -94,18 +94,6 @@ public class StorageAccessor {
 		BufferedLabelFileWriter.close();
 	}
 
-	private static String MergeLabelCategoriesToString(ConcurrentHashMap<String, HashSet<String>> labels) { // 将全部标签类及其标签转换成字符串的形式，供后续保存用
-		StringBuilder builder = new StringBuilder();
-		for (Map.Entry<String, HashSet<String>> entry : labels.entrySet()) { // 逐类保存
-			builder.append(entry.getKey());
-			for (String i : entry.getValue()) {
-				builder.append(' ' + i);
-			}
-			builder.append(Global.LineSeparator);
-		}
-		return builder.toString();
-	}
-
 	public static void LoadDiscussionFromCSV(String pathname) throws XPathExpressionException {
 		DiscussionCSVFile = new File(pathname);
 		ParseCSVFile(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"), 0);
@@ -169,6 +157,22 @@ public class StorageAccessor {
 		parser.stopParsing();
 	}
 
+	private static String MergeLabelCategoriesToString(ConcurrentHashMap<String, HashSet<String>> labels) { // 将全部标签类及其标签转换成字符串的形式，供后续保存用
+		StringBuilder builder = new StringBuilder();
+		for (Map.Entry<String, HashSet<String>> entry : labels.entrySet()) { // 逐类保存
+			builder.append(entry.getKey());
+			for (String i : entry.getValue()) {
+				builder.append(' ' + i);
+			}
+			builder.append(Global.LineSeparator);
+		}
+		return builder.toString();
+	}
+
+	private static String MergeLabelCategoriesWithCountToString(ConcurrentHashMap<String, HashMap<String, Integer>> labels) {
+
+	}
+
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
 		BeginWritingCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 	}
@@ -189,7 +193,7 @@ public class StorageAccessor {
 		final StringBuilder FileContent = new StringBuilder();
 
 		for (DiscussionItem discussion : DataManipulator.DiscussionList) { // 将每条讨论逐行写入 CSV 文件
-			String[] row = { discussion.GetText(), MergeLabelCategoriesToString(discussion.GetLabels()) };
+			String[] row = { discussion.GetText(), MergeLabelCategoriesWithCountToString(discussion.GetLabels()) };
 			FileContent.append(writer.writeRowToString(row)).append(Global.LineSeparator);
 		}
 		BufferedCSVFileWriter.append(FileContent);
