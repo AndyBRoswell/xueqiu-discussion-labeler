@@ -45,16 +45,16 @@ public class DataManipulator {
 
 	public static int GetIndexOfDiscussionItem(String discussion) { return DiscussionToIndex.get(discussion); }
 
-	public static void AddDiscussionItem(DiscussionItem item) {
-		try {
-			int index = GetIndexOfDiscussionItem(item);
-			for (Map.Entry<String, HashMap<String, Integer>> entry : item.GetLabels().entrySet()) {
+	public static void AddDiscussionItem(DiscussionItem Item) {
+		try { // 添加过包含相同股评的条目
+			int index = GetIndexOfDiscussionItem(Item);
+			for (Map.Entry<String, HashMap<String, Integer>> entry : Item.GetLabels().entrySet()) {
 
 			}
 		}
-		catch (IndexOutOfBoundsException e) {
-			DiscussionList.add(item);
-			DiscussionToIndex.put(item.GetText(), DiscussionList.size() - 1);
+		catch (IndexOutOfBoundsException e) { // 之前未添加包含相同股评的条目
+			DiscussionList.add(Item);
+			DiscussionToIndex.put(Item.GetText(), DiscussionList.size() - 1);
 		}
 	}
 
@@ -65,6 +65,10 @@ public class DataManipulator {
 		Integer Count = TargetCat.get(Label);
 		if (Count == null) TargetCat.put(Label, 1);
 		else TargetCat.put(Label, Count + 1);
+	}
+
+	static void AddLabelWithCount(int Index, String Category, String Label, int Count) {
+		
 	}
 
 	public static void DeleteLabel(int Index, String Category, String Label) { // 为指定股票讨论删除一个标签

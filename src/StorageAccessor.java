@@ -59,7 +59,7 @@ public class StorageAccessor {
 	}
 
 	private static void ParseSingleLineToLabelCategoryWithCountAndAdd(String line, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
-		final String[] LabelCategory = line.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签及被选中（标注）次数
+		final String[] LabelCategory = line.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签，以及被选中（标注）次数
 		dest.put(LabelCategory[0], new HashMap<>());
 		for (int i = 1; i < LabelCategory.length; i += 2) {
 			dest.get(LabelCategory[0]).put(LabelCategory[i], Integer.parseInt(LabelCategory[i + 1])); // 为该标签类添加具体的标签项及被标注次数
@@ -143,10 +143,10 @@ public class StorageAccessor {
 //						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
 						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R")[0]);
 					}
-					DiscussionItem item = new DiscussionItem();
-					item.SetText(SingleRow[0]);
+					DiscussionItem item = new DiscussionItem(SingleRow[0]);
 					ParseStringToLabelCategoriesWithCountsAndAdd(SingleRow[1], item.GetLabels());
-					DataManipulator.DiscussionList.add(item);
+//					DataManipulator.DiscussionList.add(item);
+					DataManipulator.AddDiscussionItem(item);
 				}
 				break;
 			case 1:
@@ -159,9 +159,9 @@ public class StorageAccessor {
 //						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
 						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R")[0]);
 					}
-					DiscussionItem item = new DiscussionItem();
-					item.SetText(SingleRow[0]);
-					DataManipulator.DiscussionList.add(item);
+					DiscussionItem item = new DiscussionItem(SingleRow[0]);
+//					DataManipulator.DiscussionList.add(item);
+					DataManipulator.AddDiscussionItem(item);
 				}
 				break;
 		}
