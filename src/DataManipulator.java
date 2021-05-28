@@ -51,8 +51,16 @@ public class DataManipulator {
 		try { // 添加过包含相同股评的条目
 			int Index = GetIndexOfDiscussionItem(Item);
 			ConcurrentHashMap<String, HashMap<String, Integer>> ExistedLabels = GetDiscussionItem(Index).GetLabels();
-			for (Map.Entry<String, HashMap<String, Integer>> e = Item.GetLabels().entrySet()) {
-				HashMap<String, Integer>
+			for (Map.Entry<String, HashMap<String, Integer>> e : Item.GetLabels().entrySet()) { // 对于新添加的股评条目的每一类标签
+				HashMap<String, Integer> ExistedLabelsOfThisCat = ExistedLabels.get(e.getKey());
+				if (ExistedLabelsOfThisCat == null) { // 如果已存在的具有相同股评的条目里，没有该类标签，就直接添加这类标签
+					ExistedLabels.put(e.getKey(), e.getValue());
+				}
+				else {
+					for (Map.Entry<String, Integer> f : ExistedLabelsOfThisCat.entrySet()) { // 否则，
+
+					}
+				}
 			}
 		}
 		catch (IndexOutOfBoundsException e) { // 之前未添加包含相同股评的条目
@@ -70,9 +78,9 @@ public class DataManipulator {
 		else TargetCat.put(Label, Count + 1);
 	}
 
-	static void AddLabelWithCount(int Index, String Category, String Label, int Count) {
-
-	}
+//	static void AddLabelWithCount(int Index, String Category, String Label, int Count) {
+//
+//	}
 
 	public static void DeleteLabel(int Index, String Category, String Label) { // 为指定股票讨论删除一个标签
 		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
