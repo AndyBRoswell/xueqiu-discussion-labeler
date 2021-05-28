@@ -21,6 +21,8 @@ public class Main {
 		// 保存全部可用标注
 //		StorageAccessor.SaveAllAvailableLabels();
 
+		// 随机生成测试数据
+
 		// 读取指定文件中的股票讨论及其标注
 		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "gbk", 0);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "gbk", 1);
