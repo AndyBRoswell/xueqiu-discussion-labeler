@@ -1,3 +1,5 @@
+import com.univocity.parsers.common.input.concurrent.Entry;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,9 +49,10 @@ public class DataManipulator {
 
 	public static void AddDiscussionItem(DiscussionItem Item) {
 		try { // 添加过包含相同股评的条目
-			int index = GetIndexOfDiscussionItem(Item);
-			for (Map.Entry<String, HashMap<String, Integer>> entry : Item.GetLabels().entrySet()) {
-
+			int Index = GetIndexOfDiscussionItem(Item);
+			ConcurrentHashMap<String, HashMap<String, Integer>> ExistedLabels = GetDiscussionItem(Index).GetLabels();
+			for (Map.Entry<String, HashMap<String, Integer>> e = Item.GetLabels().entrySet()) {
+				HashMap<String, Integer>
 			}
 		}
 		catch (IndexOutOfBoundsException e) { // 之前未添加包含相同股评的条目
@@ -68,7 +71,7 @@ public class DataManipulator {
 	}
 
 	static void AddLabelWithCount(int Index, String Category, String Label, int Count) {
-		
+
 	}
 
 	public static void DeleteLabel(int Index, String Category, String Label) { // 为指定股票讨论删除一个标签
