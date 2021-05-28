@@ -33,8 +33,13 @@ public class DataManipulator {
 		return LabelToCategory.get(label);
 	}
 
-	static void AddCategoryTheLabelBelongsTo() {
-
+	static void AddCategoryOfLabel(String label, String category) {
+		HashSet<String> categories = DataManipulator.GetCategoriesOfLabel(label);
+		if (categories == null) {
+			DataManipulator.LabelToCategory.put(label, new HashSet<>());
+			categories = DataManipulator.LabelToCategory.get(label);
+		}
+		categories.add(category);
 	}
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }

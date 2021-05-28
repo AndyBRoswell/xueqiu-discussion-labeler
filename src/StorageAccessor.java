@@ -54,12 +54,7 @@ public class StorageAccessor {
 		dest.put(LabelCategory[0], new HashSet<>());
 		for (int i = 1; i < LabelCategory.length; ++i) {
 			dest.get(LabelCategory[0]).add(LabelCategory[i]); // 为该标签类添加具体的标签项
-			HashSet<String> categories = DataManipulator.GetCategoriesOfLabel(LabelCategory[i]);
-			if (categories == null) {
-				DataManipulator.LabelToCategory.put(LabelCategory[i], new HashSet<>());
-				categories = DataManipulator.LabelToCategory.get(LabelCategory[i]);
-			}
-			categories.add(LabelCategory[0]);
+			DataManipulator.AddCategoryOfLabel(LabelCategory[i], LabelCategory[0]); // 添加该标签所属的标签类
 		}
 	}
 
@@ -68,7 +63,7 @@ public class StorageAccessor {
 		dest.put(LabelCategory[0], new HashMap<>());
 		for (int i = 1; i < LabelCategory.length; i += 2) {
 			dest.get(LabelCategory[0]).put(LabelCategory[i], Integer.parseInt(LabelCategory[i + 1])); // 为该标签类添加具体的标签项及被标注次数
-
+			DataManipulator.AddCategoryOfLabel(LabelCategory[i], LabelCategory[0]); // 添加该标签所属的标签类
 		}
 	}
 
