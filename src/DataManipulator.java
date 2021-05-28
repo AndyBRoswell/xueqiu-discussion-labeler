@@ -52,13 +52,6 @@ public class DataManipulator {
 		else TargetCat.put(Label, Count + 1);
 	}
 
-	public static void ModifyLabel(int Index, String Category, String OldLabel, String NewLabel) { // 修改指定股票讨论的标签
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = DiscussionList.get(Index).GetLabels();
-		HashMap<String, Integer> TargetCat = TargetLabels.get(Category);
-//		TargetCat.remove(OldLabel);
-//		TargetCat.add(NewLabel);
-	}
-
 	public static void DeleteLabel(int Index, String Category, String Label) { // 为指定股票讨论删除一个标签
 		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = DiscussionList.get(Index).GetLabels();
 		HashMap<String, Integer> TargetCat = TargetLabels.get(Category);
