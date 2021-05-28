@@ -1,8 +1,5 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.HashSet;
 
 class DiscussionItem {
 	private String Text;
@@ -51,6 +48,9 @@ public class DataManipulator {
 	public static void AddDiscussionItem(DiscussionItem item) {
 		try {
 			int index = GetIndexOfDiscussionItem(item);
+			for (Map.Entry<String, HashMap<String, Integer>> entry : item.GetLabels().entrySet()) {
+
+			}
 		}
 		catch (IndexOutOfBoundsException e) {
 			DiscussionList.add(item);
@@ -59,7 +59,7 @@ public class DataManipulator {
 	}
 
 	public static void AddLabel(int Index, String Category, String Label) { // 为指定股票讨论添加新标签
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = DiscussionList.get(Index).GetLabels();
+		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
 		HashMap<String, Integer> TargetCat = TargetLabels.get(Category);
 		if (TargetCat == null) TargetLabels.put(Category, new HashMap<>());
 		Integer Count = TargetCat.get(Label);
@@ -68,7 +68,7 @@ public class DataManipulator {
 	}
 
 	public static void DeleteLabel(int Index, String Category, String Label) { // 为指定股票讨论删除一个标签
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = DiscussionList.get(Index).GetLabels();
+		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
 		HashMap<String, Integer> TargetCat = TargetLabels.get(Category);
 		int Count = TargetCat.get(Label);
 		TargetCat.put(Label, Count - 1);
@@ -77,7 +77,7 @@ public class DataManipulator {
 	}
 
 	public static void DeleteLabel(int Index, String Category) { // 为指定股票讨论删除一类标签
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = DiscussionList.get(Index).GetLabels();
+		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
 		TargetLabels.remove(Category);
 	}
 
