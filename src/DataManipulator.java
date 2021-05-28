@@ -20,12 +20,22 @@ class DiscussionItem {
 }
 
 public class DataManipulator {
-	static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
-	static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>();
-	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
-//	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 	static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
 	static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
+
+	static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
+	static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>();
+
+	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
+//	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
+
+	static HashSet<String> GetCategoriesOfLabel(String label) {
+		return LabelToCategory.get(label);
+	}
+
+	static void AddCategoryTheLabelBelongsTo() {
+
+	}
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
@@ -192,7 +202,7 @@ public class DataManipulator {
 		boolean Found = true;
 		for (String Label : Labels) {
 			if (DiscussionList.get(index).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
-			HashSet<String> Categories = LabelToCategory.get(Label); // 否则，先查询该标签属于的标签类
+			HashSet<String> Categories = GetCategoriesOfLabel(Label); // 否则，先查询该标签属于的标签类
 			if (Categories == null) { return; } // 该标签不属于任何已知的标签类（每个标签属于的类在读入全部可用标签与指定的股票讨论 CSV 文件时都会被登记），不符合条件
 			boolean FoundSingle = false;
 			for (String Category : Categories) { // 查找该条股票讨论是否包含该标签所属的某一个类；如果包含，则在类中查找

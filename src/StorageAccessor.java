@@ -1,7 +1,4 @@
 import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.common.record.*;
-import com.univocity.parsers.conversions.*;
 import com.univocity.parsers.csv.*;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -11,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StorageAccessor {
-//	static final CsvParserSettings ParserSettings = new CsvParserSettings();
+	//	static final CsvParserSettings ParserSettings = new CsvParserSettings();
 //	static final CsvWriterSettings WriterSettings = new CsvWriterSettings();
 //	static final CsvParser parser = new CsvParser(ParserSettings);
 //	static final CsvWriter writer = new CsvWriter(WriterSettings);
@@ -57,12 +54,28 @@ public class StorageAccessor {
 		dest.put(LabelCategory[0], new HashSet<>());
 		for (int i = 1; i < LabelCategory.length; ++i) {
 			dest.get(LabelCategory[0]).add(LabelCategory[i]); // 为该标签类添加具体的标签项
-			HashSet<String> categories = DataManipulator.LabelToCategory.get(LabelCategory[i]);
+			HashSet<String> categories = DataManipulator.GetCategoriesOfLabel(LabelCategory[i]);
 			if (categories == null) {
 				DataManipulator.LabelToCategory.put(LabelCategory[i], new HashSet<>());
 				categories = DataManipulator.LabelToCategory.get(LabelCategory[i]);
 			}
 			categories.add(LabelCategory[0]);
+		}
+	}
+
+	private static void ParseSingleLineToLabelCategoryWithCountAndAdd(String line, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
+		final String[] LabelCategory = line.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签及被选中（标注）次数
+		dest.put(LabelCategory[0], new HashMap<>());
+		for (int i = 1; i < LabelCategory.length; i += 2) {
+			dest.get(LabelCategory[0]).put(LabelCategory[i], Integer.parseInt(LabelCategory[i + 1])); // 为该标签类添加具体的标签项及被标注次数
+
+		}
+	}
+
+	private static void ParseStringToLabelCategoriesWithCountsAndAdd(String string, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
+		final String[] lines = string.split("\\s"); // 空行将被忽略
+		for (String line : lines) {
+			ParseSingleLineToLabelCategoryWithCountAndAdd(line, dest);
 		}
 	}
 
@@ -137,7 +150,7 @@ public class StorageAccessor {
 					}
 					DiscussionItem item = new DiscussionItem();
 					item.SetText(SingleRow[0]);
-					ParseStringToLabelCategoriesAndAdd(SingleRow[1], item.GetLabels());
+					ParseStringToLabelCategoriesWithCountsAndAdd(SingleRow[1], item.GetLabels());
 					DataManipulator.DiscussionList.add(item);
 				}
 				break;
