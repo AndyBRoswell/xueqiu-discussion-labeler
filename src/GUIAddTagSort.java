@@ -109,7 +109,7 @@ public class GUIAddTagSort extends JFrame {
                 labelTextFields.add(new JTextField());
                 frame.setBounds(new Rectangle(XF, YF + extraLabelCount * h0));
                 frame.setLocationRelativeTo(null);
-                frame.add(labelTextFields.get(labelTextFields.size() - 1)).setBounds(wlabel,  h0 * (defaultLabelCount + extraLabelCount), X - wlabel, h0);
+                frame.add(labelTextFields.get(labelTextFields.size() - 1)).setBounds(wlabel, h0 * (defaultLabelCount + extraLabelCount), X - wlabel, h0);
                 buttonYes.setBounds(X / 2 - wbutton, h0 * (defaultLabelCount + extraLabelCount + 1), wbutton, h0);
                 buttonNo.setBounds(X / 2, h0 * (defaultLabelCount + extraLabelCount + 1), wbutton, h0);
             }
