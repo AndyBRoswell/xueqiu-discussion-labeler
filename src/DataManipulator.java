@@ -67,7 +67,7 @@ public class DataManipulator {
 				}
 			}
 		}
-		catch (IndexOutOfBoundsException e) { // 之前未添加包含相同股评的条目
+		catch (NullPointerException e) { // 之前未添加包含相同股评的条目
 			DiscussionList.add(Item);
 			DiscussionToIndex.put(Item.GetText(), DiscussionList.size() - 1);
 		}
