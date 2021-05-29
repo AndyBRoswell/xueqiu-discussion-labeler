@@ -15,7 +15,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class GUI extends JFrame {
@@ -68,7 +70,6 @@ public class GUI extends JFrame {
 		MainFrame.setLocationRelativeTo(null);
 		MainFrame.setVisible(true);
 	}
-
 	/*public void Directory() throws IOException{
 		WatchService watchService = FileSystems.getDefault().newWatchService();
 		Path p = Paths.get(Global.ConfigPath);
@@ -77,13 +78,17 @@ public class GUI extends JFrame {
 			try {
 				while(true){
 					WatchKey watchKey = watchService.take();
-					List watchEvents = watchKey.pollEvents();
+					List<WatchEvent<?>> watchEvents = watchKey.pollEvents();
 					if(watchEvents!=null)
 					{
-						frame.setVisible(false);
 						try {
-							new GUI();
-						} catch (IOException e) {
+							MainFrame.getContentPane().removeAll();
+							MainFrame.getContentPane().repaint();
+							init();																//窗口部件初始化
+							TableInit();
+							LabelInit();
+							MainFrame.getContentPane().revalidate();
+						} catch (IOException | XPathExpressionException e) {
 							e.printStackTrace();
 						}
 					}
@@ -102,9 +107,9 @@ public class GUI extends JFrame {
 			} catch (Exception e) {
 			}
 		}));
-	}*/
-
-	private void init() {
+	}
+*/
+	public void init() {
 		/*按钮*/
 		TaskListButton.addActionListener(new ActionListener() {
 			@Override
@@ -211,7 +216,7 @@ public class GUI extends JFrame {
 		AddTagButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new GUIAddTagSort();
+				new GUIAddTagSort(MainFrame);
 			}
 		});
 
@@ -369,7 +374,7 @@ public class GUI extends JFrame {
 			/*可选标注滚动面板*/
 			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 //			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 //			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -395,29 +400,33 @@ public class GUI extends JFrame {
 //			}
 			int XAllLabelsPanel = 0;
 			int YAllLabelsPanel = 0;
+			int max=0;
 			AllLabelsPanel.removeAll();
 			for (int i = 0; i < LabelCategoryControls.size(); ++i) {
 				LabelCategoryControl cat = LabelCategoryControls.get(i);
 				final int gap = Global.ComponentGapD;
 				int l = LabelsAndCategories.get(i).get(0).length() + 2;
-				cat.setBounds(XAllLabelsPanel, 0, l * w0, h0);
+				if(XAllLabelsPanel+(LabelsAndCategories.get(i).size())*l * w0+iconAddSmall.getIconWidth() * 3/2>AllLabelsScrollPane.getWidth()){YAllLabelsPanel+=1;XAllLabelsPanel=0;}
+				cat.setBounds(XAllLabelsPanel, YAllLabelsPanel*(h0+gap), l * w0, h0);
 				XAllLabelsPanel += l * w0 + gap;
 				AllLabelsPanel.add(cat);
 
 				for (int j = 1; j < LabelsAndCategories.get(i).size(); ++j) {
 					ConcreteLabelControl label = LabelControls.get(i).get(j - 1);
 					l = LabelsAndCategories.get(i).get(j).length() + 2;
-					label.setBounds(XAllLabelsPanel, 0, l * w0, h0);
+					label.setBounds(XAllLabelsPanel, YAllLabelsPanel*(h0+gap), l * w0, h0);
 					XAllLabelsPanel += l * w0 + gap;
 					AllLabelsPanel.add(label);
 				}
 
 				AddButton button = AddLabelButtons.get(i);
-				button.setBounds(XAllLabelsPanel, 0, iconAddSmall.getIconWidth() * 3 / 2, iconAddSmall.getIconHeight() * 3 / 2);
+				button.setBounds(XAllLabelsPanel, YAllLabelsPanel*(h0+gap), iconAddSmall.getIconWidth() * 3 / 2, iconAddSmall.getIconHeight() * 3 / 2);
 				XAllLabelsPanel += 2 * iconAddSmall.getIconWidth() + gap;
+				if(XAllLabelsPanel>max){max=XAllLabelsPanel;}
 				AllLabelsPanel.add(button);
+
 			}
-			AllLabelsPanel.setPreferredSize(new Dimension(XAllLabelsPanel, Y - (DiscussionTable.getY() + DiscussionTable.getHeight())));
+			AllLabelsPanel.setPreferredSize(new Dimension(max, (YAllLabelsPanel+1)*(h0+5)));
 		}
 
 		@Override
@@ -455,7 +464,7 @@ public class GUI extends JFrame {
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new GUIAddTag(text);
+					new GUIAddTag(text,MainFrame);
 				}
 			});
 		}

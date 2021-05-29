@@ -14,13 +14,12 @@ public class GUIAddTag extends JFrame {
     JButton buttonYes = new JButton("确定");
     JTextField textField = new JTextField(6);
 
-    public GUIAddTag(String text) {
+    public GUIAddTag(String text,JFrame parent) {
         super(text);
         frame.setBounds(new Rectangle(400, 200));
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         frame.setVisible(true);
-
         buttonNo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,6 +50,8 @@ public class GUIAddTag extends JFrame {
                     }
                     bw.close();
                     frame.dispose();
+                    parent.dispose();
+                    new GUI();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

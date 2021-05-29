@@ -1,9 +1,13 @@
+import org.xml.sax.SAXException;
+
 import javax.swing.*;
+import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
@@ -18,7 +22,7 @@ public class GUIAddTagSort extends JFrame {
     JTextField catTextField = new JTextField(6);
     ArrayList<JTextField> labelTextFields = new ArrayList<JTextField>();
 
-    public GUIAddTagSort() {
+    public GUIAddTagSort(JFrame parent) {
         final int XF = 400;
         final int YF = 160;
 
@@ -83,6 +87,16 @@ public class GUIAddTagSort extends JFrame {
                 }
                 writeTxt("\n");
                 frame.dispose();
+                parent.dispose();
+                try {
+                    new GUI();
+                } catch (XPathExpressionException xPathExpressionException) {
+                    xPathExpressionException.printStackTrace();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (SAXException saxException) {
+                    saxException.printStackTrace();
+                }
             }
         });
 
