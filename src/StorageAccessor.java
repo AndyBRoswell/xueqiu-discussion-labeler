@@ -43,13 +43,13 @@ public class StorageAccessor {
 
 		String line;
 		while ((line = BufferedLabelFileReader.readLine()) != null) { // 逐行读取并解析为标签类：以空格作为分隔符，第0个词为标签类名称，剩下的词都为该类的标签
-			ParseSingleLineToLabelCategoryAndAdd(line, DataManipulator.AllLabels);
+			ParseSingleLabelLineToLabelCategoryAndAdd(line, DataManipulator.AllLabels);
 		}
 
 		BufferedLabelFileReader.close();
 	}
 
-	private static void ParseSingleLineToLabelCategoryAndAdd(String line, ConcurrentHashMap<String, HashSet<String>> dest) {
+	private static void ParseSingleLabelLineToLabelCategoryAndAdd(String line, ConcurrentHashMap<String, HashSet<String>> dest) {
 		final String[] LabelCategory = line.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签
 		dest.put(LabelCategory[0], new HashSet<>());
 		for (int i = 1; i < LabelCategory.length; ++i) {
@@ -68,6 +68,7 @@ public class StorageAccessor {
 	}
 
 	private static void ParseStringToLabelCategoriesWithCountsAndAdd(String string, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
+		// 原格式：在单个单元格中存储全部类别的标签。新格式：股评后的每个单元格存储一类标签。此方法不受影响。
 		final String[] lines = string.split("\\s"); // 空行将被忽略
 		for (String line : lines) {
 			ParseSingleLabelLineToLabelCategoryWithCountAndAdd(line, dest);
@@ -77,7 +78,7 @@ public class StorageAccessor {
 	private static void ParseStringToLabelCategoriesAndAdd(String string, ConcurrentHashMap<String, HashSet<String>> dest) {
 		final String[] lines = string.split("\\R+"); // 空行将被忽略
 		for (String line : lines) {
-			ParseSingleLineToLabelCategoryAndAdd(line, dest);
+			ParseSingleLabelLineToLabelCategoryAndAdd(line, dest);
 		}
 	}
 
@@ -132,7 +133,10 @@ public class StorageAccessor {
 						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R")[0]);
 					}
 					DiscussionItem item = new DiscussionItem(SingleRow[0]);
-					ParseStringToLabelCategoriesWithCountsAndAdd(SingleRow[1], item.GetLabels());
+//					ParseStringToLabelCategoriesWithCountsAndAdd(SingleRow[1], item.GetLabels());
+					for (int i = 1; i < SingleRow.length; ++i) { // 新格式：股评后的每个单元格存储一类标签。
+						ParseSingleLabelLineToLabelCategoryWithCountAndAdd(SingleRow[i], item.GetLabels());
+					}
 					DataManipulator.AddDiscussionItem(item);
 				}
 				break;
