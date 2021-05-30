@@ -203,7 +203,19 @@ public class StorageAccessor {
 		final StringBuilder FileContent = new StringBuilder();
 
 		for (DiscussionItem discussion : DataManipulator.DiscussionList) { // 将每条讨论逐行写入 CSV 文件
-			String[] row = { discussion.GetText(), MergeLabelCategoriesWithCountToString(discussion.GetLabels()) };
+			// 原格式：在单个单元格中存储全部类别的标签。
+//			String[] row = { discussion.GetText(), MergeLabelCategoriesWithCountToString(discussion.GetLabels()) };
+			// 新格式：股评后的每个单元格存储一类标签。
+			ArrayList<String> row = new ArrayList<>();
+			row.add(discussion.GetText()); // 最左一列为股评
+			for (Map.Entry<String, HashMap<String, Integer>> entry : discussion.GetLabels().entrySet()) {
+				final StringBuilder builder = new StringBuilder();
+				builder.append(entry.getKey()); // 标注类名称
+				for (Map.Entry<String, Integer> e : entry.getValue().entrySet()) { // 逐步构建该类标注数据为字符串
+					builder.append(' ').append(e.getKey()).append(' ').append(e.getValue().toString());
+				}
+				row.add(builder.toString()); // 将该类标签写入该行的一个单元格
+			}
 			FileContent.append(writer.writeRowToString(row)).append(Global.LineSeparator);
 		}
 		BufferedCSVFileWriter.append(FileContent);
