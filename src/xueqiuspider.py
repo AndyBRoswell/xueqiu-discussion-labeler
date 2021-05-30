@@ -4,7 +4,6 @@ import re
 import urllib3
 import sys
 import random
-from UserString import MutableString
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 proxies = {}
