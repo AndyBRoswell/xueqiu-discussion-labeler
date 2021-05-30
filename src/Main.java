@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
-		GUI MainForm = new GUI();
+//		GUI MainForm = new GUI();
 
 		// 读取设置
 		Config.LoadConfig(Global.DefaultConfig);
@@ -28,12 +28,12 @@ public class Main {
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\中国平安.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\科创.csv", "gbk", 1);
-//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
 //		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 //			System.out.println(entry.GetText());
 //			System.out.println(entry.GetLabels().toString());
 //		}
-//		System.out.println(DataManipulator.DiscussionList.size());
+		System.out.println(DataManipulator.DiscussionList.size());
 
 		// 查询标签所在的类
 //		System.out.println(DataManipulator.LabelToCategory.size());
@@ -53,7 +53,13 @@ public class Main {
 //			System.out.println(i);
 //		}
 
+		// 添加标注
+		DataManipulator.AddLabel(0, "总体评价", "好评");
+		DataManipulator.AddLabel(1, "短期趋势", "看涨");
+		DataManipulator.AddLabel(4, "是否有关", "无关");
+
 		// 保存修改
 //		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GB2312");
+		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\贵州茅台-简单添加标注.csv", "gbk");
 	}
 }

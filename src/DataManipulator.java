@@ -76,7 +76,10 @@ public class DataManipulator {
 	public static void AddLabel(int Index, String Category, String Label) { // 为指定股票讨论添加新标签
 		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
 		HashMap<String, Integer> TargetCat = TargetLabels.get(Category);
-		if (TargetCat == null) TargetLabels.put(Category, new HashMap<>());
+		if (TargetCat == null) {
+			TargetLabels.put(Category, new HashMap<>());
+			TargetCat = TargetLabels.get(Category);
+		}
 		Integer Count = TargetCat.get(Label);
 		if (Count == null) TargetCat.put(Label, 1);
 		else TargetCat.put(Label, Count + 1);
