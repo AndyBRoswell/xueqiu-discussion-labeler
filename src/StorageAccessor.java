@@ -58,7 +58,7 @@ public class StorageAccessor {
 		}
 	}
 
-	private static void ParseSingleLineToLabelCategoryWithCountAndAdd(String line, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
+	private static void ParseSingleLabelLineToLabelCategoryWithCountAndAdd(String line, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
 		final String[] LabelCategory = line.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签，以及被选中（标注）次数
 		dest.put(LabelCategory[0], new HashMap<>());
 		for (int i = 1; i < LabelCategory.length; i += 2) {
@@ -70,7 +70,7 @@ public class StorageAccessor {
 	private static void ParseStringToLabelCategoriesWithCountsAndAdd(String string, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
 		final String[] lines = string.split("\\s"); // 空行将被忽略
 		for (String line : lines) {
-			ParseSingleLineToLabelCategoryWithCountAndAdd(line, dest);
+			ParseSingleLabelLineToLabelCategoryWithCountAndAdd(line, dest);
 		}
 	}
 
@@ -133,12 +133,11 @@ public class StorageAccessor {
 					}
 					DiscussionItem item = new DiscussionItem(SingleRow[0]);
 					ParseStringToLabelCategoriesWithCountsAndAdd(SingleRow[1], item.GetLabels());
-//					DataManipulator.DiscussionList.add(item);
 					DataManipulator.AddDiscussionItem(item);
 				}
 				break;
 			case 1:
-				for (; ; ) { // 逐行解析保存了刚刚爬取的结果的 CSV 文件中的讨论内容并添加到讨论列表
+				for (; ; ) { // 逐行解析保存了刚刚爬取的结果（不含任何标注）的 CSV 文件中的讨论内容并添加到讨论列表
 					try {
 						SingleRow = parser.parseNext();
 						if (SingleRow == null) break;
@@ -148,7 +147,6 @@ public class StorageAccessor {
 						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R")[0]);
 					}
 					DiscussionItem item = new DiscussionItem(SingleRow[0]);
-//					DataManipulator.DiscussionList.add(item);
 					DataManipulator.AddDiscussionItem(item);
 				}
 				break;
@@ -182,14 +180,14 @@ public class StorageAccessor {
 	}
 
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
-		BeginWritingCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+		WriteToCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 	}
 
 	public static void SaveDiscussionToCSV(String pathname, String encoding) throws IOException {
-		BeginWritingCSVFile(pathname, encoding);
+		WriteToCSVFile(pathname, encoding);
 	}
 
-	private static void BeginWritingCSVFile(String pathname, String encoding) throws IOException {
+	private static void WriteToCSVFile(String pathname, String encoding) throws IOException {
 		CsvWriterSettings WriterSettings = new CsvWriterSettings();
 		WriterSettings.getFormat().setDelimiter('`');
 		WriterSettings.getFormat().setQuote('\"');
