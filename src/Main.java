@@ -55,6 +55,7 @@ public class Main {
 
 		// 添加标注
 		DataManipulator.AddLabel(0, "总体评价", "好评");
+		DataManipulator.AddLabel(0, "详细分析", "无");
 		DataManipulator.AddLabel(1, "短期趋势", "看涨");
 		DataManipulator.AddLabel(4, "是否有关", "无关");
 
