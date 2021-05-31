@@ -18,7 +18,7 @@ headers = {
 
 def save_file(content_list):
 	for content in content_list:
-		with open('xueqiu.csv', 'a')as f:
+		with open(file_name, 'a')as f:
 			f.write(str(content['comment']).encode("gbk", 'ignore').decode("gbk", "ignore"))
 			f.write("\n")
 			
@@ -46,8 +46,8 @@ random_char_L = ord('A')
 random_char_R = ord('Z')
 label_cat_len_without_suffix_L = 1
 label_cat_len_without_suffix_R = 1
-label_len_without_suffix_L = 1
-label_len_without_suffix_R = 1
+label_len_without_suffix_L = 2
+label_len_without_suffix_R = 2
 name_dsuffix_L = 1
 name_dsuffix_R = 64
 
@@ -56,26 +56,37 @@ def parse_comment_url_with_random_test_labels(url):
 	res_list = r.json()['list']  
 	count = r.json()['count']
 	content_list = []
+	# 处理每条股评
 	for res in res_list:
 		item = {}
 		#item['user_name'] = res['user']['screen_name']
 		str_parts = []
-		str_parts.append(res['text'])
-		str_parts.append(re.sub("<.*?>||&nbsp;||\`",'', str_parts[0]))
-		label_cat_cnt = random.uniform(label_cat_cnt_L, label_cat_cnt_R)
+
+		# 添加股评
+		str_parts.append(res['text']) # 最左一列为股评
+		str_parts.append(re.sub("<.*?>||&nbsp;||\`",'', str_parts[0])) # 消去特殊字符
 		str_parts.append(csv_delim)
-		for i in range(label_cat_cnt):
+
+		# 构造标注数据，测试用
+		label_cat_cnt = random.uniform(label_cat_cnt_L, label_cat_cnt_R)
+		for i in range(label_cat_cnt): # 随机构造若干类标签
+			# 随机生成标签类名称
 			label_cat_len = random.uniform(label_cat_len_without_suffix_L, label_cat_len_without_suffix_R)
-			for j in label_cat_len:
+			for j in label_cat_len: # 随机生成标签类名称的每一个字符
 				str_parts.append(chr(random.uniform(random_char_L, random_char_R)))
-			str_parts.append(random.uniform(name_dsuffix_L, name_dsuffix_R))
-			str_parts.append(' ')
+			str_parts.append(random.uniform(name_dsuffix_L, name_dsuffix_R)) # 为标签类名称随机添加一个数字后缀
+
+			# 随机在该标签类下构造若干个标签
 			label_cnt = random.uniform(label_cnt_L, label_cnt_R)
 			for j in range(label_cnt):
-				item['comment'] = item['comment'] + ' '
-				for k in range(label_len_without_suffix_L):
-
+				str_parts.append(' ')
+				label_len_without_suffix = random.uniform(label_len_without_suffix_L, label_len_without_suffix_R)
+				for k in range(label_len_without_suffix): # 随机生成标签的每一个字符
+					str_parts.append(chr(random.uniform(random_char_L, random_char_R)))
+				str_parts.append(random.uniform(name_dsuffix_L, name_dsuffix_R)) # 为标签名称随机添加一个数字后缀
 			str_parts.append(csv_delim)
+
+		# 最终构造出一行字符串并添加到股评列表
 		item['comment'] = ''.join(str_parts)
 		content_list.append(item)
 	return content_list, count
@@ -84,12 +95,13 @@ access_delay = 3
 reaccess_delay = 5
 crawl_pages = 100
 
-stock_num = sys.argv[1]  # 输入股票代码
+file_name = sys.argv[1] # 保存的文件名
+stock_num = sys.argv[2] # 输入股票代码
 for i in range(crawl_pages):
 	detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(stock_num, i + 1)
 	print("正爬取："+detail_url)
 	try:
-		if (len(sys.argv) == 3 and sys.argv[2] == '-r'):
+		if (len(sys.argv) == 4 and sys.argv[3] == '-r'):
 			comment_data, count = parse_comment_url(detail_url)
 		else:
 			comment_data, count = parse_comment_url_with_random_test_labels(detail_url)
@@ -97,7 +109,7 @@ for i in range(crawl_pages):
 	except Exception as e: 
 		print("Error: ", e)
 		time.sleep(reaccess_delay)
-		if (len(sys.argv) == 3 and sys.argv[2] == '-r'):
+		if (len(sys.argv) == 4 and sys.argv[3] == '-r'):
 			comment_data, count = parse_comment_url(detail_url)
 		else:
 			comment_data, count = parse_comment_url_with_random_test_labels(detail_url)
