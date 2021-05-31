@@ -44,7 +44,10 @@ label_cnt_L = 1
 label_cnt_R = 16
 random_char_L = ord('A')
 random_char_R = ord('Z')
-label_len_without_suffix = 1
+label_cat_len_without_suffix_L = 1
+label_cat_len_without_suffix_R = 1
+label_len_without_suffix_L = 1
+label_len_without_suffix_R = 1
 name_dsuffix_L = 1
 name_dsuffix_R = 64
 
@@ -57,16 +60,20 @@ def parse_comment_url_with_random_test_labels(url):
 		item = {}
 		#item['user_name'] = res['user']['screen_name']
 		str_parts = []
-		str_parts.append('text')
+		str_parts.append(res['text'])
 		str_parts.append(re.sub("<.*?>||&nbsp;||\`",'', str_parts[0]))
 		label_cat_cnt = random.uniform(label_cat_cnt_L, label_cat_cnt_R)
 		str_parts.append(csv_delim)
 		for i in range(label_cat_cnt):
+			label_cat_len = random.uniform(label_cat_len_without_suffix_L, label_cat_len_without_suffix_R)
+			for j in label_cat_len:
+				str_parts.append(chr(random.uniform(random_char_L, random_char_R)))
+			str_parts.append(random.uniform(name_dsuffix_L, name_dsuffix_R))
+			str_parts.append(' ')
 			label_cnt = random.uniform(label_cnt_L, label_cnt_R)
-
 			for j in range(label_cnt):
 				item['comment'] = item['comment'] + ' '
-				for k in range(label_len_without_suffix):
+				for k in range(label_len_without_suffix_L):
 
 			str_parts.append(csv_delim)
 		item['comment'] = ''.join(str_parts)
