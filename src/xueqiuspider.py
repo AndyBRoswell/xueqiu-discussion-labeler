@@ -102,7 +102,7 @@ def parse_comment_url_with_random_test_labels(url):
 # Parameters for crawling
 access_delay = 3
 reaccess_delay = 5
-crawl_pages = 1
+crawl_pages = 100
 
 file_name = sys.argv[1] # 保存的文件名
 stock_num = sys.argv[2] # 输入股票代码
