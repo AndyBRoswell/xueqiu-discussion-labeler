@@ -42,7 +42,7 @@ def parse_comment_url(url):
 label_cat_cnt_L = 1
 label_cat_cnt_R = 16 + 1
 label_cnt_L = 1
-label_cnt_R = 16 + 1
+label_cnt_R = 8 + 1
 random_char_L = ord('A')
 random_char_R = ord('Z') + 1
 label_cat_len_without_suffix_L = 1
@@ -52,8 +52,11 @@ label_len_without_suffix_R = 2 + 1
 name_dsuffix_L = 1
 name_dsuffix_R = 64 + 1
 
-def random_char(random_char_L, random_char_R):
-	return int(random.uniform(random_char_L, random_char_R))
+def random_char(L, R):
+	return chr(int(random.uniform(L, R)))
+
+def random_uniform_int(L, R):
+	return int(random.uniform(L, R))
 
 def parse_comment_url_with_random_test_labels(url):
 	r = requests.get(url, headers=headers, proxies=proxies, verify=False)  
@@ -67,32 +70,31 @@ def parse_comment_url_with_random_test_labels(url):
 		str_parts = []
 
 		# 添加股评
-		str_parts.append(res['text']) # 最左一列为股评
-		str_parts.append(re.sub("<.*?>||&nbsp;||\`",'', str_parts[0])) # 消去特殊字符
+		str_parts.append(re.sub("<.*?>||&nbsp;||\`",'', res['text'])) # 最左一列为股评（已消去特殊字符）
 		str_parts.append(csv_delim)
 
 		# 构造标注数据，测试用
-		label_cat_cnt = int(random.uniform(label_cat_cnt_L, label_cat_cnt_R))
+		label_cat_cnt = random_uniform_int(label_cat_cnt_L, label_cat_cnt_R)
 		for i in range(label_cat_cnt): # 随机构造若干类标签
 			# 随机生成标签类名称
-			label_cat_len = int(random.uniform(label_cat_len_without_suffix_L, label_cat_len_without_suffix_R))
+			label_cat_len = random_uniform_int(label_cat_len_without_suffix_L, label_cat_len_without_suffix_R)
 			for j in range(label_cat_len): # 随机生成标签类名称的每一个字符
-				str_parts.append(chr(random_char(random_char_L, random_char_R)))
-			str_parts.append(random.uniform(name_dsuffix_L, name_dsuffix_R)) # 为标签类名称随机添加一个数字后缀
+				str_parts.append(random_char(random_char_L, random_char_R))
+			str_parts.append(str(random_uniform_int(name_dsuffix_L, name_dsuffix_R))) # 为标签类名称随机添加一个数字后缀
 
 			# 随机在该标签类下构造若干个标签
-			label_cnt = int(random.uniform(label_cnt_L, label_cnt_R))
+			label_cnt = random_uniform_int(label_cnt_L, label_cnt_R)
 			for j in range(label_cnt):
 				str_parts.append(' ')
-				label_len_without_suffix = int(random.uniform(label_len_without_suffix_L, label_len_without_suffix_R))
+				label_len_without_suffix = random_uniform_int(label_len_without_suffix_L, label_len_without_suffix_R)
 				for k in range(label_len_without_suffix): # 随机生成标签的每一个字符
-					str_parts.append(chr(random_char(random_char_L, random_char_R)))
-				str_parts.append(random.uniform(name_dsuffix_L, name_dsuffix_R)) # 为标签名称随机添加一个数字后缀
+					str_parts.append(random_char(random_char_L, random_char_R))
+				str_parts.append(str(random_uniform_int(name_dsuffix_L, name_dsuffix_R))) # 为标签名称随机添加一个数字后缀
 			str_parts.append(csv_delim)
 
 		# 最终构造出一行字符串并添加到股评列表
-		print("str_parts = \n")
-		print(str_parts)
+		# print("str_parts = \n")
+		# print(str_parts)
 		item['comment'] = ''.join(str_parts)
 		content_list.append(item)
 	return content_list, count
