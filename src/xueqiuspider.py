@@ -52,6 +52,9 @@ label_len_without_suffix_R = 2 + 1
 name_dsuffix_L = 1
 name_dsuffix_R = 64 + 1
 
+def random_char(random_char_L, random_char_R):
+	return int(random.uniform(random_char_L, random_char_R))
+
 def parse_comment_url_with_random_test_labels(url):
 	r = requests.get(url, headers=headers, proxies=proxies, verify=False)  
 	res_list = r.json()['list']  
@@ -73,8 +76,8 @@ def parse_comment_url_with_random_test_labels(url):
 		for i in range(label_cat_cnt): # 随机构造若干类标签
 			# 随机生成标签类名称
 			label_cat_len = int(random.uniform(label_cat_len_without_suffix_L, label_cat_len_without_suffix_R))
-			for j in label_cat_len: # 随机生成标签类名称的每一个字符
-				str_parts.append(chr(random.uniform(random_char_L, random_char_R)))
+			for j in range(label_cat_len): # 随机生成标签类名称的每一个字符
+				str_parts.append(chr(random_char(random_char_L, random_char_R)))
 			str_parts.append(random.uniform(name_dsuffix_L, name_dsuffix_R)) # 为标签类名称随机添加一个数字后缀
 
 			# 随机在该标签类下构造若干个标签
@@ -83,12 +86,13 @@ def parse_comment_url_with_random_test_labels(url):
 				str_parts.append(' ')
 				label_len_without_suffix = int(random.uniform(label_len_without_suffix_L, label_len_without_suffix_R))
 				for k in range(label_len_without_suffix): # 随机生成标签的每一个字符
-					str_parts.append(chr(random.uniform(random_char_L, random_char_R)))
+					str_parts.append(chr(random_char(random_char_L, random_char_R)))
 				str_parts.append(random.uniform(name_dsuffix_L, name_dsuffix_R)) # 为标签名称随机添加一个数字后缀
 			str_parts.append(csv_delim)
 
 		# 最终构造出一行字符串并添加到股评列表
-		# print("str_parts = \n" + str_parts)
+		print("str_parts = \n")
+		print(str_parts)
 		item['comment'] = ''.join(str_parts)
 		content_list.append(item)
 	return content_list, count
