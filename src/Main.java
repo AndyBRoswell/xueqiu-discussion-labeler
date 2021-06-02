@@ -62,9 +62,21 @@ public class Main {
 //		DataManipulator.AddLabel(4, "是否有关", "无关");
 		// NVDA
 		DataManipulator.AddLabel(45, "总体评价", "中评");
+		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
 		DataManipulator.DeleteLabel(45, "总体评价", "中评");
+		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
 		DataManipulator.AddLabel(45, "感性程度", "较高");
+		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+		DataManipulator.AddLabel(45, "感性程度", "较高");
+		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+		DataManipulator.DeleteLabel(45, "感性程度", "较高");
+		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+		DataManipulator.AddLabel(45, "感性程度", "高");
+		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
 		DataManipulator.AddLabel(45, "总体评价", "好评");
+		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+		DataManipulator.AddLabel(45, "总体评价", "好评");
+		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
 
 		// 保存修改
 //		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GBK");
