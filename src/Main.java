@@ -10,10 +10,10 @@ public class Main {
 //		GUI MainForm = new GUI();
 
 		// 读取设置
-		Config.LoadConfig(Global.DefaultConfig);
+//		Config.LoadConfig(Global.DefaultConfig);
 
 		// 读取全部可用标注
-		StorageAccessor.LoadAllAvailableLabels();
+//		StorageAccessor.LoadAllAvailableLabels();
 //		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) {
 //			System.out.println(entry.toString());
 //		}
@@ -29,12 +29,16 @@ public class Main {
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\中国平安.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\科创.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk", 1);
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk", 1);
 //		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 //			System.out.println(entry.GetText());
 //			System.out.println(entry.GetLabels().toString());
 //		}
-		System.out.println(DataManipulator.DiscussionList.size());
+//		System.out.println(DataManipulator.DiscussionList.size());
+
+		// 通过股评进行哈希查找，返回其在线性表中的位置
+//		System.out.println(DataManipulator.GetDiscussionItem(42).GetText());
+//		System.out.println(DataManipulator.GetIndexOfDiscussionItem(new DiscussionItem("核弹厂四千亿市值了。然鹅农企还在为突破1000亿在努力。英伟达 AMD")));
 
 		// 查询标签所在的类
 //		System.out.println(DataManipulator.LabelToCategory.size());
@@ -61,22 +65,22 @@ public class Main {
 //		DataManipulator.AddLabel(1, "短期趋势", "看涨");
 //		DataManipulator.AddLabel(4, "是否有关", "无关");
 		// NVDA
-		DataManipulator.AddLabel(45, "总体评价", "中评");
-		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
-		DataManipulator.DeleteLabel(45, "总体评价", "中评");
-		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
-		DataManipulator.AddLabel(45, "感性程度", "较高");
-		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
-		DataManipulator.AddLabel(45, "感性程度", "较高");
-		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
-		DataManipulator.DeleteLabel(45, "感性程度", "较高");
-		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
-		DataManipulator.AddLabel(45, "感性程度", "高");
-		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
-		DataManipulator.AddLabel(45, "总体评价", "好评");
-		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
-		DataManipulator.AddLabel(45, "总体评价", "好评");
-		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.AddLabel(45, "总体评价", "中评");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.DeleteLabel(45, "总体评价", "中评");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.AddLabel(45, "感性程度", "较高");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.AddLabel(45, "感性程度", "较高");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.DeleteLabel(45, "感性程度", "较高");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.AddLabel(45, "感性程度", "高");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.AddLabel(45, "总体评价", "好评");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.AddLabel(45, "总体评价", "好评");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
 
 		// 保存修改
 //		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GBK");
