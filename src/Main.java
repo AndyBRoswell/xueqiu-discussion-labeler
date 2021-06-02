@@ -59,7 +59,7 @@ public class Main {
 //		}
 
 		// 添加标注
-		//贵州茅台
+		// 贵州茅台
 //		DataManipulator.AddLabel(0, "总体评价", "好评");
 //		DataManipulator.AddLabel(0, "详细分析", "无");
 //		DataManipulator.AddLabel(1, "短期趋势", "看涨");
@@ -80,6 +80,8 @@ public class Main {
 //		DataManipulator.AddLabel(45, "总体评价", "好评");
 //		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
 //		DataManipulator.AddLabel(45, "总体评价", "好评");
+//		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
+//		DataManipulator.AddDiscussionItem(DataManipulator.GetDiscussionItem(45));
 //		System.out.println(DataManipulator.GetDiscussionItem(45).GetLabels());
 
 		// 保存修改
