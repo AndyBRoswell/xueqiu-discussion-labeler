@@ -28,7 +28,8 @@ public class Main {
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\xueqiu.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\中国平安.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\科创.csv", "gbk", 1);
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk", 1);
 //		for (DiscussionItem entry : DataManipulator.DiscussionList) {
 //			System.out.println(entry.GetText());
 //			System.out.println(entry.GetLabels().toString());
@@ -54,13 +55,19 @@ public class Main {
 //		}
 
 		// 添加标注
-		DataManipulator.AddLabel(0, "总体评价", "好评");
-		DataManipulator.AddLabel(0, "详细分析", "无");
-		DataManipulator.AddLabel(1, "短期趋势", "看涨");
-		DataManipulator.AddLabel(4, "是否有关", "无关");
+		//贵州茅台
+//		DataManipulator.AddLabel(0, "总体评价", "好评");
+//		DataManipulator.AddLabel(0, "详细分析", "无");
+//		DataManipulator.AddLabel(1, "短期趋势", "看涨");
+//		DataManipulator.AddLabel(4, "是否有关", "无关");
+		// NVDA
+		DataManipulator.AddLabel(45, "总体评价", "中评");
+		DataManipulator.DeleteLabel(45, "总体评价", "中评");
+		DataManipulator.AddLabel(45, "感性程度", "较高");
+		DataManipulator.AddLabel(45, "总体评价", "好评");
 
 		// 保存修改
-//		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GB2312");
-		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\贵州茅台-简单添加标注.csv", "gbk");
+//		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\Book2.csv", "GBK");
+//		StorageAccessor.SaveDiscussionToCSV(Global.DefaultSavePath + "\\贵州茅台-简单添加标注.csv", "gbk");
 	}
 }
