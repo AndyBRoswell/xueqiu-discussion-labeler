@@ -121,11 +121,12 @@ public class GUIMain extends JFrame {
 
 				/*可选标注滚动面板*/
 				AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
-				AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 				// 可选标注面板内容
 				int XC = 0, YC = 0;
+				final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
 				int max = 0;
 				AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
@@ -134,15 +135,19 @@ public class GUIMain extends JFrame {
 					int x, y, w;
 					// 标签类名称控件
 					final JLabel lbCatName = new JLabel(Cat.getKey());
-					
-					lbCatName.setBounds(XC, YC, w0 * (Cat.getKey().length() + padding), h0);
+					w = w0 * (Cat.getKey().length() + padding);
+					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+					lbCatName.setBounds(XC, YC, w, h0);
 					AllLabelsPanel.add(lbCatName);
 					XC += lbCatName.getWidth() + gap;
+					
 					// 每一类标签及其使用数据
 					for (String Label : Cat.getValue()) {
 						// 标签控件
 						final JButton btLabel = new JButton(Label);
-						btLabel.setBounds(XC, YC, w0 * (Label.length() + padding), h0);
+						w = w0 * (Label.length() + padding);
+						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+						btLabel.setBounds(XC, YC, w, h0);
 						AllLabelsPanel.add(btLabel);
 						XC += btLabel.getWidth() + gap;
 						// 被选中次数控件
