@@ -38,9 +38,9 @@ public class GUIMain extends JFrame {
 	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	// 表格
-	JTable DiscussionTable;
-	JScrollPane DiscussionScrollPane;
-	DefaultTableModel DiscussionTableModel;
+	DefaultTableModel DiscussionTableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
+	JTable DiscussionTable = new JTable(DiscussionTableModel);
+	JScrollPane DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 	// 菜单
 	final JMenuBar MenuBar = new JMenuBar();
@@ -68,11 +68,6 @@ public class GUIMain extends JFrame {
 		MainFrame.setLocationRelativeTo(null);
 		MainFrame.getContentPane().setLayout(null);
 
-		// 添加控件
-		MainFrame.add(btnTaskList); MainFrame.add(btnLabelButton);
-		MainFrame.add(cbLabeled); MainFrame.add(cbUnlabeled);
-		MainFrame.add(tfSearchByText); MainFrame.add(tfSearchByLabel);
-
 		// 添加菜单
 		MenuBar.add(FileMenu);
 		MenuBar.add(TaskMenu);
@@ -89,6 +84,13 @@ public class GUIMain extends JFrame {
 		FileMenu.add(ExitMenuItem);
 
 		TaskMenu.add(AddMenuItem);
+
+		// 添加控件
+		MainFrame.add(btnTaskList); MainFrame.add(btnLabelButton);
+		MainFrame.add(cbLabeled); MainFrame.add(cbUnlabeled);
+		MainFrame.add(tfSearchByText); MainFrame.add(tfSearchByLabel);
+
+		MainFrame.add(DiscussionScrollPane);
 
 		// 添加动作监听程序
 
