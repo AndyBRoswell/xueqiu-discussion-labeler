@@ -35,9 +35,9 @@ public class GUIMain extends JFrame {
 	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	// 表格
-	DefaultTableModel DiscussionTableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
-	JTable DiscussionTable = new JTable(DiscussionTableModel);
-	JScrollPane DiscussionScrollPane = new JScrollPane(DiscussionTable);
+	final DefaultTableModel DiscussionTableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
+	final JTable DiscussionTable = new JTable(DiscussionTableModel);
+	final JScrollPane DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 	// 菜单
 	final JMenuBar MenuBar = new JMenuBar();
@@ -101,9 +101,9 @@ public class GUIMain extends JFrame {
 
 				/*搜索行*/
 				cbLabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0, wGUILabel, h0);
-				cbUnlabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0 + h0, wGUILabel, h0);
+				cbUnlabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), cbLabeled.getHeight(), wGUILabel, h0);
 				tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
-				tfSearchByLabel.setBounds(0, 0 + h0, cbLabeled.getX(), h0);
+				tfSearchByLabel.setBounds(0, cbLabeled.getHeight(), cbLabeled.getX(), h0);
 
 				/*表格*/
 				DiscussionTable.setRowHeight(h0);
