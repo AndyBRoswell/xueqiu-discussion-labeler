@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
@@ -178,6 +180,11 @@ public class GUIMain extends JFrame {
 					h = icoSmallAdd.getIconHeight() * 3 / 2;
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					btnAddLabel.setBounds(XC, YC, w, h);
+					btnAddLabel.addActionListener(new ActionListener() {
+						@Override public void actionPerformed(ActionEvent e) {
+							new GUIAddLabel(Cat.getKey());
+						}
+					});
 					AllLabelsPanel.add(btnAddLabel);
 					XC += btnAddLabel.getWidth();
 				}
