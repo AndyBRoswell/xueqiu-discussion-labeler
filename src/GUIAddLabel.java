@@ -39,7 +39,11 @@ public class GUIAddLabel extends JFrame {
 		});
 		btnOK.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-
+				final JButton btnCancel = (JButton) e.getSource();
+				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnCancel);
+				if (GUIAddLabelForm.tfLabel.getText().isBlank() == false) {
+					
+				}
 			}
 		});
 		btnCancel.addActionListener(new ActionListener() {
