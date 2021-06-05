@@ -11,12 +11,12 @@ public class GUIMain extends JFrame {
 	final JFrame MainFrame = new JFrame("雪球网股票评论");
 
 	// 默认字体
-	final Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
+	static final Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
 	// 主界面图标
-	final ImageIcon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
-	final ImageIcon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
-	final ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
+	static final ImageIcon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
+	static final ImageIcon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
+	static final ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
 
 	/*按钮*/
 	final JButton TaskListButton = new JButton();
@@ -31,14 +31,14 @@ public class GUIMain extends JFrame {
 	final JTextField SearchTag = new JTextField(6);
 
 	/*全部可选标签*/
-	JPanel AllLabelsPanel = new JPanel();
-	JScrollPane AllLabelsScrollPane = new JScrollPane(AllLabelsPanel);
-	JLabel AllAvailableLabelsTag = new JLabel("可选标注");
+	final JPanel AllLabelsPanel = new JPanel();
+	final JScrollPane AllLabelsScrollPane = new JScrollPane(AllLabelsPanel);
+	final JLabel AllAvailableLabelsTag = new JLabel("可选标注");
 
 	// 表格
-	public JTable DiscussionTable;
-	public JScrollPane DiscussionScrollPane;
-	public DefaultTableModel DiscussionTableModel;
+	final JTable DiscussionTable;
+	final JScrollPane DiscussionScrollPane;
+	final DefaultTableModel DiscussionTableModel;
 
 	// 初始化主界面
 	public GUIMain() throws IOException, SAXException, XPathExpressionException {

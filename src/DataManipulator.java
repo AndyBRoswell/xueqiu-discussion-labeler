@@ -26,6 +26,8 @@ public class DataManipulator {
 	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
 //	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 
+	static ConcurrentHashMap<String, HashSet<String>> GetAllLabels() { return AllLabels; }
+
 	static HashSet<String> GetLabelsOfCategory(String Category) { return AllLabels.get(Category); }
 
 	public static void AddLabelToCategory(String Category, String Label) {
