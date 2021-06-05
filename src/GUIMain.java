@@ -16,21 +16,21 @@ public class GUIMain extends JFrame {
 	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
 	// 主界面图标
-	static final ImageIcon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
-	static final ImageIcon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
-	static final ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
+	static final ImageIcon icoDownload = new ImageIcon(Global.IconPath + "\\download.png");
+	static final ImageIcon icoAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
+	static final ImageIcon icoSmallAdd = new ImageIcon(Global.IconPath + "\\add.png");
 
 	/*按钮*/
-	final JButton TaskListButton = new JButton(iconDownload);
-	final JButton AddLabelButton = new JButton(iconAdd);
+	final JButton btnTaskList = new JButton(icoDownload);
+	final JButton btnLabelButton = new JButton(icoAdd);
 
 	/*快捷筛选复选框*/
-	final JCheckBox Labeled = new JCheckBox("已标注");
-	final JCheckBox Unlabeled = new JCheckBox("未标注");
+	final JCheckBox cbLabeled = new JCheckBox("已标注");
+	final JCheckBox cbUnlabeled = new JCheckBox("未标注");
 
 	/*搜索栏*/
-	final JTextField SearchByText = new JTextField(6);
-	final JTextField SearchByLabel = new JTextField(6);
+	final JTextField tfSearchByText = new JTextField(6);
+	final JTextField tfSearchByLabel = new JTextField(6);
 
 	/*全部可选标签*/
 	final JPanel AllLabelsPanel = new JPanel();
@@ -69,9 +69,9 @@ public class GUIMain extends JFrame {
 		MainFrame.getContentPane().setLayout(null);
 
 		// 添加控件
-		MainFrame.add(TaskListButton); MainFrame.add(AddLabelButton);
-		MainFrame.add(Labeled); MainFrame.add(Unlabeled);
-		MainFrame.add(SearchByText); MainFrame.add(SearchByLabel);
+		MainFrame.add(btnTaskList); MainFrame.add(btnLabelButton);
+		MainFrame.add(cbLabeled); MainFrame.add(cbUnlabeled);
+		MainFrame.add(tfSearchByText); MainFrame.add(tfSearchByLabel);
 
 		// 添加动作监听程序
 
