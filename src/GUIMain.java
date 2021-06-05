@@ -124,6 +124,7 @@ public class GUIMain extends JFrame {
 				AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 				AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
 
 				// 可选标注面板内容
 				int XC = 0, YC = 0;
@@ -157,7 +158,9 @@ public class GUIMain extends JFrame {
 			}
 
 			@Override public void componentMoved(ComponentEvent e) {}
+
 			@Override public void componentShown(ComponentEvent e) {}
+
 			@Override public void componentHidden(ComponentEvent e) {}
 		}
 
