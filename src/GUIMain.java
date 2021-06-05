@@ -146,13 +146,12 @@ public class GUIMain extends JFrame {
 				// 可选标注面板内容
 				int XC = 0, YC = 0; // 当前摆放控件的位置
 				final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
-				int max = 0;
 				AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
 				// 将全部可选标签布局在可选标签面板上
 				final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
-					int x, y, w, h;
+					int w, h;
 					// 标签类名称控件
 					final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
 					w = w0 * (Cat.getKey().length() + LabelPadding);
