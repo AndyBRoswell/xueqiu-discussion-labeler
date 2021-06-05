@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GUIMain extends JFrame {
 	// 默认字体
@@ -119,6 +122,12 @@ public class GUIMain extends JFrame {
 				AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 				// 可选标注面板内容
+				int XAllLabelsPanel = 0;
+				int YAllLabelsPanel = 0;
+				int max = 0;
+				AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
+
+				final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 				
 			}
 

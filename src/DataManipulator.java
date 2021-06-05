@@ -68,6 +68,8 @@ public class DataManipulator {
 		if (Categories.size() == 0) LabelToCategory.remove(Category);
 	}
 
+	public static ArrayList<DiscussionItem> getDiscussionList() { return DiscussionList; }
+
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
 	public static int GetIndexOfDiscussionItem(DiscussionItem item) { return DiscussionToIndex.get(item.GetText()); }
