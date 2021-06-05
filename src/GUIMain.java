@@ -6,7 +6,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.io.IOException;
 
-public class MainWindow extends JFrame {
+public class GUIMain extends JFrame {
 	// 主界面
 	final JFrame MainFrame = new JFrame("雪球网股票评论");
 
@@ -41,7 +41,7 @@ public class MainWindow extends JFrame {
 	public DefaultTableModel DiscussionTableModel;
 
 	// 初始化主界面
-	public MainWindow() throws IOException, SAXException, XPathExpressionException {
+	public GUIMain() throws IOException, SAXException, XPathExpressionException {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		MainFrame.setSize((int) Screen.getWidth() / 2, (int) Screen.getHeight() / 2);

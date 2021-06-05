@@ -2,13 +2,11 @@ import org.xml.sax.SAXException;
 
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
 //		GUI MainForm = new GUI();
-		MainWindow MainForm = new MainWindow();
+		GUIMain MainForm = new GUIMain();
 
 		// 读取设置
 //		Config.LoadConfig(Global.DefaultConfig);
