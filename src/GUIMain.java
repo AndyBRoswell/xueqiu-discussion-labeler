@@ -13,7 +13,7 @@ public class GUIMain extends JFrame {
 	final JFrame MainFrame = new JFrame("雪球网股票评论");
 
 	// 默认字体
-	static final Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
+	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
 	// 主界面图标
 	static final ImageIcon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
@@ -21,21 +21,21 @@ public class GUIMain extends JFrame {
 	static final ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
 
 	/*按钮*/
-	final JButton TaskListButton = new JButton();
-	final JButton AddTagButton = new JButton();
+	final JButton TaskListButton = new JButton(iconDownload);
+	final JButton AddLabelButton = new JButton(iconAdd);
 
 	/*快捷筛选复选框*/
 	final JCheckBox Labeled = new JCheckBox("已标注");
 	final JCheckBox Unlabeled = new JCheckBox("未标注");
 
 	/*搜索栏*/
-	final JTextField SearchText = new JTextField(6);
-	final JTextField SearchTag = new JTextField(6);
+	final JTextField SearchByText = new JTextField(6);
+	final JTextField SearchByLabel = new JTextField(6);
 
 	/*全部可选标签*/
 	final JPanel AllLabelsPanel = new JPanel();
 	final JScrollPane AllLabelsScrollPane = new JScrollPane(AllLabelsPanel);
-	final JLabel AllAvailableLabelsTag = new JLabel("可选标注");
+	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	// 表格
 	JTable DiscussionTable;
@@ -66,8 +66,12 @@ public class GUIMain extends JFrame {
 		MainFrame.setSize((int) Screen.getWidth() / 2, (int) Screen.getHeight() / 2);
 		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainFrame.setLocationRelativeTo(null);
+		MainFrame.getContentPane().setLayout(null);
 
 		// 添加控件
+		MainFrame.add(TaskListButton); MainFrame.add(AddLabelButton);
+		MainFrame.add(Labeled); MainFrame.add(Unlabeled);
+		MainFrame.add(SearchByText); MainFrame.add(SearchByLabel);
 
 		// 添加动作监听程序
 
