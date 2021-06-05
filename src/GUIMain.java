@@ -87,6 +87,7 @@ public class GUIMain extends JFrame {
 		super.add(AllAvailableLabelsLabel); super.add(btnAddLabel);
 
 		super.add(DiscussionScrollPane);
+		super.add(AllLabelsScrollPane);
 
 		// 动作监听程序（内部类）
 		class MainFrameListener implements ComponentListener {
@@ -140,7 +141,7 @@ public class GUIMain extends JFrame {
 					lbCatName.setBounds(XC, YC, w, h0);
 					AllLabelsPanel.add(lbCatName);
 					XC += lbCatName.getWidth() + gap;
-					
+
 					// 每一类标签及其使用数据
 					for (String Label : Cat.getValue()) {
 						// 标签控件
@@ -150,7 +151,7 @@ public class GUIMain extends JFrame {
 						btLabel.setBounds(XC, YC, w, h0);
 						AllLabelsPanel.add(btLabel);
 						XC += btLabel.getWidth() + gap;
-						// 被选中次数控件
+						// 被选中次数控件（待补充）
 					}
 				}
 			}
@@ -169,6 +170,7 @@ public class GUIMain extends JFrame {
 		Config.LoadConfig(Global.DefaultConfig);
 		StorageAccessor.LoadAllAvailableLabels();
 
+		// 显示
 		super.setVisible(true);
 	}
 }

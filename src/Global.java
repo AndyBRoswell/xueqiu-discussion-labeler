@@ -1,7 +1,7 @@
 public class Global {
 	// Controls
 	public static final int ComponentGapD = 5;
-	public static final int StringPaddingInChrD = 2;
+	public static final int StringPaddingInChrD = 1;
 
 	// Directories
 	public static final String AppPath = System.getProperty("user.dir");
