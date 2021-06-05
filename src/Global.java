@@ -1,4 +1,9 @@
 public class Global {
+	// Controls
+	public static final int ComponentGapD = 5;
+	public static final int StringPaddingInChrD = 2;
+
+	// Directories
 	public static final String AppPath = System.getProperty("user.dir");
 	public static final String ConfigPath = AppPath + "\\cfg";
 	public static final String CrawlResultsPath = AppPath + "\\crawlresults";
@@ -10,8 +15,7 @@ public class Global {
 	public static final String TemporaryPath = AppPath + "\\tmp";
 	public static final String LogPath = AppPath + "\\log";
 
+	// Fonts
 	public static final int FontSizeD = 12;
 	public static final int FontSizeL = 16;
-
-	public static final int ComponentGapD = 5;
 }

@@ -9,6 +9,7 @@ import java.awt.event.ComponentListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GUIMain extends JFrame {
@@ -96,6 +97,8 @@ public class GUIMain extends JFrame {
 				final int w0 = Global.FontSizeD;
 				final int h0 = 2 * Global.FontSizeD;
 				final int wGUILabel = 6 * w0;
+				final int gap = Global.ComponentGapD;
+				final int padding = Global.StringPaddingInChrD;
 
 				/*下载（任务列表）按钮*/
 				btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
@@ -122,13 +125,24 @@ public class GUIMain extends JFrame {
 				AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 				// 可选标注面板内容
-				int XAllLabelsPanel = 0;
-				int YAllLabelsPanel = 0;
+				int XC = 0;
+				int YC = 0;
 				int max = 0;
 				AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
 				final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
-				
+				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
+					// 标签类名称控件
+					final JLabel lbCatName = new JLabel(Cat.getKey());
+					lbCatName.setBounds(XC, YC, w0 * (Cat.getKey().length() + ), h0);
+					AllLabelsPanel.add(lbCatName);
+					XC += lbCatName.getWidth() + gap;
+					// 每一类标签及其使用数据
+					for (String Label : Cat.getValue()) {
+						final JButton btLabel = new JButton(Label);
+						btLabel.setBounds(XC,YC,w0*(Label.length()+),h0);
+					}
+				}
 			}
 
 			@Override public void componentMoved(ComponentEvent e) {}
