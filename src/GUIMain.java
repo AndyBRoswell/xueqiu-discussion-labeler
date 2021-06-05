@@ -1,14 +1,12 @@
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +22,7 @@ public class GUIMain extends JFrame {
 
 	/*按钮*/
 	final JButton btnTaskList = new JButton(icoDownload);
-	final JButton btnAddLabel = new JButton(icoAdd);
+	final JButton btnAddLabelCategory = new JButton(icoAdd);
 
 	/*快捷筛选复选框*/
 	final JCheckBox cbLabeled = new JCheckBox("已标注");
@@ -85,7 +83,7 @@ public class GUIMain extends JFrame {
 		// 添加控件
 		super.add(btnTaskList); super.add(cbLabeled); super.add(cbUnlabeled);
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
-		super.add(AllAvailableLabelsLabel); super.add(btnAddLabel);
+		super.add(AllAvailableLabelsLabel); super.add(btnAddLabelCategory);
 
 		super.add(DiscussionScrollPane);
 		super.add(AllLabelsScrollPane);
@@ -135,8 +133,8 @@ public class GUIMain extends JFrame {
 
 				/*标注添加标签与按钮*/
 				AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
-				btnAddLabel.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
-				btnAddLabel.setBorderPainted(false);
+				btnAddLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
+				btnAddLabelCategory.setBorderPainted(false);
 
 				/*可选标注滚动面板*/
 				AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
@@ -151,9 +149,10 @@ public class GUIMain extends JFrame {
 				int max = 0;
 				AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
+				// 将全部可选标签布局在可选标签面板上
 				final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
-					int x, y, w;
+					int x, y, w, h;
 					// 标签类名称控件
 					final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
 					w = w0 * (Cat.getKey().length() + LabelPadding);
@@ -173,6 +172,15 @@ public class GUIMain extends JFrame {
 						XC += btLabel.getWidth();
 						// 被选中次数控件（待补充）
 					}
+
+					// 添加标签按钮
+					final JButton btnAddLabel = new JButton(icoSmallAdd);
+					w = icoSmallAdd.getIconWidth() * 3 / 2;
+					h = icoSmallAdd.getIconHeight() * 3 / 2;
+					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+					btnAddLabel.setBounds(XC, YC, w, h);
+					AllLabelsPanel.add(btnAddLabel);
+					XC += btnAddLabel.getWidth();
 				}
 			}
 
