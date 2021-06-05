@@ -26,6 +26,15 @@ public class DataManipulator {
 	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
 //	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 
+	static HashSet<String> GetLabelsOfCategory(String Category) { return AllLabels.get(Category); }
+
+	static void AddLabelCategory(String Category) { AllLabels.put(Category, new HashSet<>()); }
+
+	static void AddLabelToCategory(String Category, String Label) {
+		HashSet<String> Labels = AllLabels.get(Category);
+		Labels.add(Label);
+	}
+
 	static HashSet<String> GetCategoriesOfLabel(String label) {
 		return LabelToCategory.get(label);
 	}

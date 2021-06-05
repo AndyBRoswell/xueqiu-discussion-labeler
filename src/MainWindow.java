@@ -1,6 +1,10 @@
+import org.xml.sax.SAXException;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
+import java.io.IOException;
 
 public class MainWindow extends JFrame {
 	// 主界面
@@ -37,12 +41,18 @@ public class MainWindow extends JFrame {
 	public DefaultTableModel DiscussionTableModel;
 
 	// 初始化主界面
-	public MainWindow() {
+	public MainWindow() throws IOException, SAXException, XPathExpressionException {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		MainFrame.setSize((int) Screen.getWidth() / 2, (int) Screen.getHeight() / 2);
 		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainFrame.setLocationRelativeTo(null);
+
+		// 动作监听程序
+
+		// 读取数据
+		Config.LoadConfig(Global.DefaultConfig);
+		StorageAccessor.LoadAllAvailableLabels();
 
 		MainFrame.setVisible(true);
 	}
