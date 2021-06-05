@@ -93,6 +93,7 @@ public class GUIMain extends JFrame {
 		MainFrame.add(DiscussionScrollPane);
 
 		// 添加动作监听程序
+		MainFrame.addComponentListener(new MainFrameListener());
 
 		// 读取数据
 		Config.LoadConfig(Global.DefaultConfig);
@@ -104,6 +105,13 @@ public class GUIMain extends JFrame {
 
 class MainFrameListener implements ComponentListener {
 	@Override public void componentResized(ComponentEvent e) {
+		final JFrame MainFrame = (JFrame) e.getComponent();
+		final int X = MainFrame.getContentPane().getWidth();
+		final int Y = MainFrame.getContentPane().getHeight();
+		final int w0 = Global.FontSizeD;
+		final int h0 = 2 * Global.FontSizeD;
+		final int wGUILabel = 6 * w0;
+
 
 	}
 
