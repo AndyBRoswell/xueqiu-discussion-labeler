@@ -125,22 +125,27 @@ public class GUIMain extends JFrame {
 				AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 				// 可选标注面板内容
-				int XC = 0;
-				int YC = 0;
+				int XC = 0, YC = 0;
 				int max = 0;
 				AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
 				final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
+					int x, y, w;
 					// 标签类名称控件
 					final JLabel lbCatName = new JLabel(Cat.getKey());
-					lbCatName.setBounds(XC, YC, w0 * (Cat.getKey().length() + ), h0);
+					
+					lbCatName.setBounds(XC, YC, w0 * (Cat.getKey().length() + padding), h0);
 					AllLabelsPanel.add(lbCatName);
 					XC += lbCatName.getWidth() + gap;
 					// 每一类标签及其使用数据
 					for (String Label : Cat.getValue()) {
+						// 标签控件
 						final JButton btLabel = new JButton(Label);
-						btLabel.setBounds(XC,YC,w0*(Label.length()+),h0);
+						btLabel.setBounds(XC, YC, w0 * (Label.length() + padding), h0);
+						AllLabelsPanel.add(btLabel);
+						XC += btLabel.getWidth() + gap;
+						// 被选中次数控件
 					}
 				}
 			}
