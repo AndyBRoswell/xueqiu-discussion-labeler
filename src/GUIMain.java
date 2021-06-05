@@ -1,6 +1,7 @@
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
@@ -89,6 +90,22 @@ public class GUIMain extends JFrame {
 		super.add(DiscussionScrollPane);
 		super.add(AllLabelsScrollPane);
 
+		// 标签按钮（内部类）：点击标签进行添加或删除
+		class LabelButton extends JButton {
+			public LabelButton(String Text) {
+				super(Text);
+				super.setBorder(null); // Don't show ellipsis.
+			}
+		}
+
+		// 标签类名称标签空间（内部类）
+		class LabelCategoryComponent extends JLabel {
+			public LabelCategoryComponent(String Text) {
+				super(Text);
+				super.setHorizontalAlignment(JLabel.CENTER);
+			}
+		}
+
 		// 动作监听程序（内部类）
 		class MainFrameListener implements ComponentListener {
 			@Override public void componentResized(ComponentEvent e) {
@@ -137,7 +154,7 @@ public class GUIMain extends JFrame {
 				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
 					int x, y, w;
 					// 标签类名称控件
-					final JLabel lbCatName = new JLabel(Cat.getKey());
+					final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
 					w = w0 * (Cat.getKey().length() + padding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					lbCatName.setBounds(XC, YC, w, h0);
@@ -147,7 +164,7 @@ public class GUIMain extends JFrame {
 					// 每一类标签及其使用数据
 					for (String Label : Cat.getValue()) {
 						// 标签控件
-						final JButton btLabel = new JButton(Label);
+						final LabelButton btLabel = new LabelButton(Label);
 						w = w0 * (Label.length() + padding);
 						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 						btLabel.setBounds(XC, YC, w, h0);
