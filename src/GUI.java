@@ -153,11 +153,9 @@ public class GUI extends JFrame {
 				new GUIBackupAndRestore();
 			}
 
-			public void menuDeselected(MenuEvent e) {
-			}
+			public void menuDeselected(MenuEvent e) {}
 
-			public void menuCanceled(MenuEvent e) {
-			}
+			public void menuCanceled(MenuEvent e) {}
 		});
 
 		/*统计图菜单项*/
@@ -167,11 +165,9 @@ public class GUI extends JFrame {
 				new GUIStatistic();
 			}
 
-			public void menuDeselected(MenuEvent e) {
-			}
+			public void menuDeselected(MenuEvent e) {}
 
-			public void menuCanceled(MenuEvent e) {
-			}
+			public void menuCanceled(MenuEvent e) {}
 		});
 
 		/*全部可选标注面板*/
@@ -189,13 +185,11 @@ public class GUI extends JFrame {
 		/*部分动作监听程序*/
 		SearchTag.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
+			public void actionPerformed(ActionEvent e) {}
 		});
 		SearchText.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
+			public void actionPerformed(ActionEvent e) {}
 		});
 
 		/*控件添加*/
@@ -276,6 +270,7 @@ public class GUI extends JFrame {
 
 //		AllLabelsPanel.revalidate();
 //		AllLabelsPanel.repaint();
+
 	}
 
 	public void TableInit() {
