@@ -140,7 +140,7 @@ public class GUIMain extends JFrame {
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					lbCatName.setBounds(XC, YC, w, h0);
 					AllLabelsPanel.add(lbCatName);
-					XC += lbCatName.getWidth() + gap;
+					XC += lbCatName.getWidth();
 
 					// 每一类标签及其使用数据
 					for (String Label : Cat.getValue()) {
@@ -150,16 +150,14 @@ public class GUIMain extends JFrame {
 						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 						btLabel.setBounds(XC, YC, w, h0);
 						AllLabelsPanel.add(btLabel);
-						XC += btLabel.getWidth() + gap;
+						XC += btLabel.getWidth();
 						// 被选中次数控件（待补充）
 					}
 				}
 			}
 
 			@Override public void componentMoved(ComponentEvent e) {}
-
 			@Override public void componentShown(ComponentEvent e) {}
-
 			@Override public void componentHidden(ComponentEvent e) {}
 		}
 
