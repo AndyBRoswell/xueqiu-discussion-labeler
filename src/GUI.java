@@ -20,9 +20,9 @@ import java.util.Vector;
 
 public class GUI extends JFrame {
 	/*主界面图标*/
-	final ImageIcon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
-	final ImageIcon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
-	final ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
+	final ImageIcon icoDownload = new ImageIcon(Global.IconPath + "\\download.png");
+	final ImageIcon icoAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
+	final ImageIcon icoSmallAdd = new ImageIcon(Global.IconPath + "\\add.png");
 
 	JFrame MainFrame = new JFrame("雪球网股票评论");
 	final Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
@@ -33,21 +33,21 @@ public class GUI extends JFrame {
 	ArrayList<AddButton> AddLabelButtons = new ArrayList<>();
 
 	/*按钮*/
-	final JButton TaskListButton = new JButton();
-	final JButton AddTagButton = new JButton();
+	final JButton btnTaskList = new JButton();
+	final JButton btnAddLabel = new JButton();
 
 	/*搜索栏*/
-	final JTextField SearchText = new JTextField(6);
-	final JTextField SearchTag = new JTextField(6);
+	final JTextField tfSearchByText = new JTextField(6);
+	final JTextField tfSearchByLabel = new JTextField(6);
 
 	/*快捷筛选复选框*/
-	final JCheckBox Labeled = new JCheckBox("已标注");
-	final JCheckBox Unlabeled = new JCheckBox("未标注");
+	final JCheckBox cbLabeled = new JCheckBox("已标注");
+	final JCheckBox cbUnlabeled = new JCheckBox("未标注");
 
 	/*全部可选标签*/
 	JPanel AllLabelsPanel = new JPanel();
 	JScrollPane AllLabelsScrollPane = new JScrollPane(AllLabelsPanel);
-	JLabel AllAvailableLabelsTag = new JLabel("可选标注");
+	JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	/*表格*/
 	Vector<Object> DiscussionListTitle = new Vector<>();
@@ -71,7 +71,7 @@ public class GUI extends JFrame {
 
 	public void init() {
 		/*任务列表按钮*/
-		TaskListButton.addActionListener(new ActionListener() { // 打开任务列表界面
+		btnTaskList.addActionListener(new ActionListener() { // 打开任务列表界面
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new GUIDownLoad();
@@ -174,8 +174,8 @@ public class GUI extends JFrame {
 		AllLabelsPanel.setLayout(null);
 
 		/*添加一类新标注*/
-		AddTagButton.setIcon(iconAdd);
-		AddTagButton.addActionListener(new ActionListener() {
+		btnAddLabel.setIcon(icoAdd);
+		btnAddLabel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new GUIAddTagSort(MainFrame);
@@ -183,25 +183,25 @@ public class GUI extends JFrame {
 		});
 
 		/*部分动作监听程序*/
-		SearchTag.addActionListener(new ActionListener() {
+		tfSearchByLabel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {}
 		});
-		SearchText.addActionListener(new ActionListener() {
+		tfSearchByText.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {}
 		});
 
 		/*控件添加*/
 		MainFrame.getContentPane().setLayout(null);
-		MainFrame.add(SearchText);
-		MainFrame.add(SearchTag);
-		MainFrame.add(Labeled);
-		MainFrame.add(Unlabeled);
-		MainFrame.add(TaskListButton);
+		MainFrame.add(tfSearchByText);
+		MainFrame.add(tfSearchByLabel);
+		MainFrame.add(cbLabeled);
+		MainFrame.add(cbUnlabeled);
+		MainFrame.add(btnTaskList);
 		MainFrame.add(AllLabelsScrollPane);
-		MainFrame.add(AllAvailableLabelsTag);
-		MainFrame.add(AddTagButton);
+		MainFrame.add(AllAvailableLabelsLabel);
+		MainFrame.add(btnAddLabel);
 	}
 
 	public void LabelInit() throws XPathExpressionException, IOException { //从labels.txt文件中导出标签显示在主界面
@@ -224,7 +224,7 @@ public class GUI extends JFrame {
 				AllLabelsPanel.add(LabelCategoryControls.get(i)); // 添加标签类到主界面
 				String text = String.valueOf(i); // int to string
 				AddLabelButtons.add(new AddButton(text)); // 产生该类标签的添加按钮并添加到数据结构
-				AddLabelButtons.get(AddLabelButtons.size() - 1).setIcon(iconAddSmall);
+				AddLabelButtons.get(AddLabelButtons.size() - 1).setIcon(icoSmallAdd);
 				AllLabelsPanel.add(AddLabelButtons.get(i)); // 将该类标签的添加按钮添加到主界面
 				ArrayList<ConcreteLabelControl> Label = new ArrayList<>(); // 该类股评标签控件的集合
 				for (int j = 1; j < LabelsAndCategories.get(i).size(); j++) {
@@ -313,28 +313,28 @@ public class GUI extends JFrame {
 			final int wGUILabel = 6 * w0;
 
 			/*下载按钮*/
-			TaskListButton.setBounds(X - iconDownload.getIconWidth(), 12, iconDownload.getIconWidth(), iconDownload.getIconHeight());
-			iconDownload.setImage(iconDownload.getImage().getScaledInstance(TaskListButton.getWidth(), TaskListButton.getHeight(), Image.SCALE_DEFAULT));
-			TaskListButton.setIcon(iconDownload);
+			btnTaskList.setBounds(X - icoDownload.getIconWidth(), 12, icoDownload.getIconWidth(), icoDownload.getIconHeight());
+			icoDownload.setImage(icoDownload.getImage().getScaledInstance(btnTaskList.getWidth(), btnTaskList.getHeight(), Image.SCALE_DEFAULT));
+			btnTaskList.setIcon(icoDownload);
 
 			/*搜索行*/
-			Labeled.setBounds(X - wGUILabel - iconDownload.getIconWidth(), 0, wGUILabel, h0);
-			Unlabeled.setBounds(X - wGUILabel - iconDownload.getIconWidth(), 0 + h0, wGUILabel, h0);
-			SearchText.setBounds(0, 0, Labeled.getX(), h0);
-			SearchTag.setBounds(0, 0 + h0, Labeled.getX(), h0);
+			cbLabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0, wGUILabel, h0);
+			cbUnlabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0 + h0, wGUILabel, h0);
+			tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
+			tfSearchByLabel.setBounds(0, 0 + h0, cbLabeled.getX(), h0);
 
 			/*表格*/
 			DiscussionTable.setRowHeight(h0);
-			DiscussionScrollPane.setBounds(0, SearchTag.getY() + SearchTag.getHeight(), X, Y * 7 / 10);
-			DiscussionTable.setBounds(0, SearchTag.getY() + SearchTag.getHeight(), X, Y * 7 / 10);
+			DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+			DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 
 			/*标注添加标签与按钮*/
-			AllAvailableLabelsTag.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, h0);
-			AddTagButton.setBounds(0, AllAvailableLabelsTag.getY() + AllAvailableLabelsTag.getHeight(), iconAdd.getIconWidth(), iconAdd.getIconHeight());
-			AddTagButton.setBorderPainted(false);
+			AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, h0);
+			btnAddLabel.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), icoAdd.getIconWidth(), icoAdd.getIconHeight());
+			btnAddLabel.setBorderPainted(false);
 
 			/*可选标注滚动面板*/
-			AllLabelsScrollPane.setBounds(AllAvailableLabelsTag.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsTag.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+			AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			int XAllLabelsPanel = 0;
@@ -345,7 +345,7 @@ public class GUI extends JFrame {
 				LabelCategoryControl cat = LabelCategoryControls.get(i);
 				final int gap = Global.ComponentGapD;
 				int l = LabelsAndCategories.get(i).get(0).length() + 2;
-				if (XAllLabelsPanel + (LabelsAndCategories.get(i).size()) * l * w0 + iconAddSmall.getIconWidth() * 3 / 2 > AllLabelsScrollPane.getWidth()) {
+				if (XAllLabelsPanel + (LabelsAndCategories.get(i).size()) * l * w0 + icoSmallAdd.getIconWidth() * 3 / 2 > AllLabelsScrollPane.getWidth()) {
 					YAllLabelsPanel += 1;
 					XAllLabelsPanel = 0;
 				}
@@ -362,8 +362,8 @@ public class GUI extends JFrame {
 				}
 
 				AddButton button = AddLabelButtons.get(i);
-				button.setBounds(XAllLabelsPanel, YAllLabelsPanel * (h0 + gap), iconAddSmall.getIconWidth() * 3 / 2, iconAddSmall.getIconHeight() * 3 / 2);
-				XAllLabelsPanel += 2 * iconAddSmall.getIconWidth() + gap;
+				button.setBounds(XAllLabelsPanel, YAllLabelsPanel * (h0 + gap), icoSmallAdd.getIconWidth() * 3 / 2, icoSmallAdd.getIconHeight() * 3 / 2);
+				XAllLabelsPanel += 2 * icoSmallAdd.getIconWidth() + gap;
 				if (XAllLabelsPanel > max) {
 					max = XAllLabelsPanel;
 				}
