@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.IOException;
 
 public class GUIMain extends JFrame {
@@ -36,9 +38,26 @@ public class GUIMain extends JFrame {
 	final JLabel AllAvailableLabelsTag = new JLabel("可选标注");
 
 	// 表格
-	final JTable DiscussionTable;
-	final JScrollPane DiscussionScrollPane;
-	final DefaultTableModel DiscussionTableModel;
+	JTable DiscussionTable;
+	JScrollPane DiscussionScrollPane;
+	DefaultTableModel DiscussionTableModel;
+
+	// 菜单
+	final JMenuBar menuBar = new JMenuBar();
+
+	final JMenu FileMenu = new JMenu("文件");
+	final JMenuItem ImportMenuItem = new JMenuItem("导入股票讨论 CSV 文件");
+	final JMenuItem ExportMenuItem = new JMenuItem("导出股票讨论 CSV 文件");
+	final JMenuItem SetMenuItem = new JMenuItem("设置");
+	final JMenuItem JournalMenuItem = new JMenuItem("日志");
+	final JMenuItem ExitMenuItem = new JMenuItem("退出");
+
+	final JMenu TaskMenu = new JMenu("任务");
+	final JMenuItem AddMenuItem = new JMenuItem("添加爬取任务");
+
+	final JMenu BackupAndRestoreMenu = new JMenu("备份/恢复");
+
+	final JMenu StatisticMenu = new JMenu("统计");
 
 	// 初始化主界面
 	public GUIMain() throws IOException, SAXException, XPathExpressionException {
@@ -48,7 +67,9 @@ public class GUIMain extends JFrame {
 		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainFrame.setLocationRelativeTo(null);
 
-		// 动作监听程序
+		// 添加控件
+
+		// 添加动作监听程序
 
 		// 读取数据
 		Config.LoadConfig(Global.DefaultConfig);
@@ -56,4 +77,16 @@ public class GUIMain extends JFrame {
 
 		MainFrame.setVisible(true);
 	}
+}
+
+class MainFrameListener implements ComponentListener {
+	@Override public void componentResized(ComponentEvent e) {
+
+	}
+
+	@Override public void componentMoved(ComponentEvent e) {}
+
+	@Override public void componentShown(ComponentEvent e) {}
+
+	@Override public void componentHidden(ComponentEvent e) {}
 }
