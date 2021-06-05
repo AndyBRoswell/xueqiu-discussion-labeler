@@ -16,6 +16,7 @@ public class GUIAddLabel extends JFrame {
 		super.setLayout(null);
 		super.setSize((int) Screen.getWidth() / 4, 100);
 		super.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
+		super.setResizable(false);
 		super.setTitle("输入标签分类 " + Category + " 下的新标签");
 
 		// 动作监听程序
