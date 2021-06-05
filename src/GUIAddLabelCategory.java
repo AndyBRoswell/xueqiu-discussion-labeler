@@ -10,7 +10,7 @@ public class GUIAddLabelCategory extends JFrame {
 	final JLabel lbLabelCategory = new JLabel("标签类");
 	final JTextField tfLabelCategory = new JTextField();
 	final JLabel lbLabel = new JLabel("标签");
-	final ArrayList<JTextField> tfLabel = new ArrayList<>();
+	final ArrayList<JTextField> tfLabels = new ArrayList<>();
 	final JButton btnOK = new JButton("确定");
 	final JButton btnCancel = new JButton("取消");
 
@@ -41,6 +41,12 @@ public class GUIAddLabelCategory extends JFrame {
 		});
 
 		// 添加控件
+		super.add(lbLabelCategory); super.add(tfLabelCategory);
+		super.add(lbLabel);
+		for (JTextField t : tfLabels) {
+			super.add(t);
+		}
+		super.add(btnOK); super.add(btnCancel);
 
 		// 显示
 		super.setVisible(true);
