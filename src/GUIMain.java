@@ -78,9 +78,9 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddMenuItem);
 
 		// 添加控件
-		super.add(btnTaskList); super.add(btnAddLabel);
-		super.add(cbLabeled); super.add(cbUnlabeled);
+		super.add(btnTaskList); super.add(cbLabeled); super.add(cbUnlabeled);
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
+		super.add(AllAvailableLabelsLabel); super.add(btnAddLabel);
 
 		super.add(DiscussionScrollPane);
 
@@ -94,10 +94,8 @@ public class GUIMain extends JFrame {
 				final int h0 = 2 * Global.FontSizeD;
 				final int wGUILabel = 6 * w0;
 
-				/*下载按钮*/
+				/*下载（任务列表）按钮*/
 				btnTaskList.setBounds(X - icoDownload.getIconWidth(), 12, icoDownload.getIconWidth(), icoDownload.getIconHeight());
-				icoDownload.setImage(icoDownload.getImage().getScaledInstance(btnTaskList.getWidth(), btnTaskList.getHeight(), Image.SCALE_DEFAULT));
-				btnTaskList.setIcon(icoDownload);
 
 				/*搜索行*/
 				cbLabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0, wGUILabel, h0);
@@ -107,8 +105,8 @@ public class GUIMain extends JFrame {
 
 				/*表格*/
 				DiscussionTable.setRowHeight(h0);
-				DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 				DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+				DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 
 				/*标注添加标签与按钮*/
 				AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
