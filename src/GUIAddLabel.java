@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -18,7 +20,7 @@ public class GUIAddLabel extends JFrame {
 		super.setMaximumSize(super.getSize());
 		super.setMinimumSize(super.getSize());
 
-		// 设置各部件的大小
+		// 动作监听程序
 		super.addComponentListener(new ComponentListener() {
 			@Override public void componentResized(ComponentEvent e) {
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) e.getComponent();
@@ -34,6 +36,18 @@ public class GUIAddLabel extends JFrame {
 			@Override public void componentShown(ComponentEvent e) {}
 
 			@Override public void componentHidden(ComponentEvent e) {}
+		});
+		btnOK.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		btnCancel.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				final JButton btnCancel = (JButton) e.getSource();
+				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnCancel);
+				GUIAddLabelForm.dispose();
+			}
 		});
 
 		// 添加控件
