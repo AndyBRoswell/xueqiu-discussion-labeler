@@ -38,6 +38,12 @@ public class MainWindow extends JFrame {
 
 	// 初始化主界面
 	public MainWindow() {
-		
+		// 窗体的基本属性
+		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
+		MainFrame.setSize((int) Screen.getWidth() / 2, (int) Screen.getHeight() / 2);
+		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		MainFrame.setLocationRelativeTo(null);
+
+		MainFrame.setVisible(true);
 	}
 }
