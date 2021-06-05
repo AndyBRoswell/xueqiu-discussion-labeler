@@ -28,24 +28,40 @@ public class DataManipulator {
 
 	static HashSet<String> GetLabelsOfCategory(String Category) { return AllLabels.get(Category); }
 
-	static void AddLabelCategory(String Category) { AllLabels.put(Category, new HashSet<>()); }
-
 	static void AddLabelToCategory(String Category, String Label) {
 		HashSet<String> Labels = AllLabels.get(Category);
+		if (Labels == null) {
+			AllLabels.put(Category, new HashSet<>());
+			Labels = AllLabels.get(Category);
+		}
 		Labels.add(Label);
 	}
 
-	static HashSet<String> GetCategoriesOfLabel(String label) {
-		return LabelToCategory.get(label);
+	static void DeleteLabelFromCategory(String Category, String Label) {
+		HashSet<String> Labels = AllLabels.get(Category);
+		if (Labels == null) return;
+		Labels.remove(Label);
+		if (Labels.size() == 0) AllLabels.remove(Category);
 	}
 
-	static void AddCategoryOfLabel(String label, String category) {
-		HashSet<String> categories = DataManipulator.GetCategoriesOfLabel(label);
-		if (categories == null) {
-			DataManipulator.LabelToCategory.put(label, new HashSet<>());
-			categories = DataManipulator.LabelToCategory.get(label);
+	static HashSet<String> GetCategoriesOfLabel(String Label) {
+		return LabelToCategory.get(Label);
+	}
+
+	static void AddCategoryOfLabel(String Category, String Label) {
+		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
+		if (Categories == null) {
+			DataManipulator.LabelToCategory.put(Label, new HashSet<>());
+			Categories = DataManipulator.LabelToCategory.get(Label);
 		}
-		categories.add(category);
+		Categories.add(Category);
+	}
+
+	static void DeleteCategoryOfLabel(String Category, String Label) {
+		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
+		if (Categories == null) return;
+		Categories.remove(Label);
+		if (Categories.size() == 0) LabelToCategory.remove(Category);
 	}
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
