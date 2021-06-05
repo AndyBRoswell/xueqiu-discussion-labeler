@@ -94,7 +94,7 @@ public class GUIMain extends JFrame {
 		class LabelButton extends JButton {
 			public LabelButton(String Text) {
 				super(Text);
-				super.setBorder(null); // Don't show ellipsis.
+//				super.setBorder(null); // Don't show ellipsis.
 			}
 		}
 
@@ -116,7 +116,8 @@ public class GUIMain extends JFrame {
 				final int h0 = 2 * Global.FontSizeD;
 				final int wGUILabel = 6 * w0;
 				final int gap = Global.ComponentGapD;
-				final int padding = Global.StringPaddingInChrD;
+				final int LabelPadding = Global.StringPaddingInChrD;
+				final int ButtonPadding = 3 * Global.StringPaddingInChrD;
 
 				/*下载（任务列表）按钮*/
 				btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
@@ -155,7 +156,7 @@ public class GUIMain extends JFrame {
 					int x, y, w;
 					// 标签类名称控件
 					final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
-					w = w0 * (Cat.getKey().length() + padding);
+					w = w0 * (Cat.getKey().length() + LabelPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					lbCatName.setBounds(XC, YC, w, h0);
 					AllLabelsPanel.add(lbCatName);
@@ -165,7 +166,7 @@ public class GUIMain extends JFrame {
 					for (String Label : Cat.getValue()) {
 						// 标签控件
 						final LabelButton btLabel = new LabelButton(Label);
-						w = w0 * (Label.length() + padding);
+						w = w0 * (Label.length() + ButtonPadding);
 						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 						btLabel.setBounds(XC, YC, w, h0);
 						AllLabelsPanel.add(btLabel);
