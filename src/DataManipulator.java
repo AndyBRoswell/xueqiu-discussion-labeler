@@ -28,20 +28,22 @@ public class DataManipulator {
 
 	static HashSet<String> GetLabelsOfCategory(String Category) { return AllLabels.get(Category); }
 
-	static void AddLabelToCategory(String Category, String Label) {
+	public static void AddLabelToCategory(String Category, String Label) {
 		HashSet<String> Labels = AllLabels.get(Category);
 		if (Labels == null) {
 			AllLabels.put(Category, new HashSet<>());
 			Labels = AllLabels.get(Category);
 		}
 		Labels.add(Label);
+		AddCategoryOfLabel(Category, Label);
 	}
 
-	static void DeleteLabelFromCategory(String Category, String Label) {
+	public static void DeleteLabelFromCategory(String Category, String Label) {
 		HashSet<String> Labels = AllLabels.get(Category);
 		if (Labels == null) return;
 		Labels.remove(Label);
 		if (Labels.size() == 0) AllLabels.remove(Category);
+		DeleteCategoryOfLabel(Category, Label);
 	}
 
 	static HashSet<String> GetCategoriesOfLabel(String Label) {
