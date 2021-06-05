@@ -20,10 +20,11 @@ public class GUIAddLabel extends JFrame {
 
 		// 动作监听程序
 		super.addComponentListener(new ComponentListener() {
-			@Override public void componentResized(ComponentEvent e) {
+			@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) e.getComponent();
 				final int X = GUIAddLabelForm.getContentPane().getWidth();
 				final int Y = GUIAddLabelForm.getContentPane().getHeight();
+
 				tfLabel.setBounds(0, 0, X, Global.FontSizeD * 2);
 				btnOK.setBounds(X / 3, tfLabel.getHeight(), X / 6, Y - tfLabel.getHeight());
 				btnCancel.setBounds(X / 2, tfLabel.getHeight(), X / 6, Y - tfLabel.getHeight());

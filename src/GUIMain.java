@@ -108,7 +108,7 @@ public class GUIMain extends JFrame {
 
 		// 主窗体动作监听程序（内部类）
 		class MainFrameListener implements ComponentListener {
-			@Override public void componentResized(ComponentEvent e) {
+			@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
 				final GUIMain MainFrame = (GUIMain) e.getComponent();
 				final int X = MainFrame.getContentPane().getWidth();
 				final int Y = MainFrame.getContentPane().getHeight();
