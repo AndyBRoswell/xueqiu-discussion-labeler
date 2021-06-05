@@ -9,9 +9,6 @@ import java.awt.event.ComponentListener;
 import java.io.IOException;
 
 public class GUIMain extends JFrame {
-	// 主界面
-//	final JFrame MainFrame = new JFrame("雪球网股票评论");
-
 	// 默认字体
 	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
@@ -69,17 +66,12 @@ public class GUIMain extends JFrame {
 		super.getContentPane().setLayout(null);
 
 		// 添加菜单
-		MenuBar.add(FileMenu);
-		MenuBar.add(TaskMenu);
-		MenuBar.add(BackupRestoreMenu);
-		MenuBar.add(StatisticMenu);
+		MenuBar.add(FileMenu); MenuBar.add(TaskMenu); MenuBar.add(BackupRestoreMenu); MenuBar.add(StatisticMenu);
 		super.setJMenuBar(MenuBar);
 
-		FileMenu.add(ImportMenuItem);
-		FileMenu.add(ExportMenuItem);
+		FileMenu.add(ImportMenuItem); FileMenu.add(ExportMenuItem);
 		FileMenu.addSeparator();
-		FileMenu.add(JournalMenuItem);
-		FileMenu.add(SetMenuItem);
+		FileMenu.add(JournalMenuItem); FileMenu.add(SetMenuItem);
 		FileMenu.addSeparator();
 		FileMenu.add(ExitMenuItem);
 
@@ -119,7 +111,7 @@ public class GUIMain extends JFrame {
 				DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 
 				/*标注添加标签与按钮*/
-				AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, h0);
+				AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
 				btnAddLabel.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
 				btnAddLabel.setBorderPainted(false);
 
