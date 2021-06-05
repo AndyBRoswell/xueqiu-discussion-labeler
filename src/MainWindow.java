@@ -1,24 +1,43 @@
-import org.xml.sax.SAXException;
-
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Vector;
-
 
 public class MainWindow extends JFrame {
-	
+	// 主界面
+	final JFrame MainFrame = new JFrame("雪球网股票评论");
+
+	// 默认字体
+	final Font font = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
+
+	// 主界面图标
+	final ImageIcon iconDownload = new ImageIcon(Global.IconPath + "\\download.png");
+	final ImageIcon iconAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
+	final ImageIcon iconAddSmall = new ImageIcon(Global.IconPath + "\\add.png");
+
+	/*按钮*/
+	final JButton TaskListButton = new JButton();
+	final JButton AddTagButton = new JButton();
+
+	/*快捷筛选复选框*/
+	final JCheckBox Labeled = new JCheckBox("已标注");
+	final JCheckBox Unlabeled = new JCheckBox("未标注");
+
+	/*搜索栏*/
+	final JTextField SearchText = new JTextField(6);
+	final JTextField SearchTag = new JTextField(6);
+
+	/*全部可选标签*/
+	JPanel AllLabelsPanel = new JPanel();
+	JScrollPane AllLabelsScrollPane = new JScrollPane(AllLabelsPanel);
+	JLabel AllAvailableLabelsTag = new JLabel("可选标注");
+
+	// 表格
+	public JTable DiscussionTable;
+	public JScrollPane DiscussionScrollPane;
+	public DefaultTableModel DiscussionTableModel;
+
+	// 初始化主界面
+	public MainWindow() {
+		
+	}
 }

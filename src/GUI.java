@@ -54,7 +54,7 @@ public class GUI extends JFrame {
 	Vector<Vector<Object>> DiscussionRows = new Vector<Vector<Object>>();
 	public JTable DiscussionTable;
 	public JScrollPane DiscussionScrollPane;
-	public DefaultTableModel model;
+	public DefaultTableModel DiscussionTableModel;
 
 	public GUI() throws XPathExpressionException, IOException, SAXException {
 		MainFrame.setLocation(500, 250);									//窗口显示位置
@@ -288,8 +288,8 @@ public class GUI extends JFrame {
 		DiscussionListTitle.add("标注");
 
 		/*根据表格数据和表头创建表格模型，并根据表格模型创建表格*/
-		model = new DefaultTableModel(DiscussionRows, DiscussionListTitle);
-		DiscussionTable = new JTable(model);
+		DiscussionTableModel = new DefaultTableModel(DiscussionRows, DiscussionListTitle);
+		DiscussionTable = new JTable(DiscussionTableModel);
 
 		/*设置表格中的表头控件*/
 		JTableHeader tableHeader = DiscussionTable.getTableHeader();
