@@ -92,6 +92,50 @@ public class GUIMain extends JFrame {
 
 		super.add(DiscussionScrollPane);
 
+		// 动作监听程序（内部类）
+		class MainFrameListener implements ComponentListener {
+			@Override public void componentResized(ComponentEvent e) {
+				final GUIMain MainFrame = (GUIMain) e.getComponent();
+				final int X = MainFrame.getContentPane().getWidth();
+				final int Y = MainFrame.getContentPane().getHeight();
+				final int w0 = Global.FontSizeD;
+				final int h0 = 2 * Global.FontSizeD;
+				final int wGUILabel = 6 * w0;
+
+				/*下载按钮*/
+				btnTaskList.setBounds(X - icoDownload.getIconWidth(), 12, icoDownload.getIconWidth(), icoDownload.getIconHeight());
+				icoDownload.setImage(icoDownload.getImage().getScaledInstance(btnTaskList.getWidth(), btnTaskList.getHeight(), Image.SCALE_DEFAULT));
+				btnTaskList.setIcon(icoDownload);
+
+				/*搜索行*/
+				cbLabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0, wGUILabel, h0);
+				cbUnlabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0 + h0, wGUILabel, h0);
+				tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
+				tfSearchByLabel.setBounds(0, 0 + h0, cbLabeled.getX(), h0);
+
+				/*表格*/
+				DiscussionTable.setRowHeight(h0);
+				DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+				DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+
+				/*标注添加标签与按钮*/
+				AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), X / 15, h0);
+				btnAddLabel.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
+				btnAddLabel.setBorderPainted(false);
+
+				/*可选标注滚动面板*/
+				AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+				AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			}
+
+			@Override public void componentMoved(ComponentEvent e) {}
+
+			@Override public void componentShown(ComponentEvent e) {}
+
+			@Override public void componentHidden(ComponentEvent e) {}
+		}
+
 		// 添加动作监听程序
 		super.addComponentListener(new MainFrameListener());
 
@@ -101,47 +145,4 @@ public class GUIMain extends JFrame {
 
 		super.setVisible(true);
 	}
-}
-
-class MainFrameListener implements ComponentListener {
-	@Override public void componentResized(ComponentEvent e) {
-		final GUIMain MainFrame = (GUIMain) e.getComponent();
-		final int X = MainFrame.getContentPane().getWidth();
-		final int Y = MainFrame.getContentPane().getHeight();
-		final int w0 = Global.FontSizeD;
-		final int h0 = 2 * Global.FontSizeD;
-		final int wGUILabel = 6 * w0;
-
-		/*下载按钮*/
-		MainFrame.btnTaskList.setBounds(X - GUIMain.icoDownload.getIconWidth(), 12, GUIMain.icoDownload.getIconWidth(), GUIMain.icoDownload.getIconHeight());
-		GUIMain.icoDownload.setImage(GUIMain.icoDownload.getImage().getScaledInstance(MainFrame.btnTaskList.getWidth(), MainFrame.btnTaskList.getHeight(), Image.SCALE_DEFAULT));
-		MainFrame.btnTaskList.setIcon(GUIMain.icoDownload);
-
-		/*搜索行*/
-		MainFrame.cbLabeled.setBounds(X - wGUILabel - GUIMain.icoDownload.getIconWidth(), 0, wGUILabel, h0);
-		MainFrame.cbUnlabeled.setBounds(X - wGUILabel - GUIMain.icoDownload.getIconWidth(), 0 + h0, wGUILabel, h0);
-		MainFrame.tfSearchByText.setBounds(0, 0, MainFrame.cbLabeled.getX(), h0);
-		MainFrame.tfSearchByLabel.setBounds(0, 0 + h0, MainFrame.cbLabeled.getX(), h0);
-
-		/*表格*/
-		MainFrame.DiscussionTable.setRowHeight(h0);
-		MainFrame.DiscussionScrollPane.setBounds(0, MainFrame.tfSearchByLabel.getY() + MainFrame.tfSearchByLabel.getHeight(), X, Y * 7 / 10);
-		MainFrame.DiscussionTable.setBounds(0, MainFrame.tfSearchByLabel.getY() + MainFrame.tfSearchByLabel.getHeight(), X, Y * 7 / 10);
-
-		/*标注添加标签与按钮*/
-		MainFrame.AllAvailableLabelsLabel.setBounds(0, MainFrame.DiscussionTable.getY() + MainFrame.DiscussionTable.getHeight(), X / 15, h0);
-		MainFrame.btnAddLabel.setBounds(0, MainFrame.AllAvailableLabelsLabel.getY() + MainFrame.AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
-		MainFrame.btnAddLabel.setBorderPainted(false);
-
-		/*可选标注滚动面板*/
-		MainFrame.AllLabelsScrollPane.setBounds(MainFrame.AllAvailableLabelsLabel.getWidth(), MainFrame.DiscussionTable.getY() + MainFrame.DiscussionTable.getHeight(), X - MainFrame.AllAvailableLabelsLabel.getWidth(), Y - (MainFrame.DiscussionTable.getY() + MainFrame.DiscussionTable.getHeight()));
-		MainFrame.AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		MainFrame.AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-	}
-
-	@Override public void componentMoved(ComponentEvent e) {}
-
-	@Override public void componentShown(ComponentEvent e) {}
-
-	@Override public void componentHidden(ComponentEvent e) {}
 }
