@@ -43,7 +43,7 @@ public class GUIMain extends JFrame {
 	DefaultTableModel DiscussionTableModel;
 
 	// 菜单
-	final JMenuBar menuBar = new JMenuBar();
+	final JMenuBar MenuBar = new JMenuBar();
 
 	final JMenu FileMenu = new JMenu("文件");
 	final JMenuItem ImportMenuItem = new JMenuItem("导入股票讨论 CSV 文件");
@@ -55,7 +55,7 @@ public class GUIMain extends JFrame {
 	final JMenu TaskMenu = new JMenu("任务");
 	final JMenuItem AddMenuItem = new JMenuItem("添加爬取任务");
 
-	final JMenu BackupAndRestoreMenu = new JMenu("备份/恢复");
+	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
 
 	final JMenu StatisticMenu = new JMenu("统计");
 
@@ -72,6 +72,23 @@ public class GUIMain extends JFrame {
 		MainFrame.add(btnTaskList); MainFrame.add(btnLabelButton);
 		MainFrame.add(cbLabeled); MainFrame.add(cbUnlabeled);
 		MainFrame.add(tfSearchByText); MainFrame.add(tfSearchByLabel);
+
+		// 添加菜单
+		MenuBar.add(FileMenu);
+		MenuBar.add(TaskMenu);
+		MenuBar.add(BackupRestoreMenu);
+		MenuBar.add(StatisticMenu);
+		MainFrame.setJMenuBar(MenuBar);
+
+		FileMenu.add(ImportMenuItem);
+		FileMenu.add(ExportMenuItem);
+		FileMenu.addSeparator();
+		FileMenu.add(JournalMenuItem);
+		FileMenu.add(SetMenuItem);
+		FileMenu.addSeparator();
+		FileMenu.add(ExitMenuItem);
+
+		TaskMenu.add(AddMenuItem);
 
 		// 添加动作监听程序
 
