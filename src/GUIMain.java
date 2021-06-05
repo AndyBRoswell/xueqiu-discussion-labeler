@@ -98,7 +98,7 @@ public class GUIMain extends JFrame {
 			}
 		}
 
-		// 标签类名称标签空间（内部类）
+		// 标签类名称标签控件（内部类）
 		class LabelCategoryComponent extends JLabel {
 			public LabelCategoryComponent(String Text) {
 				super(Text);
@@ -106,7 +106,7 @@ public class GUIMain extends JFrame {
 			}
 		}
 
-		// 动作监听程序（内部类）
+		// 主窗体动作监听程序（内部类）
 		class MainFrameListener implements ComponentListener {
 			@Override public void componentResized(ComponentEvent e) {
 				final GUIMain MainFrame = (GUIMain) e.getComponent();
@@ -146,7 +146,7 @@ public class GUIMain extends JFrame {
 				AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
 
 				// 可选标注面板内容
-				int XC = 0, YC = 0;
+				int XC = 0, YC = 0; // 当前摆放控件的位置
 				final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
 				int max = 0;
 				AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
