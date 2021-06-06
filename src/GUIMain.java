@@ -86,21 +86,22 @@ public class GUIMain extends JFrame {
 	// 股票讨论表表格模型（内部类）
 	static class DiscussionTableModel extends AbstractTableModel {
 		private final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
-		private final ArrayList<DiscussionItem> Data = DataManipulator.GetDiscussionList();
 
-		@Override public int getRowCount() { return Data.size(); }
+		@Override public int getRowCount() { return DataManipulator.GetDiscussionList().size(); }
 
 		@Override public int getColumnCount() { return 2; }
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
 			return switch (rowIndex) {
-				case 0 -> Data.get(rowIndex).GetText();                // 股票讨论
-				case 1 -> Data.get(rowIndex).GetLabels();         	   // 该条股票讨论含有的标注
+				case 0 -> DataManipulator.GetDiscussionItem(rowIndex).GetText();				// 股票讨论
+				case 1 -> DataManipulator.GetDiscussionItem(rowIndex).GetLabels();				// 该条股票讨论含有的标注
 				default -> null;
 			};
 		}
 
 		@Override public boolean isCellEditable(int row, int col) { return col == 1; } // 股票讨论本身的内容不允许编辑
+
+		@Override public Class getColumnClass(int c) { return getValueAt(0, c).getClass(); }
 	}
 
 	// 主窗体动作监听程序（内部类）
@@ -268,10 +269,10 @@ public class GUIMain extends JFrame {
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
-		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
-		for (int i = 0; i < DiscussionList.size(); ++i) {
-			final DiscussionItem Item = DiscussionList.get(i);
-			TableModel.insertRow(i, new Object[]{ Item.GetText(), Item.GetLabels() });
-		}
+//		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
+//		for (int i = 0; i < DiscussionList.size(); ++i) {
+//			final DiscussionItem Item = DiscussionList.get(i);
+//			TableModel.AddRow(i, Item);
+//		}
 	}
 }
