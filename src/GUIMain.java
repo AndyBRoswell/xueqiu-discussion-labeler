@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +45,6 @@ public class GUIMain extends JFrame {
 	// 表格
 	final DefaultTableModel TableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
 	final JTable DiscussionTable = new JTable(TableModel);
-	//	final JTable DiscussionTable = new JTable(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
 	final JScrollPane DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 	// 菜单
@@ -84,21 +84,23 @@ public class GUIMain extends JFrame {
 	}
 
 	// 股票讨论表表格模型（内部类）
-	class DiscussionTableModel extends AbstractTableModel {
-		private String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
-//		private Object[][] Data = new Object[][];
+	static class DiscussionTableModel extends AbstractTableModel {
+		private final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
+		private final ArrayList<DiscussionItem> Data = DataManipulator.GetDiscussionList();
 
-		@Override public int getRowCount() {
-			return 0;
-		}
+		@Override public int getRowCount() { return Data.size(); }
 
-		@Override public int getColumnCount() {
-			return 0;
-		}
+		@Override public int getColumnCount() { return 2; }
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
-			return null;
+			return switch (rowIndex) {
+				case 0 -> Data.get(rowIndex).GetText();                // 股票讨论
+				case 1 -> Data.get(rowIndex).GetLabels();            // 该条股票讨论含有的标注
+				default -> null;
+			};
 		}
+
+		@Override public boolean isCellEditable(int row, int col) { return col == 1; } // 股票讨论本身的内容不允许编辑
 	}
 
 	// 主窗体动作监听程序（内部类）
@@ -258,5 +260,12 @@ public class GUIMain extends JFrame {
 		this.setSize(d);
 		++d.height;
 		this.setSize(d);
+	}
+
+	// 导入股票讨论
+	public void LoadDiscussionAndShow() {
+		for (int i = 0; i < DataManipulator.GetDiscussionList().size(); ++i) {
+			
+		}
 	}
 }

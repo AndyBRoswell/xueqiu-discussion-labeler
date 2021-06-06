@@ -278,7 +278,7 @@ public class GUI extends JFrame {
 	public void TableInit() {
 		/*获得股票讨论内容*/
 		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\Book1.csv", "GB2312");
-		for (DiscussionItem entry : DataManipulator.DiscussionList) {
+		for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
 			Vector<Object> vector = new Vector<Object>();
 			vector.add(entry.GetText());
 			vector.add(entry.GetLabels().toString());

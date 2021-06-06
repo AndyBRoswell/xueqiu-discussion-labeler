@@ -17,14 +17,14 @@ class DiscussionItem {
 }
 
 public class DataManipulator {
-	static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
-	static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
+	private static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
+	private static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
 
-	static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
-	static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>();
+	private static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
+	private static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>();
 
-	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
-//	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
+	private static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
+//	private static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 
 	// 可用标注
 	static ConcurrentHashMap<String, HashSet<String>> GetAllLabels() { return AllLabels; }
@@ -70,7 +70,7 @@ public class DataManipulator {
 	}
 
 	// 讨论列表
-	public static ArrayList<DiscussionItem> getDiscussionList() { return DiscussionList; }
+	public static ArrayList<DiscussionItem> GetDiscussionList() { return DiscussionList; }
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 

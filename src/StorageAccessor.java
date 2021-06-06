@@ -43,7 +43,7 @@ public class StorageAccessor {
 
 		String line;
 		while ((line = BufferedLabelFileReader.readLine()) != null) { // 逐行读取并解析为标签类：以空格作为分隔符，第0个词为标签类名称，剩下的词都为该类的标签
-			ParseSingleLabelLineToLabelCategoryAndAdd(line, DataManipulator.AllLabels);
+			ParseSingleLabelLineToLabelCategoryAndAdd(line, DataManipulator.GetAllLabels());
 		}
 
 		BufferedLabelFileReader.close();
@@ -86,7 +86,7 @@ public class StorageAccessor {
 		LabelFileWriter = new FileWriter(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
 		BufferedLabelFileWriter = new BufferedWriter(LabelFileWriter);
 
-		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.AllLabels.entrySet()) { // 开始逐行写入
+		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.GetAllLabels().entrySet()) { // 开始逐行写入
 			BufferedLabelFileWriter.write(entry.getKey());
 			for (String i : entry.getValue()) BufferedLabelFileWriter.write(' ' + i);
 			BufferedLabelFileWriter.write(Global.LineSeparator);
@@ -202,7 +202,7 @@ public class StorageAccessor {
 		BufferedCSVFileWriter = new BufferedWriter(CSVFileWriter);
 		final StringBuilder FileContent = new StringBuilder();
 
-		for (DiscussionItem discussion : DataManipulator.DiscussionList) { // 将每条讨论逐行写入 CSV 文件
+		for (DiscussionItem discussion : DataManipulator.GetDiscussionList()) { // 将每条讨论逐行写入 CSV 文件
 			// 原格式：在单个单元格中存储全部类别的标签。
 //			String[] row = { discussion.GetText(), MergeLabelCategoriesWithCountToString(discussion.GetLabels()) };
 			// 新格式：股评后的每个单元格存储一类标签。
