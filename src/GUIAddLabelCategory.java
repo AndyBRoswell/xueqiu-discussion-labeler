@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
@@ -58,6 +60,14 @@ public class GUIAddLabelCategory extends JFrame {
 			@Override public void componentShown(ComponentEvent e) {}
 
 			@Override public void componentHidden(ComponentEvent e) {}
+		});
+		btnAdd.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+//				final JButton btnAdd = (JButton) e.getSource();
+				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
+				tfLabels.add(new JTextField());
+				GUIAddLabelForm.revalidate();
+			}
 		});
 
 		// 添加控件
