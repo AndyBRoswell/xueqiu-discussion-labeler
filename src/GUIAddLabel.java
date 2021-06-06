@@ -41,7 +41,7 @@ public class GUIAddLabel extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
 				if (GUIAddLabelForm.tfLabel.getText().isBlank() == false) {
-
+					DataManipulator.AddLabelToCategory(Category, GUIAddLabelForm.tfLabel.getText());
 				}
 			}
 		});

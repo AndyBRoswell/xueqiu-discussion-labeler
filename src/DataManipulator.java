@@ -26,6 +26,7 @@ public class DataManipulator {
 	static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
 //	static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 
+	// 可用标注
 	static ConcurrentHashMap<String, HashSet<String>> GetAllLabels() { return AllLabels; }
 
 	static HashSet<String> GetLabelsOfCategory(String Category) { return AllLabels.get(Category); }
@@ -68,6 +69,7 @@ public class DataManipulator {
 		if (Categories.size() == 0) LabelToCategory.remove(Category);
 	}
 
+	// 讨论列表
 	public static ArrayList<DiscussionItem> getDiscussionList() { return DiscussionList; }
 
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }

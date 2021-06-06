@@ -70,6 +70,11 @@ public class GUIAddLabelCategory extends JFrame {
 
 			@Override public void componentHidden(ComponentEvent e) {}
 		});
+		btnOK.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btnAdd.addActionListener(new ActionListener() { // 添加标签
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
@@ -95,6 +100,11 @@ public class GUIAddLabelCategory extends JFrame {
 					d.height -= h0;
 					GUIAddLabelForm.setSize(d);
 				}
+			}
+		});
+		btnCancel.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 
