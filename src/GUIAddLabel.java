@@ -4,10 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayList;
 
 public class GUIAddLabel extends JFrame {
-	final JTextField tfLabel = new JTextField();
+	//	final JTextField tfLabel = new JTextField();
+	final ArrayList<JTextField> tfLabels = new ArrayList<>();
 	final JButton btnOK = new JButton("确定");
+	final JButton btnAdd = new JButton("添加");
+	final JButton btnDelete = new JButton("删除");
 	final JButton btnCancel = new JButton("取消");
 
 	public GUIAddLabel(GUIMain MainFrame, String Category) {
@@ -26,9 +30,10 @@ public class GUIAddLabel extends JFrame {
 				final int X = GUIAddLabelForm.getContentPane().getWidth();
 				final int Y = GUIAddLabelForm.getContentPane().getHeight();
 
-				tfLabel.setBounds(0, 0, X, Global.FontSizeD * 2);
-				btnOK.setBounds(X / 3, tfLabel.getHeight(), X / 6, Y - tfLabel.getHeight());
-				btnCancel.setBounds(X / 2, tfLabel.getHeight(), X / 6, Y - tfLabel.getHeight());
+//				tfLabel.setBounds(0, 0, X, Global.FontSizeD * 2);
+//				btnOK.setBounds(X / 3, tfLabel.getHeight(), X / 6, Y - tfLabel.getHeight());
+//				btnCancel.setBounds(X / 2, tfLabel.getHeight(), X / 6, Y - tfLabel.getHeight());
+
 			}
 
 			@Override public void componentMoved(ComponentEvent e) {}
@@ -37,16 +42,31 @@ public class GUIAddLabel extends JFrame {
 
 			@Override public void componentHidden(ComponentEvent e) {}
 		});
-		btnOK.addActionListener(new ActionListener() {
+
+		btnOK.addActionListener(new ActionListener() { // 应用更改
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
-				if (GUIAddLabelForm.tfLabel.getText().isBlank() == false) {
-					DataManipulator.AddLabelToCategory(Category, GUIAddLabelForm.tfLabel.getText());
-				}
+//				if (GUIAddLabelForm.tfLabel.getText().isBlank() == false) {
+//					DataManipulator.AddLabelToCategory(Category, GUIAddLabelForm.tfLabel.getText());
+//				}
+
 				MainFrame.Refresh();
 				GUIAddLabelForm.dispose();
 			}
 		});
+
+		btnAdd.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
+		btnCancel.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
 		btnCancel.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnCancel);
@@ -55,9 +75,9 @@ public class GUIAddLabel extends JFrame {
 		});
 
 		// 添加控件
-		super.add(tfLabel);
-		super.add(btnOK);
-		super.add(btnCancel);
+//		super.add(tfLabel);
+
+		super.add(btnOK); super.add(btnAdd); super.add(btnDelete); super.add(btnCancel);
 
 		// 显示窗体
 		super.setVisible(true);

@@ -60,7 +60,8 @@ public class GUIAddLabelCategory extends JFrame {
 
 			@Override public void componentHidden(ComponentEvent e) {}
 		});
-		btnOK.addActionListener(new ActionListener() { // 添加本类标签
+
+		btnOK.addActionListener(new ActionListener() { // 应用更改
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnCancel);
 				final String Cat = tfLabelCategory.getText();
@@ -71,6 +72,7 @@ public class GUIAddLabelCategory extends JFrame {
 				GUIAddLabelForm.dispose();
 			}
 		});
+
 		btnAdd.addActionListener(new ActionListener() { // 添加标签
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
@@ -86,6 +88,7 @@ public class GUIAddLabelCategory extends JFrame {
 				GUIAddLabelForm.add(tfLabel);
 			}
 		});
+
 		btnDelete.addActionListener(new ActionListener() { // 删除标签
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
@@ -98,6 +101,7 @@ public class GUIAddLabelCategory extends JFrame {
 				}
 			}
 		});
+
 		btnCancel.addActionListener(new ActionListener() { // 取消添加
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnCancel);
