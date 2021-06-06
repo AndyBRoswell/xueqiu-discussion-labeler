@@ -5,7 +5,9 @@ import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
 public class GUIAddLabelCategory extends JFrame {
+	static final int w0 = Global.FontSizeD;
 	static final int h0 = Global.FontSizeD * 2;
+	static final int padding = Global.StringPaddingInChrD;
 
 	final JLabel lbLabelCategory = new JLabel("标签类");
 	final JTextField tfLabelCategory = new JTextField();
@@ -29,6 +31,13 @@ public class GUIAddLabelCategory extends JFrame {
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) e.getComponent();
 				final int X = GUIAddLabelForm.getContentPane().getWidth();
 				final int Y = GUIAddLabelForm.getContentPane().getHeight();
+
+				lbLabelCategory.setBounds(0, 0, w0 * (lbLabelCategory.getText().length() + padding), h0);
+				tfLabelCategory.setBounds(lbLabelCategory.getX() + lbLabelCategory.getWidth(), 0, X - (lbLabelCategory.getX() + lbLabelCategory.getWidth()), h0);
+				lbLabel.setBounds(0, h0, w0 * (lbLabel.getText().length() + padding), h0);
+				for (JTextField t : tfLabels) {
+//					t.setBounds();
+				}
 
 
 			}
