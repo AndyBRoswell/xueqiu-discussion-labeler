@@ -81,7 +81,13 @@ public class GUIAddLabel extends JFrame {
 		btnCancel.addActionListener(new ActionListener() { // 删除标签
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
-
+				if (tfLabels.isEmpty() == false) {
+					GUIAddLabelForm.remove(tfLabels.get(tfLabels.size() - 1));
+					tfLabels.remove(tfLabels.get(tfLabels.size() - 1));
+					final Dimension d = GUIAddLabelForm.getSize();
+					d.height -= h0;
+					GUIAddLabelForm.setSize(d);
+				}
 			}
 		});
 

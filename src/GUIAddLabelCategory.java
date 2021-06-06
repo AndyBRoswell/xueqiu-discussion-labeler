@@ -79,8 +79,6 @@ public class GUIAddLabelCategory extends JFrame {
 				final int X = GUIAddLabelForm.getContentPane().getWidth();
 				final int Y = GUIAddLabelForm.getContentPane().getHeight();
 				final JTextField tfLabel = new JTextField();
-//				final JLabel lbLabel = GUIAddLabelForm.lbLabel;
-//				tfLabel.setBounds(lbLabel.getX() + lbLabel.getWidth(), Y, X - tfLabel.getX(), h0);
 				tfLabels.add(tfLabel);
 				final Dimension d = GUIAddLabelForm.getSize();
 				d.height += h0;
