@@ -43,9 +43,9 @@ public class GUIMain extends JFrame {
 	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	// 表格
-	final DefaultTableModel TableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
-	final JTable DiscussionTable = new JTable(TableModel);
-	final JScrollPane DiscussionScrollPane = new JScrollPane(DiscussionTable);
+	DiscussionTableModel TableModel;
+	JTable DiscussionTable;
+	JScrollPane DiscussionScrollPane;
 
 	// 菜单
 	final JMenuBar MenuBar = new JMenuBar();
@@ -95,7 +95,7 @@ public class GUIMain extends JFrame {
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
 			return switch (rowIndex) {
 				case 0 -> Data.get(rowIndex).GetText();                // 股票讨论
-				case 1 -> Data.get(rowIndex).GetLabels();            // 该条股票讨论含有的标注
+				case 1 -> Data.get(rowIndex).GetLabels();         	   // 该条股票讨论含有的标注
 				default -> null;
 			};
 		}
@@ -223,8 +223,8 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddMenuItem);
 
 		// 表格的基本设置
-//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk");
-//		LoadDiscussionsAndShow();
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台-简单添加标注.csv", "gbk");
+		ShowDiscussions();
 
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
@@ -263,8 +263,11 @@ public class GUIMain extends JFrame {
 		this.setSize(d);
 	}
 
-	// 导入股票讨论
-	public void LoadDiscussionsAndShow() {
+	// 显示股票讨论
+	public void ShowDiscussions() {
+		TableModel = new DiscussionTableModel();
+		DiscussionTable = new JTable(TableModel);
+		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
 		for (int i = 0; i < DiscussionList.size(); ++i) {
 			final DiscussionItem Item = DiscussionList.get(i);
