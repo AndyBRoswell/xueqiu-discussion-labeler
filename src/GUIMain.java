@@ -199,6 +199,11 @@ public class GUIMain extends JFrame {
 
 		// 添加动作监听程序
 		super.addComponentListener(new MainFrameListener());
+		btnAddLabelCategory.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				new GUIAddLabelCategory();
+			}
+		});
 
 		// 读取数据
 		Config.LoadConfig(Global.DefaultConfig);
