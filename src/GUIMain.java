@@ -199,6 +199,10 @@ public class GUIMain extends JFrame {
 
 	// 初始化主界面
 	public GUIMain() throws IOException, SAXException, XPathExpressionException {
+		// 读取必要的数据
+		Config.LoadConfig(Global.DefaultConfig);
+		StorageAccessor.LoadAllAvailableLabels();
+
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setSize((int) Screen.getWidth() / 2, (int) Screen.getHeight() / 2);
@@ -219,7 +223,8 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddMenuItem);
 
 		// 表格的基本设置
-
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk");
+		LoadDiscussionsAndShow();
 
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
@@ -245,10 +250,6 @@ public class GUIMain extends JFrame {
 		super.add(DiscussionScrollPane);
 		super.add(AllLabelsScrollPane);
 
-		// 读取必要的数据
-		Config.LoadConfig(Global.DefaultConfig);
-		StorageAccessor.LoadAllAvailableLabels();
-
 		// 显示
 		super.setVisible(true);
 	}
@@ -263,9 +264,11 @@ public class GUIMain extends JFrame {
 	}
 
 	// 导入股票讨论
-	public void LoadDiscussionAndShow() {
-		for (int i = 0; i < DataManipulator.GetDiscussionList().size(); ++i) {
-			
+	public void LoadDiscussionsAndShow() {
+		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
+		for (int i = 0; i < DiscussionList.size(); ++i) {
+			final DiscussionItem Item = DiscussionList.get(i);
+			TableModel.insertRow(i, new Object[]{ Item.GetText(), Item.GetLabels() });
 		}
 	}
 }
