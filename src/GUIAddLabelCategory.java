@@ -64,11 +64,7 @@ public class GUIAddLabelCategory extends JFrame {
 //				GUIAddLabelForm.add(btnOK); GUIAddLabelForm.add(btnAdd); GUIAddLabelForm.add(btnDelete); GUIAddLabelForm.add(btnCancel);
 			}
 
-			@Override public void componentMoved(ComponentEvent e) {
-//				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) e.getComponent();
-//				GUIAddLabelForm.repaint();
-				componentResized(e);
-			}
+			@Override public void componentMoved(ComponentEvent e) {}
 
 			@Override public void componentShown(ComponentEvent e) {}
 
@@ -87,6 +83,18 @@ public class GUIAddLabelCategory extends JFrame {
 				d.height += h0;
 				GUIAddLabelForm.setSize(d);
 				GUIAddLabelForm.add(tfLabel);
+			}
+		});
+		btnDelete.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
+				if (tfLabels.isEmpty() == false) {
+					GUIAddLabelForm.remove(tfLabels.get(tfLabels.size() - 1));
+					tfLabels.remove(tfLabels.get(tfLabels.size() - 1));
+					final Dimension d = GUIAddLabelForm.getSize();
+					d.height -= h0;
+					GUIAddLabelForm.setSize(d);
+				}
 			}
 		});
 
