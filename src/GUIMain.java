@@ -61,6 +61,121 @@ public class GUIMain extends JFrame {
 
 	final JMenu StatisticMenu = new JMenu("统计");
 
+	// 动作监听程序
+	final MainFrameListener Listener = new MainFrameListener();
+
+	// 标签按钮（内部类）：点击标签进行添加或删除
+	static class LabelButton extends JButton {
+		public LabelButton(String Text) {
+			super(Text);
+//				super.setBorder(null); // Don't show ellipsis.
+		}
+	}
+
+	// 标签类名称标签控件（内部类）
+	static class LabelCategoryComponent extends JLabel {
+		public LabelCategoryComponent(String Text) {
+			super(Text);
+			super.setHorizontalAlignment(JLabel.CENTER);
+		}
+	}
+
+	// 主窗体动作监听程序（内部类）
+	class MainFrameListener implements ComponentListener {
+		static final int w0 = Global.FontSizeD;
+		static final int h0 = 2 * Global.FontSizeD;
+		static final int wGUILabel = 6 * w0;
+		static final int gap = Global.ComponentGapD;
+		static final int LabelPadding = Global.StringPaddingInChrD;
+		static final int ButtonPadding = 3 * Global.StringPaddingInChrD;
+
+		@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
+			final GUIMain MainFrame = (GUIMain) e.getComponent();
+			final int X = MainFrame.getContentPane().getWidth();
+			final int Y = MainFrame.getContentPane().getHeight();
+
+			/*下载（任务列表）按钮*/
+			btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
+
+			/*搜索行*/
+			cbLabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0, wGUILabel, h0);
+			cbUnlabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), cbLabeled.getHeight(), wGUILabel, h0);
+			tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
+			tfSearchByLabel.setBounds(0, cbLabeled.getHeight(), cbLabeled.getX(), h0);
+
+			/*表格*/
+			DiscussionTable.setRowHeight(h0);
+			DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+			DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+
+			/*标注添加标签与按钮*/
+			AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
+			btnAddLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
+			btnAddLabelCategory.setBorderPainted(false);
+
+			RepaintAllLabelsPanel(X, Y);
+		}
+
+		@Override public void componentMoved(ComponentEvent e) {}
+
+		@Override public void componentShown(ComponentEvent e) {}
+
+		@Override public void componentHidden(ComponentEvent e) {}
+
+		public void RepaintAllLabelsPanel(int X, int Y) {
+			/*可选标注滚动面板*/
+			AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			AllLabelsPanel.setLayout(null);
+			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
+
+			// 可选标注面板内容
+			int XC = 0, YC = 0; // 当前摆放控件的位置
+			final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
+			AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
+
+			// 将全部可选标签布局在可选标签面板上
+			final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
+			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
+				int w, h;
+				// 标签类名称控件
+				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
+				w = w0 * (Cat.getKey().length() + LabelPadding);
+				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+				lbCatName.setBounds(XC, YC, w, h0);
+				AllLabelsPanel.add(lbCatName);
+				XC += lbCatName.getWidth();
+
+				// 每一类标签及其使用数据
+				for (String Label : Cat.getValue()) {
+					// 标签控件
+					final LabelButton btLabel = new LabelButton(Label);
+					w = w0 * (Label.length() + ButtonPadding);
+					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+					btLabel.setBounds(XC, YC, w, h0);
+					AllLabelsPanel.add(btLabel);
+					XC += btLabel.getWidth();
+					// 被选中次数控件（待补充）
+				}
+
+				// 添加标签按钮
+				final JButton btnAddLabel = new JButton(icoSmallAdd);
+				w = icoSmallAdd.getIconWidth() * 3 / 2;
+				h = icoSmallAdd.getIconHeight() * 3 / 2;
+				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+				btnAddLabel.setBounds(XC, YC, w, h);
+				btnAddLabel.addActionListener(new ActionListener() {
+					@Override public void actionPerformed(ActionEvent e) {
+						new GUIAddLabel((GUIMain) SwingUtilities.getRoot(btnAddLabel), Cat.getKey());
+					}
+				});
+				AllLabelsPanel.add(btnAddLabel);
+				XC += btnAddLabel.getWidth();
+			}
+		}
+	}
+
 	// 初始化主界面
 	public GUIMain() throws IOException, SAXException, XPathExpressionException {
 		// 窗体的基本属性
@@ -90,120 +205,8 @@ public class GUIMain extends JFrame {
 		super.add(DiscussionScrollPane);
 		super.add(AllLabelsScrollPane);
 
-		// 标签按钮（内部类）：点击标签进行添加或删除
-		class LabelButton extends JButton {
-			public LabelButton(String Text) {
-				super(Text);
-//				super.setBorder(null); // Don't show ellipsis.
-			}
-		}
-
-		// 标签类名称标签控件（内部类）
-		class LabelCategoryComponent extends JLabel {
-			public LabelCategoryComponent(String Text) {
-				super(Text);
-				super.setHorizontalAlignment(JLabel.CENTER);
-			}
-		}
-
-		// 主窗体动作监听程序（内部类）
-		class MainFrameListener implements ComponentListener {
-			static final int w0 = Global.FontSizeD;
-			static final int h0 = 2 * Global.FontSizeD;
-			static final int wGUILabel = 6 * w0;
-			static final int gap = Global.ComponentGapD;
-			static final int LabelPadding = Global.StringPaddingInChrD;
-			static final int ButtonPadding = 3 * Global.StringPaddingInChrD;
-
-			@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
-				final GUIMain MainFrame = (GUIMain) e.getComponent();
-				final int X = MainFrame.getContentPane().getWidth();
-				final int Y = MainFrame.getContentPane().getHeight();
-
-				/*下载（任务列表）按钮*/
-				btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
-
-				/*搜索行*/
-				cbLabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0, wGUILabel, h0);
-				cbUnlabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), cbLabeled.getHeight(), wGUILabel, h0);
-				tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
-				tfSearchByLabel.setBounds(0, cbLabeled.getHeight(), cbLabeled.getX(), h0);
-
-				/*表格*/
-				DiscussionTable.setRowHeight(h0);
-				DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
-				DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
-
-				/*标注添加标签与按钮*/
-				AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
-				btnAddLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
-				btnAddLabelCategory.setBorderPainted(false);
-
-				RepaintAllLabelsPanel(X, Y);
-			}
-
-			@Override public void componentMoved(ComponentEvent e) {}
-
-			@Override public void componentShown(ComponentEvent e) {}
-
-			@Override public void componentHidden(ComponentEvent e) {}
-
-			public void RepaintAllLabelsPanel(int X, int Y) {
-				/*可选标注滚动面板*/
-				AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
-				AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-				AllLabelsPanel.setLayout(null);
-				AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
-
-				// 可选标注面板内容
-				int XC = 0, YC = 0; // 当前摆放控件的位置
-				final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
-				AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
-
-				// 将全部可选标签布局在可选标签面板上
-				final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
-				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
-					int w, h;
-					// 标签类名称控件
-					final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
-					w = w0 * (Cat.getKey().length() + LabelPadding);
-					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-					lbCatName.setBounds(XC, YC, w, h0);
-					AllLabelsPanel.add(lbCatName);
-					XC += lbCatName.getWidth();
-
-					// 每一类标签及其使用数据
-					for (String Label : Cat.getValue()) {
-						// 标签控件
-						final LabelButton btLabel = new LabelButton(Label);
-						w = w0 * (Label.length() + ButtonPadding);
-						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-						btLabel.setBounds(XC, YC, w, h0);
-						AllLabelsPanel.add(btLabel);
-						XC += btLabel.getWidth();
-						// 被选中次数控件（待补充）
-					}
-
-					// 添加标签按钮
-					final JButton btnAddLabel = new JButton(icoSmallAdd);
-					w = icoSmallAdd.getIconWidth() * 3 / 2;
-					h = icoSmallAdd.getIconHeight() * 3 / 2;
-					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-					btnAddLabel.setBounds(XC, YC, w, h);
-					btnAddLabel.addActionListener(new ActionListener() {
-						@Override public void actionPerformed(ActionEvent e) {
-							new GUIAddLabel((GUIMain) SwingUtilities.getRoot(btnAddLabel), Cat.getKey());
-						}
-					});
-					AllLabelsPanel.add(btnAddLabel);
-					XC += btnAddLabel.getWidth();
-				}
-			}
-		}
-
 		// 添加动作监听程序
-		super.addComponentListener(new MainFrameListener());
+		super.addComponentListener(Listener);
 		btnAddLabelCategory.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddLabelCategory));
