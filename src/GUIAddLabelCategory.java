@@ -25,7 +25,6 @@ public class GUIAddLabelCategory extends JFrame {
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 //		super.setLayout(null);
 		super.setLayout(new GridBagLayout());
-		super.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
 		super.setResizable(false); // not resizable by the user
 		super.setTitle("添加新的一类标签");
 
@@ -53,6 +52,7 @@ public class GUIAddLabelCategory extends JFrame {
 				btnCancel.setBounds(X * 3 / 4, y, X / 4, h0);
 
 				GUIAddLabelForm.setSize((int) Screen.getWidth() / 4, y + h0 + 40);
+				GUIAddLabelForm.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
 			}
 
 			@Override public void componentMoved(ComponentEvent e) {}
@@ -61,14 +61,14 @@ public class GUIAddLabelCategory extends JFrame {
 
 			@Override public void componentHidden(ComponentEvent e) {}
 		});
-		btnAdd.addActionListener(new ActionListener() {
+		btnAdd.addActionListener(new ActionListener() { // 添加标签
 			@Override public void actionPerformed(ActionEvent e) {
-//				final JButton btnAdd = (JButton) e.getSource();
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
 				tfLabels.add(new JTextField());
 				final Dimension d = GUIAddLabelForm.getSize();
 				d.height += h0;
 				GUIAddLabelForm.setSize(d);
+				GUIAddLabelForm.repaint();
 			}
 		});
 
