@@ -91,6 +91,8 @@ public class GUIMain extends JFrame {
 
 		@Override public int getColumnCount() { return 2; }
 
+		@Override public String getColumnName(int col) { return ColumnNames[col]; }
+
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
 			return switch (rowIndex) {
 				case 0 -> DataManipulator.GetDiscussionItem(rowIndex).GetText();				// 股票讨论
