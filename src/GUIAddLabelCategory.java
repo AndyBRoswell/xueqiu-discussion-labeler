@@ -26,10 +26,38 @@ public class GUIAddLabelCategory extends JFrame {
 		super.setResizable(false); // not resizable by the user
 		super.setTitle("添加新的一类标签");
 
+		// 设定控件大小并添加
+		final int X = super.getContentPane().getWidth();
+		final int Y = super.getContentPane().getHeight();
+		GridBagConstraints c = null;
+
+		lbLabelCategory.setBounds(0, 0, w0 * (lbLabelCategory.getText().length() + padding), h0);
+		c = new GridBagConstraints();
+		c.gridx = 0; c.gridy = 0;
+		super.add(lbLabelCategory, c);
+		tfLabelCategory.setBounds(lbLabelCategory.getX() + lbLabelCategory.getWidth(), 0, X - (lbLabelCategory.getX() + lbLabelCategory.getWidth()), h0);
+		c = new GridBagConstraints();
+		c.gridx = 0; c.gridy = 1;
+		super.add(tfLabelCategory, c);
+		lbLabel.setBounds(0, h0, w0 * (lbLabel.getText().length() + padding), h0);
+		c = new GridBagConstraints();
+		c.gridx = 1; c.gridy = 0;
+		super.add(lbLabel, c);
+		for (JTextField t : tfLabels) {
+//			t.setPreferredSize();
+		}
+
+		c = new GridBagConstraints();
+		c.gridx = 2;c.gridy = 0;
+		super.add(btnOK, c);
+		c = new GridBagConstraints();
+		c.gridx = 2;c.gridy = 1;
+		super.add(btnCancel, c);
+
 		// 动作监听程序
 		super.addComponentListener(new ComponentListener() {
 			@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
-				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) e.getComponent();
+				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) e.getComponent();
 				final int X = GUIAddLabelForm.getContentPane().getWidth();
 				final int Y = GUIAddLabelForm.getContentPane().getHeight();
 				GridBagConstraints c = null;
@@ -56,12 +84,12 @@ public class GUIAddLabelCategory extends JFrame {
 		});
 
 		// 添加控件
-		super.add(lbLabelCategory); super.add(tfLabelCategory);
-		super.add(lbLabel);
-		for (JTextField t : tfLabels) {
-			super.add(t);
-		}
-		super.add(btnOK); super.add(btnCancel);
+//		super.add(lbLabelCategory); super.add(tfLabelCategory);
+//		super.add(lbLabel);
+//		for (JTextField t : tfLabels) {
+//			super.add(t);
+//		}
+//		super.add(btnOK); super.add(btnCancel);
 
 		// 显示
 		super.setVisible(true);
