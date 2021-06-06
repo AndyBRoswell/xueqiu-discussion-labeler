@@ -43,6 +43,8 @@ public class GUIAddLabel extends JFrame {
 				if (GUIAddLabelForm.tfLabel.getText().isBlank() == false) {
 					DataManipulator.AddLabelToCategory(Category, GUIAddLabelForm.tfLabel.getText());
 				}
+				
+				GUIAddLabelForm.dispose();
 			}
 		});
 		btnCancel.addActionListener(new ActionListener() {

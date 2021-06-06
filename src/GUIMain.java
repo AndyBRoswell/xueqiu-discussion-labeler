@@ -108,16 +108,17 @@ public class GUIMain extends JFrame {
 
 		// 主窗体动作监听程序（内部类）
 		class MainFrameListener implements ComponentListener {
+			static final int w0 = Global.FontSizeD;
+			static final int h0 = 2 * Global.FontSizeD;
+			static final int wGUILabel = 6 * w0;
+			static final int gap = Global.ComponentGapD;
+			static final int LabelPadding = Global.StringPaddingInChrD;
+			static final int ButtonPadding = 3 * Global.StringPaddingInChrD;
+
 			@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
 				final GUIMain MainFrame = (GUIMain) e.getComponent();
 				final int X = MainFrame.getContentPane().getWidth();
 				final int Y = MainFrame.getContentPane().getHeight();
-				final int w0 = Global.FontSizeD;
-				final int h0 = 2 * Global.FontSizeD;
-				final int wGUILabel = 6 * w0;
-				final int gap = Global.ComponentGapD;
-				final int LabelPadding = Global.StringPaddingInChrD;
-				final int ButtonPadding = 3 * Global.StringPaddingInChrD;
 
 				/*下载（任务列表）按钮*/
 				btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
@@ -138,6 +139,16 @@ public class GUIMain extends JFrame {
 				btnAddLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
 				btnAddLabelCategory.setBorderPainted(false);
 
+				RepaintAllLabelsPanel(X, Y);
+			}
+
+			@Override public void componentMoved(ComponentEvent e) {}
+
+			@Override public void componentShown(ComponentEvent e) {}
+
+			@Override public void componentHidden(ComponentEvent e) {}
+
+			public void RepaintAllLabelsPanel(int X, int Y) {
 				/*可选标注滚动面板*/
 				AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 				AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -189,12 +200,6 @@ public class GUIMain extends JFrame {
 					XC += btnAddLabel.getWidth();
 				}
 			}
-
-			@Override public void componentMoved(ComponentEvent e) {}
-
-			@Override public void componentShown(ComponentEvent e) {}
-
-			@Override public void componentHidden(ComponentEvent e) {}
 		}
 
 		// 添加动作监听程序
