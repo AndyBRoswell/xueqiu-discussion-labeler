@@ -223,8 +223,8 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddMenuItem);
 
 		// 表格的基本设置
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk");
-		LoadDiscussionsAndShow();
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk");
+//		LoadDiscussionsAndShow();
 
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
