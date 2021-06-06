@@ -35,53 +35,57 @@ public class GUIAddLabelCategory extends JFrame {
 		c = new GridBagConstraints();
 		c.gridx = 0; c.gridy = 0;
 		super.add(lbLabelCategory, c);
+
 		tfLabelCategory.setBounds(lbLabelCategory.getX() + lbLabelCategory.getWidth(), 0, X - (lbLabelCategory.getX() + lbLabelCategory.getWidth()), h0);
 		c = new GridBagConstraints();
-		c.gridx = 0; c.gridy = 1;
+		c.gridx = 1; c.gridy = 0;
 		super.add(tfLabelCategory, c);
+
 		lbLabel.setBounds(0, h0, w0 * (lbLabel.getText().length() + padding), h0);
 		c = new GridBagConstraints();
-		c.gridx = 1; c.gridy = 0;
+		c.gridx = 0; c.gridy = 1;
 		super.add(lbLabel, c);
+
 		for (JTextField t : tfLabels) {
 //			t.setPreferredSize();
 		}
 
 		c = new GridBagConstraints();
-		c.gridx = 2;c.gridy = 0;
+		c.gridx = 0; c.gridy = 2;
 		super.add(btnOK, c);
+
 		c = new GridBagConstraints();
-		c.gridx = 2;c.gridy = 1;
+		c.gridx = 1; c.gridy = 2;
 		super.add(btnCancel, c);
 
 		// 动作监听程序
-		super.addComponentListener(new ComponentListener() {
-			@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
-				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) e.getComponent();
-				final int X = GUIAddLabelForm.getContentPane().getWidth();
-				final int Y = GUIAddLabelForm.getContentPane().getHeight();
-				GridBagConstraints c = null;
-
-				lbLabelCategory.setBounds(0, 0, w0 * (lbLabelCategory.getText().length() + padding), h0);
-				c = new GridBagConstraints();
-				c.gridx = 0; c.gridy = 0;
-				tfLabelCategory.setBounds(lbLabelCategory.getX() + lbLabelCategory.getWidth(), 0, X - (lbLabelCategory.getX() + lbLabelCategory.getWidth()), h0);
-				c = new GridBagConstraints();
-				c.gridx = 0; c.gridy = 1;
-				lbLabel.setBounds(0, h0, w0 * (lbLabel.getText().length() + padding), h0);
-				for (JTextField t : tfLabels) {
-//					t.setPreferredSize();
-				}
-
-
-			}
-
-			@Override public void componentMoved(ComponentEvent e) {}
-
-			@Override public void componentShown(ComponentEvent e) {}
-
-			@Override public void componentHidden(ComponentEvent e) {}
-		});
+//		super.addComponentListener(new ComponentListener() {
+//			@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
+//				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) e.getComponent();
+//				final int X = GUIAddLabelForm.getContentPane().getWidth();
+//				final int Y = GUIAddLabelForm.getContentPane().getHeight();
+//				GridBagConstraints c = null;
+//
+//				lbLabelCategory.setBounds(0, 0, w0 * (lbLabelCategory.getText().length() + padding), h0);
+//				c = new GridBagConstraints();
+//				c.gridx = 0; c.gridy = 0;
+//				tfLabelCategory.setBounds(lbLabelCategory.getX() + lbLabelCategory.getWidth(), 0, X - (lbLabelCategory.getX() + lbLabelCategory.getWidth()), h0);
+//				c = new GridBagConstraints();
+//				c.gridx = 0; c.gridy = 1;
+//				lbLabel.setBounds(0, h0, w0 * (lbLabel.getText().length() + padding), h0);
+//				for (JTextField t : tfLabels) {
+////					t.setPreferredSize();
+//				}
+//
+//
+//			}
+//
+//			@Override public void componentMoved(ComponentEvent e) {}
+//
+//			@Override public void componentShown(ComponentEvent e) {}
+//
+//			@Override public void componentHidden(ComponentEvent e) {}
+//		});
 
 		// 添加控件
 //		super.add(lbLabelCategory); super.add(tfLabelCategory);
