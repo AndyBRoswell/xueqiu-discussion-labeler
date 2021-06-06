@@ -32,20 +32,16 @@ public class GUIAddLabelCategory extends JFrame {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) e.getComponent();
 				final int X = GUIAddLabelForm.getContentPane().getWidth();
 				final int Y = GUIAddLabelForm.getContentPane().getHeight();
-				GridBagConstraints c = null;
 
 				lbLabelCategory.setBounds(0, 0, w0 * (lbLabelCategory.getText().length() + padding), h0);
-				c = new GridBagConstraints();
-				c.gridx = 0; c.gridy = 0;
 				tfLabelCategory.setBounds(lbLabelCategory.getX() + lbLabelCategory.getWidth(), 0, X - (lbLabelCategory.getX() + lbLabelCategory.getWidth()), h0);
-				c = new GridBagConstraints();
-				c.gridx = 0; c.gridy = 1;
 				lbLabel.setBounds(0, h0, w0 * (lbLabel.getText().length() + padding), h0);
+				int x = tfLabelCategory.getX(), y = h0;
 				for (JTextField t : tfLabels) {
-//					t.setPreferredSize();
+					t.setBounds(x, y, X - x, h0);
+					y += h0;
 				}
-
-
+				
 			}
 
 			@Override public void componentMoved(ComponentEvent e) {}
