@@ -65,10 +65,13 @@ public class GUIAddLabelCategory extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnCancel);
 				final String Cat = tfLabelCategory.getText();
-				for (JTextField t : tfLabels) {
-					DataManipulator.AddLabelToCategory(Cat, t.getText());
+				if (Cat.isBlank() == false) {
+					for (JTextField t : tfLabels) {
+						String Label = t.getText();
+						if (Label.isBlank() == false) DataManipulator.AddLabelToCategory(Cat, t.getText());
+					}
+					MainFrame.Refresh();
 				}
-				MainFrame.Refresh();
 				GUIAddLabelForm.dispose();
 			}
 		});

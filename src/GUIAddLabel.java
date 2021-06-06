@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class GUIAddLabel extends JFrame {
 	static final int h0 = Global.FontSizeD * 2;
 
-	//	final JTextField tfLabel = new JTextField();
 	final ArrayList<JTextField> tfLabels = new ArrayList<>();
 	final JButton btnOK = new JButton("确定");
 	final JButton btnAdd = new JButton("添加");
@@ -55,10 +54,10 @@ public class GUIAddLabel extends JFrame {
 		btnOK.addActionListener(new ActionListener() { // 应用更改
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
-//				if (GUIAddLabelForm.tfLabel.getText().isBlank() == false) {
-//					DataManipulator.AddLabelToCategory(Category, GUIAddLabelForm.tfLabel.getText());
-//				}
-
+				for (JTextField t : tfLabels) {
+					String Label = t.getText();
+					if (Label.isBlank() == false) DataManipulator.AddLabelToCategory(Category, Label);
+				}
 				MainFrame.Refresh();
 				GUIAddLabelForm.dispose();
 			}
