@@ -41,8 +41,9 @@ public class GUIMain extends JFrame {
 	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	// 表格
-	final DefaultTableModel DiscussionTableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
-	final JTable DiscussionTable = new JTable(DiscussionTableModel);
+//	final DefaultTableModel DiscussionTableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
+//	final JTable DiscussionTable = new JTable(DiscussionTableModel);
+	final JTable DiscussionTable = new JTable(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
 	final JScrollPane DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 	// 菜单
@@ -197,18 +198,22 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddMenuItem);
 
 		// 添加动作监听程序
-		super.addComponentListener(Listener);
+		super.addComponentListener(Listener); // 主界面
+
 		btnAddAvailableLabelCategory.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddAvailableLabelCategory));
 			}
 		});
+
 		btnSaveAvailableLabels.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				try { StorageAccessor.SaveAllAvailableLabels(); }
 				catch (IOException | XPathExpressionException IOOrXPathException) { IOOrXPathException.printStackTrace(); }
 			}
 		});
+
+
 
 		// 添加控件
 		super.add(btnTaskList); super.add(cbLabeled); super.add(cbUnlabeled);
@@ -218,7 +223,7 @@ public class GUIMain extends JFrame {
 		super.add(DiscussionScrollPane);
 		super.add(AllLabelsScrollPane);
 
-		// 读取数据
+		// 读取必要的数据
 		Config.LoadConfig(Global.DefaultConfig);
 		StorageAccessor.LoadAllAvailableLabels();
 
