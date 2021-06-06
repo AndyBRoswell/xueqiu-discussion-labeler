@@ -68,7 +68,7 @@ public class GUIMain extends JFrame {
 	static class LabelButton extends JButton {
 		public LabelButton(String Text) {
 			super(Text);
-//				super.setBorder(null); // Don't show ellipsis.
+//			super.setBorder(null); // Don't show ellipsis.
 		}
 	}
 
@@ -113,16 +113,7 @@ public class GUIMain extends JFrame {
 			btnAddLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
 			btnAddLabelCategory.setBorderPainted(false);
 
-			RepaintAllLabelsPanel(X, Y);
-		}
-
-		@Override public void componentMoved(ComponentEvent e) {}
-
-		@Override public void componentShown(ComponentEvent e) {}
-
-		@Override public void componentHidden(ComponentEvent e) {}
-
-		public void RepaintAllLabelsPanel(int X, int Y) {
+//			RepaintAllLabelsPanel(X, Y);
 			/*可选标注滚动面板*/
 			AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -174,6 +165,12 @@ public class GUIMain extends JFrame {
 				XC += btnAddLabel.getWidth();
 			}
 		}
+
+		@Override public void componentMoved(ComponentEvent e) {}
+
+		@Override public void componentShown(ComponentEvent e) {}
+
+		@Override public void componentHidden(ComponentEvent e) {}
 	}
 
 	// 初始化主界面
@@ -219,5 +216,14 @@ public class GUIMain extends JFrame {
 
 		// 显示
 		super.setVisible(true);
+	}
+
+	// 重绘主界面
+	public void Refresh() {
+		final Dimension d = this.getSize();
+		--d.height;
+		this.setSize(d);
+		++d.height;
+		this.setSize(d);
 	}
 }

@@ -68,7 +68,7 @@ public class GUIAddLabelCategory extends JFrame {
 				for (JTextField t : tfLabels) {
 					DataManipulator.AddLabelToCategory(Cat, t.getText());
 				}
-				MainFrame.repaint();
+				MainFrame.Refresh();
 				GUIAddLabelForm.dispose();
 			}
 		});
