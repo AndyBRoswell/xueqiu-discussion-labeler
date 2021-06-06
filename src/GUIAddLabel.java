@@ -7,6 +7,8 @@ import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
 public class GUIAddLabel extends JFrame {
+	static final int h0 = Global.FontSizeD * 2;
+
 	//	final JTextField tfLabel = new JTextField();
 	final ArrayList<JTextField> tfLabels = new ArrayList<>();
 	final JButton btnOK = new JButton("确定");
@@ -19,7 +21,6 @@ public class GUIAddLabel extends JFrame {
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setLayout(null);
 		super.setSize((int) Screen.getWidth() / 4, 100);
-		super.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
 		super.setResizable(false);
 		super.setTitle("输入标签分类 " + Category + " 下的新标签");
 
@@ -30,10 +31,18 @@ public class GUIAddLabel extends JFrame {
 				final int X = GUIAddLabelForm.getContentPane().getWidth();
 				final int Y = GUIAddLabelForm.getContentPane().getHeight();
 
-//				tfLabel.setBounds(0, 0, X, Global.FontSizeD * 2);
-//				btnOK.setBounds(X / 3, tfLabel.getHeight(), X / 6, Y - tfLabel.getHeight());
-//				btnCancel.setBounds(X / 2, tfLabel.getHeight(), X / 6, Y - tfLabel.getHeight());
+				int y = 0;
+				for (JTextField t : tfLabels) {
+					t.setBounds(0, y, X, h0);
+					y += h0;
+				}
+				btnOK.setBounds(0, y, X / 4, h0);
+				btnAdd.setBounds(X / 4, y, X / 4, h0);
+				btnDelete.setBounds(X / 2, y, X / 4, h0);
+				btnCancel.setBounds(X * 3 / 4, y, X / 4, h0);
 
+				GUIAddLabelForm.setSize((int) Screen.getWidth() / 4, y + h0 + 40);
+				GUIAddLabelForm.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
 			}
 
 			@Override public void componentMoved(ComponentEvent e) {}
@@ -75,8 +84,8 @@ public class GUIAddLabel extends JFrame {
 		});
 
 		// 添加控件
-//		super.add(tfLabel);
-
+		tfLabels.add(new JTextField());
+		for (JTextField t : tfLabels) { super.add(t); }
 		super.add(btnOK); super.add(btnAdd); super.add(btnDelete); super.add(btnCancel);
 
 		// 显示窗体
