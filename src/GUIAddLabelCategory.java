@@ -53,9 +53,22 @@ public class GUIAddLabelCategory extends JFrame {
 
 				GUIAddLabelForm.setSize((int) Screen.getWidth() / 4, y + h0 + 40);
 				GUIAddLabelForm.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
+
+				// 重新添加控件
+//				GUIAddLabelForm.removeAll();
+//				GUIAddLabelForm.add(lbLabelCategory); GUIAddLabelForm.add(tfLabelCategory);
+//				GUIAddLabelForm.add(lbLabel);
+//				for (JTextField t : tfLabels) {
+//					GUIAddLabelForm.add(t);
+//				}
+//				GUIAddLabelForm.add(btnOK); GUIAddLabelForm.add(btnAdd); GUIAddLabelForm.add(btnDelete); GUIAddLabelForm.add(btnCancel);
 			}
 
-			@Override public void componentMoved(ComponentEvent e) {}
+			@Override public void componentMoved(ComponentEvent e) {
+//				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) e.getComponent();
+//				GUIAddLabelForm.repaint();
+				componentResized(e);
+			}
 
 			@Override public void componentShown(ComponentEvent e) {}
 
@@ -64,11 +77,16 @@ public class GUIAddLabelCategory extends JFrame {
 		btnAdd.addActionListener(new ActionListener() { // 添加标签
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
-				tfLabels.add(new JTextField());
+				final int X = GUIAddLabelForm.getContentPane().getWidth();
+				final int Y = GUIAddLabelForm.getContentPane().getHeight();
+				final JTextField tfLabel = new JTextField();
+				final JLabel lbLabel = GUIAddLabelForm.lbLabel;
+				tfLabel.setBounds(lbLabel.getX() + lbLabel.getWidth(), Y, X - tfLabel.getX(), h0);
+				tfLabels.add(tfLabel);
 				final Dimension d = GUIAddLabelForm.getSize();
 				d.height += h0;
 				GUIAddLabelForm.setSize(d);
-				GUIAddLabelForm.repaint();
+				GUIAddLabelForm.add(tfLabel);
 			}
 		});
 
