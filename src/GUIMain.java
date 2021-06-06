@@ -24,7 +24,8 @@ public class GUIMain extends JFrame {
 
 	/*按钮*/
 	final JButton btnTaskList = new JButton(icoDownload);
-	final JButton btnAddLabelCategory = new JButton(icoAdd);
+	final JButton btnAddAvailableLabelCategory = new JButton(icoAdd);
+	final JButton btnSaveAvailableLabels = new JButton("保存可选标注");
 
 	/*快捷筛选复选框*/
 	final JCheckBox cbLabeled = new JCheckBox("已标注");
@@ -110,10 +111,11 @@ public class GUIMain extends JFrame {
 
 			/*标注添加标签与按钮*/
 			AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
-			btnAddLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
-			btnAddLabelCategory.setBorderPainted(false);
+			btnAddAvailableLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
+			btnAddAvailableLabelCategory.setBorderPainted(false);
+			btnSaveAvailableLabels.setBounds(0, btnAddAvailableLabelCategory.getY() + btnAddAvailableLabelCategory.getHeight(), wGUILabel, 2 * h0);
+			btnSaveAvailableLabels.setBorderPainted(false);
 
-//			RepaintAllLabelsPanel(X, Y);
 			/*可选标注滚动面板*/
 			AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -194,21 +196,27 @@ public class GUIMain extends JFrame {
 
 		TaskMenu.add(AddMenuItem);
 
+		// 添加动作监听程序
+		super.addComponentListener(Listener);
+		btnAddAvailableLabelCategory.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddAvailableLabelCategory));
+			}
+		});
+		btnSaveAvailableLabels.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				try { StorageAccessor.SaveAllAvailableLabels(); }
+				catch (IOException | XPathExpressionException IOOrXPathException) { IOOrXPathException.printStackTrace(); }
+			}
+		});
+
 		// 添加控件
 		super.add(btnTaskList); super.add(cbLabeled); super.add(cbUnlabeled);
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
-		super.add(AllAvailableLabelsLabel); super.add(btnAddLabelCategory);
+		super.add(AllAvailableLabelsLabel); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);
 
 		super.add(DiscussionScrollPane);
 		super.add(AllLabelsScrollPane);
-
-		// 添加动作监听程序
-		super.addComponentListener(Listener);
-		btnAddLabelCategory.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) {
-				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddLabelCategory));
-			}
-		});
 
 		// 读取数据
 		Config.LoadConfig(Global.DefaultConfig);
