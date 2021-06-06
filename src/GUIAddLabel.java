@@ -10,7 +10,7 @@ public class GUIAddLabel extends JFrame {
 	final JButton btnOK = new JButton("确定");
 	final JButton btnCancel = new JButton("取消");
 
-	public GUIAddLabel(String Category) {
+	public GUIAddLabel(GUIMain MainFrame, String Category) {
 		// 标签添加窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setLayout(null);

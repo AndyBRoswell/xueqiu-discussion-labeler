@@ -20,7 +20,7 @@ public class GUIAddLabelCategory extends JFrame {
 	final JButton btnDelete = new JButton("删除");
 	final JButton btnCancel = new JButton("取消");
 
-	public GUIAddLabelCategory() {
+	public GUIAddLabelCategory(GUIMain MainFrame) {
 		// 标签类添加窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 //		super.setLayout(null);

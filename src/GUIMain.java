@@ -182,7 +182,7 @@ public class GUIMain extends JFrame {
 					btnAddLabel.setBounds(XC, YC, w, h);
 					btnAddLabel.addActionListener(new ActionListener() {
 						@Override public void actionPerformed(ActionEvent e) {
-							new GUIAddLabel(Cat.getKey());
+							new GUIAddLabel((GUIMain) SwingUtilities.getRoot(btnAddLabel), Cat.getKey());
 						}
 					});
 					AllLabelsPanel.add(btnAddLabel);
@@ -201,7 +201,7 @@ public class GUIMain extends JFrame {
 		super.addComponentListener(new MainFrameListener());
 		btnAddLabelCategory.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				new GUIAddLabelCategory();
+				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddLabelCategory));
 			}
 		});
 
