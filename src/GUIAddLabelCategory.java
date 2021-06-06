@@ -72,7 +72,10 @@ public class GUIAddLabelCategory extends JFrame {
 		});
 		btnOK.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-
+				final String Cat = tfLabelCategory.getText();
+				for (JTextField t : tfLabels) {
+					DataManipulator.AddLabelToCategory(Cat, t.getText());
+				}
 			}
 		});
 		btnAdd.addActionListener(new ActionListener() { // 添加标签
@@ -104,7 +107,8 @@ public class GUIAddLabelCategory extends JFrame {
 		});
 		btnCancel.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				
+				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnCancel);
+				GUIAddLabelForm.dispose();
 			}
 		});
 
