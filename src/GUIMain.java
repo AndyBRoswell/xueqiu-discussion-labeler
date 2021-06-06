@@ -1,6 +1,7 @@
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
@@ -41,9 +42,9 @@ public class GUIMain extends JFrame {
 	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	// 表格
-//	final DefaultTableModel DiscussionTableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
-//	final JTable DiscussionTable = new JTable(DiscussionTableModel);
-	final JTable DiscussionTable = new JTable(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
+	final DefaultTableModel TableModel = new DefaultTableModel(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
+	final JTable DiscussionTable = new JTable(TableModel);
+	//	final JTable DiscussionTable = new JTable(new Object[][]{}, new Object[]{ "股票讨论内容", "标注" });
 	final JScrollPane DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 	// 菜单
@@ -79,6 +80,24 @@ public class GUIMain extends JFrame {
 		public LabelCategoryComponent(String Text) {
 			super(Text);
 			super.setHorizontalAlignment(JLabel.CENTER);
+		}
+	}
+
+	// 股票讨论表表格模型（内部类）
+	class DiscussionTableModel extends AbstractTableModel {
+		private String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
+//		private Object[][] Data = new Object[][];
+
+		@Override public int getRowCount() {
+			return 0;
+		}
+
+		@Override public int getColumnCount() {
+			return 0;
+		}
+
+		@Override public Object getValueAt(int rowIndex, int columnIndex) {
+			return null;
 		}
 	}
 
@@ -197,6 +216,9 @@ public class GUIMain extends JFrame {
 
 		TaskMenu.add(AddMenuItem);
 
+		// 表格的基本设置
+
+
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
 
@@ -212,8 +234,6 @@ public class GUIMain extends JFrame {
 				catch (IOException | XPathExpressionException IOOrXPathException) { IOOrXPathException.printStackTrace(); }
 			}
 		});
-
-
 
 		// 添加控件
 		super.add(btnTaskList); super.add(cbLabeled); super.add(cbUnlabeled);
