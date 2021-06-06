@@ -81,7 +81,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="项目" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -115,8 +115,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -170,28 +175,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
     <option name="LAST_COMMIT_MESSAGE" value="." />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1877" height="225" key="GridCell.Tab.0.bottom" timestamp="1622649321210">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="225" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622649321210" />
-    <state width="1877" height="225" key="GridCell.Tab.0.center" timestamp="1622649321210">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="225" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622649321210" />
-    <state width="1877" height="225" key="GridCell.Tab.0.left" timestamp="1622649321210">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="225" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622649321210" />
-    <state width="1877" height="225" key="GridCell.Tab.0.right" timestamp="1622649321210">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="225" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622649321210" />
-    <state x="440" y="94" key="SettingsEditor" timestamp="1622647984779">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="440" y="94" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1622647984779" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

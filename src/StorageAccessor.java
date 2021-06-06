@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class StorageAccessor {
 	//	static final CsvParserSettings ParserSettings = new CsvParserSettings();
-//	static final CsvWriterSettings WriterSettings = new CsvWriterSettings();
-//	static final CsvParser parser = new CsvParser(ParserSettings);
-//	static final CsvWriter writer = new CsvWriter(WriterSettings);
+	//	static final CsvWriterSettings WriterSettings = new CsvWriterSettings();
+	//	static final CsvParser parser = new CsvParser(ParserSettings);
+	//	static final CsvWriter writer = new CsvWriter(WriterSettings);
 	static FileReader LabelFileReader = null;
 	static BufferedReader BufferedLabelFileReader = null;
 	static FileWriter LabelFileWriter = null;
