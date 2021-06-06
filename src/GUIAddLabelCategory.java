@@ -66,7 +66,9 @@ public class GUIAddLabelCategory extends JFrame {
 //				final JButton btnAdd = (JButton) e.getSource();
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
 				tfLabels.add(new JTextField());
-				GUIAddLabelForm.revalidate();
+				final Dimension d = GUIAddLabelForm.getSize();
+				d.height += h0;
+				GUIAddLabelForm.setSize(d);
 			}
 		});
 
