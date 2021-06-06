@@ -23,8 +23,7 @@ public class GUIAddLabelCategory extends JFrame {
 	public GUIAddLabelCategory(GUIMain MainFrame) {
 		// 标签类添加窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
-//		super.setLayout(null);
-		super.setLayout(new GridBagLayout());
+		super.setLayout(null);
 		super.setResizable(false); // not resizable by the user
 		super.setTitle("添加新的一类标签");
 
@@ -61,7 +60,7 @@ public class GUIAddLabelCategory extends JFrame {
 
 			@Override public void componentHidden(ComponentEvent e) {}
 		});
-		btnOK.addActionListener(new ActionListener() {
+		btnOK.addActionListener(new ActionListener() { // 添加本类标签
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnCancel);
 				final String Cat = tfLabelCategory.getText();
@@ -87,7 +86,7 @@ public class GUIAddLabelCategory extends JFrame {
 				GUIAddLabelForm.add(tfLabel);
 			}
 		});
-		btnDelete.addActionListener(new ActionListener() {
+		btnDelete.addActionListener(new ActionListener() { // 删除标签
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnAdd);
 				if (tfLabels.isEmpty() == false) {
@@ -99,7 +98,7 @@ public class GUIAddLabelCategory extends JFrame {
 				}
 			}
 		});
-		btnCancel.addActionListener(new ActionListener() {
+		btnCancel.addActionListener(new ActionListener() { // 取消添加
 			@Override public void actionPerformed(ActionEvent e) {
 				final GUIAddLabelCategory GUIAddLabelForm = (GUIAddLabelCategory) SwingUtilities.getRoot(btnCancel);
 				GUIAddLabelForm.dispose();
