@@ -32,8 +32,8 @@ public class GUIMain extends JFrame {
 	final JCheckBox cbUnlabeled = new JCheckBox("未标注");
 
 	/*搜索栏*/
-	final JTextField tfSearchByText = new JTextField(6);
-	final JTextField tfSearchByLabel = new JTextField(6);
+	final JTextField tfSearchByText = new JTextField();
+	final JTextField tfSearchByLabel = new JTextField();
 
 	/*全部可选标签*/
 	final JPanel AllLabelsPanel = new JPanel();
