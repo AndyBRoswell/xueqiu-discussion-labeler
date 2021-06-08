@@ -44,6 +44,7 @@ public class GUIMain extends JFrame {
 
 	// 表格
 	DiscussionTableModel TableModel;
+//	DefaultTableModel TableModel;
 	JTable DiscussionTable;
 	JScrollPane DiscussionScrollPane;
 
@@ -111,6 +112,10 @@ public class GUIMain extends JFrame {
 
 		@Override public Class getColumnClass(int c) { return getValueAt(0, c).getClass(); }
 	}
+
+//	static class DiscussionTableModel extends DefaultTableModel {
+//
+//	}
 
 	// 主窗体动作监听程序（内部类）
 	class MainFrameListener implements ComponentListener {
@@ -275,6 +280,8 @@ public class GUIMain extends JFrame {
 	// 显示股票讨论
 	public void ShowDiscussions() {
 		TableModel = new DiscussionTableModel();
+//		final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
+//		TableModel = new DefaultTableModel(DataManipulator.GetDiscussionList(), ColumnNames);
 		DiscussionTable = new JTable(TableModel);
 //		DiscussionTable.setFillsViewportHeight(true);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
