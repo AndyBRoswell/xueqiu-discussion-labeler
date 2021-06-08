@@ -97,14 +97,14 @@ public class GUIMain extends JFrame {
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
 			System.out.println("GUIMain.java - <标注显示面板 - 调试> RowIndex = " + rowIndex + ", ColumnIndex = " + columnIndex);
-			switch (rowIndex) {
+			switch (columnIndex) {
 				case 0:
-//					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行股评> " + DataManipulator.GetDiscussionItem(rowIndex).GetText());
-					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行股评> " + Data.get(rowIndex).GetText());
+					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行股评> " + DataManipulator.GetDiscussionItem(rowIndex).GetText());
+//					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行股评> " + Data.get(rowIndex).GetText());
 					return DataManipulator.GetDiscussionItem(rowIndex).GetText();
 				case 1:
-//					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行标注> " + DataManipulator.GetDiscussionItem(rowIndex).GetLabels());
-					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行标注> " + Data.get(rowIndex).GetLabels());
+					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行标注> " + DataManipulator.GetDiscussionItem(rowIndex).GetLabels());
+//					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行标注> " + Data.get(rowIndex).GetLabels());
 					return DataManipulator.GetDiscussionItem(rowIndex).GetLabels();
 				default:
 					return null;
