@@ -94,14 +94,20 @@ public class GUIMain extends JFrame {
 		@Override public String getColumnName(int col) { return ColumnNames[col]; }
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
-			return switch (rowIndex) {
-				case 0 -> DataManipulator.GetDiscussionItem(rowIndex).GetText();				// 股票讨论
-				case 1 -> DataManipulator.GetDiscussionItem(rowIndex).GetLabels();				// 该条股票讨论含有的标注
-				default -> null;
-			};
+			System.out.println("RowIndex = " + rowIndex + ", ColumnIndex = " + columnIndex);
+			switch (rowIndex) {
+				case 0:
+					System.out.println(DataManipulator.GetDiscussionItem(rowIndex).GetText());
+					return DataManipulator.GetDiscussionItem(rowIndex).GetText();
+				case 1:
+					System.out.println(DataManipulator.GetDiscussionItem(rowIndex).GetLabels());
+					return DataManipulator.GetDiscussionItem(rowIndex).GetLabels();
+				default:
+					return null;
+			}
 		}
 
-		@Override public boolean isCellEditable(int row, int col) { return col == 1; } // 股票讨论本身的内容不允许编辑
+		@Override public boolean isCellEditable(int row, int col) { return false; } // 不能直接在表格上编辑，而需要通过全部可选标注面板
 
 		@Override public Class getColumnClass(int c) { return getValueAt(0, c).getClass(); }
 	}
@@ -270,6 +276,7 @@ public class GUIMain extends JFrame {
 	public void ShowDiscussions() {
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
+		DiscussionTable.setFillsViewportHeight(true);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 //		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
 //		for (int i = 0; i < DiscussionList.size(); ++i) {
