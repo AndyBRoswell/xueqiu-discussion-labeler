@@ -34,10 +34,6 @@ public class Main {
 //			System.out.println("Main.java - <调试> " + entry.GetLabels().toString());
 //		}
 //		System.out.println(DataManipulator.GetDiscussionList().size());
-		for (int i = 0; i < 13; ++i) {
-			System.out.println("Main.java - <调试> 第 " + i + " 行股评：" + DataManipulator.GetDiscussionItem(i).GetText());
-			System.out.println("Main.java - <调试> 第 " + i + " 行标注：" + DataManipulator.GetDiscussionItem(i).GetLabels().toString());
-		}
 
 		// 通过股评进行哈希查找，返回其在线性表中的位置
 //		System.out.println(DataManipulator.GetDiscussionItem(42).GetText());

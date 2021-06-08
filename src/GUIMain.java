@@ -87,7 +87,6 @@ public class GUIMain extends JFrame {
 	// 股票讨论表表格模型（内部类）
 	static class DiscussionTableModel extends AbstractTableModel {
 		private final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
-		private final ArrayList<DiscussionItem> Data = DataManipulator.GetDiscussionList();
 
 		@Override public int getRowCount() { return DataManipulator.GetDiscussionList().size(); }
 
@@ -96,15 +95,12 @@ public class GUIMain extends JFrame {
 		@Override public String getColumnName(int col) { return ColumnNames[col]; }
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
-			System.out.println("GUIMain.java - <标注显示面板 - 调试> RowIndex = " + rowIndex + ", ColumnIndex = " + columnIndex);
 			switch (columnIndex) {
 				case 0:
-					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行股评> " + DataManipulator.GetDiscussionItem(rowIndex).GetText());
-//					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行股评> " + Data.get(rowIndex).GetText());
+					System.out.println(DataManipulator.GetDiscussionItem(rowIndex).GetText());
 					return DataManipulator.GetDiscussionItem(rowIndex).GetText();
 				case 1:
-					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行标注> " + DataManipulator.GetDiscussionItem(rowIndex).GetLabels());
-//					System.out.println("GUIMain.java - <标注显示面板 - 调试 - 第 " + rowIndex + " 行标注> " + Data.get(rowIndex).GetLabels());
+					System.out.println(DataManipulator.GetDiscussionItem(rowIndex).GetLabels());
 					return DataManipulator.GetDiscussionItem(rowIndex).GetLabels();
 				default:
 					return null;
@@ -115,10 +111,6 @@ public class GUIMain extends JFrame {
 
 		@Override public Class getColumnClass(int c) { return getValueAt(0, c).getClass(); }
 	}
-
-//	static class DiscussionTableModel extends DefaultTableModel {
-//
-//	}
 
 	// 主窗体动作监听程序（内部类）
 	class MainFrameListener implements ComponentListener {
@@ -283,10 +275,7 @@ public class GUIMain extends JFrame {
 	// 显示股票讨论
 	public void ShowDiscussions() {
 		TableModel = new DiscussionTableModel();
-//		final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
-//		TableModel = new DefaultTableModel(DataManipulator.GetDiscussionList(), ColumnNames);
 		DiscussionTable = new JTable(TableModel);
-//		DiscussionTable.setFillsViewportHeight(true);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 //		DiscussionScrollPane.setViewportView(DiscussionTable);
 //		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
