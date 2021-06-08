@@ -44,6 +44,8 @@ label_cat_cnt_L = 1
 label_cat_cnt_R = 16 + 1
 label_cnt_L = 1
 label_cnt_R = 8 + 1
+label_selected_cnt_L = 1
+label_selected_cnt_R = 20 + 1
 random_char_L = ord('A')
 random_char_R = ord('Z') + 1
 label_cat_len_without_suffix_L = 1
@@ -86,16 +88,18 @@ def parse_comment_url_with_random_test_labels(url):
 			# 随机在该标签类下构造若干个标签
 			label_cnt = random_uniform_int(label_cnt_L, label_cnt_R)
 			for j in range(label_cnt):
+				# 标签名称
 				str_parts.append(' ')
 				label_len_without_suffix = random_uniform_int(label_len_without_suffix_L, label_len_without_suffix_R)
 				for k in range(label_len_without_suffix): # 随机生成标签的每一个字符
 					str_parts.append(random_char(random_char_L, random_char_R))
 				str_parts.append(str(random_uniform_int(name_dsuffix_L, name_dsuffix_R))) # 为标签名称随机添加一个数字后缀
+				# 该标签被选中的次数
+				str_parts.append(' ')
+				str_parts.append(str(random_uniform_int(label_selected_cnt_L, label_selected_cnt_R)))
 			str_parts.append(csv_delim)
 
 		# 最终构造出一行字符串并添加到股评列表
-		# print("str_parts = \n")
-		# print(str_parts)
 		item['comment'] = ''.join(str_parts)
 		content_list.append(item)
 	return content_list, count
@@ -107,7 +111,6 @@ crawl_pages = 100
 
 file_name = sys.argv[1] # 保存的文件名
 stock_num = sys.argv[2] # 输入股票代码
-print(sys.argv)
 for i in range(crawl_pages):
 	detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(stock_num, i + 1)
 	try:
