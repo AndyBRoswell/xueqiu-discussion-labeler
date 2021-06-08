@@ -50,8 +50,8 @@ public class GUIAddLabelCategory extends JFrame {
 				btnDelete.setBounds(X / 2, y, X / 4, h0);
 				btnCancel.setBounds(X * 3 / 4, y, X / 4, h0);
 
-//				GUIAddLabelForm.setSize((int) Screen.getWidth() / 4, y + h0 + 40);
-				GUIAddLabelForm.getContentPane().setSize((int) Screen.getWidth() / 4, y + h0);
+				GUIAddLabelForm.setSize((int) Screen.getWidth() / 4, y + h0 + 40);
+//				GUIAddLabelForm.getContentPane().setSize((int) Screen.getWidth() / 4, y + h0);
 				GUIAddLabelForm.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
 			}
 
