@@ -95,16 +95,11 @@ public class GUIMain extends JFrame {
 		@Override public String getColumnName(int col) { return ColumnNames[col]; }
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
-			switch (columnIndex) {
-				case 0:
-					System.out.println(DataManipulator.GetDiscussionItem(rowIndex).GetText());
-					return DataManipulator.GetDiscussionItem(rowIndex).GetText();
-				case 1:
-					System.out.println(DataManipulator.GetDiscussionItem(rowIndex).GetLabels());
-					return DataManipulator.GetDiscussionItem(rowIndex).GetLabels();
-				default:
-					return null;
-			}
+			return switch (columnIndex) {
+				case 0 -> DataManipulator.GetDiscussionItem(rowIndex).GetText();
+				case 1 -> DataManipulator.GetDiscussionItem(rowIndex).GetLabels();
+				default -> null;
+			};
 		}
 
 		@Override public boolean isCellEditable(int row, int col) { return false; } // 不能直接在表格上编辑，而需要通过全部可选标注面板
