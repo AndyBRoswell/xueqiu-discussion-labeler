@@ -2,7 +2,6 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +42,6 @@ public class GUIMain extends JFrame {
 
 	// 表格
 	DiscussionTableModel TableModel;
-//	DefaultTableModel TableModel;
 	JTable DiscussionTable;
 	JScrollPane DiscussionScrollPane;
 
@@ -272,11 +269,5 @@ public class GUIMain extends JFrame {
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
-//		DiscussionScrollPane.setViewportView(DiscussionTable);
-//		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
-//		for (int i = 0; i < DiscussionList.size(); ++i) {
-//			final DiscussionItem Item = DiscussionList.get(i);
-//			TableModel.AddRow(i, Item);
-//		}
 	}
 }
