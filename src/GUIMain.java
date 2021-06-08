@@ -155,6 +155,7 @@ public class GUIMain extends JFrame {
 			final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
 				int w, h;
+
 				// 标签类名称控件
 				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
 				w = w0 * (Cat.getKey().length() + LabelPadding);
