@@ -276,8 +276,9 @@ public class GUIMain extends JFrame {
 	public void ShowDiscussions() {
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
-		DiscussionTable.setFillsViewportHeight(true);
+//		DiscussionTable.setFillsViewportHeight(true);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
+//		DiscussionScrollPane.setViewportView(DiscussionTable);
 //		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
 //		for (int i = 0; i < DiscussionList.size(); ++i) {
 //			final DiscussionItem Item = DiscussionList.get(i);
