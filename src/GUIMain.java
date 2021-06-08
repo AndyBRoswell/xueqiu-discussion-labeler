@@ -94,7 +94,7 @@ public class GUIMain extends JFrame {
 		@Override public String getColumnName(int col) { return ColumnNames[col]; }
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
-			System.out.println("RowIndex = " + rowIndex + ", ColumnIndex = " + columnIndex);
+			System.out.println("GUIMain.java - <标注显示面板 - 调试> RowIndex = " + rowIndex + ", ColumnIndex = " + columnIndex);
 			switch (rowIndex) {
 				case 0:
 					System.out.println(DataManipulator.GetDiscussionItem(rowIndex).GetText());
