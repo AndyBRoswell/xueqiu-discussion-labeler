@@ -290,7 +290,7 @@ public class GUIMain extends JFrame {
 		// 菜单项的动作监听程序
 		ImportMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				new GUIImport();
+				new GUIImportList();
 			}
 		});
 
@@ -320,5 +320,6 @@ public class GUIMain extends JFrame {
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
+		Refresh();
 	}
 }

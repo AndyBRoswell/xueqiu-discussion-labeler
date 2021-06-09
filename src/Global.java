@@ -18,4 +18,7 @@ public class Global {
 	// Fonts
 	public static final int FontSizeD = 12;
 	public static final int FontSizeL = 16;
+
+	// Main Window
+	public static GUIMain MainForm;
 }

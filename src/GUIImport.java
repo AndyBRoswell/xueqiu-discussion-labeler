@@ -173,11 +173,12 @@ class GUIImportList extends JFrame{
                 for(String string :GUIImport.list){
                     StorageAccessor.LoadDiscussionFromCSV(string,"gbk");
                 }
+                Global.MainForm.ShowDiscussions();
 
-                for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
-			            System.out.println(entry.GetText());
-			            System.out.println(entry.GetLabels().toString());
-                }
+//                for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
+//			            System.out.println(entry.GetText());
+//			            System.out.println(entry.GetLabels().toString());
+//                }
             }
         });
         //继续添加按钮
