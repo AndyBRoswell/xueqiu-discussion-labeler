@@ -19,6 +19,23 @@ public class GUIMain extends JFrame {
 	// 默认字体
 	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
+	// 菜单
+	final JMenuBar MenuBar = new JMenuBar();
+
+	final JMenu FileMenu = new JMenu("文件");
+	final JMenuItem ImportMenuItem = new JMenuItem("导入股票讨论 CSV 文件");
+	final JMenuItem ExportMenuItem = new JMenuItem("导出股票讨论 CSV 文件");
+	final JMenuItem SetMenuItem = new JMenuItem("设置");
+	final JMenuItem JournalMenuItem = new JMenuItem("日志");
+	final JMenuItem ExitMenuItem = new JMenuItem("退出");
+
+	final JMenu TaskMenu = new JMenu("任务");
+	final JMenuItem AddMenuItem = new JMenuItem("添加爬取任务");
+
+	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
+
+	final JMenu StatisticMenu = new JMenu("统计");
+
 	// 主界面图标
 	static final ImageIcon icoDownload = new ImageIcon(Global.IconPath + "\\download.png");
 	static final ImageIcon icoAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
@@ -46,23 +63,7 @@ public class GUIMain extends JFrame {
 	DiscussionTableModel TableModel;
 	JTable DiscussionTable;
 	JScrollPane DiscussionScrollPane;
-
-	// 菜单
-	final JMenuBar MenuBar = new JMenuBar();
-
-	final JMenu FileMenu = new JMenu("文件");
-	final JMenuItem ImportMenuItem = new JMenuItem("导入股票讨论 CSV 文件");
-	final JMenuItem ExportMenuItem = new JMenuItem("导出股票讨论 CSV 文件");
-	final JMenuItem SetMenuItem = new JMenuItem("设置");
-	final JMenuItem JournalMenuItem = new JMenuItem("日志");
-	final JMenuItem ExitMenuItem = new JMenuItem("退出");
-
-	final JMenu TaskMenu = new JMenu("任务");
-	final JMenuItem AddMenuItem = new JMenuItem("添加爬取任务");
-
-	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
-
-	final JMenu StatisticMenu = new JMenu("统计");
+	static final LabeledCountComponent LabeledFor0Times = new LabeledCountComponent(0);
 
 	// 动作监听程序
 	final MainFrameListener Listener = new MainFrameListener();
