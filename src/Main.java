@@ -5,8 +5,8 @@ import java.io.IOException;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
-//		GUI MainForm = new GUI();
-		GUIMain MainForm = new GUIMain();
+		GUI MainForm = new GUI();
+		//GUIMain MainForm = new GUIMain();
 
 		// 读取设置
 //		Config.LoadConfig(Global.DefaultConfig);
@@ -29,10 +29,10 @@ public class Main {
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\科创.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk", 1);
-		for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
-			System.out.println(entry.GetText());
-			System.out.println(entry.GetLabels().toString());
-		}
+//		for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
+//			System.out.println(entry.GetText());
+//			System.out.println(entry.GetLabels().toString());
+//		}
 //		System.out.println(DataManipulator.GetDiscussionList().size());
 
 		// 通过股评进行哈希查找，返回其在线性表中的位置
