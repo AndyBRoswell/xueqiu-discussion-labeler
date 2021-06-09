@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -162,29 +163,38 @@ public class GUIMain extends JFrame {
 			final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
 			AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
-			// 将全部可选标签布局在可选标签面板上
+			// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
+			final int[] SelectedRows = DiscussionTable.getSelectedRows();
 			final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
 				int w, h;
 
 				// 标签类名称控件
 				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
-				w = w0 * (Cat.getKey().length() + LabelPadding);
+				final String CatName = Cat.getKey();
+				w = w0 * (CatName.length() + LabelPadding);
 				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 				lbCatName.setBounds(XC, YC, w, h0);
 				AllLabelsPanel.add(lbCatName);
 				XC += lbCatName.getWidth();
 
 				// 每一类标签及其使用数据
-				for (String Label : Cat.getValue()) {
+				for (String LabelName : Cat.getValue()) {
 					// 标签控件
-					final LabelButton btLabel = new LabelButton(Label);
-					w = w0 * (Label.length() + ButtonPadding);
+					final LabelButton btLabel = new LabelButton(LabelName);
+					w = w0 * (LabelName.length() + ButtonPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					btLabel.setBounds(XC, YC, w, h0);
 					AllLabelsPanel.add(btLabel);
 					XC += btLabel.getWidth();
 					// 被选中次数控件（待补充）
+					int TotalLabeledCount = 0;
+					for (int i : SelectedRows) {
+						final HashMap<String, Integer> ContainedLabelsOfThisCat = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName);
+						final Integer c = ContainedLabelsOfThisCat.get(LabelName);
+						if (c != null) TotalLabeledCount += c;
+					}
+					
 				}
 
 				// 添加标签按钮
