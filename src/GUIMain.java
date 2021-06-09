@@ -187,14 +187,17 @@ public class GUIMain extends JFrame {
 					btLabel.setBounds(XC, YC, w, h0);
 					AllLabelsPanel.add(btLabel);
 					XC += btLabel.getWidth();
-					// 被选中次数控件（待补充）
+					// 被选中次数标签控件
 					int TotalLabeledCount = 0;
 					for (int i : SelectedRows) {
 						final HashMap<String, Integer> ContainedLabelsOfThisCat = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName);
 						final Integer c = ContainedLabelsOfThisCat.get(LabelName);
 						if (c != null) TotalLabeledCount += c;
 					}
-					final LabeledCountComponent lbCount = new LabeledCountComponent(TotalLabeledCount);
+					LabeledCountComponent lbCount = LabeledFor0Times;
+					if (TotalLabeledCount != 0) {
+						lbCount = new LabeledCountComponent(TotalLabeledCount);
+					}
 					w = w0 + (lbCount.getText().length() + LabelPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					lbCount.setBounds(XC, YC, w, h0);
