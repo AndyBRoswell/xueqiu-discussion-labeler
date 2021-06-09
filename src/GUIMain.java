@@ -83,6 +83,14 @@ public class GUIMain extends JFrame {
 		}
 	}
 
+	// 标签被选中次数标签控件（内部类）
+	static class LabeledCountComponent extends JLabel {
+		public LabeledCountComponent(int Count) {
+			super(String.valueOf(Count));
+			super.setHorizontalAlignment(JLabel.CENTER);
+		}
+	}
+
 	// 股票讨论表表格模型（内部类）
 	static class DiscussionTableModel extends AbstractTableModel {
 		private final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
@@ -203,7 +211,7 @@ public class GUIMain extends JFrame {
 
 	class RowSelectionListener implements ListSelectionListener {
 		@Override public void valueChanged(ListSelectionEvent e) {
-			
+			Refresh();
 		}
 	}
 
