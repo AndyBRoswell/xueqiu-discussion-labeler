@@ -5,8 +5,8 @@ import java.io.IOException;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
-//		GUI MainForm = new GUI();
-		GUIMain MainForm = new GUIMain();
+		GUI MainForm = new GUI();
+		//GUIMain MainForm = new GUIMain();
 
 		// 读取设置
 //		Config.LoadConfig(Global.DefaultConfig);

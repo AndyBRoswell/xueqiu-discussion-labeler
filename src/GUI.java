@@ -110,7 +110,7 @@ public class GUI extends JFrame {
 		ImportMenuItem.addActionListener(new ActionListener() { // 弹出导入窗口
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new GUIImport();
+				new GUIImportList();
 			}
 		});
 		ExportMenuItem.addActionListener(new ActionListener() { // 弹出导出窗口
