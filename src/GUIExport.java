@@ -85,7 +85,7 @@ public class GUIExport extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 JFileChooser chooser = new JFileChooser();
-                FileSystemView fsv = FileSystemView.getFileSystemView();
+                FileSystemView fsv = FileSystemView.getFileSystemView();  //注意了，这里重要的一句
                 chooser.setCurrentDirectory(fsv.getHomeDirectory());
                 chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 chooser.showDialog(new JLabel(), "选择");

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ public class GUIImport extends JFrame {
     JButton chooseFile=new JButton("浏览");
     static ArrayList<String> list = new ArrayList<String>();
     static int i;
+  
     public GUIImport(){
         JFrame frame = new JFrame("导入");
         frame.setBounds(new Rectangle(500, 200));
@@ -47,6 +49,7 @@ public class GUIImport extends JFrame {
                 else{
                     setChooseFileName(string);
                     //System.out.println(str_ChooseFileName);
+
 //                    if(list.size()==1){
 //                        new GUIImportList(string);
 //                    }
@@ -54,6 +57,7 @@ public class GUIImport extends JFrame {
                     GUIImportList.model.addRow(new Object[] {GUIImport.i,GUIImport.list.get(GUIImport.i-1)});
 
                     frame.dispose();
+
                     textField.setText("");
                 }
             }
@@ -193,7 +197,9 @@ class GUIImportList extends JFrame{
     JButton deleteFile2 =new JButton("x");
     JButton deleteFile3 =new JButton("x");
     GUIImportList(String[] fileName){
+
         JFrame frame = new JFrame("&#x5BFC;&#x5165;&#x5217;&#x8868;&#x9884;&#x89C8;");
+
         frame.setBounds(new Rectangle(500, 200));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -204,18 +210,24 @@ class GUIImportList extends JFrame{
         JPanel panel2 = new JPanel(new FlowLayout());
         JPanel panel3 = new JPanel(new FlowLayout());
         JPanel panel4 = new JPanel(new FlowLayout());
+
         JLabel label1 = new JLabel("--------&#x9700;&#x8981;&#x5BFC;&#x5165;&#x7684;&#x6587;&#x4EF6;--------");
         JLabel label = new JLabel("&middot; 1 :  ");
+
         JTextField textField = new JTextField(30);
         textField.setText(fileName[0]);
         textField.setEditable(false);
 
+
         JLabel label2 = new JLabel("&middot; 2 :  ");
+
         JTextField textField2 = new JTextField(30);
         textField2.setText(fileName[1]);
         textField2.setEditable(false);
 
+
         JLabel label3 = new JLabel("&middot; 3 :  ");
+
         JTextField textField3 = new JTextField(30);
         textField3.setText(fileName[2]);
         textField3.setEditable(false);

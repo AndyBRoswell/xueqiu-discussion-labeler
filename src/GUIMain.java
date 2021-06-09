@@ -1,8 +1,9 @@
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +19,23 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GUIMain extends JFrame {
 	// 默认字体
 	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
+
+	// 菜单
+	final JMenuBar MenuBar = new JMenuBar();
+
+	final JMenu FileMenu = new JMenu("文件");
+	final JMenuItem ImportMenuItem = new JMenuItem("导入股票讨论 CSV 文件");
+	final JMenuItem ExportMenuItem = new JMenuItem("导出股票讨论 CSV 文件");
+	final JMenuItem SetMenuItem = new JMenuItem("设置");
+	final JMenuItem JournalMenuItem = new JMenuItem("日志");
+	final JMenuItem ExitMenuItem = new JMenuItem("退出");
+
+	final JMenu TaskMenu = new JMenu("任务");
+	final JMenuItem AddMenuItem = new JMenuItem("添加爬取任务");
+
+	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
+
+	final JMenu StatisticMenu = new JMenu("统计");
 
 	// 主界面图标
 	static final ImageIcon icoDownload = new ImageIcon(Global.IconPath + "\\download.png");
@@ -46,23 +64,7 @@ public class GUIMain extends JFrame {
 	DiscussionTableModel TableModel;
 	JTable DiscussionTable;
 	JScrollPane DiscussionScrollPane;
-
-	// 菜单
-	final JMenuBar MenuBar = new JMenuBar();
-
-	final JMenu FileMenu = new JMenu("文件");
-	final JMenuItem ImportMenuItem = new JMenuItem("导入股票讨论 CSV 文件");
-	final JMenuItem ExportMenuItem = new JMenuItem("导出股票讨论 CSV 文件");
-	final JMenuItem SetMenuItem = new JMenuItem("设置");
-	final JMenuItem JournalMenuItem = new JMenuItem("日志");
-	final JMenuItem ExitMenuItem = new JMenuItem("退出");
-
-	final JMenu TaskMenu = new JMenu("任务");
-	final JMenuItem AddMenuItem = new JMenuItem("添加爬取任务");
-
-	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
-
-	final JMenu StatisticMenu = new JMenu("统计");
+	static final LabeledCountComponent LabeledFor0Times = new LabeledCountComponent(0);
 
 	// 动作监听程序
 	final MainFrameListener Listener = new MainFrameListener();
@@ -83,6 +85,14 @@ public class GUIMain extends JFrame {
 		}
 	}
 
+	// 标签被选中次数标签控件（内部类）
+	static class LabeledCountComponent extends JLabel {
+		public LabeledCountComponent(int Count) {
+			super(String.valueOf(Count));
+			super.setHorizontalAlignment(JLabel.CENTER);
+		}
+	}
+
 	// 股票讨论表表格模型（内部类）
 	static class DiscussionTableModel extends AbstractTableModel {
 		private final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
@@ -94,14 +104,14 @@ public class GUIMain extends JFrame {
 		@Override public String getColumnName(int col) { return ColumnNames[col]; }
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
-			return switch (rowIndex) {
-				case 0 -> DataManipulator.GetDiscussionItem(rowIndex).GetText();				// 股票讨论
-				case 1 -> DataManipulator.GetDiscussionItem(rowIndex).GetLabels();				// 该条股票讨论含有的标注
+			return switch (columnIndex) {
+				case 0 -> DataManipulator.GetDiscussionItem(rowIndex).GetText();
+				case 1 -> DataManipulator.GetDiscussionItem(rowIndex).GetLabels();
 				default -> null;
 			};
 		}
 
-		@Override public boolean isCellEditable(int row, int col) { return col == 1; } // 股票讨论本身的内容不允许编辑
+		@Override public boolean isCellEditable(int row, int col) { return false; } // 不能直接在表格上编辑，而需要通过全部可选标注面板
 
 		@Override public Class getColumnClass(int c) { return getValueAt(0, c).getClass(); }
 	}
@@ -142,39 +152,61 @@ public class GUIMain extends JFrame {
 			btnSaveAvailableLabels.setBorderPainted(false);
 
 			/*可选标注滚动面板*/
+//			AllLabelsPanel.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+			AllLabelsPanel.setLayout(null);
 			AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			AllLabelsPanel.setLayout(null);
-			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
+//			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
 
 			// 可选标注面板内容
 			int XC = 0, YC = 0; // 当前摆放控件的位置
 			final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
 			AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
-			// 将全部可选标签布局在可选标签面板上
+			// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
+			final int[] SelectedRows = DiscussionTable.getSelectedRows();
 			final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
 				int w, h;
+
 				// 标签类名称控件
-				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
-				w = w0 * (Cat.getKey().length() + LabelPadding);
+				final String CatName = Cat.getKey();
+				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(CatName);
+				w = w0 * (CatName.length() + LabelPadding);
 				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 				lbCatName.setBounds(XC, YC, w, h0);
 				AllLabelsPanel.add(lbCatName);
 				XC += lbCatName.getWidth();
 
 				// 每一类标签及其使用数据
-				for (String Label : Cat.getValue()) {
+				for (String LabelName : Cat.getValue()) {
 					// 标签控件
-					final LabelButton btLabel = new LabelButton(Label);
-					w = w0 * (Label.length() + ButtonPadding);
+					final LabelButton btLabel = new LabelButton(LabelName);
+					w = w0 * (LabelName.length() + ButtonPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					btLabel.setBounds(XC, YC, w, h0);
 					AllLabelsPanel.add(btLabel);
 					XC += btLabel.getWidth();
-					// 被选中次数控件（待补充）
+					// 被选中次数标签控件
+					int TotalLabeledCount = 0;
+					for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
+						final HashMap<String, Integer> ContainedLabelsOfThisCat = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName);
+						if (ContainedLabelsOfThisCat != null) { // 在该股评条目的标注中找到了当前的标签类
+							final Integer c = ContainedLabelsOfThisCat.get(LabelName);
+							if (c != null) TotalLabeledCount += c;
+						}
+					}
+//					LabeledCountComponent lbCount = LabeledFor0Times;
+//					if (TotalLabeledCount != 0) {
+//						lbCount = new LabeledCountComponent(TotalLabeledCount);
+//					}
+					LabeledCountComponent lbCount = new LabeledCountComponent(TotalLabeledCount);
+					w = w0 + (lbCount.getText().length() + LabelPadding);
+					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+					lbCount.setBounds(XC, YC, w, h0);
+					AllLabelsPanel.add(lbCount);
+					XC += lbCount.getWidth();
 				}
 
 				// 添加标签按钮
@@ -191,6 +223,8 @@ public class GUIMain extends JFrame {
 				AllLabelsPanel.add(btnAddLabel);
 				XC += btnAddLabel.getWidth();
 			}
+
+			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
 		}
 
 		@Override public void componentMoved(ComponentEvent e) {}
@@ -198,6 +232,12 @@ public class GUIMain extends JFrame {
 		@Override public void componentShown(ComponentEvent e) {}
 
 		@Override public void componentHidden(ComponentEvent e) {}
+	}
+
+	class RowSelectionListener implements ListSelectionListener {
+		@Override public void valueChanged(ListSelectionEvent e) {
+			Refresh();
+		}
 	}
 
 	// 初始化主界面
@@ -226,22 +266,31 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddMenuItem);
 
 		// 表格的基本设置
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台-简单添加标注.csv", "gbk");
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\AAPL-20210609-215520.csv", "gbk");
 		ShowDiscussions();
 
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
 
-		btnAddAvailableLabelCategory.addActionListener(new ActionListener() {
+		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
+
+		btnAddAvailableLabelCategory.addActionListener(new ActionListener() { // 添加标注类按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddAvailableLabelCategory));
 			}
 		});
 
-		btnSaveAvailableLabels.addActionListener(new ActionListener() {
+		btnSaveAvailableLabels.addActionListener(new ActionListener() { // 添加标注按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				try { StorageAccessor.SaveAllAvailableLabels(); }
 				catch (IOException | XPathExpressionException IOOrXPathException) { IOOrXPathException.printStackTrace(); }
+			}
+		});
+
+		// 菜单项的动作监听程序
+		ImportMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				new GUIImport();
 			}
 		});
 
@@ -271,10 +320,5 @@ public class GUIMain extends JFrame {
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
-//		final ArrayList<DiscussionItem> DiscussionList = DataManipulator.GetDiscussionList();
-//		for (int i = 0; i < DiscussionList.size(); ++i) {
-//			final DiscussionItem Item = DiscussionList.get(i);
-//			TableModel.AddRow(i, Item);
-//		}
 	}
 }

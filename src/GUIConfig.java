@@ -22,7 +22,7 @@ public class GUIConfig extends JFrame {
     ArrayList<String> list ;
 
     public GUIConfig(String defaultConfig){
-            logger.info("打开设置界面");
+            //logger.info("打开设置界面");
             list = getConfig(defaultConfig);
             JButton buttonTrue=new JButton("确定");
             JButton buttonFalse=new JButton("取消");
@@ -125,13 +125,13 @@ public class GUIConfig extends JFrame {
             ConfigFrame.add(label_name1);
             ConfigFrame.add(label_age1);
             ConfigFrame.add(label_sex1);
-        ConfigFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e)
-            {
-                logger.info("关闭设置界面");
-            }
-        });
+//        ConfigFrame.addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosing(WindowEvent e)
+//            {
+//                logger.info("关闭设置界面");
+//            }
+//        });
 
 
             buttonTrue.addActionListener(new ActionListener() {

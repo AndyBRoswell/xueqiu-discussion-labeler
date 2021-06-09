@@ -17,10 +17,10 @@ headers = {
 			"Cookie": "device_id=24700f9f1986800ab4fcc880530dd0ed; s=c511yn1n8b; acw_tc=2760820816228937868421541e3f5749ce5aec8979da60b3c8719be2aba40c; is_overseas=0; Hm_lvt_1db88642e346389874251b5a1eded6e3=1621666964,1621826340,1622893795; xq_a_token=c68b6ee9af2393c44a5d9745eb2857bb6943cef6; xqat=c68b6ee9af2393c44a5d9745eb2857bb6943cef6; xq_r_token=cbfa462352b70532e0a62c9cf3d211cb6569f348; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOjEzNjc0MTYyNDEsImlzcyI6InVjIiwiZXhwIjoxNjI1NDg1ODAyLCJjdG0iOjE2MjI4OTM4MDIzNjksImNpZCI6ImQ5ZDBuNEFadXAifQ.jJorr34P0Qm0FArk9vBVvr0u6Xj7hTQdXzlc_ZynM4tlipCS1qCtVwWlEEr13DJ-_3sLgOirBsf9qbCZDj8NggHbSjp8xhtpXOOZbe8Vx1j0bX2XZS_6DjmUEHJ_KWQYoKoPOGRptph0hgQowUVMKlzbnQinJBZmklUkXANXR3pxzHNRolcCYKCx7LHVVEWnpP-HyDxhwTMxbtdmkPwY3ivffufc04UnZ6FgkfV4vhw2PkdIgrvYOzMUWHn21kmosSaVY4L1vIiau8t8l3bJtynMpHaiW-YJY175nHpCt_VQ8EM3g28uZFI8gH81OOrHnv_4yz22XunLDX6bV5jKtA; xq_is_login=1; u=1367416241; Hm_lpvt_1db88642e346389874251b5a1eded6e3=1622893810; snbim_minify=true"
 }
 
-def save_file(content_list):
+def save_file(content_list, encoding = "GBK"):
 	for content in content_list:
 		with open(file_name, 'a')as f:
-			f.write(str(content['comment']).encode("gbk", 'ignore').decode("gbk", "ignore"))
+			f.write(str(content['comment']).encode(encoding, 'ignore').decode(encoding, "ignore"))
 			f.write("\n")
 			
 csv_delim = '`'
@@ -32,10 +32,10 @@ def parse_comment_url(url):
 	content_list = []
 	for res in res_list:
 		item = {}
-		#item['user_name'] = res['user']['screen_name']
+		# item['user_name'] = res['user']['screen_name']
 		item['comment'] = res['text']
 		item['comment'] = re.sub("<.*?>||&nbsp;||\`",'', item['comment'])
-		item['comment'] = item['comment'] + csv_delim
+		# item['comment'] = item['comment'] + csv_delim
 		content_list.append(item)
 	return content_list, count
 
@@ -44,6 +44,8 @@ label_cat_cnt_L = 1
 label_cat_cnt_R = 16 + 1
 label_cnt_L = 1
 label_cnt_R = 8 + 1
+label_selected_cnt_L = 1
+label_selected_cnt_R = 20 + 1
 random_char_L = ord('A')
 random_char_R = ord('Z') + 1
 label_cat_len_without_suffix_L = 1
@@ -67,16 +69,16 @@ def parse_comment_url_with_random_test_labels(url):
 	# 处理每条股评
 	for res in res_list:
 		item = {}
-		#item['user_name'] = res['user']['screen_name']
+		# item['user_name'] = res['user']['screen_name']
 		str_parts = []
 
 		# 添加股评
 		str_parts.append(re.sub("<.*?>||&nbsp;||\`",'', res['text'])) # 最左一列为股评（已消去特殊字符）
-		str_parts.append(csv_delim)
 
 		# 构造标注数据，测试用
 		label_cat_cnt = random_uniform_int(label_cat_cnt_L, label_cat_cnt_R)
 		for i in range(label_cat_cnt): # 随机构造若干类标签
+			str_parts.append(csv_delim)
 			# 随机生成标签类名称
 			label_cat_len = random_uniform_int(label_cat_len_without_suffix_L, label_cat_len_without_suffix_R)
 			for j in range(label_cat_len): # 随机生成标签类名称的每一个字符
@@ -86,16 +88,17 @@ def parse_comment_url_with_random_test_labels(url):
 			# 随机在该标签类下构造若干个标签
 			label_cnt = random_uniform_int(label_cnt_L, label_cnt_R)
 			for j in range(label_cnt):
+				# 标签名称
 				str_parts.append(' ')
 				label_len_without_suffix = random_uniform_int(label_len_without_suffix_L, label_len_without_suffix_R)
 				for k in range(label_len_without_suffix): # 随机生成标签的每一个字符
 					str_parts.append(random_char(random_char_L, random_char_R))
 				str_parts.append(str(random_uniform_int(name_dsuffix_L, name_dsuffix_R))) # 为标签名称随机添加一个数字后缀
-			str_parts.append(csv_delim)
+				# 该标签被选中的次数
+				str_parts.append(' ')
+				str_parts.append(str(random_uniform_int(label_selected_cnt_L, label_selected_cnt_R)))
 
 		# 最终构造出一行字符串并添加到股评列表
-		# print("str_parts = \n")
-		# print(str_parts)
 		item['comment'] = ''.join(str_parts)
 		content_list.append(item)
 	return content_list, count
@@ -105,13 +108,13 @@ access_delay = 3
 reaccess_delay = 5
 crawl_pages = 100
 
-file_name = sys.argv[1] # 保存的文件名
-stock_num = sys.argv[2] # 输入股票代码
-print(sys.argv)
+file_name = sys.argv[1]		# 保存的文件名
+stock_num = sys.argv[2]		# 输入股票代码
+encoding = sys.argv[3]		# 保存文件的编码
 for i in range(crawl_pages):
 	detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(stock_num, i + 1)
 	try:
-		if ("-r" in sys.argv or "--random" in sys.argv):
+		if ("--random" in sys.argv):
 			print("正爬取：" + detail_url + " 并生成测试用的随机标注。")
 			comment_data, count = parse_comment_url_with_random_test_labels(detail_url)
 		else:
@@ -121,11 +124,11 @@ for i in range(crawl_pages):
 	except Exception as e: 
 		print("Error: ", e)
 		time.sleep(reaccess_delay)
-		if ("-r" in sys.argv or "--random" in sys.argv):
+		if ("--random" in sys.argv):
 			print("正爬取：" + detail_url + " 并生成测试用的随机标注。")
 			comment_data, count = parse_comment_url_with_random_test_labels(detail_url)
 		else:
 			print("正爬取：" + detail_url)
 			comment_data, count = parse_comment_url(detail_url)
 		time.sleep(reaccess_delay)
-	save_file(comment_data)
+	save_file(comment_data, encoding)
