@@ -166,7 +166,7 @@ class GUIImportList extends JFrame {
 //                        xPathExpressionException.printStackTrace();
 //                    }
                     StorageAccessor.LoadDiscussionFromCSV(fileName[0],"gbk");
-                    		for (DiscussionItem entry : DataManipulator.DiscussionList) {
+                    		for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
 			System.out.println(entry.GetText());
 			System.out.println(entry.GetLabels().toString());
 		}
