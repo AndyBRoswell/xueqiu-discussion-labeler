@@ -32,10 +32,10 @@ def parse_comment_url(url):
 	content_list = []
 	for res in res_list:
 		item = {}
-		#item['user_name'] = res['user']['screen_name']
+		# item['user_name'] = res['user']['screen_name']
 		item['comment'] = res['text']
 		item['comment'] = re.sub("<.*?>||&nbsp;||\`",'', item['comment'])
-		item['comment'] = item['comment'] + csv_delim
+		# item['comment'] = item['comment'] + csv_delim
 		content_list.append(item)
 	return content_list, count
 
@@ -69,7 +69,7 @@ def parse_comment_url_with_random_test_labels(url):
 	# 处理每条股评
 	for res in res_list:
 		item = {}
-		#item['user_name'] = res['user']['screen_name']
+		# item['user_name'] = res['user']['screen_name']
 		str_parts = []
 
 		# 添加股评
