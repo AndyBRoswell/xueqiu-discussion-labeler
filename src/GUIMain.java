@@ -189,15 +189,17 @@ public class GUIMain extends JFrame {
 					XC += btLabel.getWidth();
 					// 被选中次数标签控件
 					int TotalLabeledCount = 0;
-					for (int i : SelectedRows) {
+					for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
 						final HashMap<String, Integer> ContainedLabelsOfThisCat = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName);
-						final Integer c = ContainedLabelsOfThisCat.get(LabelName);
-						if (c != null) TotalLabeledCount += c;
+						if (ContainedLabelsOfThisCat != null) { // 在该股评条目的标注中找到了当前的标签类
+							final Integer c = ContainedLabelsOfThisCat.get(LabelName);
+							if (c != null) TotalLabeledCount += c;
+						}
 					}
-					//LabeledCountComponent lbCount = LabeledFor0Times;
-					//if (TotalLabeledCount != 0) {
-						//lbCount = new LabeledCountComponent(TotalLabeledCount);
-					//}
+//					LabeledCountComponent lbCount = LabeledFor0Times;
+//					if (TotalLabeledCount != 0) {
+//						lbCount = new LabeledCountComponent(TotalLabeledCount);
+//					}
 					LabeledCountComponent lbCount = new LabeledCountComponent(TotalLabeledCount);
 					w = w0 + (lbCount.getText().length() + LabelPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
