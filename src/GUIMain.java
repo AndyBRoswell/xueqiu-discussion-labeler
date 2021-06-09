@@ -194,10 +194,11 @@ public class GUIMain extends JFrame {
 						final Integer c = ContainedLabelsOfThisCat.get(LabelName);
 						if (c != null) TotalLabeledCount += c;
 					}
-					LabeledCountComponent lbCount = LabeledFor0Times;
-					if (TotalLabeledCount != 0) {
-						lbCount = new LabeledCountComponent(TotalLabeledCount);
-					}
+					//LabeledCountComponent lbCount = LabeledFor0Times;
+					//if (TotalLabeledCount != 0) {
+						//lbCount = new LabeledCountComponent(TotalLabeledCount);
+					//}
+					LabeledCountComponent lbCount = new LabeledCountComponent(TotalLabeledCount);
 					w = w0 + (lbCount.getText().length() + LabelPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					lbCount.setBounds(XC, YC, w, h0);
