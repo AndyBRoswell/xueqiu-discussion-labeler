@@ -231,13 +231,13 @@ public class GUIMain extends JFrame {
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
 
-		btnAddAvailableLabelCategory.addActionListener(new ActionListener() {
+		btnAddAvailableLabelCategory.addActionListener(new ActionListener() { // 添加标注类按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddAvailableLabelCategory));
 			}
 		});
 
-		btnSaveAvailableLabels.addActionListener(new ActionListener() {
+		btnSaveAvailableLabels.addActionListener(new ActionListener() { // 添加标注按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				try { StorageAccessor.SaveAllAvailableLabels(); }
 				catch (IOException | XPathExpressionException IOOrXPathException) { IOOrXPathException.printStackTrace(); }
