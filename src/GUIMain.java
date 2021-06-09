@@ -224,7 +224,7 @@ public class GUIMain extends JFrame {
 				XC += btnAddLabel.getWidth();
 			}
 
-			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0));
+			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
 		}
 
 		@Override public void componentMoved(ComponentEvent e) {}
@@ -266,7 +266,7 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddMenuItem);
 
 		// 表格的基本设置
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\AAPL-20210609-215520.csv", "gbk");
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\AAPL-20210609-215520.csv", "gbk");
 		ShowDiscussions();
 
 		// 添加动作监听程序
@@ -284,6 +284,13 @@ public class GUIMain extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) {
 				try { StorageAccessor.SaveAllAvailableLabels(); }
 				catch (IOException | XPathExpressionException IOOrXPathException) { IOOrXPathException.printStackTrace(); }
+			}
+		});
+
+		// 菜单项的动作监听程序
+		ImportMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				new GUIImport();
 			}
 		});
 
