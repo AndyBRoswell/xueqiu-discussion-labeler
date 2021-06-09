@@ -1,6 +1,8 @@
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
@@ -197,6 +199,12 @@ public class GUIMain extends JFrame {
 		@Override public void componentShown(ComponentEvent e) {}
 
 		@Override public void componentHidden(ComponentEvent e) {}
+	}
+
+	class RowSelectionListener implements ListSelectionListener {
+		@Override public void valueChanged(ListSelectionEvent e) {
+			
+		}
 	}
 
 	// 初始化主界面
