@@ -224,7 +224,7 @@ public class GUIMain extends JFrame {
 				XC += btnAddLabel.getWidth();
 			}
 
-			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC * 5 / 4));
+			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0));
 		}
 
 		@Override public void componentMoved(ComponentEvent e) {}
