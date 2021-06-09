@@ -170,8 +170,8 @@ public class GUIMain extends JFrame {
 				int w, h;
 
 				// 标签类名称控件
-				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(Cat.getKey());
 				final String CatName = Cat.getKey();
+				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(CatName);
 				w = w0 * (CatName.length() + LabelPadding);
 				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 				lbCatName.setBounds(XC, YC, w, h0);
@@ -266,6 +266,8 @@ public class GUIMain extends JFrame {
 
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
+
+		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 
 		btnAddAvailableLabelCategory.addActionListener(new ActionListener() { // 添加标注类按钮
 			@Override public void actionPerformed(ActionEvent e) {
