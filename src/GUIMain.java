@@ -319,8 +319,22 @@ public class GUIMain extends JFrame {
 		}
 	}
 
-	// 用于多行显示的单元格渲染器
-//	class LineWrapCellRenderer extends JTextArea
+	// 用于多行显示的单元格渲染器（内部类）
+	static class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
+		public LineWrapCellRenderer() {
+			this.setWrapStyleWord(true);
+			this.setLineWrap(true);
+		}
+
+		@Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			this.setText((String) value);
+			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
+			int TextLength = this.getText().length();
+			int LineCount = TextLength / this.getColumnWidth();
+			table.setRowHeight(row, FontHeight * LineCount);
+			return this;
+		}
+	}
 
 	// 显示股票讨论
 	public void ShowDiscussions() {
@@ -340,16 +354,18 @@ public class GUIMain extends JFrame {
 //			}
 //		});
 //		DiscussionTable.setRowHeight(8 * Global.FontSizeD);
-		for (int i = 0; i < DiscussionTable.getRowCount(); ++i) {
-			int MaxPreferredHeight = 0;
-			for (int j = 0; j < TableModel.getColumnCount(); ++j) {
-				TableCellRenderer renderer = DiscussionTable.getCellRenderer(i, j);
-				Component comp = DiscussionTable.prepareRenderer(renderer, i, j);
-				MaxPreferredHeight = Math.max(MaxPreferredHeight, comp.getPreferredSize().height);
-			}
-			DiscussionTable.setRowHeight(i, MaxPreferredHeight);
-		}
+//		for (int i = 0; i < DiscussionTable.getRowCount(); ++i) {
+//			int MaxPreferredHeight = 0;
+//			for (int j = 0; j < TableModel.getColumnCount(); ++j) {
+//				TableCellRenderer renderer = DiscussionTable.getCellRenderer(i, j);
+//				Component comp = DiscussionTable.prepareRenderer(renderer, i, j);
+//				MaxPreferredHeight = Math.max(MaxPreferredHeight, comp.getPreferredSize().height);
+//			}
+//			DiscussionTable.setRowHeight(i, MaxPreferredHeight);
+//		}
 		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
+		DiscussionTable.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
+		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
 		this.add(DiscussionScrollPane);
 		Refresh();
 	}
