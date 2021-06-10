@@ -234,12 +234,6 @@ public class GUIMain extends JFrame {
 		@Override public void componentHidden(ComponentEvent e) {}
 	}
 
-	class RowSelectionListener implements ListSelectionListener {
-		@Override public void valueChanged(ListSelectionEvent e) {
-			Refresh();
-		}
-	}
-
 	// 初始化主界面
 	public GUIMain() throws IOException, SAXException, XPathExpressionException {
 		// 读取必要的数据
@@ -312,6 +306,13 @@ public class GUIMain extends JFrame {
 		this.setSize(d);
 		++d.height;
 		this.setSize(d);
+	}
+
+	// 选中动作监听程序（内部类）
+	class RowSelectionListener implements ListSelectionListener {
+		@Override public void valueChanged(ListSelectionEvent e) {
+			Refresh();
+		}
 	}
 
 	// 显示股票讨论
