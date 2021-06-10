@@ -144,7 +144,6 @@ public class GUIMain extends JFrame {
 			tfSearchByLabel.setBounds(0, cbLabeled.getHeight(), cbLabeled.getX(), h0);
 
 			/*表格*/
-//			DiscussionTable.setRowHeight(h0);
 			DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 			DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 
@@ -340,7 +339,7 @@ public class GUIMain extends JFrame {
 			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
 			int TextLength = this.getText().length();
 			int LineCount = Math.max(TextLength / this.getColumnWidth(), 1);
-			table.setRowHeight(row, FontHeight * LineCount);
+			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
 			return this;
 		}
 	}
