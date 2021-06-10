@@ -365,7 +365,7 @@ public class GUIMain extends JFrame {
 //		}
 		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		DiscussionTable.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
-		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
+//		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
 		this.add(DiscussionScrollPane);
 		Refresh();
 	}
