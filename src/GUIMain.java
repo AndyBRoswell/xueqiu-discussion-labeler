@@ -334,6 +334,15 @@ public class GUIMain extends JFrame {
 				DiscussionTable.setRowHeight(Row, MaxPreferredHeight);
 			}
 		});
+//		DiscussionTable.setRowHeight(8 * Global.FontSizeD);
+		for (int i = 0; i < DiscussionTable.getRowCount(); ++i) {
+			int MaxPreferredHeight = 0;
+			for (int j = 0; j < TableModel.getColumnCount(); ++j) {
+				Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(i, j), i, j);
+				MaxPreferredHeight = Math.max(MaxPreferredHeight, comp.getPreferredSize().height);
+			}
+			DiscussionTable.setRowHeight(i, MaxPreferredHeight);
+		}
 		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		this.add(DiscussionScrollPane);
 		Refresh();
