@@ -265,7 +265,7 @@ public class GUIMain extends JFrame {
 
 		TaskMenu.add(AddMenuItem);
 
-		// 表格的基本设置
+		// 添加空白表格用于占位
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
