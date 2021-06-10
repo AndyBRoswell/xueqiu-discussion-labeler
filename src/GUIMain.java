@@ -327,7 +327,10 @@ public class GUIMain extends JFrame {
 		}
 
 		@Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			this.setText((String) value);
+			if (value instanceof String) this.setText((String) value);
+			else { // ConcurrentHashMap<String, HashMap<String, Integer>>
+
+			}
 			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
 			int TextLength = this.getText().length();
 			int LineCount = TextLength / this.getColumnWidth();
@@ -353,16 +356,6 @@ public class GUIMain extends JFrame {
 //				DiscussionTable.setRowHeight(Row, MaxPreferredHeight);
 //			}
 //		});
-//		DiscussionTable.setRowHeight(8 * Global.FontSizeD);
-//		for (int i = 0; i < DiscussionTable.getRowCount(); ++i) {
-//			int MaxPreferredHeight = 0;
-//			for (int j = 0; j < TableModel.getColumnCount(); ++j) {
-//				TableCellRenderer renderer = DiscussionTable.getCellRenderer(i, j);
-//				Component comp = DiscussionTable.prepareRenderer(renderer, i, j);
-//				MaxPreferredHeight = Math.max(MaxPreferredHeight, comp.getPreferredSize().height);
-//			}
-//			DiscussionTable.setRowHeight(i, MaxPreferredHeight);
-//		}
 		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		DiscussionTable.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
 //		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
