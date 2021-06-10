@@ -329,7 +329,12 @@ public class GUIMain extends JFrame {
 		@Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			if (value instanceof String) this.setText((String) value);
 			else { // ConcurrentHashMap<String, HashMap<String, Integer>>
-
+				ConcurrentHashMap<String, HashMap<String, Integer>> LabelCategories = (ConcurrentHashMap<String, HashMap<String, Integer>>) value;
+				for (Map.Entry<String, HashMap<String, Integer>> CatItem : LabelCategories.entrySet()) {
+					this.append(CatItem.getKey()); // 标签类名称
+					for (String Label : CatItem.getValue().keySet()) this.append(" " + Label); // 标签名称
+					this.append(Global.LineSeparator);
+				}
 			}
 			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
 			int TextLength = this.getText().length();
@@ -358,7 +363,7 @@ public class GUIMain extends JFrame {
 //		});
 		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		DiscussionTable.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
-//		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
+		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
 		this.add(DiscussionScrollPane);
 		Refresh();
 	}

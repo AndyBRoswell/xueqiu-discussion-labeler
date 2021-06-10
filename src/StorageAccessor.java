@@ -159,30 +159,6 @@ public class StorageAccessor {
 		parser.stopParsing();
 	}
 
-	private static String MergeLabelCategoriesToString(ConcurrentHashMap<String, HashSet<String>> labels) { // 将全部标签类及其标签转换成字符串的形式，供后续保存用
-		final StringBuilder builder = new StringBuilder();
-		for (Map.Entry<String, HashSet<String>> entry : labels.entrySet()) { // 逐类保存
-			builder.append(entry.getKey());
-			for (String i : entry.getValue()) {
-				builder.append(' ').append(i);
-			}
-			builder.append(Global.LineSeparator);
-		}
-		return builder.toString();
-	}
-
-	private static String MergeLabelCategoriesWithCountToString(ConcurrentHashMap<String, HashMap<String, Integer>> labels) {
-		final StringBuilder builder = new StringBuilder();
-		for (Map.Entry<String, HashMap<String, Integer>> entry : labels.entrySet()) { // 逐类保存
-			builder.append(entry.getKey());
-			for (Map.Entry<String, Integer> e : entry.getValue().entrySet()) {
-				builder.append(' ').append(e.getKey()).append(' ').append(e.getValue().toString());
-			}
-			builder.append(Global.LineSeparator);
-		}
-		return builder.toString();
-	}
-
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
 		WriteToCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
 	}
