@@ -28,7 +28,6 @@ public class GUIImport extends JFrame {
         JPanel panel2 = new JPanel(new FlowLayout());
         JLabel label = new JLabel("导入文件:");
         JTextField textField = new JTextField(30);
-
         panel.add(label);
         panel.add(textField);
         panel.add(chooseFile);
@@ -46,13 +45,6 @@ public class GUIImport extends JFrame {
                 }
                 else{
                     setChooseFileName(string);
-                    //System.out.println(str_ChooseFileName);
-//                    if(list.size()==1){
-//                        new GUIImportList(string);
-//                    }
-
-                    GUIImportList.model.addRow(new Object[] {GUIImport.i,GUIImport.list.get(GUIImport.i-1)});
-
                     frame.dispose();
                     textField.setText("");
                 }
@@ -66,28 +58,42 @@ public class GUIImport extends JFrame {
         });
         //浏览的按钮,选择文件
         chooseFile.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                JFileChooser chooser = new JFileChooser();
-                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                chooser.showDialog(new JLabel(), "选择");
-                File file = chooser.getSelectedFile();
-                if(file!=null){
-                    String filePath=file.getAbsoluteFile().toString();
-                    if(filePath!=null){
-                        textField.setText(filePath);
-                    }
-                }
+                fileChoose();
             }
         });
 
     }
+
+    public static void fileChoose() {
+        JFileChooser chooser = new JFileChooser(Global.DefaultSavePath);
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int returnval=chooser.showDialog(new JLabel(), "选择");
+        if(returnval==JFileChooser.APPROVE_OPTION) {
+            File[] files = chooser.getSelectedFiles();
+            String str = "";
+            for (File file : files) {
+                if (file.isDirectory())
+                    str = file.getPath();
+                else {
+                    str = file.getAbsoluteFile().toString();
+                    list.add(str);
+                    i=list.indexOf(str)+1;
+                    GUIImportList.model.addRow(new Object[] {GUIImport.i,GUIImport.list.get(GUIImport.i-1)});
+                }
+            }
+        }
+
+    }
+
     private void setChooseFileName(String string) {
         list.add(string);
         i=list.indexOf(string)+1;
         //System.out.println(i);
     }
+
 }
 
 class GUIImportList extends JFrame{
@@ -169,158 +175,21 @@ class GUIImportList extends JFrame{
                 for(String string :GUIImport.list){
                     StorageAccessor.LoadDiscussionFromCSV(string,"gbk");
                 }
-
                 for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
 			            System.out.println(entry.GetText());
 			            System.out.println(entry.GetLabels().toString());
                 }
+                frame.dispose();
             }
         });
         //继续添加按钮
         addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new GUIImport();
+                GUIImport.fileChoose();
             }
         });
 
     }
 }
-/*class GUIImportList extends JFrame {
-    JButton yes = new JButton("&#x786E;&#x5B9A;");
-    JButton no = new JButton("&#x7EE7;&#x7EED;&#x6DFB;&#x52A0;");
-    JButton deleteFile =new JButton("x");
-    JButton deleteFile2 =new JButton("x");
-    JButton deleteFile3 =new JButton("x");
-    GUIImportList(String[] fileName){
-        JFrame frame = new JFrame("&#x5BFC;&#x5165;&#x5217;&#x8868;&#x9884;&#x89C8;");
-        frame.setBounds(new Rectangle(500, 200));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        Container container = frame.getContentPane();
-        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        JPanel panel = new JPanel(new FlowLayout());
-        JPanel panel1 = new JPanel(new FlowLayout());
-        JPanel panel2 = new JPanel(new FlowLayout());
-        JPanel panel3 = new JPanel(new FlowLayout());
-        JPanel panel4 = new JPanel(new FlowLayout());
-        JLabel label1 = new JLabel("--------&#x9700;&#x8981;&#x5BFC;&#x5165;&#x7684;&#x6587;&#x4EF6;--------");
-        JLabel label = new JLabel("&middot; 1 :  ");
-        JTextField textField = new JTextField(30);
-        textField.setText(fileName[0]);
-        textField.setEditable(false);
 
-        JLabel label2 = new JLabel("&middot; 2 :  ");
-        JTextField textField2 = new JTextField(30);
-        textField2.setText(fileName[1]);
-        textField2.setEditable(false);
-
-        JLabel label3 = new JLabel("&middot; 3 :  ");
-        JTextField textField3 = new JTextField(30);
-        textField3.setText(fileName[2]);
-        textField3.setEditable(false);
-
-        panel1.add(label1);
-        panel.add(label);
-        panel.add(textField);
-        panel.add(deleteFile);
-        panel2.add(label2);
-        panel2.add(textField2);
-        panel2.add(deleteFile2);
-        panel3.add(label3);
-        panel3.add(textField3);
-        panel3.add(deleteFile3);
-
-        panel4.add(yes);
-        panel4.add(no);
-        container.add(panel1);
-        container.add(panel);
-        container.add(panel2);
-        container.add(panel3);
-        container.add(panel4);
-        frame.pack();
-        yes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                for(int i=0;i<3;i++){
-//                    System.out.println(fileName[i]);
-//                }
-                if(fileName[0]!=null){
-//                    try {
-//                        StorageAccessor.LoadDiscussionFromCSV(fileName[0]);
-//                        for (DiscussionItem entry : DataManipulator.DiscussionList) {
-//			                System.out.println(entry.GetText());
-//			                System.out.println(entry.GetLabels().toString());
-//		                }
-//                    } catch (XPathExpressionException xPathExpressionException) {
-//                        JOptionPane.showMessageDialog(null, "&#x5BFC;&#x5165;&#x5931;&#x8D25;&#xFF01;&#x8BF7;&#x8F93;&#x5165;&#x6B63;&#x786E;&#x7684;&#x6587;&#x4EF6;");
-//                        xPathExpressionException.printStackTrace();
-//                    }
-                    StorageAccessor.LoadDiscussionFromCSV(fileName[0],"gbk");
-                    for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
-                        System.out.println(entry.GetText());
-                        System.out.println(entry.GetLabels().toString());
-                    }
-                    JOptionPane.showMessageDialog(null, "&#x5BFC;&#x5165;&#x6210;&#x529F;&#xFF01;");
-                    GUIImport.str_ChooseFileName[0]=null;
-                    frame.dispose();
-                }
-                else if(fileName[1]!=null){
-//                    try {
-//                        StorageAccessor.LoadDiscussionFromCSV(fileName[1]);
-//                    } catch (XPathExpressionException xPathExpressionException) {
-//                        JOptionPane.showMessageDialog(null, "&#x5BFC;&#x5165;&#x5931;&#x8D25;&#xFF01;&#x8BF7;&#x8F93;&#x5165;&#x6B63;&#x786E;&#x7684;&#x6587;&#x4EF6;");
-//                        xPathExpressionException.printStackTrace();
-//                    }
-                    StorageAccessor.LoadDiscussionFromCSV(fileName[0],"gbk");
-                    JOptionPane.showMessageDialog(null, "&#x5BFC;&#x5165;&#x6210;&#x529F;&#xFF01;");
-                    GUIImport.str_ChooseFileName[1]=null;
-                    frame.dispose();
-                }
-                else if(fileName[2]!=null){
-//                    try {
-//                        StorageAccessor.LoadDiscussionFromCSV(fileName[2]);
-//                    } catch (XPathExpressionException xPathExpressionException) {
-//                        JOptionPane.showMessageDialog(null, "&#x5BFC;&#x5165;&#x5931;&#x8D25;&#xFF01;&#x8BF7;&#x8F93;&#x5165;&#x6B63;&#x786E;&#x7684;&#x6587;&#x4EF6;");
-//                        xPathExpressionException.printStackTrace();
-//                    }
-                    StorageAccessor.LoadDiscussionFromCSV(fileName[0],"gbk");
-                    JOptionPane.showMessageDialog(null, "&#x5BFC;&#x5165;&#x6210;&#x529F;&#xFF01;");
-                    GUIImport.str_ChooseFileName[2]=null;
-                    frame.dispose();
-                }
-                GUIImport.str_ChooseFileName=new String[3];//&#x5BFC;&#x5165;&#x6210;&#x529F;&#x4E4B;&#x540E;&#x6E05;&#x7A7A;&#x6570;&#x636E;
-            }
-        });
-        no.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
-        deleteFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                fileName[0]=null;
-                frame.dispose();
-                new GUIImportList(fileName);
-            }
-        });
-        deleteFile2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                fileName[1]=null;
-                frame.dispose();
-                new GUIImportList(fileName);
-            }
-        });
-        deleteFile3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                fileName[2]=null;
-                frame.dispose();
-                new GUIImportList(fileName);
-            }
-        });
-    }
-}*/
