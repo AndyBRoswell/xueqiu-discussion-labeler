@@ -3,6 +3,8 @@ import org.xml.sax.SAXException;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
@@ -140,7 +142,7 @@ public class GUIMain extends JFrame {
 			tfSearchByLabel.setBounds(0, cbLabeled.getHeight(), cbLabeled.getX(), h0);
 
 			/*表格*/
-			DiscussionTable.setRowHeight(h0);
+//			DiscussionTable.setRowHeight(h0);
 			DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 			DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 
@@ -320,8 +322,13 @@ public class GUIMain extends JFrame {
 		this.remove(DiscussionScrollPane);
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
-		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
+		TableModel.addTableModelListener(new TableModelListener() {
+			@Override public void tableChanged(TableModelEvent e) {
+				
+			}
+		});
+		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		this.add(DiscussionScrollPane);
 		Refresh();
 	}
