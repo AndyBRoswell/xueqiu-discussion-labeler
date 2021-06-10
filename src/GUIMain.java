@@ -266,13 +266,12 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddMenuItem);
 
 		// 表格的基本设置
-//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\AAPL-20210609-215520.csv", "gbk");
-		ShowDiscussions();
+		TableModel = new DiscussionTableModel();
+		DiscussionTable = new JTable(TableModel);
+		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
-
-		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 
 		btnAddAvailableLabelCategory.addActionListener(new ActionListener() { // 添加标注类按钮
 			@Override public void actionPerformed(ActionEvent e) {
@@ -299,7 +298,7 @@ public class GUIMain extends JFrame {
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
 		super.add(AllAvailableLabelsLabel); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);
 
-//		super.add(DiscussionScrollPane);
+		super.add(DiscussionScrollPane);
 		super.add(AllLabelsScrollPane);
 
 		// 显示
@@ -320,6 +319,7 @@ public class GUIMain extends JFrame {
 		this.remove(DiscussionScrollPane);
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
+		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 		this.add(DiscussionScrollPane);
 		Refresh();
