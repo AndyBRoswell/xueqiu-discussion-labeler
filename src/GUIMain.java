@@ -317,6 +317,7 @@ public class GUIMain extends JFrame {
 
 	// 显示股票讨论
 	public void ShowDiscussions() {
+		this.remove(DiscussionScrollPane);
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
