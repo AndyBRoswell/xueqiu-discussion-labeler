@@ -341,12 +341,15 @@ public class GUIMain extends JFrame {
 //				System.out.println("================================================================");
 			}
 			final int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
-			final int TextLength = this.getText().length();
-			final int LineCount = Math.max(TextLength / this.getColumnWidth(), 1);
+//			final int FontHeight = Global.FontSizeD;
+//			final int TextLength = this.getText().length();
+			final int TextLength = this.getFontMetrics(this.getFont()).stringWidth(this.getText());
+			final int CellWidth = table.getColumnModel().getColumn(column).getWidth();
+			final int LineCount = Math.max(TextLength / CellWidth, 1);
 //			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
 //			this.setSize(table.getColumnModel().getColumn(1).getWidth(), table.getRowHeight(row));
 //			this.validate();
-			this.setPreferredSize(new Dimension(table.getColumnModel().getColumn(column).getWidth(), FontHeight * LineCount));
+			this.setPreferredSize(new Dimension(CellWidth, FontHeight * LineCount));
 //			System.out.println("Method getTableCellRendererComponent completed.");
 			return this;
 		}
