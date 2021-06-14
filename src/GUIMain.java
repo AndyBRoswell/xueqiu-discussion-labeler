@@ -340,9 +340,9 @@ public class GUIMain extends JFrame {
 //				System.out.println(this.getText());
 //				System.out.println("================================================================");
 			}
-			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
-			int TextLength = this.getText().length();
-			int LineCount = Math.max(TextLength / this.getColumnWidth(), 1);
+			final int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
+			final int TextLength = this.getText().length();
+			final int LineCount = Math.max(TextLength / this.getColumnWidth(), 1);
 //			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
 //			this.setSize(table.getColumnModel().getColumn(1).getWidth(), table.getRowHeight(row));
 //			this.validate();
@@ -363,7 +363,7 @@ public class GUIMain extends JFrame {
 		// 动作监听程序与单元格渲染程序
 		TableModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
-				int Row = e.getFirstRow();
+				final int Row = e.getFirstRow();
 				int MaxPreferredHeight = 0;
 				for (int j = 0; j < TableModel.getColumnCount(); ++j) {
 					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, j), Row, j);
