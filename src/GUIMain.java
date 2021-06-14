@@ -348,7 +348,7 @@ public class GUIMain extends JFrame {
 //			final int TextLength = this.getText().length();
 			final int TextPixelLength = this.getFontMetrics(this.getFont()).stringWidth(this.getText());
 			final int CellWidth = table.getColumnModel().getColumn(column).getWidth();
-			System.out.println("Cell width at <" + row + ", " + column + "> : " + CellWidth);
+//			System.out.println("Cell width at <" + row + ", " + column + "> : " + CellWidth);
 //			final int CellWidth = table.getWidth() / 2;
 //			final int CellWidth = table.getCellRect(row, column, false).width;
 //			final Container ContentPane = table.getParent();
@@ -359,7 +359,7 @@ public class GUIMain extends JFrame {
 //			this.validate();
 //			this.setPreferredSize(new Dimension(CellWidth, FontHeight * LineCount));
 			this.setSize(new Dimension(CellWidth, FontHeight * LineCount));
-			System.out.println("Expected cell height at <" + row + ", " + column + ">: " + FontHeight * LineCount);
+//			System.out.println("Expected cell height at <" + row + ", " + column + ">: " + FontHeight * LineCount);
 //			System.out.println("Method getTableCellRendererComponent completed.");
 			return this;
 		}
@@ -382,7 +382,7 @@ public class GUIMain extends JFrame {
 					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, Column), Row, Column);
 //					Height = Math.max(Height, comp.getPreferredSize().height);
 					Height = Math.max(Height, comp.getHeight());
-					System.out.println("Set cell height at <" + Row + ", " + Column + ">: " + Height);
+//					System.out.println("Set cell height at <" + Row + ", " + Column + ">: " + Height);
 				}
 				DiscussionTable.setRowHeight(Row, Height);
 //				System.out.println("Method tableChanged completed.");
