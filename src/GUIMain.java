@@ -340,12 +340,14 @@ public class GUIMain extends JFrame {
 //				System.out.println(this.getText());
 //				System.out.println("================================================================");
 			}
-//			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
-//			int TextLength = this.getText().length();
-//			int LineCount = Math.max(TextLength / this.getColumnWidth(), 1);
+			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
+			int TextLength = this.getText().length();
+			int LineCount = Math.max(TextLength / this.getColumnWidth(), 1);
 //			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
 //			this.setSize(table.getColumnModel().getColumn(1).getWidth(), table.getRowHeight(row));
 //			this.validate();
+			this.setPreferredSize(new Dimension(table.getColumnModel().getColumn(column).getWidth(), FontHeight * LineCount));
+//			System.out.println("Method getTableCellRendererComponent completed.");
 			return this;
 		}
 	}
@@ -366,8 +368,10 @@ public class GUIMain extends JFrame {
 				for (int j = 0; j < TableModel.getColumnCount(); ++j) {
 					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, j), Row, j);
 					MaxPreferredHeight = Math.max(MaxPreferredHeight, comp.getPreferredSize().height);
+//					MaxPreferredHeight = Math.max(MaxPreferredHeight, comp.getHeight());
 				}
 				DiscussionTable.setRowHeight(Row, MaxPreferredHeight);
+//				System.out.println("Method tableChanged completed.");
 			}
 		});
 		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
