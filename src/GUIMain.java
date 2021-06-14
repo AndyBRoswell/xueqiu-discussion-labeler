@@ -335,6 +335,9 @@ public class GUIMain extends JFrame {
 					this.append(Global.LineSeparator);
 				}
 //				System.out.println(LabelCategories);
+				System.out.println("Row " + row + " Column " + column + ":");
+				System.out.println(this.getText());
+				System.out.println("================================================================");
 			}
 //			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
 //			int TextLength = this.getText().length();
@@ -355,7 +358,7 @@ public class GUIMain extends JFrame {
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 		// 动作监听程序与单元格渲染程序
-		TableModel.addTableModelListener(new TableModelListener() {
+		TableModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
 				int Row = e.getFirstRow();
 				int MaxPreferredHeight = 0;
@@ -370,6 +373,9 @@ public class GUIMain extends JFrame {
 		DiscussionTable.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
 		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
 
+		for (int i = 0; i < TableModel.getRowCount(); ++i)
+			for (int j = 0; j < TableModel.getColumnCount(); ++j)
+				TableModel.fireTableCellUpdated(i, j);
 
 		this.add(DiscussionScrollPane);
 		Refresh();
