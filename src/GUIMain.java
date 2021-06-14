@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -323,6 +324,9 @@ public class GUIMain extends JFrame {
 
 	// 用于多行显示的单元格渲染器（内部类）
 	static class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
+		static final Color UnselectedBkgndColor = UIManager.getColor("Table.dropCellForeground");
+		static final Color SelectedBkgndColor = UIManager.getColor("Table.dropCellBackground");
+
 		public LineWrapCellRenderer() {
 			this.setWrapStyleWord(true);
 			this.setLineWrap(true);
@@ -345,6 +349,8 @@ public class GUIMain extends JFrame {
 			final int CellWidth = table.getColumnModel().getColumn(column).getWidth();
 			final int LineCount = Math.max((int) Math.ceil((double) TextPixelLength / CellWidth), 1);
 			this.setSize(new Dimension(CellWidth, FontHeight * LineCount));
+			if (Arrays.stream(table.getSelectedRows()).anyMatch(r -> r == row) == true) this.setBackground(SelectedBkgndColor);
+			else this.setBackground(UnselectedBkgndColor);
 			return this;
 		}
 	}
