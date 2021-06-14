@@ -344,8 +344,10 @@ public class GUIMain extends JFrame {
 			final int FontHeight = Global.FontSizeD;
 //			final int TextLength = this.getText().length();
 			final int TextPixelLength = this.getFontMetrics(this.getFont()).stringWidth(this.getText());
-//			final int CellWidth = table.getColumnModel().getColumn(column).getWidth();
-			final int CellWidth = table.getWidth() / 2;
+			final int CellWidth = table.getColumnModel().getColumn(column).getWidth();
+//			final int CellWidth = table.getCellRect(row, column, false).width;
+//			final Container ContentPane = table.getParent();
+//			final int CellWidth = ContentPane.getWidth() / 2;
 			final int LineCount = Math.max(TextPixelLength / CellWidth, 1);
 //			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
 //			this.setSize(table.getColumnModel().getColumn(column).getWidth(), table.getRowHeight(row));
