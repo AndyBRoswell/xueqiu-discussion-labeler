@@ -340,16 +340,18 @@ public class GUIMain extends JFrame {
 //				System.out.println(this.getText());
 //				System.out.println("================================================================");
 			}
-			final int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
-//			final int FontHeight = Global.FontSizeD;
+//			final int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
+			final int FontHeight = Global.FontSizeD;
 //			final int TextLength = this.getText().length();
-			final int TextLength = this.getFontMetrics(this.getFont()).stringWidth(this.getText());
+			final int TextPixelLength = this.getFontMetrics(this.getFont()).stringWidth(this.getText());
 			final int CellWidth = table.getColumnModel().getColumn(column).getWidth();
-			final int LineCount = Math.max(TextLength / CellWidth, 1);
+			final int LineCount = Math.max(TextPixelLength / CellWidth, 1);
 //			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
 //			this.setSize(table.getColumnModel().getColumn(1).getWidth(), table.getRowHeight(row));
 //			this.validate();
-			this.setPreferredSize(new Dimension(CellWidth, FontHeight * LineCount));
+//			this.setPreferredSize(new Dimension(CellWidth, FontHeight * LineCount));
+			this.setSize(new Dimension(CellWidth, FontHeight * LineCount));
+			System.out.println("Expected cell size at <" + row + ", " + column + ">: " + FontHeight * LineCount);
 //			System.out.println("Method getTableCellRendererComponent completed.");
 			return this;
 		}
@@ -367,13 +369,14 @@ public class GUIMain extends JFrame {
 		TableModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
 				final int Row = e.getFirstRow();
-				int MaxPreferredHeight = 0;
-				for (int j = 0; j < TableModel.getColumnCount(); ++j) {
-					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, j), Row, j);
-					MaxPreferredHeight = Math.max(MaxPreferredHeight, comp.getPreferredSize().height);
-//					MaxPreferredHeight = Math.max(MaxPreferredHeight, comp.getHeight());
+				int Height = 0;
+				for (int Column = 0; Column < TableModel.getColumnCount(); ++Column) {
+					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, Column), Row, Column);
+//					Height = Math.max(Height, comp.getPreferredSize().height);
+					Height = Math.max(Height, comp.getHeight());
+					System.out.println("Expected cell size at <" + Row + ", " + Column + ">: " + Height);
 				}
-				DiscussionTable.setRowHeight(Row, MaxPreferredHeight);
+				DiscussionTable.setRowHeight(Row, Height);
 //				System.out.println("Method tableChanged completed.");
 			}
 		});
