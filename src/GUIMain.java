@@ -328,6 +328,7 @@ public class GUIMain extends JFrame {
 		@Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			if (value instanceof String) this.setText((String) value);
 			else { // ConcurrentHashMap<String, HashMap<String, Integer>>
+				this.setText("");
 				ConcurrentHashMap<String, HashMap<String, Integer>> LabelCategories = (ConcurrentHashMap<String, HashMap<String, Integer>>) value;
 				for (Map.Entry<String, HashMap<String, Integer>> CatItem : LabelCategories.entrySet()) {
 					this.append(CatItem.getKey()); // 标签类名称
@@ -335,9 +336,9 @@ public class GUIMain extends JFrame {
 					this.append(Global.LineSeparator);
 				}
 //				System.out.println(LabelCategories);
-				System.out.println("Row " + row + " Column " + column + ":");
-				System.out.println(this.getText());
-				System.out.println("================================================================");
+//				System.out.println("Row " + row + " Column " + column + ":");
+//				System.out.println(this.getText());
+//				System.out.println("================================================================");
 			}
 //			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
 //			int TextLength = this.getText().length();
