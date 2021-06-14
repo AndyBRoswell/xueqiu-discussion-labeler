@@ -161,6 +161,9 @@ public class GUIMain extends JFrame {
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 //			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
+			for (int i = 0; i < TableModel.getRowCount(); ++i)
+				for (int j = 0; j < TableModel.getColumnCount(); ++j)
+					TableModel.fireTableCellUpdated(i, j); // 通过引发单元格更新事件，来激活设置行高的动作监听程序
 
 			// 可选标注面板内容
 			int XC = 0, YC = 0; // 当前摆放控件的位置
@@ -340,8 +343,8 @@ public class GUIMain extends JFrame {
 //				System.out.println(this.getText());
 //				System.out.println("================================================================");
 			}
-//			final int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
-			final int FontHeight = Global.FontSizeD;
+			final int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
+//			final int FontHeight = Global.FontSizeD;
 //			final int TextLength = this.getText().length();
 			final int TextPixelLength = this.getFontMetrics(this.getFont()).stringWidth(this.getText());
 			final int CellWidth = table.getColumnModel().getColumn(column).getWidth();
