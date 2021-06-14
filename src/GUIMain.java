@@ -336,10 +336,10 @@ public class GUIMain extends JFrame {
 				}
 //				System.out.println(LabelCategories);
 			}
-			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
-			int TextLength = this.getText().length();
-			int LineCount = Math.max(TextLength / this.getColumnWidth(), 1);
-			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
+//			int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
+//			int TextLength = this.getText().length();
+//			int LineCount = Math.max(TextLength / this.getColumnWidth(), 1);
+//			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
 //			this.setSize(table.getColumnModel().getColumn(1).getWidth(), table.getRowHeight(row));
 //			this.validate();
 			return this;
@@ -348,6 +348,7 @@ public class GUIMain extends JFrame {
 
 	// 显示股票讨论
 	public void ShowDiscussions() {
+		// 添加表格需要的组件
 		this.remove(DiscussionScrollPane);
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
@@ -363,9 +364,13 @@ public class GUIMain extends JFrame {
 //				DiscussionTable.setRowHeight(Row, MaxPreferredHeight);
 //			}
 //		});
+		// 动作监听程序与单元格渲染程序
 		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		DiscussionTable.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
 		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
+
+		
+
 		this.add(DiscussionScrollPane);
 		Refresh();
 	}
