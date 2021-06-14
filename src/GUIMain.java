@@ -328,6 +328,7 @@ public class GUIMain extends JFrame {
 			this.setLineWrap(true);
 		}
 
+		// 不能在此方法内设定行高，因为行高的改变会令此方法被调用，导致无限循环
 		@Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			if (value instanceof String) this.setText((String) value);
 			else { // ConcurrentHashMap<String, HashMap<String, Integer>>
@@ -338,29 +339,12 @@ public class GUIMain extends JFrame {
 					for (String Label : CatItem.getValue().keySet()) this.append(" " + Label); // 标签名称
 					this.append(Global.LineSeparator);
 				}
-//				System.out.println(LabelCategories);
-//				System.out.println("Row " + row + " Column " + column + ":");
-//				System.out.println(this.getText());
-//				System.out.println("================================================================");
 			}
 			final int FontHeight = this.getFontMetrics(this.getFont()).getHeight();
-//			final int FontHeight = Global.FontSizeD;
-//			final int TextLength = this.getText().length();
 			final int TextPixelLength = this.getFontMetrics(this.getFont()).stringWidth(this.getText());
 			final int CellWidth = table.getColumnModel().getColumn(column).getWidth();
-//			System.out.println("Cell width at <" + row + ", " + column + "> : " + CellWidth);
-//			final int CellWidth = table.getWidth() / 2;
-//			final int CellWidth = table.getCellRect(row, column, false).width;
-//			final Container ContentPane = table.getParent();
-//			final int CellWidth = ContentPane.getWidth() / 2;
 			final int LineCount = Math.max((int) Math.ceil((double) TextPixelLength / CellWidth), 1);
-//			table.setRowHeight(row, Math.max(table.getRowHeight(), FontHeight * LineCount));
-//			this.setSize(table.getColumnModel().getColumn(column).getWidth(), table.getRowHeight(row));
-//			this.validate();
-//			this.setPreferredSize(new Dimension(CellWidth, FontHeight * LineCount));
 			this.setSize(new Dimension(CellWidth, FontHeight * LineCount));
-//			System.out.println("Expected cell height at <" + row + ", " + column + ">: " + FontHeight * LineCount);
-//			System.out.println("Method getTableCellRendererComponent completed.");
 			return this;
 		}
 	}
@@ -380,12 +364,9 @@ public class GUIMain extends JFrame {
 				int Height = 0;
 				for (int Column = 0; Column < TableModel.getColumnCount(); ++Column) {
 					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, Column), Row, Column);
-//					Height = Math.max(Height, comp.getPreferredSize().height);
 					Height = Math.max(Height, comp.getHeight());
-//					System.out.println("Set cell height at <" + Row + ", " + Column + ">: " + Height);
 				}
 				DiscussionTable.setRowHeight(Row, Height);
-//				System.out.println("Method tableChanged completed.");
 			}
 		});
 		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
