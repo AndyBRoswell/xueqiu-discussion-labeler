@@ -374,7 +374,7 @@ public class GUIMain extends JFrame {
 					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, Column), Row, Column);
 //					Height = Math.max(Height, comp.getPreferredSize().height);
 					Height = Math.max(Height, comp.getHeight());
-					System.out.println("Expected cell size at <" + Row + ", " + Column + ">: " + Height);
+					System.out.println("Set cell size at <" + Row + ", " + Column + ">: " + Height);
 				}
 				DiscussionTable.setRowHeight(Row, Height);
 //				System.out.println("Method tableChanged completed.");
