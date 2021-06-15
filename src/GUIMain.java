@@ -164,7 +164,7 @@ public class GUIMain extends JFrame {
 //			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
 			for (int i = 0; i < TableModel.getRowCount(); ++i)
 				for (int j = 0; j < TableModel.getColumnCount(); ++j)
-					TableModel.fireTableCellUpdated(i, j); // 通过引发单元格更新事件，来激活设置行高的动作监听程序
+					TableModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
 
 			// 可选标注面板内容
 			int XC = 0, YC = 0; // 当前摆放控件的位置
