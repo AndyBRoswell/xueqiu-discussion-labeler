@@ -210,6 +210,7 @@ public class GUIMain extends JFrame {
 									}
 									break;
 							}
+							Refresh();
 						}
 
 						@Override public void mousePressed(MouseEvent e) {}
