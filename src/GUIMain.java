@@ -1,10 +1,7 @@
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+import javax.swing.event.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.xml.xpath.XPathExpressionException;
@@ -71,6 +68,7 @@ public class GUIMain extends JFrame {
 	// 标签按钮（内部类）：点击标签进行添加或删除
 	static class LabelButton extends JButton {
 		String Category;
+
 		public LabelButton(String Label, String Category) {
 			super(Label);
 			this.Category = Category;
@@ -196,6 +194,31 @@ public class GUIMain extends JFrame {
 								DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
 							}
 						}
+					});
+					btLabel.addMouseListener(new MouseListener() {
+						@Override public void mouseClicked(MouseEvent e) {
+							LabelButton LabelClicked = (LabelButton) e.getSource();
+							switch (e.getButton()) {
+								case MouseEvent.BUTTON1:
+									for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
+										DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
+									}
+									break;
+								case MouseEvent.BUTTON3:
+									for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
+										DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
+									}
+									break;
+							}
+						}
+
+						@Override public void mousePressed(MouseEvent e) {}
+
+						@Override public void mouseReleased(MouseEvent e) {}
+
+						@Override public void mouseEntered(MouseEvent e) {}
+
+						@Override public void mouseExited(MouseEvent e) {}
 					});
 					AllLabelsPanel.add(btLabel); // 添加到面板
 					XC += btLabel.getWidth();
