@@ -22,7 +22,7 @@ public class GUIMain extends JFrame {
 	final JMenu FileMenu = new JMenu("文件");
 	final JMenuItem ImportMenuItem = new JMenuItem("导入股票讨论 CSV 文件");
 	final JMenuItem ExportMenuItem = new JMenuItem("导出股票讨论 CSV 文件");
-	final JMenuItem SetMenuItem = new JMenuItem("设置");
+	final JMenuItem SettingsMenuItem = new JMenuItem("设置");
 	final JMenuItem JournalMenuItem = new JMenuItem("日志");
 	final JMenuItem ExitMenuItem = new JMenuItem("退出");
 
@@ -271,7 +271,7 @@ public class GUIMain extends JFrame {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setSize((int) Screen.getWidth() / 2, (int) Screen.getHeight() / 2);
-		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		super.getContentPane().setLayout(null);
 
@@ -281,7 +281,7 @@ public class GUIMain extends JFrame {
 
 		FileMenu.add(ImportMenuItem); FileMenu.add(ExportMenuItem);
 		FileMenu.addSeparator();
-		FileMenu.add(JournalMenuItem); FileMenu.add(SetMenuItem);
+		FileMenu.add(JournalMenuItem); FileMenu.add(SettingsMenuItem);
 		FileMenu.addSeparator();
 		FileMenu.add(ExitMenuItem);
 
@@ -313,6 +313,18 @@ public class GUIMain extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) {
 				new GUIImportList();
 			}
+		});
+		ExportMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { new GUIExport(); }
+		});
+		JournalMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { new GUIJournal(); }
+		});
+		SettingsMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { new GUIConfig(Global.DefaultConfig); }
+		});
+		ExitMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { Global.MainForm.dispose(); }
 		});
 
 		// 添加控件
