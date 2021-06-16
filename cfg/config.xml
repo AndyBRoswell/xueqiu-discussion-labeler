@@ -8,7 +8,7 @@
 	</crawling>
 	<storage>
 		<import-and-export>
-			<default-encoding>GB18030</default-encoding>
+			<default-encoding>UTF-8</default-encoding>
 			<default-filename>//datetime//</default-filename>
 			<default-export-dir>//default-save-path//</default-export-dir>
 			<operation-for-filename-conflict>自动重命名</operation-for-filename-conflict>

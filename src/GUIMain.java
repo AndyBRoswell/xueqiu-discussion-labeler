@@ -27,7 +27,7 @@ public class GUIMain extends JFrame {
 	final JMenuItem ExitMenuItem = new JMenuItem("退出");
 
 	final JMenu TaskMenu = new JMenu("任务");
-	final JMenuItem AddMenuItem = new JMenuItem("添加爬取任务");
+	final JMenuItem AddCrawlTaskMenuItem = new JMenuItem("添加爬取任务");
 
 	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
 
@@ -285,7 +285,7 @@ public class GUIMain extends JFrame {
 		FileMenu.addSeparator();
 		FileMenu.add(ExitMenuItem);
 
-		TaskMenu.add(AddMenuItem);
+		TaskMenu.add(AddCrawlTaskMenuItem);
 
 		// 添加空白表格用于占位
 		TableModel = new DiscussionTableModel();
@@ -325,6 +325,14 @@ public class GUIMain extends JFrame {
 		});
 		ExitMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { Global.MainForm.dispose(); }
+		});
+
+		AddCrawlTaskMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { new GUIAddStock(); }
+		});
+
+		StatisticMenu.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { new GUIStatistic(); }
 		});
 
 		// 添加控件
