@@ -173,7 +173,7 @@ public class GUIMain extends JFrame {
 
 			// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
 			final int[] SelectedRows = DiscussionTable.getSelectedRows();
-			final ConcurrentHashMap<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
+			final Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
 				int w, h;
 
@@ -198,7 +198,7 @@ public class GUIMain extends JFrame {
 					// 被选中次数标签控件
 					int TotalLabeledCount = 0;
 					for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
-						final HashMap<String, Integer> ContainedLabelsOfThisCat = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName);
+						final Map<String, Integer> ContainedLabelsOfThisCat = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName);
 						if (ContainedLabelsOfThisCat != null) { // 在该股评条目的标注中找到了当前的标签类
 							final Integer c = ContainedLabelsOfThisCat.get(LabelName);
 							if (c != null) TotalLabeledCount += c;
@@ -337,8 +337,8 @@ public class GUIMain extends JFrame {
 			if (value instanceof String) this.setText((String) value);
 			else { // ConcurrentHashMap<String, HashMap<String, Integer>>
 				this.setText("");
-				ConcurrentHashMap<String, HashMap<String, Integer>> LabelCategories = (ConcurrentHashMap<String, HashMap<String, Integer>>) value;
-				for (Map.Entry<String, HashMap<String, Integer>> CatItem : LabelCategories.entrySet()) {
+				Map<String, Map<String, Integer>> LabelCategories = (Map<String, Map<String, Integer>>) value;
+				for (Map.Entry<String, Map<String, Integer>> CatItem : LabelCategories.entrySet()) {
 					this.append(CatItem.getKey()); // 标签类名称
 					for (String Label : CatItem.getValue().keySet()) this.append(" " + Label); // 标签名称
 					this.append(Global.LineSeparator);
