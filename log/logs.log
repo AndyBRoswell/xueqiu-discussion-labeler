@@ -1,6 +1,0 @@
-2021-05-19 22:01:52  [ GUIConfig.<init>(GUIConfig.java:25) ] - [ INFO ]    打开设置界面
-2021-05-19 22:01:59  [ GUIConfig$1.windowClosing(GUIConfig.java:132) ] - [ INFO ]    关闭设置界面
-2021-05-22 22:32:31  [ GUIConfig.<init>(GUIConfig.java:25) ] - [ INFO ]    打开设置界面
-2021-06-05 15:04:52  [ GUIAddStock.readTxtFile(GUIAddStock.java:170) ] - [ ERROR ]    找不到指定的文件
-2021-06-05 15:05:09  [ GUIAddStock.readTxtFile(GUIAddStock.java:170) ] - [ ERROR ]    找不到指定的文件
-2021-06-05 15:06:22  [ GUIAddStock.readTxtFile(GUIAddStock.java:170) ] - [ ERROR ]    找不到指定的文件
