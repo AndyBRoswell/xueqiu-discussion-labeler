@@ -195,8 +195,8 @@ public class GUIMain extends JFrame {
 					// 被选中次数标签控件
 					int TotalLabeledCount = 0;
 					for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
-						final Map<String, Integer> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条股评，都要查找是否包含此标签类
-						if (ContainedLabels != null) { // 该股评条目的标注包含该标签类
+						final Map<String, Integer> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条选中的股评，都要查找是否包含此标签类
+						if (ContainedLabels != null) { // 该股评条目的标注确包含该标签类
 							final Integer c = ContainedLabels.get(LabelName); // 获得该标签被选中的次数
 							if (c != null) TotalLabeledCount += c;
 						}
