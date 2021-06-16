@@ -26,6 +26,8 @@ public class DataManipulator {
 	private static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>(); // 用于存放搜索结果
 //	private static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 
+	/* 对可选标注的维护 */
+
 	// 获得全部可用标注
 	static ConcurrentHashMap<String, HashSet<String>> GetAllLabels() { return AllLabels; }
 
@@ -57,7 +59,8 @@ public class DataManipulator {
 		return LabelToCategory.get(Label);
 	}
 
-	static void AddCategoryOfLabel(String Category, String Label) { // 为某标签登记新的所属标签类
+	// 为某标签登记新的所属标签类
+	static void AddCategoryOfLabel(String Category, String Label) {
 		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
 		if (Categories == null) {
 			DataManipulator.LabelToCategory.put(Label, new HashSet<>());
@@ -66,6 +69,7 @@ public class DataManipulator {
 		Categories.add(Category);
 	}
 
+	// 为某标签删除所属的一类标签类
 	static void DeleteCategoryOfLabel(String Category, String Label) {
 		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
 		if (Categories == null) return;
@@ -73,15 +77,20 @@ public class DataManipulator {
 		if (Categories.size() == 0) LabelToCategory.remove(Category);
 	}
 
+	/* 对股票讨论及其标注的维护 */
+
 	// 讨论列表
 	public static ArrayList<DiscussionItem> GetDiscussionList() { return DiscussionList; }
 
+	// 根据索引（主界面上选中的行数）来获得股票讨论及其标注
 	public static DiscussionItem GetDiscussionItem(int index) { return DiscussionList.get(index); }
 
+	// 根据股票讨论获得其所在的位置（索引）（合并具有不同标注结果的相同股评用）
 	public static int GetIndexOfDiscussionItem(DiscussionItem item) { return DiscussionToIndex.get(item.GetText()); }
 
 	public static int GetIndexOfDiscussionItem(String discussion) { return DiscussionToIndex.get(discussion); }
 
+	// 导入新的股票讨论条目
 	public static void AddDiscussionItem(DiscussionItem Item) {
 		try { // 添加过包含相同股评的条目
 			int Index = GetIndexOfDiscussionItem(Item);
@@ -105,19 +114,20 @@ public class DataManipulator {
 			}
 		}
 		catch (NullPointerException e) { // 之前未添加包含相同股评的条目
-			DiscussionList.add(Item);
+			DiscussionList.add(Item); // 添加到股评列表末尾即可
 			DiscussionToIndex.put(Item.GetText(), DiscussionList.size() - 1);
 		}
 	}
 
-	public static void AddLabel(int Index, String Category, String Label) { // 为指定股票讨论添加新标签
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
-		HashMap<String, Integer> TargetCat = TargetLabels.get(Category);
-		if (TargetCat == null) {
+	// 为指定的股票讨论添加新的标签
+	public static void AddLabel(int Index, String Category, String Label) {
+		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
+		HashMap<String, Integer> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
+		if (TargetCat == null) { // 如果没有此类标签，该标签将作为此类标签的首个标签添加
 			TargetLabels.put(Category, new HashMap<>());
 			TargetCat = TargetLabels.get(Category);
 		}
-		Integer Count = TargetCat.get(Label);
+		Integer Count = TargetCat.get(Label); // 增加 1 次被标注次数
 		if (Count == null) TargetCat.put(Label, 1);
 		else TargetCat.put(Label, Count + 1);
 	}
@@ -126,20 +136,24 @@ public class DataManipulator {
 //
 //	}
 
-	public static void DeleteLabel(int Index, String Category, String Label) { // 为指定股票讨论删除一个标签
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
-		HashMap<String, Integer> TargetCat = TargetLabels.get(Category);
-		int Count = TargetCat.get(Label);
-		TargetCat.put(Label, Count - 1);
-		if (Count == 1) TargetCat.remove(Label);
-		if (TargetCat.size() == 0) TargetLabels.remove(Category);
+	// 为指定股票讨论删除一个标签
+	public static void DeleteLabel(int Index, String Category, String Label) {
+		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
+		HashMap<String, Integer> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
+		Integer Count = TargetCat.get(Label);
+		if (Count == null) return; // 该类标签未包含指定的标签，不采取任何操作
+		if (Count == 1) TargetCat.remove(Label); // 如果原先只被标注了一次，就删除此标签
+		else TargetCat.put(Label, Count - 1); // 否则，减少 1 次被标注次数
+		if (TargetCat.size() == 0) TargetLabels.remove(Category); // 对于删除了仅被标注 1 次的标签的情况，如果该类已不含任何标签，就将该类标签也一并删除
 	}
 
-	public static void DeleteLabel(int Index, String Category) { // 为指定股票讨论删除一类标签
+	// 为指定股票讨论删除一类标签
+	public static void DeleteLabel(int Index, String Category) {
 		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
 		TargetLabels.remove(Category);
 	}
 
+	// 搜索
 	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) { // 搜索功能
 		SearchResults.clear();
 		if (LabeledFlag != 0) {
