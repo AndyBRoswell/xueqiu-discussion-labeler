@@ -6,7 +6,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
@@ -16,10 +15,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class GUIMain extends JFrame {
 	// 默认字体
@@ -183,24 +180,24 @@ public class GUIMain extends JFrame {
 				w = w0 * (CatName.length() + LabelPadding);
 				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 				lbCatName.setBounds(XC, YC, w, h0);
-				AllLabelsPanel.add(lbCatName);
+				AllLabelsPanel.add(lbCatName); // 添加到面板
 				XC += lbCatName.getWidth();
 
-				// 每一类标签及其使用数据
+				// 该标签类下的全部标签及其使用数据
 				for (String LabelName : Cat.getValue()) {
 					// 标签控件
 					final LabelButton btLabel = new LabelButton(LabelName);
 					w = w0 * (LabelName.length() + ButtonPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					btLabel.setBounds(XC, YC, w, h0);
-					AllLabelsPanel.add(btLabel);
+					AllLabelsPanel.add(btLabel); // 添加到面板
 					XC += btLabel.getWidth();
 					// 被选中次数标签控件
 					int TotalLabeledCount = 0;
 					for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
-						final Map<String, Integer> ContainedLabelsOfThisCat = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName);
-						if (ContainedLabelsOfThisCat != null) { // 在该股评条目的标注中找到了当前的标签类
-							final Integer c = ContainedLabelsOfThisCat.get(LabelName);
+						final Map<String, Integer> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条股评，都要查找是否包含此标签类
+						if (ContainedLabels != null) { // 该股评条目的标注包含该标签类
+							final Integer c = ContainedLabels.get(LabelName); // 获得该标签被选中的次数
 							if (c != null) TotalLabeledCount += c;
 						}
 					}
@@ -212,7 +209,7 @@ public class GUIMain extends JFrame {
 					w = w0 + (lbCount.getText().length() + LabelPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					lbCount.setBounds(XC, YC, w, h0);
-					AllLabelsPanel.add(lbCount);
+					AllLabelsPanel.add(lbCount); // 添加到面板
 					XC += lbCount.getWidth();
 				}
 
@@ -227,7 +224,7 @@ public class GUIMain extends JFrame {
 						new GUIAddLabel((GUIMain) SwingUtilities.getRoot(btnAddLabel), Cat.getKey());
 					}
 				});
-				AllLabelsPanel.add(btnAddLabel);
+				AllLabelsPanel.add(btnAddLabel); // 添加到面板
 				XC += btnAddLabel.getWidth();
 			}
 
