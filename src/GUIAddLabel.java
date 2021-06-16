@@ -57,7 +57,7 @@ public class GUIAddLabel extends JFrame {
 				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
 				for (JTextField t : tfLabels) {
 					String Label = t.getText();
-					if (Label.isBlank() == false) DataManipulator.AddLabelToCategory(Category, Label);
+					if (Label.isBlank() == false) DataManipulator.AddAvailableLabelToCategory(Category, Label);
 				}
 				MainFrame.Refresh();
 				GUIAddLabelForm.dispose();

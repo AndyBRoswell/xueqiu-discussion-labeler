@@ -2,8 +2,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 class DiscussionItem {
-	private String Text;
-	private ConcurrentHashMap<String, HashMap<String, Integer>> Labels;
+	private String Text; // 股评文本
+	private ConcurrentHashMap<String, HashMap<String, Integer>> Labels; // 标注的全部标签
 
 	DiscussionItem() { Labels = new ConcurrentHashMap<>(); }
 
@@ -17,30 +17,33 @@ class DiscussionItem {
 }
 
 public class DataManipulator {
-	private static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>();
-	private static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>();
+	private static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>(); // 所有可用标注
+	private static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>(); // 标注所属的类（搜索用）
 
-	private static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>();
-	private static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>();
+	private static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>(); // 全部股票讨论
+	private static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>(); // 根据股票讨论查找所在位置（合并相同股评含有的不同标注用）
 
-	private static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>();
+	private static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>(); // 用于存放搜索结果
 //	private static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 
-	// 可用标注
+	// 获得全部可用标注
 	static ConcurrentHashMap<String, HashSet<String>> GetAllLabels() { return AllLabels; }
 
-	static HashSet<String> GetLabelsOfCategory(String Category) { return AllLabels.get(Category); }
+	// 获得一类标注下的全部可用标注
+	static HashSet<String> GetAvailableLabelsOfCategory(String Category) { return AllLabels.get(Category); }
 
-	public static void AddLabelToCategory(String Category, String Label) {
-		HashSet<String> Labels = AllLabels.get(Category);
-		if (Labels == null) {
+	// 为某一类标注添加新的可用标注
+	public static void AddAvailableLabelToCategory(String Category, String Label) {
+		HashSet<String> Labels = AllLabels.get(Category); // 先获得该标签所在的类是否存在
+		if (Labels == null) { // 如果还没有此类标签，就先添加该标签类
 			AllLabels.put(Category, new HashSet<>());
 			Labels = AllLabels.get(Category);
 		}
-		Labels.add(Label);
-		AddCategoryOfLabel(Category, Label);
+		Labels.add(Label); // 在该类标签下添加该可用标签
+		AddCategoryOfLabel(Category, Label); // 登记该标签所属的标签类，为搜索维护需要的数据
 	}
 
+	// 为某一类标注删除指定的可用标注
 	public static void DeleteLabelFromCategory(String Category, String Label) {
 		HashSet<String> Labels = AllLabels.get(Category);
 		if (Labels == null) return;
@@ -49,11 +52,12 @@ public class DataManipulator {
 		DeleteCategoryOfLabel(Category, Label);
 	}
 
+	// 获得一个标签属于的全部标签类
 	static HashSet<String> GetCategoriesOfLabel(String Label) {
 		return LabelToCategory.get(Label);
 	}
 
-	static void AddCategoryOfLabel(String Category, String Label) {
+	static void AddCategoryOfLabel(String Category, String Label) { // 为某标签登记新的所属标签类
 		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
 		if (Categories == null) {
 			DataManipulator.LabelToCategory.put(Label, new HashSet<>());

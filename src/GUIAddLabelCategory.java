@@ -69,7 +69,7 @@ public class GUIAddLabelCategory extends JFrame {
 				if (Cat.isBlank() == false) {
 					for (JTextField t : tfLabels) {
 						String Label = t.getText();
-						if (Label.isBlank() == false) DataManipulator.AddLabelToCategory(Cat, t.getText());
+						if (Label.isBlank() == false) DataManipulator.AddAvailableLabelToCategory(Cat, t.getText());
 					}
 					MainFrame.Refresh();
 				}
