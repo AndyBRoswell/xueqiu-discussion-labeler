@@ -187,14 +187,6 @@ public class GUIMain extends JFrame {
 					w = w0 * (LabelName.length() + ButtonPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					btLabel.setBounds(XC, YC, w, h0);
-					btLabel.addActionListener(new ActionListener() {
-						@Override public void actionPerformed(ActionEvent e) {
-							LabelButton LabelClicked = (LabelButton) e.getSource();
-							for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
-								DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
-							}
-						}
-					});
 					btLabel.addMouseListener(new MouseListener() {
 						@Override public void mouseClicked(MouseEvent e) {
 							LabelButton LabelClicked = (LabelButton) e.getSource();
