@@ -73,16 +73,18 @@ public class GUIMain extends JFrame {
 
 	// 标签按钮（内部类）：点击标签进行添加或删除
 	static class LabelButton extends JButton {
-		public LabelButton(String Text) {
-			super(Text);
+		String Category;
+		public LabelButton(String Label, String Category) {
+			super(Label);
+			this.Category = Category;
 //			super.setBorder(null); // Don't show ellipsis.
 		}
 	}
 
 	// 标签类名称标签控件（内部类）
 	static class LabelCategoryComponent extends JLabel {
-		public LabelCategoryComponent(String Text) {
-			super(Text);
+		public LabelCategoryComponent(String LabelCategory) {
+			super(LabelCategory);
 			super.setHorizontalAlignment(JLabel.CENTER);
 		}
 	}
@@ -186,7 +188,7 @@ public class GUIMain extends JFrame {
 				// 该标签类下的全部标签及其使用数据
 				for (String LabelName : Cat.getValue()) {
 					// 标签控件
-					final LabelButton btLabel = new LabelButton(LabelName);
+					final LabelButton btLabel = new LabelButton(LabelName, CatName);
 					w = w0 * (LabelName.length() + ButtonPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					btLabel.setBounds(XC, YC, w, h0);
