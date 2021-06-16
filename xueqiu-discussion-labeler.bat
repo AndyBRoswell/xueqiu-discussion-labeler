@@ -1,0 +1,1 @@
+java -jar xueqiu-discussion-labeler.jar
