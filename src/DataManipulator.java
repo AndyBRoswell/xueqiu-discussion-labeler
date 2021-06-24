@@ -4,6 +4,14 @@ import java.util.concurrent.ConcurrentHashMap;
 class LabelStatus {
 	int LabeledCount;
 	boolean LabeledAtThisTime;
+
+	public LabelStatus(int LabeledCount) {
+		this.LabeledCount = LabeledCount; this.LabeledAtThisTime = false;
+	}
+
+	public LabelStatus(int LabeledCount, boolean labeledAtThisTime) {
+		this.LabeledCount = LabeledCount; this.LabeledAtThisTime = labeledAtThisTime;
+	}
 }
 
 class DiscussionItem {
