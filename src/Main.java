@@ -8,6 +8,7 @@ public class Main {
 		Global.MainForm = new GUIMain();
 
 		// 列出可选标注面板的全部控件
+		Thread.sleep(1000);
 		for (var Component : Global.MainForm.AllLabelsPanel.getComponents()) {
 			if (Component instanceof  GUIMain.LabelCategoryComponent) {
 				System.out.println("LabelCategoryComponent: " + ((GUIMain.LabelCategoryComponent) Component).getText());
