@@ -62,7 +62,6 @@ public class GUIMain extends JFrame {
 	DiscussionTableModel TableModel;
 	JTable DiscussionTable;
 	JScrollPane DiscussionScrollPane;
-	BitSet LabeledAtThisTime;
 	static final LabeledCountComponent LabeledFor0Times = new LabeledCountComponent(0);
 
 	// 搜索结果

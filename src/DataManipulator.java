@@ -131,16 +131,20 @@ public class DataManipulator {
 	}
 
 	// 为指定的股票讨论添加新的标签
-	public static void AddLabel(int Index, String Category, String Label) {
+	public static boolean AddLabel(int Index, String Category, String Label) {
 		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
 		HashMap<String, LabelStatus> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
 		if (TargetCat == null) { // 如果没有此类标签，该标签将作为此类标签的首个标签添加
 			TargetLabels.put(Category, new HashMap<>());
 			TargetCat = TargetLabels.get(Category);
 		}
-		Integer Count = TargetCat.get(Label).LabeledCount; // 增加 1 次被标注次数
-		if (Count == null) TargetCat.put(Label, new LabelStatus(1));
-		else TargetCat.put(Label, new LabelStatus(Count + 1));
+		final LabelStatus TargetLabelStatus = TargetCat.get(Label);
+		if (TargetLabelStatus.LabeledAtThisTime == false) {
+			final Integer Count = TargetLabelStatus.LabeledCount; // 增加 1 次被标注次数
+			if (Count == null) TargetCat.put(Label, new LabelStatus(1));
+			else TargetCat.put(Label, new LabelStatus(Count + 1));
+		}
+		return TargetLabelStatus.LabeledAtThisTime;
 	}
 
 //	static void AddLabelWithCount(int Index, String Category, String Label, int Count) {
@@ -148,14 +152,18 @@ public class DataManipulator {
 //	}
 
 	// 为指定股票讨论删除一个标签
-	public static void DeleteLabel(int Index, String Category, String Label) {
+	public static boolean DeleteLabel(int Index, String Category, String Label) {
 		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
 		HashMap<String, LabelStatus> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
-		Integer Count = TargetCat.get(Label).LabeledCount;
-		if (Count == null) return; // 该类标签未包含指定的标签，不采取任何操作
-		if (Count == 1) TargetCat.remove(Label); // 如果原先只被标注了一次，就删除此标签
-		else TargetCat.put(Label, new LabelStatus(Count - 1)); // 否则，减少 1 次被标注次数
-		if (TargetCat.size() == 0) TargetLabels.remove(Category); // 对于删除了仅被标注 1 次的标签的情况，如果该类已不含任何标签，就将该类标签也一并删除
+		final LabelStatus TargetLabelStatus = TargetCat.get(Label);
+		if (TargetLabelStatus.LabeledAtThisTime == true) {
+			final Integer Count = TargetLabelStatus.LabeledCount;
+			if (Count == null) return; // 该类标签未包含指定的标签，不采取任何操作
+			if (Count == 1) TargetCat.remove(Label); // 如果原先只被标注了一次，就删除此标签
+			else TargetCat.put(Label, new LabelStatus(Count - 1)); // 否则，减少 1 次被标注次数
+			if (TargetCat.size() == 0) TargetLabels.remove(Category); // 对于删除了仅被标注 1 次的标签的情况，如果该类已不含任何标签，就将该类标签也一并删除
+		}
+		return TargetLabelStatus.LabeledAtThisTime;
 	}
 
 	// 为指定股票讨论删除一类标签
