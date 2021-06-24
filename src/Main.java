@@ -8,19 +8,19 @@ public class Main {
 		Global.MainForm = new GUIMain();
 
 		// 列出可选标注面板的全部控件
-		Thread.sleep(1000);
-		for (var Component : Global.MainForm.AllLabelsPanel.getComponents()) {
-			if (Component instanceof  GUIMain.LabelCategoryComponent) {
-				System.out.println("LabelCategoryComponent: " + ((GUIMain.LabelCategoryComponent) Component).getText());
-			}
-			else if (Component instanceof GUIMain.LabelButton) {
-				System.out.println("LabelButton: " + ((GUIMain.LabelButton) Component).getText());
-			}
-			else if (Component instanceof GUIMain.LabeledCountComponent) {
-				System.out.println("LabeledCountComponent: " + ((GUIMain.LabeledCountComponent) Component).getText());
-			}
-			else { System.out.println("Other components."); }
-		}
+//		Thread.sleep(1000);
+//		for (var Component : Global.MainForm.AllLabelsPanel.getComponents()) {
+//			if (Component instanceof  GUIMain.LabelCategoryComponent) {
+//				System.out.println("LabelCategoryComponent: " + ((GUIMain.LabelCategoryComponent) Component).getText());
+//			}
+//			else if (Component instanceof GUIMain.LabelButton) {
+//				System.out.println("LabelButton: " + ((GUIMain.LabelButton) Component).getText());
+//			}
+//			else if (Component instanceof GUIMain.LabeledCountComponent) {
+//				System.out.println("LabeledCountComponent: " + ((GUIMain.LabeledCountComponent) Component).getText());
+//			}
+//			else { System.out.println("Other components."); }
+//		}
 
 		// 读取设置
 //		Config.LoadConfig(Global.DefaultConfig);
