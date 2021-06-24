@@ -16,7 +16,7 @@ class LabelStatus {
 
 class DiscussionItem {
 	private String Text; // 股评文本
-	private ConcurrentHashMap<String, HashMap<String, Integer>> Labels; // 标注的全部标签
+	private ConcurrentHashMap<String, HashMap<String, LabelStatus>> Labels; // 标注的全部标签
 
 	DiscussionItem() { Labels = new ConcurrentHashMap<>(); }
 
@@ -24,7 +24,7 @@ class DiscussionItem {
 
 	String GetText() { return Text; }
 
-	ConcurrentHashMap<String, HashMap<String, Integer>> GetLabels() { return Labels; }
+	ConcurrentHashMap<String, HashMap<String, LabelStatus>> GetLabels() { return Labels; }
 
 	void SetText(String Text) { this.Text = Text; }
 }
@@ -107,19 +107,19 @@ public class DataManipulator {
 	public static void AddDiscussionItem(DiscussionItem Item) {
 		try { // 添加过包含相同股评的条目
 			int Index = GetIndexOfDiscussionItem(Item);
-			ConcurrentHashMap<String, HashMap<String, Integer>> ExistedLabels = GetDiscussionItem(Index).GetLabels();
-			for (Map.Entry<String, HashMap<String, Integer>> e : Item.GetLabels().entrySet()) { // 对于新添加的股评条目的每一类标签
-				HashMap<String, Integer> ExistedLabelsOfThisCat = ExistedLabels.get(e.getKey());
+			ConcurrentHashMap<String, HashMap<String, LabelStatus>> ExistedLabels = GetDiscussionItem(Index).GetLabels();
+			for (Map.Entry<String, HashMap<String, LabelStatus>> e : Item.GetLabels().entrySet()) { // 对于新添加的股评条目的每一类标签
+				HashMap<String, LabelStatus> ExistedLabelsOfThisCat = ExistedLabels.get(e.getKey());
 				if (ExistedLabelsOfThisCat == null) { // 如果已存在的具有相同股评的条目里，没有该类标签，就直接添加这类标签
 					ExistedLabels.put(e.getKey(), e.getValue());
 				}
 				else { // 否则，写入新条目的该类标签的每一个标签及其被选中的次数到已有条目的对应位置
-					for (Map.Entry<String, Integer> f : e.getValue().entrySet()) {
-						Integer Count = ExistedLabelsOfThisCat.get(f.getKey());
+					for (Map.Entry<String, LabelStatus> f : e.getValue().entrySet()) {
+						Integer Count = ExistedLabelsOfThisCat.get(f.getKey()).LabeledCount;
 						// 已存在条目的该标签类里没有当前标签，直接写入该标签
 						if (Count == null) ExistedLabelsOfThisCat.put(f.getKey(), f.getValue());
 						// 否则，累加该标签的被选中次数
-						else ExistedLabelsOfThisCat.put(f.getKey(), Count + f.getValue());
+						else ExistedLabelsOfThisCat.put(f.getKey(), new LabelStatus(Count + f.getValue().LabeledCount));
 					}
 				}
 			}
@@ -132,15 +132,15 @@ public class DataManipulator {
 
 	// 为指定的股票讨论添加新的标签
 	public static void AddLabel(int Index, String Category, String Label) {
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
-		HashMap<String, Integer> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
+		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
+		HashMap<String, LabelStatus> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
 		if (TargetCat == null) { // 如果没有此类标签，该标签将作为此类标签的首个标签添加
 			TargetLabels.put(Category, new HashMap<>());
 			TargetCat = TargetLabels.get(Category);
 		}
-		Integer Count = TargetCat.get(Label); // 增加 1 次被标注次数
-		if (Count == null) TargetCat.put(Label, 1);
-		else TargetCat.put(Label, Count + 1);
+		Integer Count = TargetCat.get(Label).LabeledCount; // 增加 1 次被标注次数
+		if (Count == null) TargetCat.put(Label, new LabelStatus(1));
+		else TargetCat.put(Label, new LabelStatus(Count + 1));
 	}
 
 //	static void AddLabelWithCount(int Index, String Category, String Label, int Count) {
@@ -149,18 +149,18 @@ public class DataManipulator {
 
 	// 为指定股票讨论删除一个标签
 	public static void DeleteLabel(int Index, String Category, String Label) {
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
-		HashMap<String, Integer> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
-		Integer Count = TargetCat.get(Label);
+		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
+		HashMap<String, LabelStatus> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
+		Integer Count = TargetCat.get(Label).LabeledCount;
 		if (Count == null) return; // 该类标签未包含指定的标签，不采取任何操作
 		if (Count == 1) TargetCat.remove(Label); // 如果原先只被标注了一次，就删除此标签
-		else TargetCat.put(Label, Count - 1); // 否则，减少 1 次被标注次数
+		else TargetCat.put(Label, new LabelStatus(Count - 1)); // 否则，减少 1 次被标注次数
 		if (TargetCat.size() == 0) TargetLabels.remove(Category); // 对于删除了仅被标注 1 次的标签的情况，如果该类已不含任何标签，就将该类标签也一并删除
 	}
 
 	// 为指定股票讨论删除一类标签
 	public static void DeleteLabel(int Index, String Category) {
-		ConcurrentHashMap<String, HashMap<String, Integer>> TargetLabels = GetDiscussionItem(Index).GetLabels();
+		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels();
 		TargetLabels.remove(Category);
 	}
 
@@ -295,7 +295,7 @@ public class DataManipulator {
 			if (Categories == null) { return; } // 该标签不属于任何已知的标签类（每个标签属于的类在读入全部可用标签与指定的股票讨论 CSV 文件时都会被登记），不符合条件
 			boolean FoundSingle = false;
 			for (String Category : Categories) { // 查找该条股票讨论是否包含该标签所属的某一个类；如果包含，则在类中查找
-				HashMap<String, Integer> LabelsOfThisCatOfThisItem = DiscussionList.get(index).GetLabels().get(Category);
+				HashMap<String, LabelStatus> LabelsOfThisCatOfThisItem = DiscussionList.get(index).GetLabels().get(Category);
 				if (LabelsOfThisCatOfThisItem == null) { continue; }
 				if (LabelsOfThisCatOfThisItem.containsKey(Label) == true) { FoundSingle = true; break; }
 			}
