@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -61,7 +62,10 @@ public class GUIMain extends JFrame {
 	DiscussionTableModel TableModel;
 	JTable DiscussionTable;
 	JScrollPane DiscussionScrollPane;
+	BitSet LabeledAtThisTime;
 	static final LabeledCountComponent LabeledFor0Times = new LabeledCountComponent(0);
+
+	// 搜索结果
 
 	// 动作监听程序
 	final MainFrameListener Listener = new MainFrameListener();
@@ -69,7 +73,6 @@ public class GUIMain extends JFrame {
 	// 标签按钮（内部类）：点击标签进行添加或删除
 	static class LabelButton extends JButton {
 		String Category;
-		boolean LabeledThisTime = false;
 
 		public LabelButton(String Label, String Category) {
 			super(Label);
@@ -317,7 +320,7 @@ public class GUIMain extends JFrame {
 						LabeledCountComponent lbCount = (LabeledCountComponent) Components[Ci];
 						lbCount.setText(String.valueOf(TotalLabeledCount));
 						if (SelectedRows.length == 1) { // 仅选中一行时
-							if (btLabel.LabeledThisTime == true) btLabel.setForeground(Color.GREEN); // 若本轮标注（本次导入）中已向此股评添加标签，则
+							if (LabeledAtThisTime.get(SelectedRows[0]) == true) btLabel.setForeground(Color.BLUE); // 若本轮标注（本次导入）中已向此股评添加标签，则被选中次数以不同的颜色显示
 							else btLabel.setForeground(Color.BLACK);
 						}
 						w = w0 + (lbCount.getText().length() + LabelPadding);
@@ -432,14 +435,8 @@ public class GUIMain extends JFrame {
 						switch (e.getButton()) {
 							case MouseEvent.BUTTON1: case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
 								for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
-									if (LabelClicked.LabeledThisTime == false) {
-										DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
-										LabelClicked.LabeledThisTime = true;
-									}
-									else {
-										DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
-										LabelClicked.LabeledThisTime = false;
-									}
+									if (LabeledAtThisTime.get(i) == false) { DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText()); }
+									else { DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText()); }
 								}
 								break;
 						}
@@ -534,6 +531,7 @@ public class GUIMain extends JFrame {
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
+		LabeledAtThisTime = new BitSet(DataManipulator.GetDiscussionList().size());
 
 		// 动作监听程序与单元格渲染程序
 		TableModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
@@ -557,5 +555,9 @@ public class GUIMain extends JFrame {
 
 		this.add(DiscussionScrollPane);
 		Refresh();
+	}
+
+	public void ShowSearchResult(boolean Show) {
+
 	}
 }
