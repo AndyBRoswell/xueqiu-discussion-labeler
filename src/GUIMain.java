@@ -339,6 +339,15 @@ public class GUIMain extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) { new GUIStatistic(); }
 		});
 
+		// 添加全部可选标注
+		for (Map.Entry<String, HashSet<String>> Cat : DataManipulator.GetAllLabels().entrySet()) {
+			AllLabelsPanel.add(new LabelCategoryComponent(Cat.getKey()));
+			for (String LabelName : Cat.getValue()) {
+				final LabelButton btLabel = new LabelButton(LabelName, Cat.getKey());
+				
+			}
+		}
+
 		// 添加控件
 		super.add(btnTaskList); super.add(cbLabeled); super.add(cbUnlabeled);
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
