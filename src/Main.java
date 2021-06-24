@@ -5,7 +5,6 @@ import java.io.IOException;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
-//		GUI MainForm = new GUI();
 		Global.MainForm = new GUIMain();
 
 		// 读取设置
