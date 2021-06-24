@@ -22,7 +22,6 @@ public class DataManipulator {
 
 	private static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>(); // 全部股票讨论
 	private static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>(); // 根据股票讨论查找所在位置（合并相同股评含有的不同标注用）
-	private static ArrayList<Boolean> LabeledAtThisImport = new ArrayList<>();
 
 	private static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>(); // 用于存放搜索结果
 //	private static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
@@ -117,8 +116,6 @@ public class DataManipulator {
 			DiscussionToIndex.put(Item.GetText(), DiscussionList.size() - 1);
 		}
 	}
-
-	public static boolean LabeledAtThisTime(int Index) { return LabeledAtThisImport.get(Index); }
 
 	// 为指定的股票讨论添加新的标签
 	public static void AddLabel(int Index, String Category, String Label) {
