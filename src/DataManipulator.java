@@ -1,6 +1,11 @@
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+class LabelStatus {
+	int LabeledCount;
+	boolean LabeledAtThisTime;
+}
+
 class DiscussionItem {
 	private String Text; // 股评文本
 	private ConcurrentHashMap<String, HashMap<String, Integer>> Labels; // 标注的全部标签
