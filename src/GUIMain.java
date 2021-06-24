@@ -314,13 +314,24 @@ public class GUIMain extends JFrame {
 								if (c != null) TotalLabeledCount += c;
 							}
 						}
-						LabeledCountComponent lbCount = new LabeledCountComponent(TotalLabeledCount);
+						LabeledCountComponent lbCount = (LabeledCountComponent) Components[Ci];
 						w = w0 + (lbCount.getText().length() + LabelPadding);
 						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 						lbCount.setBounds(XC, YC, w, h0);
 						XC += lbCount.getWidth();
+						++Ci; // 取下一个部件
 					}
+
+					// 更改添加标签按钮的位置
+					final JButton btnAddLabel = (JButton) Components[Ci];
+					w = icoSmallAdd.getIconWidth() * 3 / 2;
+					h = icoSmallAdd.getIconHeight() * 3 / 2;
+					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+					btnAddLabel.setBounds(XC, YC, w, h);
+					XC += btnAddLabel.getWidth();
+					++Ci; // 取下一个部件
 				}
+
 				AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
 			}
 		}
