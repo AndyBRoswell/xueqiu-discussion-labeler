@@ -259,9 +259,35 @@ public class GUIMain extends JFrame {
 
 			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
 
-			SelectedRows = DiscussionTable.getSelectedRows();
-			AllLabels = DataManipulator.GetAllLabels();
-			
+			{
+				SelectedRows = DiscussionTable.getSelectedRows();
+				int i = 0;
+				final Component[] Components = AllLabelsPanel.getComponents();
+				AllLabels = DataManipulator.GetAllLabels();
+				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
+					int w, h;
+
+					// 更改标签类名称控件的位置与大小
+					final String CatName = Cat.getKey();
+					final LabelCategoryComponent lbCatName = (LabelCategoryComponent) Components[i];
+					w = w0 * (CatName.length() + LabelPadding);
+					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+					lbCatName.setBounds(XC, YC, w, h0);
+					XC += lbCatName.getWidth();
+
+					// 该标签类下的全部标签及其使用数据对应的控件的大小
+					for (String LabelName : Cat.getValue()) {
+						final LabelButton btLabel = new LabelButton(LabelName, CatName);
+						w = w0 * (LabelName.length() + ButtonPadding);
+						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+						btLabel.setBounds(XC, YC, w, h0);
+						XC += btLabel.getWidth();
+					}
+
+					// 被选中次数标签控件
+					
+				}
+			}
 		}
 
 		@Override public void componentMoved(ComponentEvent e) {}
