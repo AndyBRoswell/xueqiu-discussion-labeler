@@ -305,7 +305,7 @@ public class GUIMain extends JFrame {
 						XC += btLabel.getWidth();
 						++Ci; // 取下一个部件
 
-						// 被选中次数标签控件
+						// 被选中次数标签控件（更新被选中次数）
 						int TotalLabeledCount = 0;
 						for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
 							final Map<String, Integer> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条选中的股评，都要查找是否包含此标签类
@@ -315,6 +315,11 @@ public class GUIMain extends JFrame {
 							}
 						}
 						LabeledCountComponent lbCount = (LabeledCountComponent) Components[Ci];
+						lbCount.setText(String.valueOf(TotalLabeledCount));
+						if (SelectedRows.length == 1) { // 仅选中一行时
+							if (btLabel.LabeledThisTime == true) btLabel.setForeground(Color.GREEN); // 若本轮标注（本次导入）中已向此股评添加标签，则
+							else btLabel.setForeground(Color.BLACK);
+						}
 						w = w0 + (lbCount.getText().length() + LabelPadding);
 						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 						lbCount.setBounds(XC, YC, w, h0);
@@ -425,8 +430,7 @@ public class GUIMain extends JFrame {
 					@Override public void mouseClicked(MouseEvent e) {
 						LabelButton LabelClicked = (LabelButton) e.getSource();
 						switch (e.getButton()) {
-							case MouseEvent.BUTTON1:
-							case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
+							case MouseEvent.BUTTON1: case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
 								for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
 									if (LabelClicked.LabeledThisTime == false) {
 										DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
