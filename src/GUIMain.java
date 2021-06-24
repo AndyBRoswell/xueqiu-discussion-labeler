@@ -451,15 +451,15 @@ public class GUIMain extends JFrame {
 					@Override public void mouseExited(MouseEvent e) {}
 				});
 				AllLabelsPanel.add(btLabel);
-				AllLabelsPanel.add(new LabeledCountComponent(0)); // 被选中次数标签控件
-				final JButton btnAddLabel = new JButton(icoSmallAdd); // 添加标签控件
-				btnAddLabel.addActionListener(new ActionListener() {
-					@Override public void actionPerformed(ActionEvent e) {
-						new GUIAddLabel((GUIMain) SwingUtilities.getRoot(btnAddLabel), Cat.getKey());
-					}
-				});
-				AllLabelsPanel.add(btnAddLabel);
 			}
+			AllLabelsPanel.add(new LabeledCountComponent(0)); // 被选中次数标签控件
+			final JButton btnAddLabel = new JButton(icoSmallAdd); // 添加标签控件
+			btnAddLabel.addActionListener(new ActionListener() {
+				@Override public void actionPerformed(ActionEvent e) {
+					new GUIAddLabel((GUIMain) SwingUtilities.getRoot(btnAddLabel), Cat.getKey());
+				}
+			});
+			AllLabelsPanel.add(btnAddLabel);
 		}
 
 		// 添加控件
