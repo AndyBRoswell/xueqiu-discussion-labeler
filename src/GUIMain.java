@@ -170,7 +170,7 @@ public class GUIMain extends JFrame {
 //
 //				// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
 //				SelectedRows = DiscussionTable.getSelectedRows();
-//				Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
+//				final Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 //				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
 //					int w, h;
 //
@@ -293,15 +293,18 @@ public class GUIMain extends JFrame {
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					lbCatName.setBounds(XC, YC, w, h0);
 					XC += lbCatName.getWidth();
+					++Ci; // 取下一个部件
 
 					// 该标签类下的全部标签及其使用数据对应的控件的大小
 					for (String LabelName : Cat.getValue()) {
 						// 标签控件
-						final LabelButton btLabel = new LabelButton(LabelName, CatName);
+						final LabelButton btLabel = (LabelButton) Components[Ci];
 						w = w0 * (LabelName.length() + ButtonPadding);
 						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 						btLabel.setBounds(XC, YC, w, h0);
 						XC += btLabel.getWidth();
+						++Ci; // 取下一个部件
+
 						// 被选中次数标签控件
 						int TotalLabeledCount = 0;
 						for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
