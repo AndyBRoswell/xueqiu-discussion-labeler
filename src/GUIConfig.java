@@ -295,7 +295,7 @@ public class GUIConfig extends JFrame {
         this.str_ChooseFileName=string;
     }
 
-    private static ArrayList<String> getConfig(String config_file) {
+    public static ArrayList<String> getConfig(String config_file) {
         ArrayList<String> list=new ArrayList<>();
         DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
         try {
@@ -311,7 +311,7 @@ public class GUIConfig extends JFrame {
     }
 
 
-    private static void changeConfig(String str_encoding,String str_filename, String str_export, String str_operation)
+    public static void changeConfig(String str_encoding,String str_filename, String str_export, String str_operation)
             throws IOException, SAXException, XPathExpressionException, TransformerException {
         Config.LoadConfig(Global.DefaultConfig);
         //System.out.println(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-export-dir"));
@@ -349,7 +349,7 @@ public class GUIConfig extends JFrame {
             list.add("备用:      "+e.getElementsByTagName("sex").item(0).getFirstChild().getNodeValue());
         }
     }
-    private static void printStorage(Document doc, ArrayList<String> list) {
+    public static void printStorage(Document doc, ArrayList<String> list) {
         NodeList nodelist=doc.getElementsByTagName("storage");
         Element element=(Element)nodelist.item(0);
         NodeList nodelists_import =element.getElementsByTagName("import-and-export");
