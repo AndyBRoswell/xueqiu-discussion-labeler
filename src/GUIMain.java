@@ -435,8 +435,14 @@ public class GUIMain extends JFrame {
 						switch (e.getButton()) {
 							case MouseEvent.BUTTON1: case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
 								for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
-									if (LabeledAtThisTime.get(i) == false) { DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText()); }
-									else { DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText()); }
+									if (LabeledAtThisTime.get(i) == false) {
+										DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
+										LabeledAtThisTime.set(i, true);
+									}
+									else {
+										DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
+										LabeledAtThisTime.set(i, false);
+									}
 								}
 								break;
 						}
