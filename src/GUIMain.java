@@ -52,6 +52,7 @@ public class GUIMain extends JFrame {
 	final JTextField tfSearchByLabel = new JTextField();
 
 	/*全部可选标签*/
+	int[] SelectedRows;
 	final JPanel AllLabelsPanel = new JPanel();
 	final JScrollPane AllLabelsScrollPane = new JScrollPane(AllLabelsPanel);
 	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
@@ -164,11 +165,11 @@ public class GUIMain extends JFrame {
 			// 可选标注面板内容
 			int XC = 0, YC = 0; // 当前摆放控件的位置
 			final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
-			AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
+//			AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
 			// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
-			final int[] SelectedRows = DiscussionTable.getSelectedRows();
-			final Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
+			SelectedRows = DiscussionTable.getSelectedRows();
+			Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
 				int w, h;
 
@@ -257,6 +258,10 @@ public class GUIMain extends JFrame {
 			}
 
 			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
+
+			SelectedRows = DiscussionTable.getSelectedRows();
+			AllLabels = DataManipulator.GetAllLabels();
+			
 		}
 
 		@Override public void componentMoved(ComponentEvent e) {}
@@ -339,12 +344,40 @@ public class GUIMain extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) { new GUIStatistic(); }
 		});
 
-		// 添加全部可选标注
+		// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
 		for (Map.Entry<String, HashSet<String>> Cat : DataManipulator.GetAllLabels().entrySet()) {
-			AllLabelsPanel.add(new LabelCategoryComponent(Cat.getKey()));
-			for (String LabelName : Cat.getValue()) {
+			AllLabelsPanel.add(new LabelCategoryComponent(Cat.getKey())); // 标签类名称控件
+			for (String LabelName : Cat.getValue()) { // 该标签类下的全部标签及其使用数据
 				final LabelButton btLabel = new LabelButton(LabelName, Cat.getKey());
-				
+				btLabel.addMouseListener(new MouseListener() {
+					@Override public void mouseClicked(MouseEvent e) {
+						LabelButton LabelClicked = (LabelButton) e.getSource();
+						switch (e.getButton()) {
+							case MouseEvent.BUTTON1:case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
+								for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
+									if (LabelClicked.LabeledThisTime == false) {
+										DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
+										LabelClicked.LabeledThisTime = true;
+									}
+									else {
+										DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
+										LabelClicked.LabeledThisTime = false;
+									}
+								}
+								break;
+						}
+						Refresh();
+					}
+
+					@Override public void mousePressed(MouseEvent e) {}
+
+					@Override public void mouseReleased(MouseEvent e) {}
+
+					@Override public void mouseEntered(MouseEvent e) {}
+
+					@Override public void mouseExited(MouseEvent e) {}
+				});
+				AllLabelsPanel.add(new LabeledCountComponent(0)); // 被选中次数标签控件
 			}
 		}
 
