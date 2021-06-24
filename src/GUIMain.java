@@ -168,108 +168,108 @@ public class GUIMain extends JFrame {
 //			AllLabelsPanel.removeAll(); // 先清除已有的控件，准备重新排布
 
 			// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
-			SelectedRows = DiscussionTable.getSelectedRows();
-			Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
-			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
-				int w, h;
-
-				// 标签类名称控件
-				final String CatName = Cat.getKey();
-				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(CatName);
-				w = w0 * (CatName.length() + LabelPadding);
-				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-				lbCatName.setBounds(XC, YC, w, h0);
-				AllLabelsPanel.add(lbCatName); // 添加到面板
-				XC += lbCatName.getWidth();
-
-				// 该标签类下的全部标签及其使用数据
-				for (String LabelName : Cat.getValue()) {
-					// 标签控件
-					final LabelButton btLabel = new LabelButton(LabelName, CatName);
-					w = w0 * (LabelName.length() + ButtonPadding);
-					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-					btLabel.setBounds(XC, YC, w, h0);
-					btLabel.addMouseListener(new MouseListener() {
-						@Override public void mouseClicked(MouseEvent e) {
-							LabelButton LabelClicked = (LabelButton) e.getSource();
-							switch (e.getButton()) {
-								case MouseEvent.BUTTON1:case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
-									for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
-										if (LabelClicked.LabeledThisTime == false) {
-											DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
-											LabelClicked.LabeledThisTime = true;
-										}
-										else {
-											DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
-											LabelClicked.LabeledThisTime = false;
-										}
-									}
-									break;
-							}
-							Refresh();
-						}
-
-						@Override public void mousePressed(MouseEvent e) {}
-
-						@Override public void mouseReleased(MouseEvent e) {}
-
-						@Override public void mouseEntered(MouseEvent e) {}
-
-						@Override public void mouseExited(MouseEvent e) {}
-					});
-
-					AllLabelsPanel.add(btLabel); // 添加到面板
-					XC += btLabel.getWidth();
-
-					// 被选中次数标签控件
-					int TotalLabeledCount = 0;
-					for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
-						final Map<String, Integer> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条选中的股评，都要查找是否包含此标签类
-						if (ContainedLabels != null) { // 该股评条目的标注确包含该标签类
-							final Integer c = ContainedLabels.get(LabelName); // 获得该标签被选中的次数
-							if (c != null) TotalLabeledCount += c;
-						}
-					}
-//					LabeledCountComponent lbCount = LabeledFor0Times;
-//					if (TotalLabeledCount != 0) {
-//						lbCount = new LabeledCountComponent(TotalLabeledCount);
+//			SelectedRows = DiscussionTable.getSelectedRows();
+//			Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
+//			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
+//				int w, h;
+//
+//				// 标签类名称控件
+//				final String CatName = Cat.getKey();
+//				final LabelCategoryComponent lbCatName = new LabelCategoryComponent(CatName);
+//				w = w0 * (CatName.length() + LabelPadding);
+//				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+//				lbCatName.setBounds(XC, YC, w, h0);
+//				AllLabelsPanel.add(lbCatName); // 添加到面板
+//				XC += lbCatName.getWidth();
+//
+//				// 该标签类下的全部标签及其使用数据
+//				for (String LabelName : Cat.getValue()) {
+//					// 标签控件
+//					final LabelButton btLabel = new LabelButton(LabelName, CatName);
+//					w = w0 * (LabelName.length() + ButtonPadding);
+//					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+//					btLabel.setBounds(XC, YC, w, h0);
+//					btLabel.addMouseListener(new MouseListener() {
+//						@Override public void mouseClicked(MouseEvent e) {
+//							LabelButton LabelClicked = (LabelButton) e.getSource();
+//							switch (e.getButton()) {
+//								case MouseEvent.BUTTON1:case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
+//									for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
+//										if (LabelClicked.LabeledThisTime == false) {
+//											DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
+//											LabelClicked.LabeledThisTime = true;
+//										}
+//										else {
+//											DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
+//											LabelClicked.LabeledThisTime = false;
+//										}
+//									}
+//									break;
+//							}
+//							Refresh();
+//						}
+//
+//						@Override public void mousePressed(MouseEvent e) {}
+//
+//						@Override public void mouseReleased(MouseEvent e) {}
+//
+//						@Override public void mouseEntered(MouseEvent e) {}
+//
+//						@Override public void mouseExited(MouseEvent e) {}
+//					});
+//
+//					AllLabelsPanel.add(btLabel); // 添加到面板
+//					XC += btLabel.getWidth();
+//
+//					// 被选中次数标签控件
+//					int TotalLabeledCount = 0;
+//					for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
+//						final Map<String, Integer> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条选中的股评，都要查找是否包含此标签类
+//						if (ContainedLabels != null) { // 该股评条目的标注确包含该标签类
+//							final Integer c = ContainedLabels.get(LabelName); // 获得该标签被选中的次数
+//							if (c != null) TotalLabeledCount += c;
+//						}
 //					}
-					LabeledCountComponent lbCount = new LabeledCountComponent(TotalLabeledCount);
-					w = w0 + (lbCount.getText().length() + LabelPadding);
-					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-					lbCount.setBounds(XC, YC, w, h0);
-					AllLabelsPanel.add(lbCount); // 添加到面板
-					XC += lbCount.getWidth();
-				}
-
-				// 添加标签按钮
-				final JButton btnAddLabel = new JButton(icoSmallAdd);
-				w = icoSmallAdd.getIconWidth() * 3 / 2;
-				h = icoSmallAdd.getIconHeight() * 3 / 2;
-				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-				btnAddLabel.setBounds(XC, YC, w, h);
-				btnAddLabel.addActionListener(new ActionListener() {
-					@Override public void actionPerformed(ActionEvent e) {
-						new GUIAddLabel((GUIMain) SwingUtilities.getRoot(btnAddLabel), Cat.getKey());
-					}
-				});
-				AllLabelsPanel.add(btnAddLabel); // 添加到面板
-				XC += btnAddLabel.getWidth();
-			}
-
-			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
+////					LabeledCountComponent lbCount = LabeledFor0Times;
+////					if (TotalLabeledCount != 0) {
+////						lbCount = new LabeledCountComponent(TotalLabeledCount);
+////					}
+//					LabeledCountComponent lbCount = new LabeledCountComponent(TotalLabeledCount);
+//					w = w0 + (lbCount.getText().length() + LabelPadding);
+//					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+//					lbCount.setBounds(XC, YC, w, h0);
+//					AllLabelsPanel.add(lbCount); // 添加到面板
+//					XC += lbCount.getWidth();
+//				}
+//
+//				// 添加标签按钮
+//				final JButton btnAddLabel = new JButton(icoSmallAdd);
+//				w = icoSmallAdd.getIconWidth() * 3 / 2;
+//				h = icoSmallAdd.getIconHeight() * 3 / 2;
+//				if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+//				btnAddLabel.setBounds(XC, YC, w, h);
+//				btnAddLabel.addActionListener(new ActionListener() {
+//					@Override public void actionPerformed(ActionEvent e) {
+//						new GUIAddLabel((GUIMain) SwingUtilities.getRoot(btnAddLabel), Cat.getKey());
+//					}
+//				});
+//				AllLabelsPanel.add(btnAddLabel); // 添加到面板
+//				XC += btnAddLabel.getWidth();
+//			}
+//
+//			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
 
 			{
 				SelectedRows = DiscussionTable.getSelectedRows();
-				int i = 0;
+				int Ci = 0;
 				final Component[] Components = AllLabelsPanel.getComponents();
-				AllLabels = DataManipulator.GetAllLabels();
+				final Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
 				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
 					int w, h;
 
 					// 更改标签类名称控件的位置与大小
 					final String CatName = Cat.getKey();
-					final LabelCategoryComponent lbCatName = (LabelCategoryComponent) Components[i];
+					final LabelCategoryComponent lbCatName = (LabelCategoryComponent) Components[Ci];
 					w = w0 * (CatName.length() + LabelPadding);
 					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 					lbCatName.setBounds(XC, YC, w, h0);
@@ -277,16 +277,29 @@ public class GUIMain extends JFrame {
 
 					// 该标签类下的全部标签及其使用数据对应的控件的大小
 					for (String LabelName : Cat.getValue()) {
+						// 标签控件
 						final LabelButton btLabel = new LabelButton(LabelName, CatName);
 						w = w0 * (LabelName.length() + ButtonPadding);
 						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 						btLabel.setBounds(XC, YC, w, h0);
 						XC += btLabel.getWidth();
+						// 被选中次数标签控件
+						int TotalLabeledCount = 0;
+						for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
+							final Map<String, Integer> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条选中的股评，都要查找是否包含此标签类
+							if (ContainedLabels != null) { // 该股评条目的标注确包含该标签类
+								final Integer c = ContainedLabels.get(LabelName); // 获得该标签被选中的次数
+								if (c != null) TotalLabeledCount += c;
+							}
+						}
+						LabeledCountComponent lbCount = new LabeledCountComponent(TotalLabeledCount);
+						w = w0 + (lbCount.getText().length() + LabelPadding);
+						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
+						lbCount.setBounds(XC, YC, w, h0);
+						XC += lbCount.getWidth();
 					}
-
-					// 被选中次数标签控件
-					
 				}
+				AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
 			}
 		}
 
