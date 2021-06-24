@@ -192,7 +192,7 @@ public class GUIMain extends JFrame {
 						@Override public void mouseClicked(MouseEvent e) {
 							LabelButton LabelClicked = (LabelButton) e.getSource();
 							switch (e.getButton()) {
-								case MouseEvent.BUTTON1:case MouseEvent.BUTTON3:
+								case MouseEvent.BUTTON1:case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
 									for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
 										if (LabelClicked.LabeledThisTime == false) {
 											DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
@@ -216,6 +216,7 @@ public class GUIMain extends JFrame {
 
 						@Override public void mouseExited(MouseEvent e) {}
 					});
+
 					AllLabelsPanel.add(btLabel); // 添加到面板
 					XC += btLabel.getWidth();
 

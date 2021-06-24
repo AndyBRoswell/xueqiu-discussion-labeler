@@ -7,6 +7,19 @@ public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
 		Global.MainForm = new GUIMain();
 
+		// 列出可选标注面板的全部控件
+		for (var Component : Global.MainForm.getComponents()) {
+			if (Component instanceof  GUIMain.LabelCategoryComponent) {
+				System.out.println("LabelCategoryComponent: " + ((GUIMain.LabelCategoryComponent) Component).getText());
+			}
+			else if (Component instanceof GUIMain.LabelButton) {
+				System.out.println("LabelButton: " + ((GUIMain.LabelButton) Component).getText());
+			}
+			else if (Component instanceof GUIMain.LabeledCountComponent) {
+				System.out.println("LabeledCountComponent: " + ((GUIMain.LabeledCountComponent) Component).getText());
+			}
+		}
+
 		// 读取设置
 //		Config.LoadConfig(Global.DefaultConfig);
 
