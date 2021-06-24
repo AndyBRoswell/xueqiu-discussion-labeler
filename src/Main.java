@@ -18,6 +18,7 @@ public class Main {
 			else if (Component instanceof GUIMain.LabeledCountComponent) {
 				System.out.println("LabeledCountComponent: " + ((GUIMain.LabeledCountComponent) Component).getText());
 			}
+			else { System.out.println("Other components."); }
 		}
 
 		// 读取设置
