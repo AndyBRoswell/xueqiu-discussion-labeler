@@ -68,6 +68,7 @@ public class GUIMain extends JFrame {
 	// 标签按钮（内部类）：点击标签进行添加或删除
 	static class LabelButton extends JButton {
 		String Category;
+		boolean LabeledThisTime = false;
 
 		public LabelButton(String Label, String Category) {
 			super(Label);
@@ -191,14 +192,16 @@ public class GUIMain extends JFrame {
 						@Override public void mouseClicked(MouseEvent e) {
 							LabelButton LabelClicked = (LabelButton) e.getSource();
 							switch (e.getButton()) {
-								case MouseEvent.BUTTON1:
+								case MouseEvent.BUTTON1:case MouseEvent.BUTTON3:
 									for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
-										DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
-									}
-									break;
-								case MouseEvent.BUTTON3:
-									for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
-										DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
+										if (LabelClicked.LabeledThisTime == false) {
+											DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
+											LabelClicked.LabeledThisTime = true;
+										}
+										else {
+											DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
+											LabelClicked.LabeledThisTime = false;
+										}
 									}
 									break;
 							}
