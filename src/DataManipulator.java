@@ -169,6 +169,7 @@ public class DataManipulator {
 		final LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
 		if (TargetLabelStatus == null) { // 指定的标签类别中不包含此标签，直接添加此标签
 			TargetCat.put(Label, new LabelStatus(1));
+			return;
 		}
 		if (TargetLabelStatus.LabeledAtThisTime == false) { // 本轮未标记过此标签才可以添加
 			final int Count = TargetLabelStatus.LabeledCount; // 增加 1 次被标注次数
