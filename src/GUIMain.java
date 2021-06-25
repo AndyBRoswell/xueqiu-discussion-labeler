@@ -383,6 +383,18 @@ public class GUIMain extends JFrame {
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
 
+		btnSearch.addActionListener(new ActionListener() { // 搜索按钮
+			@Override public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
+		btnBack.addActionListener(new ActionListener() { // 从搜索结果返回按钮
+			@Override public void actionPerformed(ActionEvent e) {
+				HideSearchResult();
+			}
+		});
+
 		btnAddAvailableLabelCategory.addActionListener(new ActionListener() { // 添加标注类按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddAvailableLabelCategory));
@@ -576,12 +588,11 @@ public class GUIMain extends JFrame {
 		Refresh();
 	}
 
-	public void ShowSearchResult(int Show) {
-		if (Show != 0) {
+	public void ShowSearchResult() {
 
-		}
-		else {
+	}
 
-		}
+	public void HideSearchResult() {
+
 	}
 }
