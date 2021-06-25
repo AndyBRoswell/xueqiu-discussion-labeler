@@ -40,6 +40,8 @@ public class GUIMain extends JFrame {
 	final JButton btnTaskList = new JButton(icoDownload);
 	final JButton btnAddAvailableLabelCategory = new JButton(icoAdd);
 	final JButton btnSaveAvailableLabels = new JButton("保存可选标注");
+	final JButton btnSearch = new JButton("搜索");
+	final JButton btnBack = new JButton("返回");
 
 	/*快捷筛选复选框*/
 	final JCheckBox cbLabeled = new JCheckBox("已标注");
@@ -133,12 +135,14 @@ public class GUIMain extends JFrame {
 			final int X = MainFrame.getContentPane().getWidth();
 			final int Y = MainFrame.getContentPane().getHeight();
 
-			/*下载（任务列表）按钮*/
+			/*按钮*/
 			btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
 
-			/*搜索行*/
-			cbLabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), 0, wGUILabel, h0);
-			cbUnlabeled.setBounds(X - wGUILabel - icoDownload.getIconWidth(), cbLabeled.getHeight(), wGUILabel, h0);
+			/*搜索*/
+			btnSearch.setBounds(, 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
+			btnBack.setBounds(, h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
+			cbLabeled.setBounds(btnSearch.getX() - wGUILabel, 0, wGUILabel, h0);
+			cbUnlabeled.setBounds(btnSearch.getX() - wGUILabel, cbLabeled.getHeight(), wGUILabel, h0);
 			tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
 			tfSearchByLabel.setBounds(0, cbLabeled.getHeight(), cbLabeled.getX(), h0);
 
@@ -479,7 +483,8 @@ public class GUIMain extends JFrame {
 		}
 
 		// 添加控件
-		super.add(btnTaskList); super.add(cbLabeled); super.add(cbUnlabeled);
+		super.add(btnTaskList); super.add(btnSearch); super.add(btnBack);
+		super.add(cbLabeled); super.add(cbUnlabeled);
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
 		super.add(AllAvailableLabelsLabel); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);
 
@@ -573,7 +578,7 @@ public class GUIMain extends JFrame {
 
 	public void ShowSearchResult(int Show) {
 		if (Show != 0) {
-			
+
 		}
 		else {
 
