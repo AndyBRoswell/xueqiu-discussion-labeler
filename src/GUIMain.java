@@ -399,7 +399,7 @@ public class GUIMain extends JFrame {
 
 		btnSearch.addActionListener(new ActionListener() { // 搜索按钮
 			@Override public void actionPerformed(ActionEvent e) {
-
+				ShowSearchResult();
 			}
 		});
 
