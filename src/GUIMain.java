@@ -189,6 +189,11 @@ public class GUIMain extends JFrame {
 			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
 				for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
 					DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+			if (SearchResultModel != null) { // 如果存在搜索结果
+				for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
+					for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
+						SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+			}
 
 			// 可选标注面板内容
 //			{

@@ -236,11 +236,11 @@ public class DataManipulator {
 			SearchResults.add(new ArrayList<>());
 			new Thread(() -> SearchWithLabeledFlag(LabeledFlag, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
-		if (Keywords != null && Keywords.length != 0) {
+		if (Keywords != null && Keywords[0].equals("") == false) {
 			SearchResults.add(new ArrayList<>());
 			new Thread(() -> SearchWithKeywords(Keywords, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
-		if (Labels != null && Labels.length != 0) {
+		if (Labels != null && Keywords[0].equals("") == false) {
 			SearchResults.add(new ArrayList<>());
 			new Thread(() -> SearchWithLabels(Labels, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
