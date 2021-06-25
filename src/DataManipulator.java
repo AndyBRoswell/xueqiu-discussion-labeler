@@ -73,14 +73,14 @@ public class DataManipulator {
 		if (Labels == null) return;
 		Labels.remove(Label);
 		if (Labels.size() == 0) AllLabels.remove(Category);
-		DeleteCategoryOfLabel(Category, Label);
+		DeleteCategoryOfLabel(Label, Category);
 	}
 
 	// 获得一个标签属于的全部标签类
 	static HashSet<String> GetCategoriesOfLabel(String Label) { return LabelToCategory.get(Label); }
 
 	// 为某标签登记新的所属标签类
-	static void AddCategoryOfLabel(String Category, String Label) {
+	static void AddCategoryOfLabel(String Label, String Category) {
 		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
 		if (Categories == null) {
 			DataManipulator.LabelToCategory.put(Label, new HashSet<>());
@@ -90,7 +90,7 @@ public class DataManipulator {
 	}
 
 	// 为某标签删除所属的一类标签类
-	static void DeleteCategoryOfLabel(String Category, String Label) {
+	static void DeleteCategoryOfLabel(String Label, String Category) {
 		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
 		if (Categories == null) return;
 		Categories.remove(Label);
