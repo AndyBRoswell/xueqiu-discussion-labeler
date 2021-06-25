@@ -97,6 +97,9 @@ public class DataManipulator {
 		if (Categories.size() == 0) LabelToCategory.remove(Category);
 	}
 
+	//
+	static ConcurrentHashMap<String, HashSet<String>> GetLabelToCategoryMap() { return LabelToCategory; }
+
 	/* 对股票讨论及其标注的维护 */
 
 	// 讨论列表

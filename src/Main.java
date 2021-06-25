@@ -2,6 +2,8 @@ import org.xml.sax.SAXException;
 
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Map;
 
 public class Main {
 	public static void main(String[] args) throws XPathExpressionException, IOException, SAXException, InterruptedException {
@@ -43,7 +45,7 @@ public class Main {
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\科创.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk", 1);
-		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\AAPL-20210609-215520.csv", "gbk", 1);
+		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\AAPL-20210609-215520.csv", "gbk", 0);
 //		for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
 //			System.out.println("Main.java - <调试> " + entry.GetText());
 //			System.out.println("Main.java - <调试> " + entry.GetLabels().toString());
@@ -55,10 +57,10 @@ public class Main {
 //		System.out.println(DataManipulator.GetIndexOfDiscussionItem(new DiscussionItem("核弹厂四千亿市值了。然鹅农企还在为突破1000亿在努力。英伟达 AMD")));
 
 		// 查询标签所在的类
-//		System.out.println(DataManipulator.LabelToCategory.size());
-//		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.LabelToCategory.entrySet()) {
-//			System.out.println(entry.toString());
-//		}
+		System.out.println(DataManipulator.GetLabelToCategoryMap().size());
+		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.GetLabelToCategoryMap().entrySet()) {
+			System.out.println(entry.toString());
+		}
 
 		// 搜索功能
 //		DataManipulator.Search(2, null, null);

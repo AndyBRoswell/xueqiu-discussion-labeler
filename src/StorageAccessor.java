@@ -122,8 +122,8 @@ public class StorageAccessor {
 
 		String[] SingleRow = null;
 		switch (PreprocessMode) {
-			case 0:
-				for (; ; ) { // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
+			case 0: // 逐行解析 CSV 文件中的讨论内容并添加到讨论列表
+				for (; ; ) {
 					try {
 						SingleRow = parser.parseNext();
 						if (SingleRow == null) break;
@@ -140,8 +140,8 @@ public class StorageAccessor {
 					DataManipulator.AddDiscussionItem(item);
 				}
 				break;
-			case 1:
-				for (; ; ) { // 逐行解析保存了刚刚爬取的结果（不含任何标注）的 CSV 文件中的讨论内容并添加到讨论列表
+			case 1: // 逐行解析保存了刚刚爬取的结果（不含任何标注）的 CSV 文件中的讨论内容并添加到讨论列表
+				for (; ; ) {
 					try {
 						SingleRow = parser.parseNext();
 						if (SingleRow == null) break;
