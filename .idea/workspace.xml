@@ -191,6 +191,11 @@
           <properties class="java.nio.file.ClosedWatchServiceException" package="java.nio.file" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/GUIMain.java</url>
+          <line>434</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
