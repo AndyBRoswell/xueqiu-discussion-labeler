@@ -136,6 +136,7 @@ public class DataManipulator {
 		HashMap<String, LabelStatus> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
 		if (TargetCat == null) { return null; } // 如果没有此类标签，该标签将作为此类标签的首个标签添加
 		final LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
+		if (TargetLabelStatus == null) return null;
 		if (TargetLabelStatus.LabeledAtThisTime == true) return null;
 		return TargetCat;
 	}
