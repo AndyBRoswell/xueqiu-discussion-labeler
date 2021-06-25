@@ -14,6 +14,15 @@ class LabelStatus {
 	}
 }
 
+class LabeledResponse {
+	boolean LabeledAtThisTime;
+	HashMap<String, LabelStatus> TargetCat;
+
+	public LabeledResponse(boolean LabeledAtThisTime, HashMap<String, LabelStatus> TargetCat) {
+		this.LabeledAtThisTime = LabeledAtThisTime; this.TargetCat = TargetCat;
+	}
+}
+
 class DiscussionItem {
 	private String Text; // 股评文本
 	private ConcurrentHashMap<String, HashMap<String, LabelStatus>> Labels; // 标注的全部标签
@@ -131,14 +140,14 @@ public class DataManipulator {
 	}
 
 	// 查询指定的股票讨论是否在本轮已标注此标签
-	public static HashMap<String, LabelStatus> LabeledAtThisTime(int Index, String Category, String Label) {
+	public static LabeledResponse LabeledAtThisTime(int Index, String Category, String Label) {
 		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
 		HashMap<String, LabelStatus> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
 		if (TargetCat == null) { return null; } // 如果没有此类标签，该标签将作为此类标签的首个标签添加
 		final LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
-		if (TargetLabelStatus == null) return null;
-		if (TargetLabelStatus.LabeledAtThisTime == false) return null;
-		return TargetCat;
+		if (TargetLabelStatus == null) return new LabeledResponse(false, null);
+		if (TargetLabelStatus.LabeledAtThisTime == false) return new LabeledResponse(false, TargetCat);
+		return new LabeledResponse(true, TargetCat);
 	}
 
 	// 为指定的股票讨论添加新的标签
@@ -164,7 +173,8 @@ public class DataManipulator {
 	public static void AddLabelWhenNotLabeledAtThisTime(int Index, HashMap<String, LabelStatus> TargetCat, String Category, String Label) {
 		if (TargetCat == null) {
 			final ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
-			TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
+			TargetLabels.put(Category, new HashMap<>());
+			TargetCat = TargetLabels.get(Category);
 		}
 		LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
 		if (TargetLabelStatus == null) { // 指定的标签类别中不包含此标签，直接添加此标签
