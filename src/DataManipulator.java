@@ -149,14 +149,14 @@ public class DataManipulator {
 			TargetLabels.put(Category, new HashMap<>());
 			TargetCat = TargetLabels.get(Category);
 		}
-		final LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
+		LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
 		if (TargetLabelStatus == null) { // 指定的标签类别中不包含此标签，直接添加此标签
 			TargetCat.put(Label, new LabelStatus(1));
 			return true;
 		}
 		if (TargetLabelStatus.LabeledAtThisTime == false) { // 本轮未标记过此标签才可以添加
-			final int Count = TargetLabelStatus.LabeledCount; // 增加 1 次被标注次数
-			TargetCat.put(Label, new LabelStatus(Count + 1));
+			++TargetLabelStatus.LabeledCount; // 增加 1 次被标注次数
+			TargetLabelStatus.LabeledAtThisTime = true; // 登记本轮已标记
 		}
 		return !TargetLabelStatus.LabeledAtThisTime; // 标记成功返回 true，失败返回 false
 	}
@@ -172,7 +172,8 @@ public class DataManipulator {
 			return;
 		}
 		if (TargetLabelStatus.LabeledAtThisTime == false) { // 本轮未标记过此标签才可以添加
-			TargetLabelStatus = new LabelStatus(TargetLabelStatus.LabeledCount + 1, true); // 增加 1 次被标注次数
+			++TargetLabelStatus.LabeledCount; // 增加 1 次被标注次数
+			TargetLabelStatus.LabeledAtThisTime = true; // 登记本轮已标记
 		}
 	}
 
@@ -184,12 +185,15 @@ public class DataManipulator {
 	public static boolean DeleteLabel(int Index, String Category, String Label) {
 		final ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
 		final HashMap<String, LabelStatus> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
-		final LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
+		LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
 		if (TargetLabelStatus == null) return false; // 指定的标签类别中不包含此标签，删除失败
 		if (TargetLabelStatus.LabeledAtThisTime == true) { // 本轮已经标记过此标签才可以删除
 			final int Count = TargetLabelStatus.LabeledCount;
 			if (Count == 1) TargetCat.remove(Label); // 如果原先只被标注了一次，就删除此标签
-			else TargetCat.put(Label, new LabelStatus(Count - 1)); // 否则，减少 1 次被标注次数
+			else { // 否则，减少 1 次被标注次数
+				--TargetLabelStatus.LabeledCount;
+				TargetLabelStatus.LabeledAtThisTime = false;
+			}
 			if (TargetCat.size() == 0) TargetLabels.remove(Category); // 对于删除了仅被标注 1 次的标签的情况，如果该类已不含任何标签，就将该类标签也一并删除
 		}
 		return TargetLabelStatus.LabeledAtThisTime; // 删除成功返回 true，失败返回 false
@@ -199,7 +203,10 @@ public class DataManipulator {
 		LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
 		final int Count = TargetLabelStatus.LabeledCount;
 		if (Count == 1) TargetCat.remove(Label); // 如果原先只被标注了一次，就删除此标签
-		else TargetLabelStatus = new LabelStatus(Count - 1, false); // 否则，减少 1 次被标注次数
+		else {// 否则，减少 1 次被标注次数，并删除本轮已标注的标志
+			--TargetLabelStatus.LabeledCount;
+			TargetLabelStatus.LabeledAtThisTime = false;
+		}
 		if (TargetCat.size() == 0) {
 			final ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
 			TargetLabels.remove(Category); // 对于删除了仅被标注 1 次的标签的情况，如果该类已不含任何标签，就将该类标签也一并删除
