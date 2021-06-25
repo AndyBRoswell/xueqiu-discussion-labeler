@@ -1,3 +1,4 @@
+import org.hamcrest.core.Is;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -107,7 +108,10 @@ public class GUIMain extends JFrame {
 
 		public DiscussionTableModel(boolean IsSearchResults) { this.IsSearchResults = IsSearchResults; }
 
-		@Override public int getRowCount() { return DataManipulator.GetDiscussionList().size(); }
+		@Override public int getRowCount() {
+			if (IsSearchResults == false) return DataManipulator.GetDiscussionList().size();
+			return DataManipulator.GetLastSearchResult().size();
+		}
 
 		@Override public int getColumnCount() { return 2; }
 
@@ -618,7 +622,7 @@ public class GUIMain extends JFrame {
 		SearchResultTable = new JTable(SearchResultModel);
 		SearchResultScrollPane = new JScrollPane(SearchResultTable);
 		super.add(SearchResultScrollPane);
-		Refresh();
+		ShowDiscussions(SearchResultModel, SearchResultTable, SearchResultScrollPane);
 	}
 
 	public void ClearSearchResult() {
