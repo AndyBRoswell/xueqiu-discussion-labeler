@@ -614,12 +614,19 @@ public class GUIMain extends JFrame {
 		if (cbLabeled.isSelected() == true) LabeledFlag = 0b10;
 		if (cbUnlabeled.isSelected() == true) LabeledFlag = 0b1;
 		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
+		SearchResultModel = new DiscussionTableModel(true);
+		SearchResultTable = new JTable(SearchResultModel);
+		SearchResultScrollPane = new JScrollPane(SearchResultTable);
+		super.add(SearchResultScrollPane);
+		Refresh();
 	}
 
 	public void ClearSearchResult() {
 		DataManipulator.ClearSearchResult();
-		SearchResultModel = new DiscussionTableModel(true);
-		SearchResultTable = new JTable(SearchResultModel);
-		SearchResultScrollPane = new JScrollPane(SearchResultTable);
+		super.remove(SearchResultScrollPane);
+//		SearchResultModel = new DiscussionTableModel(true);
+//		SearchResultTable = new JTable(SearchResultModel);
+//		SearchResultScrollPane = new JScrollPane(SearchResultTable);
+		Refresh();
 	}
 }
