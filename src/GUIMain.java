@@ -584,28 +584,28 @@ public class GUIMain extends JFrame {
 	}
 
 	// 显示股票讨论
-	public void ShowDiscussions(DiscussionTableModel DiscussionModel, JTable DiscussionTable, JScrollPane DiscussionScrollPane) {
+	public void ShowDiscussions(DiscussionTableModel Model, JTable Table, JScrollPane ScrollPane) {
 		// 动作监听程序与单元格渲染程序
-		DiscussionModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
+		Model.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
 				final int Row = e.getFirstRow();
 				int Height = 0;
-				for (int Column = 0; Column < DiscussionModel.getColumnCount(); ++Column) {
-					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, Column), Row, Column);
+				for (int Column = 0; Column < Model.getColumnCount(); ++Column) {
+					Component comp = Table.prepareRenderer(Table.getCellRenderer(Row, Column), Row, Column);
 					Height = Math.max(Height, comp.getHeight());
 				}
-				DiscussionTable.setRowHeight(Row, Height);
+				Table.setRowHeight(Row, Height);
 			}
 		});
-		DiscussionTable.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
-		DiscussionTable.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
-		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
+		Table.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
+		Table.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
+		Table.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
 
-		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
-			for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
-				DiscussionModel.fireTableCellUpdated(i, j);
+		for (int i = 0; i < Model.getRowCount(); ++i)
+			for (int j = 0; j < Model.getColumnCount(); ++j)
+				Model.fireTableCellUpdated(i, j);
 
-		this.add(DiscussionScrollPane);
+		this.add(ScrollPane);
 		Refresh();
 	}
 
@@ -628,6 +628,8 @@ public class GUIMain extends JFrame {
 		SearchResultScrollPane = new JScrollPane(SearchResultTable);
 		super.add(SearchResultScrollPane);
 		ShowDiscussions(SearchResultModel, SearchResultTable, SearchResultScrollPane);
+		DiscussionTable.setVisible(false);
+		DiscussionScrollPane.setVisible(false);
 	}
 
 	public void ClearSearchResult() {
@@ -637,5 +639,7 @@ public class GUIMain extends JFrame {
 //		SearchResultTable = new JTable(SearchResultModel);
 //		SearchResultScrollPane = new JScrollPane(SearchResultTable);
 		Refresh();
+		DiscussionTable.setVisible(true);
+		DiscussionScrollPane.setVisible(true);
 	}
 }
