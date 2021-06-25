@@ -255,7 +255,7 @@ public class DataManipulator {
 //		for (ArrayList<Integer> Result : SearchResults) {
 //			FinalSearchResult.addAll(Result);
 //		}
-//		System.out.println(SearchResults.size());
+		System.out.println("SearchResults.size() = " + SearchResults.size());
 	}
 
 	private static ArrayList<Integer> GetSecondToTheLastSearchResult() { // 返回倒数第二个搜索结果（供搜索函数内部使用）

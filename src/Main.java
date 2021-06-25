@@ -57,10 +57,10 @@ public class Main {
 //		System.out.println(DataManipulator.GetIndexOfDiscussionItem(new DiscussionItem("核弹厂四千亿市值了。然鹅农企还在为突破1000亿在努力。英伟达 AMD")));
 
 		// 查询标签所在的类
-		System.out.println(DataManipulator.GetLabelToCategoryMap().size());
-		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.GetLabelToCategoryMap().entrySet()) {
-			System.out.println(entry.toString());
-		}
+//		System.out.println(DataManipulator.GetLabelToCategoryMap().size());
+//		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.GetLabelToCategoryMap().entrySet()) {
+//			System.out.println(entry.toString());
+//		}
 
 		// 搜索功能
 //		DataManipulator.Search(2, null, null);
