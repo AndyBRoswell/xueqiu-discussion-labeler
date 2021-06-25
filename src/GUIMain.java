@@ -56,12 +56,15 @@ public class GUIMain extends JFrame {
 	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	// 表格
-	DiscussionTableModel TableModel;
+	DiscussionTableModel DiscussionModel;
 	JTable DiscussionTable;
 	JScrollPane DiscussionScrollPane;
 	static final LabeledCountComponent LabeledFor0Times = new LabeledCountComponent(0);
 
 	// 搜索结果
+	DiscussionTableModel SearchResultModel;
+	JTable SearchResultTable;
+	JScrollPane SearchResultScrollPane;
 
 	// 动作监听程序
 	final MainFrameListener Listener = new MainFrameListener();
@@ -157,9 +160,9 @@ public class GUIMain extends JFrame {
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 //			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
-			for (int i = 0; i < TableModel.getRowCount(); ++i)
-				for (int j = 0; j < TableModel.getColumnCount(); ++j)
-					TableModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+				for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
+					DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
 
 			// 可选标注面板内容
 //			{
@@ -369,8 +372,8 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddCrawlTaskMenuItem);
 
 		// 添加空白表格用于占位
-		TableModel = new DiscussionTableModel();
-		DiscussionTable = new JTable(TableModel);
+		DiscussionModel = new DiscussionTableModel();
+		DiscussionTable = new JTable(DiscussionModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 		// 添加动作监听程序
@@ -540,16 +543,16 @@ public class GUIMain extends JFrame {
 	public void ShowDiscussions() {
 		// 添加表格需要的组件
 		this.remove(DiscussionScrollPane);
-		TableModel = new DiscussionTableModel();
-		DiscussionTable = new JTable(TableModel);
+		DiscussionModel = new DiscussionTableModel();
+		DiscussionTable = new JTable(DiscussionModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 		// 动作监听程序与单元格渲染程序
-		TableModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
+		DiscussionModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
 				final int Row = e.getFirstRow();
 				int Height = 0;
-				for (int Column = 0; Column < TableModel.getColumnCount(); ++Column) {
+				for (int Column = 0; Column < DiscussionModel.getColumnCount(); ++Column) {
 					Component comp = DiscussionTable.prepareRenderer(DiscussionTable.getCellRenderer(Row, Column), Row, Column);
 					Height = Math.max(Height, comp.getHeight());
 				}
@@ -560,15 +563,20 @@ public class GUIMain extends JFrame {
 		DiscussionTable.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
 		DiscussionTable.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
 
-		for (int i = 0; i < TableModel.getRowCount(); ++i)
-			for (int j = 0; j < TableModel.getColumnCount(); ++j)
-				TableModel.fireTableCellUpdated(i, j);
+		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+			for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
+				DiscussionModel.fireTableCellUpdated(i, j);
 
 		this.add(DiscussionScrollPane);
 		Refresh();
 	}
 
-	public void ShowSearchResult(boolean Show) {
+	public void ShowSearchResult(int Show) {
+		if (Show != 0) {
+			
+		}
+		else {
 
+		}
 	}
 }
