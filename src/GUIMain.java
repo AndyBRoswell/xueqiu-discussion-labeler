@@ -103,9 +103,9 @@ public class GUIMain extends JFrame {
 		private final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
 		private final boolean IsSearchResults;
 
-		public DiscussionTableModel(boolean IsSearchResults) {
-			this.IsSearchResults = IsSearchResults;
-		}
+		public DiscussionTableModel() { this.IsSearchResults = false; }
+
+		public DiscussionTableModel(boolean IsSearchResults) { this.IsSearchResults = IsSearchResults; }
 
 		@Override public int getRowCount() { return DataManipulator.GetDiscussionList().size(); }
 
@@ -163,6 +163,10 @@ public class GUIMain extends JFrame {
 			/*表格*/
 			DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
 			DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+			if (SearchResultScrollPane != null) { // 如果有搜索结果，将覆盖原来显示全部股评的位置
+				SearchResultTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+				SearchResultScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+			}
 
 			/*标注添加标签与按钮*/
 			AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
@@ -405,7 +409,7 @@ public class GUIMain extends JFrame {
 
 		btnBack.addActionListener(new ActionListener() { // 从搜索结果返回按钮
 			@Override public void actionPerformed(ActionEvent e) {
-				HideSearchResult();
+				ClearSearchResult();
 			}
 		});
 
@@ -571,13 +575,7 @@ public class GUIMain extends JFrame {
 	}
 
 	// 显示股票讨论
-	public void ShowDiscussions() {
-		// 添加表格需要的组件
-		this.remove(DiscussionScrollPane);
-		DiscussionModel = new DiscussionTableModel(false);
-		DiscussionTable = new JTable(DiscussionModel);
-		DiscussionScrollPane = new JScrollPane(DiscussionTable);
-
+	public void ShowDiscussions(DiscussionTableModel DiscussionModel, JTable DiscussionTable, JScrollPane DiscussionScrollPane) {
 		// 动作监听程序与单元格渲染程序
 		DiscussionModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
@@ -602,6 +600,15 @@ public class GUIMain extends JFrame {
 		Refresh();
 	}
 
+	public void ShowAllDiscussions() {
+		// 添加表格需要的组件
+		this.remove(DiscussionScrollPane);
+		DiscussionModel = new DiscussionTableModel(false);
+		DiscussionTable = new JTable(DiscussionModel);
+		DiscussionScrollPane = new JScrollPane(DiscussionTable);
+		ShowDiscussions(DiscussionModel, DiscussionTable, DiscussionScrollPane);
+	}
+
 	public void ShowSearchResult() {
 		int LabeledFlag = 0;
 		if (cbLabeled.isSelected() == true) LabeledFlag = 0b10;
@@ -609,9 +616,10 @@ public class GUIMain extends JFrame {
 		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
 	}
 
-	public void HideSearchResult() {
-		SearchResultScrollPane = null;
-		SearchResultTable = null;
-		SearchResultModel = null;
+	public void ClearSearchResult() {
+		DataManipulator.ClearSearchResult();
+		SearchResultModel = new DiscussionTableModel(true);
+		SearchResultTable = new JTable(SearchResultModel);
+		SearchResultScrollPane = new JScrollPane(SearchResultTable);
 	}
 }

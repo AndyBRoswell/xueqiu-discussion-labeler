@@ -267,6 +267,8 @@ public class DataManipulator {
 		return SearchResults.get(SearchResults.size() - 1);
 	}
 
+	public static void ClearSearchResult() { SearchResults.clear(); }
+
 	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按快捷筛选条件（目前主要有已标注、未标注两种）搜索
 		switch (LabeledFlag) {
 			case 1: // Unlabeled

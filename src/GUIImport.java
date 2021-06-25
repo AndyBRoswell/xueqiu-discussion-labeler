@@ -178,7 +178,7 @@ class GUIImportList extends JFrame{
                 for(String string :GUIImport.list){
                     StorageAccessor.LoadDiscussionFromCSV(string,"gbk");
                 }
-                Global.MainForm.ShowDiscussions();
+                Global.MainForm.ShowAllDiscussions();
 
 //                for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
 //			            System.out.println(entry.GetText());
