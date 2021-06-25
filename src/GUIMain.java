@@ -139,8 +139,8 @@ public class GUIMain extends JFrame {
 			btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
 
 			/*搜索*/
-			btnSearch.setBounds(, 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
-			btnBack.setBounds(, h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
+			btnSearch.setBounds(btnTaskList.getX() - w0 * (btnSearch.getText().length() + ButtonPadding), 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
+			btnBack.setBounds(btnTaskList.getX() - w0 * (btnBack.getText().length() + ButtonPadding), h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
 			cbLabeled.setBounds(btnSearch.getX() - wGUILabel, 0, wGUILabel, h0);
 			cbUnlabeled.setBounds(btnSearch.getX() - wGUILabel, cbLabeled.getHeight(), wGUILabel, h0);
 			tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
