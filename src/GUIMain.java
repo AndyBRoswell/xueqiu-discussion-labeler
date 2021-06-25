@@ -318,10 +318,6 @@ public class GUIMain extends JFrame {
 						}
 						LabeledCountComponent lbCount = (LabeledCountComponent) Components[Ci];
 						lbCount.setText(String.valueOf(TotalLabeledCount));
-						if (SelectedRows.length == 1) { // 仅选中一行时
-							if (LabeledAtThisTime.get(SelectedRows[0]) == true) lbCount.setForeground(Color.BLUE); // 若本轮标注（本次导入）中已向此股评添加标签，则被选中次数以不同的颜色显示
-							else lbCount.setForeground(Color.BLACK);
-						}
 						w = w0 + (lbCount.getText().length() + LabelPadding);
 						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
 						lbCount.setBounds(XC, YC, w, h0);
@@ -536,7 +532,6 @@ public class GUIMain extends JFrame {
 		TableModel = new DiscussionTableModel();
 		DiscussionTable = new JTable(TableModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
-		LabeledAtThisTime = new BitSet(DataManipulator.GetDiscussionList().size());
 
 		// 动作监听程序与单元格渲染程序
 		TableModel.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
