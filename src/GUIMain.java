@@ -632,7 +632,6 @@ public class GUIMain extends JFrame {
 			}
 		}
 		catch (final InterruptedException ignored) {}
-		System.out.println(DataManipulator.GetLastSearchResult());
 		SearchResultModel = new DiscussionTableModel(true);
 		SearchResultTable = new JTable(SearchResultModel);
 		SearchResultScrollPane = new JScrollPane(SearchResultTable);

@@ -276,11 +276,11 @@ public class DataManipulator {
 		public static Object UniqueInspector() { return Instance; }
 
 		public static void AThreadHasStarted() {
-			synchronized (SearchThreadsRemaining) { ++SearchThreadsRemaining; }
+			synchronized (Instance) { ++SearchThreadsRemaining; }
 		}
 
 		public static void AThreadHasCompleted() {
-			synchronized (SearchThreadsRemaining) {
+			synchronized (Instance) {
 				--SearchThreadsRemaining;
 				if (SearchThreadsRemaining == 0) Instance.notifyAll();
 			}
