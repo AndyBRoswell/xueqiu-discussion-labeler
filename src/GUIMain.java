@@ -8,10 +8,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class GUIMain extends JFrame {
 	// 默认字体
@@ -430,13 +427,12 @@ public class GUIMain extends JFrame {
 						switch (e.getButton()) {
 							case MouseEvent.BUTTON1: case MouseEvent.BUTTON3: // 鼠标左键和鼠标右键
 								for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
-									if (LabeledAtThisTime.get(i) == false) {
-										DataManipulator.AddLabel(i, LabelClicked.Category, LabelClicked.getText());
-										LabeledAtThisTime.set(i, true);
+									HashMap<String, LabelStatus> TargetCat = DataManipulator.LabeledAtThisTime(i, LabelClicked.Category, LabelClicked.getText());
+									if (TargetCat == null) { // 指定的行在本轮标注中未添加此标签
+										DataManipulator.AddLabelWhenNotLabeledAtThisTime(TargetCat, LabelClicked.getText());
 									}
 									else {
-										DataManipulator.DeleteLabel(i, LabelClicked.Category, LabelClicked.getText());
-										LabeledAtThisTime.set(i, false);
+										DataManipulator.DeleteLabelWhenLabeledAtThisTime(i, LabelClicked.Category, TargetCat, LabelClicked.getText());
 									}
 								}
 								break;
