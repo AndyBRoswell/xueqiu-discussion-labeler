@@ -58,16 +58,16 @@ public class StorageAccessor {
 		}
 	}
 
-	private static void ParseSingleLabelLineToLabelCategoryWithCountAndAdd(String line, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
-		final String[] LabelCategory = line.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签，以及被选中（标注）次数
-		dest.put(LabelCategory[0], new HashMap<>());
+	private static void ParseSingleLabelLineToLabelCategoryWithCountAndAdd(String LabelLine, ConcurrentHashMap<String, HashMap<String, LabelStatus>> Dest) {
+		final String[] LabelCategory = LabelLine.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签，以及被选中（标注）次数
+		Dest.put(LabelCategory[0], new HashMap<>());
 		for (int i = 1; i < LabelCategory.length; i += 2) {
-			dest.get(LabelCategory[0]).put(LabelCategory[i], Integer.parseInt(LabelCategory[i + 1])); // 为该标签类添加具体的标签项及被标注次数
+			Dest.get(LabelCategory[0]).put(LabelCategory[i], new LabelStatus(Integer.parseInt(LabelCategory[i + 1]))); // 为该标签类添加具体的标签项及被标注次数
 			DataManipulator.AddCategoryOfLabel(LabelCategory[i], LabelCategory[0]); // 添加该标签所属的标签类
 		}
 	}
 
-	private static void ParseStringToLabelCategoriesWithCountsAndAdd(String string, ConcurrentHashMap<String, HashMap<String, Integer>> dest) {
+	private static void ParseStringToLabelCategoriesWithCountsAndAdd(String string, ConcurrentHashMap<String, HashMap<String, LabelStatus>> dest) {
 		// 原格式：在单个单元格中存储全部类别的标签。新格式：股评后的每个单元格存储一类标签。此方法不受影响。
 		final String[] lines = string.split("\\s"); // 空行将被忽略
 		for (String line : lines) {
@@ -184,10 +184,10 @@ public class StorageAccessor {
 			// 新格式：股评后的每个单元格存储一类标签。
 			ArrayList<String> row = new ArrayList<>();
 			row.add(discussion.GetText()); // 最左一列为股评
-			for (Map.Entry<String, HashMap<String, Integer>> entry : discussion.GetLabels().entrySet()) {
+			for (Map.Entry<String, HashMap<String, LabelStatus>> entry : discussion.GetLabels().entrySet()) {
 				final StringBuilder builder = new StringBuilder();
 				builder.append(entry.getKey()); // 标注类名称
-				for (Map.Entry<String, Integer> e : entry.getValue().entrySet()) { // 逐步构建该类标注数据为字符串
+				for (Map.Entry<String, LabelStatus> e : entry.getValue().entrySet()) { // 逐步构建该类标注数据为字符串
 					builder.append(' ').append(e.getKey()).append(' ').append(e.getValue().toString());
 				}
 				row.add(builder.toString()); // 将该类标签写入该行的一个单元格
