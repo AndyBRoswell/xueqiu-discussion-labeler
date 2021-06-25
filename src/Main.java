@@ -43,6 +43,7 @@ public class Main {
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\科创.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\贵州茅台.csv", "gbk", 1);
 //		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\NVDA-20210601-100408.csv", "gbk", 1);
+//		StorageAccessor.LoadDiscussionFromCSV(Global.DefaultSavePath + "\\AAPL-20210609-215520.csv", "gbk", 1);
 //		for (DiscussionItem entry : DataManipulator.GetDiscussionList()) {
 //			System.out.println("Main.java - <调试> " + entry.GetText());
 //			System.out.println("Main.java - <调试> " + entry.GetLabels().toString());
@@ -64,6 +65,7 @@ public class Main {
 //		DataManipulator.Search(0, new String[]{ "2A" }, null);
 //		DataManipulator.Search(0, null, new String[]{ "是" });
 //		DataManipulator.Search(0, new String[]{ "梭哈" }, null);
+//		DataManipulator.Search(0, new String[]{ "20W" }, null);
 
 		// 最终的搜索结果
 //		System.out.println(DataManipulator.GetLastSearchResult().size());

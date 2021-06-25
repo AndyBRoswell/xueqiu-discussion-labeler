@@ -1,4 +1,3 @@
-import org.hamcrest.core.Is;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -626,7 +625,14 @@ public class GUIMain extends JFrame {
 		int LabeledFlag = 0;
 		if (cbLabeled.isSelected() == true) LabeledFlag = 0b10;
 		if (cbUnlabeled.isSelected() == true) LabeledFlag = 0b1;
-		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
+		try {
+			synchronized (DataManipulator.SearchInspector.UniqueInspector()) {
+				DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
+				DataManipulator.SearchInspector.UniqueInspector().wait();
+			}
+		}
+		catch (final InterruptedException ignored) {}
+		System.out.println(DataManipulator.GetLastSearchResult());
 		SearchResultModel = new DiscussionTableModel(true);
 		SearchResultTable = new JTable(SearchResultModel);
 		SearchResultScrollPane = new JScrollPane(SearchResultTable);
