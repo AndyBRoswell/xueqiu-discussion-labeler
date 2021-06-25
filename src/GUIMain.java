@@ -110,7 +110,7 @@ public class GUIMain extends JFrame {
 
 		@Override public int getRowCount() {
 			if (IsSearchResults == false) return DataManipulator.GetDiscussionList().size();
-			return DataManipulator.GetLastSearchResult().size();
+			return DataManipulator.GetLastSearchResult() == null ? 0 : DataManipulator.GetLastSearchResult().size();
 		}
 
 		@Override public int getColumnCount() { return 2; }
