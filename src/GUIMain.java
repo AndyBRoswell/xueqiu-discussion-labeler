@@ -429,10 +429,10 @@ public class GUIMain extends JFrame {
 								for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
 									HashMap<String, LabelStatus> TargetCat = DataManipulator.LabeledAtThisTime(i, LabelClicked.Category, LabelClicked.getText());
 									if (TargetCat == null) { // 指定的行在本轮标注中未添加此标签
-										DataManipulator.AddLabelWhenNotLabeledAtThisTime(TargetCat, LabelClicked.getText());
+										DataManipulator.AddLabelWhenNotLabeledAtThisTime(TargetCat, LabelClicked.Category, LabelClicked.getText());
 									}
 									else {
-										DataManipulator.DeleteLabelWhenLabeledAtThisTime(i, LabelClicked.Category, TargetCat, LabelClicked.getText());
+										DataManipulator.DeleteLabelWhenLabeledAtThisTime(i, TargetCat, LabelClicked.Category, LabelClicked.getText());
 									}
 								}
 								break;
