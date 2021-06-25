@@ -77,9 +77,7 @@ public class DataManipulator {
 	}
 
 	// 获得一个标签属于的全部标签类
-	static HashSet<String> GetCategoriesOfLabel(String Label) {
-		return LabelToCategory.get(Label);
-	}
+	static HashSet<String> GetCategoriesOfLabel(String Label) { return LabelToCategory.get(Label); }
 
 	// 为某标签登记新的所属标签类
 	static void AddCategoryOfLabel(String Category, String Label) {
@@ -392,7 +390,7 @@ public class DataManipulator {
 		boolean Found = true;
 		for (String Label : Labels) {
 			if (DiscussionList.get(index).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
-			HashSet<String> Categories = GetCategoriesOfLabel(Label); // 否则，先查询该标签属于的标签类
+			final HashSet<String> Categories = GetCategoriesOfLabel(Label); // 否则，先查询该标签属于的标签类
 			if (Categories == null) { return; } // 该标签不属于任何已知的标签类（每个标签属于的类在读入全部可用标签与指定的股票讨论 CSV 文件时都会被登记），不符合条件
 			boolean FoundSingle = false;
 			for (String Category : Categories) { // 查找该条股票讨论是否包含该标签所属的某一个类；如果包含，则在类中查找
