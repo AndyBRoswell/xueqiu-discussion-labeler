@@ -143,9 +143,9 @@ public class DataManipulator {
 	public static LabeledResponse LabeledAtThisTime(int Index, String Category, String Label) {
 		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
 		HashMap<String, LabelStatus> TargetCat = TargetLabels.get(Category); // 获得该标签所属的类
-		if (TargetCat == null) { return null; } // 如果没有此类标签，该标签将作为此类标签的首个标签添加
+		if (TargetCat == null) { return new LabeledResponse(false, null); } // 如果没有此类标签，该标签将作为此类标签的首个标签添加
 		final LabelStatus TargetLabelStatus = TargetCat.get(Label); // 获得指定的标签
-		if (TargetLabelStatus == null) return new LabeledResponse(false, null);
+		if (TargetLabelStatus == null) return new LabeledResponse(false, TargetCat);
 		if (TargetLabelStatus.LabeledAtThisTime == false) return new LabeledResponse(false, TargetCat);
 		return new LabeledResponse(true, TargetCat);
 	}
