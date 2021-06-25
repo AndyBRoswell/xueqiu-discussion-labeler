@@ -186,13 +186,17 @@ public class GUIMain extends JFrame {
 			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 //			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
+//			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+//				for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
+//					DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
 			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
-				for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
-					DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+				DiscussionModel.fireTableChanged(new TableModelEvent(DiscussionModel, i));
 			if (SearchResultModel != null) { // 如果存在搜索结果
+//				for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
+//					for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
+//						SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
 				for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
-					for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
-						SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+					SearchResultModel.fireTableChanged(new TableModelEvent(SearchResultModel, i));
 			}
 
 			// 可选标注面板内容
