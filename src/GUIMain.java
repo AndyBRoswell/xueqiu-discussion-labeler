@@ -589,10 +589,15 @@ public class GUIMain extends JFrame {
 	}
 
 	public void ShowSearchResult() {
-
+		int LabeledFlag = 0;
+		if (cbLabeled.isSelected() == true) LabeledFlag = 0b10;
+		if (cbUnlabeled.isSelected() == true) LabeledFlag = 0b1;
+		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
 	}
 
 	public void HideSearchResult() {
-
+		SearchResultScrollPane = null;
+		SearchResultTable = null;
+		SearchResultModel = null;
 	}
 }
