@@ -101,6 +101,11 @@ public class GUIMain extends JFrame {
 	// 股票讨论表表格模型（内部类）
 	static class DiscussionTableModel extends AbstractTableModel {
 		private final String[] ColumnNames = new String[]{ "股票讨论内容", "标注" };
+		private final boolean IsSearchResults;
+
+		public DiscussionTableModel(boolean IsSearchResults) {
+			this.IsSearchResults = IsSearchResults;
+		}
 
 		@Override public int getRowCount() { return DataManipulator.GetDiscussionList().size(); }
 
@@ -109,11 +114,20 @@ public class GUIMain extends JFrame {
 		@Override public String getColumnName(int col) { return ColumnNames[col]; }
 
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
-			return switch (columnIndex) {
-				case 0 -> DataManipulator.GetDiscussionItem(rowIndex).GetText();
-				case 1 -> DataManipulator.GetDiscussionItem(rowIndex).GetLabels();
-				default -> null;
-			};
+			if (IsSearchResults == false) { // 显示全部股评
+				return switch (columnIndex) {
+					case 0 -> DataManipulator.GetDiscussionItem(rowIndex).GetText();
+					case 1 -> DataManipulator.GetDiscussionItem(rowIndex).GetLabels();
+					default -> null;
+				};
+			}
+			else { // 显示搜索结果
+				return switch (columnIndex) {
+					case 0 -> DataManipulator.GetDiscussionItem(DataManipulator.GetLastSearchResult().get(rowIndex)).GetText();
+					case 1 -> DataManipulator.GetDiscussionItem(DataManipulator.GetLastSearchResult().get(rowIndex)).GetLabels();
+					default -> null;
+				};
+			}
 		}
 
 		@Override public boolean isCellEditable(int row, int col) { return false; } // 不能直接在表格上编辑，而需要通过全部可选标注面板
@@ -376,7 +390,7 @@ public class GUIMain extends JFrame {
 		TaskMenu.add(AddCrawlTaskMenuItem);
 
 		// 添加空白表格用于占位
-		DiscussionModel = new DiscussionTableModel();
+		DiscussionModel = new DiscussionTableModel(false);
 		DiscussionTable = new JTable(DiscussionModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
@@ -560,7 +574,7 @@ public class GUIMain extends JFrame {
 	public void ShowDiscussions() {
 		// 添加表格需要的组件
 		this.remove(DiscussionScrollPane);
-		DiscussionModel = new DiscussionTableModel();
+		DiscussionModel = new DiscussionTableModel(false);
 		DiscussionTable = new JTable(DiscussionModel);
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
