@@ -100,18 +100,24 @@ public class GUIImportFiles extends JFrame {
 						ImportedFiles.add(EachFile.getAbsolutePath());
 					}
 				}
+				FileListModel.fireTableDataChanged();
 			}
 		});
 
 		btnDeleteFiles.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-
+				int[] Rows = FileList.getSelectedRows();
+				for (int i = Rows.length - 1; i >= 0; --i) {
+					ImportedFiles.remove(i);
+				}
+				FileListModel.fireTableDataChanged();
 			}
 		});
 
 		btnClearList.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				ImportedFiles.clear();
+				FileListModel.fireTableDataChanged();
 			}
 		});
 
