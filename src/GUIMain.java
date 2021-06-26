@@ -340,7 +340,7 @@ public class GUIMain extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) { new GUIJournal(); }
 		});
 		SettingsMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIConfig(Global.DefaultConfig); }
+			@Override public void actionPerformed(ActionEvent e) { new GUISettings(); }
 		});
 		ExitMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { Global.MainForm.dispose(); }

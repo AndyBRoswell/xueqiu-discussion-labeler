@@ -38,7 +38,7 @@ public class StorageAccessor {
 	}
 
 	public static void LoadAllAvailableLabels() throws IOException, XPathExpressionException { // 读取全部可选标注
-		LabelFileReader = new FileReader(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
+		LabelFileReader = new FileReader(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-available-labels-encoding")));
 		BufferedLabelFileReader = new BufferedReader(LabelFileReader);
 
 		String line;
@@ -83,7 +83,7 @@ public class StorageAccessor {
 	}
 
 	public static void SaveAllAvailableLabels() throws IOException, XPathExpressionException {
-		LabelFileWriter = new FileWriter(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding")));
+		LabelFileWriter = new FileWriter(Global.LabelFile, Charset.forName(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-available-labels-encoding")));
 		BufferedLabelFileWriter = new BufferedWriter(LabelFileWriter);
 
 		for (Map.Entry<String, HashSet<String>> entry : DataManipulator.GetAllLabels().entrySet()) { // 开始逐行写入
@@ -97,7 +97,7 @@ public class StorageAccessor {
 
 	public static void LoadDiscussionFromCSV(String pathname) throws XPathExpressionException {
 		DiscussionCSVFile = new File(pathname);
-		ParseCSVFile(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"), 0);
+		ParseCSVFile(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-import-encoding"), 0);
 	}
 
 	public static void LoadDiscussionFromCSV(String pathname, String encoding) {
@@ -160,7 +160,7 @@ public class StorageAccessor {
 	}
 
 	public static void SaveDiscussionToCSV(String pathname) throws IOException, XPathExpressionException {
-		WriteToCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-encoding"));
+		WriteToCSVFile(pathname, Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-export-encoding"));
 	}
 
 	public static void SaveDiscussionToCSV(String pathname, String encoding) throws IOException {

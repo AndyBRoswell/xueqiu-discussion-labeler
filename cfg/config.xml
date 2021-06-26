@@ -7,7 +7,19 @@
 		<import-and-export>
 			<default-import-encoding>GB18030</default-import-encoding>
 			<default-export-encoding>GB18030</default-export-encoding>
-			<default-available-labels-encoding>GB18030</default-available-labels-encoding>
+			<default-available-labels-encoding>UTF-16LE</default-available-labels-encoding>
+			<!-- 
+				可选编码：
+				US-ASCII
+				ISO-8859-1
+				UTF-8
+				UTF-16BE
+				UTF-16LE
+				UTF-16
+				GB18030
+				GBK
+				GB2312
+			 -->
 			<default-filename>//datetime//</default-filename>
 			<default-export-dir>//default-save-path//</default-export-dir>
 			<operation-for-filename-conflict>自动重命名</operation-for-filename-conflict>

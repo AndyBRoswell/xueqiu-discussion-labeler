@@ -43,7 +43,7 @@ public class Config {
 		return Config.ReplaceVariable(EvalResult.item(0).getTextContent());
 	}
 
-	public static String ReplaceVariable(String string) {
+	private static String ReplaceVariable(String string) {
 		string = string.replaceAll("//app-path//", Matcher.quoteReplacement(Global.AppPath));
 		string = string.replaceAll("//config-path//", Matcher.quoteReplacement(Global.AppPath));
 		string = string.replaceAll("//default-save-path//", Matcher.quoteReplacement(Global.DefaultSavePath));
