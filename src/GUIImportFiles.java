@@ -11,6 +11,9 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class GUIImportFiles extends JFrame {
+	// 本窗体
+	final GUIImportFiles ThisForm = this;
+
 	// 按钮
 	final JPanel ButtonPanel = new JPanel(new GridLayout(1, 4));
 	final JButton btnConfirmImport = new JButton("确认导入");
@@ -94,6 +97,7 @@ public class GUIImportFiles extends JFrame {
 						xPathExpressionException.printStackTrace();
 					}
 				}
+				ThisForm.dispose();
 			}
 		});
 

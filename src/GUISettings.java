@@ -1,9 +1,15 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 public class GUISettings extends JFrame {
+	// 本窗体
+	final GUISettings ThisForm = this;
+
 	// 按钮
 	final JPanel ButtonPanel = new JPanel(new GridLayout(1, 5));
 	final JButton btnOK = new JButton("确定");
@@ -61,7 +67,38 @@ public class GUISettings extends JFrame {
 		ExportSettingsDialog.setFileFilter(new XMLFilter());
 
 		// 动作监听程序
-		
+		btnOK.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				try { Config.SaveConfig(Global.DefaultConfig); }
+				catch (TransformerException transformerException) { transformerException.printStackTrace(); }
+				ThisForm.dispose();
+			}
+		});
+
+		btnCancel.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				ThisForm.dispose();
+			}
+		});
+
+		btnApply.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				try { Config.SaveConfig(Global.DefaultConfig); }
+				catch (TransformerException transformerException) { transformerException.printStackTrace(); }
+			}
+		});
+
+		btnImportSettings.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				ImportSettingsDialog.showOpenDialog(null);
+			}
+		});
+
+		btnExportSettings.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				ImportSettingsDialog.showSaveDialog(null);
+			}
+		});
 
 		// 添加控件
 		ButtonPanel.add(btnOK);

@@ -9,7 +9,7 @@
 			<default-export-encoding>GB18030</default-export-encoding>
 			<default-available-labels-encoding>UTF-16LE</default-available-labels-encoding>
 			<!-- 
-				可选编码：
+				可选编码（不区分大小写）：
 				US-ASCII
 				ISO-8859-1
 				UTF-8
