@@ -415,7 +415,8 @@ public class GUIMain extends JFrame {
 
 		btnSearch.addActionListener(new ActionListener() { // 搜索按钮
 			@Override public void actionPerformed(ActionEvent e) {
-				ShowSearchResult();
+				try { ShowSearchResult(); }
+				catch (InterruptedException interruptedException) { interruptedException.printStackTrace(); }
 			}
 		});
 
@@ -621,32 +622,11 @@ public class GUIMain extends JFrame {
 		ShowDiscussions(DiscussionModel, DiscussionTable, DiscussionScrollPane);
 	}
 
-	public void ShowSearchResult() {
+	public void ShowSearchResult() throws InterruptedException {
 		int LabeledFlag = 0;
-		if (cbLabeled.isSelected() == true) LabeledFlag = 0b10;
-		if (cbUnlabeled.isSelected() == true) LabeledFlag = 0b1;
-		try {
-			synchronized (DataManipulator.SearchInspector.ThisUniqueInspector()) {
-				DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
-				System.out.println("Waiting for the completion of search...");
-				DataManipulator.SearchInspector.ThisUniqueInspector().wait();
-				System.out.println("Wait failed. This statement should never be executed.");
-			}
-		}
-		catch (final InterruptedException ignored) { System.out.println("Search complete!"); }
-//		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
-//		synchronized (DataManipulator.SearchInspector.UniqueInspector()) {
-//			DataManipulator.SearchInspector.WaitForSearchCompletion();
-//		}
-//		try {
-//			synchronized (DataManipulator.SearchThreadsInspector) {
-//				DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
-//				System.out.println("Waiting for the completion of search...");
-//				DataManipulator.SearchThreadsInspector.wait();
-//				System.out.println("Wait failed. This statement should never be executed.");
-//			}
-//		}
-//		catch (final InterruptedException ignored) { System.out.println("Search complete!"); }
+		if (cbLabeled.isSelected() == true) LabeledFlag |= 0b10;
+		if (cbUnlabeled.isSelected() == true) LabeledFlag |= 0b1;
+		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
 		SearchResultModel = new DiscussionTableModel(true);
 		SearchResultTable = new JTable(SearchResultModel);
 		SearchResultScrollPane = new JScrollPane(SearchResultTable);
