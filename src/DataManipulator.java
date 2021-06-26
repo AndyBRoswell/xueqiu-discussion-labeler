@@ -286,6 +286,8 @@ public class DataManipulator {
 				if (SearchThreadsRemaining == 0) Instance.notifyAll();
 			}
 		}
+
+		public static int RunningThreadsCount() { return SearchThreadsRemaining; }
 	}
 
 	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按快捷筛选条件（目前主要有已标注、未标注两种）搜索

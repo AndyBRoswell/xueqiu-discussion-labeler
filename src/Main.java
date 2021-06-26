@@ -72,7 +72,7 @@ public class Main {
 			synchronized (DataManipulator.SearchInspector.UniqueInspector()) {
 				DataManipulator.Search(0, null, new String[]{ "手机" });
 				System.out.println("Waiting for the completion of search...");
-				DataManipulator.SearchInspector.UniqueInspector().wait();
+				while (DataManipulator.SearchInspector.RunningThreadsCount() != 0) { DataManipulator.SearchInspector.UniqueInspector().wait(); }
 				System.out.println("Wait failed. This statement should never be executed.");
 			}
 		}
@@ -80,6 +80,7 @@ public class Main {
 //		DataManipulator.Search(0, null, new String[]{"手机","数码"});
 
 		// 最终的搜索结果
+		Thread.sleep(1000);
 		System.out.println(DataManipulator.GetLastSearchResult().size());
 		for (int i : DataManipulator.GetLastSearchResult()) {
 			System.out.println(i);
