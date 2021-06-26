@@ -48,6 +48,7 @@ public class DataManipulator {
 	private static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>(); // 全部股票讨论
 	private static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>(); // 根据股票讨论查找所在位置（合并相同股评含有的不同标注用）
 
+//	static final SearchInspector SearchThreadsInspector = new SearchInspector();
 	private static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>(); // 用于存放搜索结果
 //	private static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 
@@ -276,16 +277,16 @@ public class DataManipulator {
 	static class SearchInspector {
 		private static Integer SearchThreadsRemaining = 0;
 		private static final Object Instance = new Object();
-		private static final Lock SearchNotCompletedLock = new ReentrantLock();
-		private static final Condition SearchNotCompleted = SearchNotCompletedLock.newCondition();
+//		private static final Lock SearchNotCompletedLock = new ReentrantLock();
+//		private static final Condition SearchNotCompleted = SearchNotCompletedLock.newCondition();
 
-//		public static Object UniqueInspector() { return Instance; }
+		public static Object UniqueInspector() { return Instance; }
 
-		public static void WaitForSearchCompletion() {
-			try { while (SearchThreadsRemaining != 0) { SearchNotCompleted.await(); } }
-			catch (InterruptedException ignored) {}
-			finally { SearchNotCompletedLock.unlock(); }
-		}
+//		public static void WaitForSearchCompletion() {
+//			try { while (SearchThreadsRemaining != 0) { SearchNotCompleted.await(); } }
+//			catch (InterruptedException ignored) {}
+//			finally { SearchNotCompletedLock.unlock(); }
+//		}
 
 		public static void AThreadHasStarted() {
 			synchronized (Instance) { ++SearchThreadsRemaining; }
@@ -294,16 +295,43 @@ public class DataManipulator {
 		public static void AThreadHasCompleted() {
 			synchronized (Instance) {
 				--SearchThreadsRemaining;
-//				if (SearchThreadsRemaining == 0) Instance.notifyAll();
-				if (SearchThreadsRemaining == 0) SearchNotCompleted.signalAll();
+				if (SearchThreadsRemaining == 0) Instance.notifyAll();
+//				if (SearchThreadsRemaining == 0) SearchNotCompleted.signalAll();
 			}
 		}
 
 		public static int RunningThreadsCount() { return SearchThreadsRemaining; }
 	}
 
+//	static class SearchInspector {
+//		private Integer SearchThreadsRemaining = 0;
+////		private final Lock SearchNotCompletedLock = new ReentrantLock();
+////		private final Condition SearchNotCompleted = SearchNotCompletedLock.newCondition();
+//
+////		public static void WaitForSearchCompletion() {
+////			try { while (SearchThreadsRemaining != 0) { SearchNotCompleted.await(); } }
+////			catch (InterruptedException ignored) {}
+////			finally { SearchNotCompletedLock.unlock(); }
+////		}
+//
+//		public void AThreadHasStarted() {
+//			synchronized (this) { ++SearchThreadsRemaining; }
+//		}
+//
+//		public void AThreadHasCompleted() {
+//			synchronized (this) {
+//				--SearchThreadsRemaining;
+//				if (SearchThreadsRemaining == 0) this.notifyAll();
+////				if (SearchThreadsRemaining == 0) SearchNotCompleted.signalAll();
+//			}
+//		}
+//
+//		public int RunningThreadsCount() { return SearchThreadsRemaining; }
+//	}
+
 	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按快捷筛选条件（目前主要有已标注、未标注两种）搜索
 		SearchInspector.AThreadHasStarted();
+//		SearchThreadsInspector.AThreadHasStarted();
 		switch (LabeledFlag) {
 			case 1: // Unlabeled
 				if (SearchRange == null) {
@@ -334,10 +362,12 @@ public class DataManipulator {
 		}
 //		System.out.println("Entries remaining after SearchWithLabeledFlag: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 		SearchInspector.AThreadHasCompleted();
+//		SearchThreadsInspector.AThreadHasCompleted();
 	}
 
 	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按关键词搜索
 		SearchInspector.AThreadHasStarted();
+//		SearchThreadsInspector.AThreadHasStarted();
 		final int AvailableCPUThreadCount = Runtime.getRuntime().availableProcessors();
 		int LastEndIndex = 0;
 		if (SearchRange == null) {
@@ -347,6 +377,7 @@ public class DataManipulator {
 //				System.out.println("SearchWithKeywords: Thread 1: [" + StartIndex + ", " + EndIndex + ")");
 				new Thread(() -> {
 					SearchInspector.AThreadHasStarted();
+//					SearchThreadsInspector.AThreadHasStarted();
 					for (int j = StartIndex; j < EndIndex; ++j) {
 						boolean found = true;
 						for (String Keyword : Keywords) {
@@ -359,6 +390,7 @@ public class DataManipulator {
 //						else System.out.println("Not found at discussion " + j);
 					}
 					SearchInspector.AThreadHasCompleted();
+//					SearchThreadsInspector.AThreadHasCompleted();
 				}).start();
 				LastEndIndex = EndIndex;
 			}
@@ -369,6 +401,7 @@ public class DataManipulator {
 				int EndIndex = SearchRange.size() * i / AvailableCPUThreadCount;
 				new Thread(() -> {
 					SearchInspector.AThreadHasStarted();
+//					SearchThreadsInspector.AThreadHasStarted();
 					for (int j = StartIndex; j < EndIndex; ++j) {
 						boolean found = true;
 						for (String Keyword : Keywords) {
@@ -379,16 +412,19 @@ public class DataManipulator {
 						}
 					}
 					SearchInspector.AThreadHasCompleted();
+//					SearchThreadsInspector.AThreadHasCompleted();
 				}).start();
 				LastEndIndex = EndIndex;
 			}
 		}
 		SearchInspector.AThreadHasCompleted();
+//		SearchThreadsInspector.AThreadHasCompleted();
 //		System.out.println("Entries remaining after SearchWithKeywords: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按标签搜索
 		SearchInspector.AThreadHasStarted();
+//		SearchThreadsInspector.AThreadHasStarted();
 		if (SearchRange == null) {
 			for (int i = 0; i < DiscussionList.size(); ++i) {
 				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
@@ -401,6 +437,7 @@ public class DataManipulator {
 		}
 //		System.out.println("Entries remaining after SearchWithLabels: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 		SearchInspector.AThreadHasCompleted();
+//		SearchThreadsInspector.AThreadHasCompleted();
 	}
 
 	private static void SearchDiscussionItemWithLabels(String[] Labels, int index, ArrayList<Integer> SearchResult) { // 按标签搜索（内部使用）
