@@ -6,11 +6,11 @@ import java.io.File;
 public class GUISettings extends JFrame {
 	// 按钮
 	final JPanel ButtonPanel = new JPanel(new GridLayout(1, 5));
-	final JButton buttonOK = new JButton("确定");
-	final JButton buttonCancel = new JButton("取消");
-	final JButton buttonApply = new JButton("应用");
-	final JButton buttonImportSettings = new JButton("导入设置");
-	final JButton buttonExportSettings = new JButton("导出设置");
+	final JButton btnOK = new JButton("确定");
+	final JButton btnCancel = new JButton("取消");
+	final JButton btnApply = new JButton("应用");
+	final JButton btnImportSettings = new JButton("导入设置");
+	final JButton btnExportSettings = new JButton("导出设置");
 
 	// 设置编辑区
 	final JTextArea SettingsEditingArea = new JTextArea();
@@ -61,5 +61,18 @@ public class GUISettings extends JFrame {
 		ExportSettingsDialog.setFileFilter(new XMLFilter());
 
 		// 动作监听程序
+		
+
+		// 添加控件
+		ButtonPanel.add(btnOK);
+		ButtonPanel.add(btnCancel);
+		ButtonPanel.add(btnApply);
+		ButtonPanel.add(btnImportSettings);
+		ButtonPanel.add(btnExportSettings);
+		super.add(ButtonPanel, ButtonPanelLayout);
+		super.add(SettingsEditingArea, SettingsEditingAreaLayout);
+
+		// 显示
+		super.setVisible(true);
 	}
 }
