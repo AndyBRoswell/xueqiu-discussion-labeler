@@ -96,6 +96,7 @@ public class GUISettings extends JFrame {
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					try { // 配置文件强制 UTF-8 编码
 						final BufferedReader CfgFileReader = new BufferedReader(new FileReader(ImportSettingsDialog.getSelectedFile().getAbsolutePath(), StandardCharsets.UTF_8));
+						SettingsEditingArea.setText("");
 						String Line;
 						while ((Line = CfgFileReader.readLine()) != null) {
 							SettingsEditingArea.append(Line);
