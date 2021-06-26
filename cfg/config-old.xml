@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><config>
 	<crawling>
 		<proxy>
+			<name>暂无</name>
+			<sex>暂无</sex>
+			<age>暂无</age>
 		</proxy>
 	</crawling>
 	<storage>
 		<import-and-export>
-			<default-import-encoding>GB18030</default-import-encoding>
-			<default-export-encoding>GB18030</default-export-encoding>
-			<default-available-labels-encoding>GB18030</default-available-labels-encoding>
+			<default-encoding>UTF-8</default-encoding>
 			<default-filename>//datetime//</default-filename>
 			<default-export-dir>//default-save-path//</default-export-dir>
 			<operation-for-filename-conflict>自动重命名</operation-for-filename-conflict>
-			<!-- 
-				文件冲突时的操作：
-			 -->
 		</import-and-export>
 		<backup-and-restore>
+			<name>同导入导出</name>
+			<sex>同导入导出</sex>
+			<age>csv文件</age>
 		</backup-and-restore>
 	</storage>
 </config>

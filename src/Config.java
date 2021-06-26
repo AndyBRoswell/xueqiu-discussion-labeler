@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
@@ -18,7 +20,6 @@ public class Config {
 	static Document ConfigXML;
 	static final XPathFactory xfactory = XPathFactory.newInstance();
 	static final XPath xpath = xfactory.newXPath();
-	static final Pattern ShellVariablePattern = Pattern.compile("\\$[\\w]+[^\\w]|\\z");
 	static final TransformerFactory tfactory = TransformerFactory.newInstance();
 	static Transformer transformer;
 	static DOMSource source;
@@ -30,7 +31,7 @@ public class Config {
 		catch (ParserConfigurationException e) { e.printStackTrace(); }
 	}
 
-	public static void LoadConfig(String pathname) throws IOException, SAXException {
+	public static void LoadConfig(String pathname) throws IOException, SAXException { // 配置文件强制 UTF-8 编码
 		File cfgxmlfile = new File(pathname);
 		ConfigXML = builder.parse(cfgxmlfile);
 		ConfigXML.getDocumentElement().normalize();
@@ -39,10 +40,10 @@ public class Config {
 	public static String QuerySingleConfigEntry(String xpathexpr) throws XPathExpressionException {
 		XPathExpression expr = xpath.compile(xpathexpr);
 		NodeList EvalResult = (NodeList) expr.evaluate(ConfigXML, XPathConstants.NODESET);
-		return Config.ReplaceShellVariable(EvalResult.item(0).getTextContent());
+		return Config.ReplaceVariable(EvalResult.item(0).getTextContent());
 	}
 
-	public static String ReplaceShellVariable(String string) {
+	public static String ReplaceVariable(String string) {
 		string = string.replaceAll("//app-path//", Matcher.quoteReplacement(Global.AppPath));
 		string = string.replaceAll("//config-path//", Matcher.quoteReplacement(Global.AppPath));
 		string = string.replaceAll("//default-save-path//", Matcher.quoteReplacement(Global.DefaultSavePath));
@@ -55,7 +56,7 @@ public class Config {
 		EvalResult.item(0).setTextContent(content);
 	}
 
-	public static void SaveConfig(String pathname) throws TransformerException {
+	public static void SaveConfig(String pathname) throws TransformerException { // 配置文件强制 UTF-8 编码
 		source = new DOMSource(ConfigXML);
 		File cfgxmlfile = new File(pathname);
 		StreamResult result = new StreamResult(cfgxmlfile);
