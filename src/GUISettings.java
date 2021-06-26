@@ -68,6 +68,9 @@ public class GUISettings extends JFrame {
 		ExportSettingsDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		ExportSettingsDialog.setFileFilter(new XMLFilter());
 
+		// 设置编辑区的设置
+		SettingsEditingArea.setTabSize(2);
+
 		// 动作监听程序
 		btnOK.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
