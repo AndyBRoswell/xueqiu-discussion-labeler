@@ -22,7 +22,7 @@
 			 -->
 			<default-filename>//datetime//</default-filename>
 			<default-export-dir>//default-save-path//</default-export-dir>
-			<operation-for-filename-conflict>自动重命名</operation-for-filename-conflict>
+			<!-- <operation-for-filename-conflict></operation-for-filename-conflict> -->
 			<!-- 
 				文件冲突时的操作：
 			 -->

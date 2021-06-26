@@ -29,7 +29,6 @@ public class GUIImportFiles extends JFrame {
 
 	// 文件类型过滤器
 	class CSVFilter extends FileFilter {
-
 		@Override public boolean accept(File f) {
 			final String extension = f.getName().substring(f.getName().lastIndexOf('.') + 1);
 			if (extension != null) {
@@ -38,9 +37,7 @@ public class GUIImportFiles extends JFrame {
 			return false;
 		}
 
-		@Override public String getDescription() {
-			return "CSV Files";
-		}
+		@Override public String getDescription() { return "CSV Files"; }
 	}
 
 	// 文件表格模型
@@ -64,7 +61,7 @@ public class GUIImportFiles extends JFrame {
 	public GUIImportFiles() {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
-		super.setSize(Screen.width / 4, Screen.height / 4);
+		super.setSize(Screen.width / 3, Screen.height / 3);
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		final GridBagLayout GUIImportFilesLayout = new GridBagLayout();
