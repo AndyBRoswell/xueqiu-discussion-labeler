@@ -127,7 +127,7 @@ public class GUISettings extends JFrame {
 		});
 
 		// 设置界面加载时，读入默认的配置文件
-		Config.LoadConfigXMLWithoutParsing(Global.DefaultConfig);
+		SettingsEditingArea.setText(Config.LoadConfigXMLWithoutParsing(Global.DefaultConfig));
 
 		// 添加控件
 		ButtonPanel.add(btnOK);
