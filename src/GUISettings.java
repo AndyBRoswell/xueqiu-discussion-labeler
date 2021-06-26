@@ -103,7 +103,7 @@ public class GUISettings extends JFrame {
 
 		btnImportSettings.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				int ret = ImportSettingsDialog.showOpenDialog(null);
+				final int ret = ImportSettingsDialog.showOpenDialog(null);
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					try { // 配置文件强制 UTF-8 编码
 						SettingsEditingArea.setText(Config.LoadConfigXMLWithoutParsing(ImportSettingsDialog.getSelectedFile().getAbsolutePath()));
@@ -117,7 +117,7 @@ public class GUISettings extends JFrame {
 
 		btnExportSettings.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				int ret = ExportSettingsDialog.showSaveDialog(null);
+				final int ret = ExportSettingsDialog.showSaveDialog(null);
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					try { // 配置文件强制 UTF-8 编码
 						Config.SaveConfig(SettingsEditingArea.getText(), ExportSettingsDialog.getSelectedFile().getAbsolutePath());

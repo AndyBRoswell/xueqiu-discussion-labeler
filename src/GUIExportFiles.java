@@ -2,10 +2,15 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Arrays;
 
 public class GUIExportFiles extends JFrame {
+	// 本窗体
+	final GUIExportFiles ThisForm = this;
+
 	// 按钮
 	final JPanel ButtonPanel = new JPanel(new GridLayout(1, 4));
 	final JButton btnOK = new JButton("确定");
@@ -61,7 +66,18 @@ public class GUIExportFiles extends JFrame {
 		cbEncoding.setSelectedIndex(Arrays.asList(Global.EncodingNames).indexOf(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-export-encoding")));
 
 		// 动作监听程序
+		btnCancel.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				ThisForm.dispose();
+			}
+		});
 
+		btnBrowse.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				final int ret = SaveDialog.showSaveDialog(null);
+
+			}
+		});
 
 		// 添加控件
 		ButtonPanel.add(btnOK);

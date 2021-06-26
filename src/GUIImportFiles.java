@@ -102,7 +102,7 @@ public class GUIImportFiles extends JFrame {
 
 		btnAddFiles.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				int ret = FileDialog.showDialog(null, "导入股票讨论 CSV 文件");
+				final int ret = FileDialog.showDialog(null, "导入股票讨论 CSV 文件");
 				if (ret == JFileChooser.APPROVE_OPTION) { // 在对话框中选择了 “确定”
 					File[] SelectedFiles = FileDialog.getSelectedFiles();
 					for (File EachFile : SelectedFiles) {
@@ -115,7 +115,7 @@ public class GUIImportFiles extends JFrame {
 
 		btnDeleteFiles.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				int[] Rows = FileList.getSelectedRows();
+				final int[] Rows = FileList.getSelectedRows();
 				for (int i = Rows.length - 1; i >= 0; --i) {
 					ImportedFiles.remove(i);
 				}
