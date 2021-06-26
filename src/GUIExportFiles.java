@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class GUIExportFiles extends JFrame {
@@ -66,16 +67,21 @@ public class GUIExportFiles extends JFrame {
 		cbEncoding.setSelectedIndex(Arrays.asList(Global.EncodingNames).indexOf(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-export-encoding")));
 
 		// 动作监听程序
-		btnCancel.addActionListener(new ActionListener() {
+		btnOK.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				ThisForm.dispose();
+				try { StorageAccessor.SaveDiscussionToCSV(PathnameBox.getText(), (String) cbEncoding.getSelectedItem()); }
+				catch (IOException ioException) { ioException.printStackTrace(); }
 			}
+		});
+
+		btnCancel.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { ThisForm.dispose(); }
 		});
 
 		btnBrowse.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				final int ret = SaveDialog.showSaveDialog(null);
-
+				if (ret == JFileChooser.APPROVE_OPTION) { PathnameBox.setText(SaveDialog.getSelectedFile().getAbsolutePath()); }
 			}
 		});
 
