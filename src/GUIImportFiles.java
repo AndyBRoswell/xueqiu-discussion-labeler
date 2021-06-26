@@ -18,6 +18,7 @@ public class GUIImportFiles extends JFrame {
 	final JTable FileList = new JTable(FileListModel);
 	final JScrollPane FileListScrollPane = new JScrollPane(FileList);
 
+	// 文件表格模型
 	class FileTableModel extends AbstractTableModel {
 		private final String[] FileListColumnNames = new String[]{ "文件名" };
 
@@ -43,8 +44,16 @@ public class GUIImportFiles extends JFrame {
 		super.setLocationRelativeTo(null);
 		super.getContentPane().setLayout(new GridBagLayout());
 
+		final GridBagConstraints TableLayout = new GridBagConstraints();
+		TableLayout.gridx = TableLayout.gridy = 0;
+		TableLayout.weighty = 1;
+
+		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
+		TableLayout.gridx = 1; TableLayout.gridy = 0;
+		TableLayout.weighty = 0;
+
 		// 动作监听程序
-		
+
 
 		// 添加控件
 		ButtonPanel.add(btnConfirmImport);
