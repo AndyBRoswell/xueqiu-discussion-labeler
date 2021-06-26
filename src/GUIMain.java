@@ -329,7 +329,8 @@ public class GUIMain extends JFrame {
 		// 菜单项的动作监听程序
 		ImportMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				new GUIImportList();
+//				new GUIImportList();
+				new GUIImportFiles();
 			}
 		});
 		ExportMenuItem.addActionListener(new ActionListener() {

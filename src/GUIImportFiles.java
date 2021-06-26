@@ -47,10 +47,12 @@ public class GUIImportFiles extends JFrame {
 		final GridBagConstraints TableLayout = new GridBagConstraints();
 		TableLayout.gridx = TableLayout.gridy = 0;
 		TableLayout.weighty = 1;
+		TableLayout.fill = GridBagConstraints.BOTH;
 
 		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
-		TableLayout.gridx = 1; TableLayout.gridy = 0;
-		TableLayout.weighty = 0;
+		ButtonPanelLayout.gridx = 0; ButtonPanelLayout.gridy = 1;
+		ButtonPanelLayout.weighty = 0;
+		ButtonPanelLayout.fill = GridBagConstraints.BOTH;
 
 		// 动作监听程序
 
@@ -60,8 +62,8 @@ public class GUIImportFiles extends JFrame {
 		ButtonPanel.add(btnAddFiles);
 		ButtonPanel.add(btnDeleteFiles);
 		ButtonPanel.add(btnClearList);
-		super.add(ButtonPanel);
-		super.add(FileListScrollPane);
+		super.add(ButtonPanel, ButtonPanelLayout);
+		super.add(FileListScrollPane, TableLayout);
 
 		// 显示
 		super.setVisible(true);
