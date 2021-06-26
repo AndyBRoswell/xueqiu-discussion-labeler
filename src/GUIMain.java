@@ -335,7 +335,7 @@ public class GUIMain extends JFrame {
 			}
 		});
 		ExportMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIExport(); }
+			@Override public void actionPerformed(ActionEvent e) { new GUIExportFiles(); }
 		});
 		JournalMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { new GUIJournal(); }
