@@ -15,7 +15,7 @@ public class GUIExportFiles extends JFrame {
 	final JTextField PathnameBox = new JTextField();
 
 	// 文件对话框
-
+	final JFileChooser SaveDialog = new JFileChooser(Global.DefaultSavePath);
 
 	// 文件类型过滤器
 	class CSVFilter extends FileFilter {
@@ -40,11 +40,22 @@ public class GUIExportFiles extends JFrame {
 		final GridBagLayout GUIImportFilesLayout = new GridBagLayout();
 		super.getContentPane().setLayout(new GridBagLayout());
 
+		final GridBagConstraints PathnameBoxLayout = new GridBagConstraints();
+		PathnameBoxLayout.gridx = PathnameBoxLayout.gridy = 0;
+		PathnameBoxLayout.weightx = PathnameBoxLayout.weighty = 0;
+		PathnameBoxLayout.fill = GridBagConstraints.BOTH;
+
 		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
 		ButtonPanelLayout.gridx = 0; ButtonPanelLayout.gridy = 1;
 		ButtonPanelLayout.weightx = 1; ButtonPanelLayout.weighty = 0;
 		ButtonPanelLayout.fill = GridBagConstraints.BOTH;
 
+		// 文件对话框的设置
+		SaveDialog.setMultiSelectionEnabled(false);
+		SaveDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		SaveDialog.setFileFilter(new CSVFilter());
+
+		// 动作监听程序
 		
 	}
 }
