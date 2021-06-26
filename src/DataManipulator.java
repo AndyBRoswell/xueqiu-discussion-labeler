@@ -242,19 +242,25 @@ public class DataManipulator {
 			System.out.println("Begin SearchWithLabeledFlag...");
 			new Thread(() -> SearchWithLabeledFlag(LabeledFlag, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
+		System.out.println("Begin waiting for the completion of SearchWithLabeledFlag...");
 		SearchInspector.WaitForSearchCompletion();
+		System.out.println("End waiting for the completion of SearchWithLabeledFlag.");
 		if (Keywords != null && Keywords[0].equals("") == false) {
 			SearchResults.add(new ArrayList<>());
 			System.out.println("Begin SearchWithKeywords...");
 			new Thread(() -> SearchWithKeywords(Keywords, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
+		System.out.println("Begin waiting for the completion of SearchWithKeywords...");
 		SearchInspector.WaitForSearchCompletion();
+		System.out.println("End waiting for the completion of SearchWithKeywords.");
 		if (Labels != null && Labels[0].equals("") == false) {
 			SearchResults.add(new ArrayList<>());
 			System.out.println("Begin SearchWithLabels...");
 			new Thread(() -> SearchWithLabels(Labels, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
+		System.out.println("Begin waiting for the completion of SearchWithLabeledFlag...");
 		SearchInspector.WaitForSearchCompletion();
+		System.out.println("End waiting for the completion of SearchWithKeywords.");
 //		FinalSearchResult.clear();
 		// 怪事，这里不加延迟结果就不对，添加不进去
 //		Thread.sleep(1000);
@@ -296,12 +302,16 @@ public class DataManipulator {
 		}
 
 		public static void AThreadHasStarted() {
-			synchronized (UniqueMonitor()) { ++SearchThreadsRemaining; }
+			synchronized (UniqueMonitor()) {
+				++SearchThreadsRemaining;
+				System.out.println("Now SearchThreadsRemaining = " + SearchThreadsRemaining);
+			}
 		}
 
 		public static void AThreadHasCompleted() {
 			synchronized (UniqueMonitor()) {
 				--SearchThreadsRemaining;
+				System.out.println("Now SearchThreadsRemaining = " + SearchThreadsRemaining);
 				if (SearchThreadsRemaining == 0) Instance.notifyAll();
 			}
 		}
