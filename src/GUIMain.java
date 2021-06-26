@@ -372,7 +372,7 @@ public class GUIMain extends JFrame {
 		});
 
 		AddCrawlTaskMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIAddStock(); }
+			@Override public void actionPerformed(ActionEvent e) { new GUIDownLoad(); }
 		});
 
 		StatisticMenu.addActionListener(new ActionListener() {
@@ -400,7 +400,7 @@ public class GUIMain extends JFrame {
 //								}
 //								break;
 							case MouseEvent.BUTTON1:// 鼠标左键
-								for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
+								for (int i : SelectedRows) { // 对所有选中的股评，都要添加此标签
 									final LabeledResponse Response = DataManipulator.LabeledAtThisTime(i, LabelClicked.Category, LabelClicked.getText());
 									if (Response.LabeledAtThisTime == false) { // 指定的行在本轮标注中未添加此标签
 										DataManipulator.AddLabelWhenNotLabeledAtThisTime(i, Response.TargetCat, LabelClicked.Category, LabelClicked.getText());
@@ -408,7 +408,7 @@ public class GUIMain extends JFrame {
 								}
 								break;
 							case MouseEvent.BUTTON3: // 鼠标右键
-								for (int i : SelectedRows) { // 对所有选中的股评，都要添加或删除此标签
+								for (int i : SelectedRows) { // 对所有选中的股评，都要删除此标签
 									final LabeledResponse HasLabeled = DataManipulator.LabeledAtThisTime(i, LabelClicked.Category, LabelClicked.getText());
 									if (HasLabeled.LabeledAtThisTime == true) {// 指定的行在本轮标注中已添加此标签
 										DataManipulator.DeleteLabelWhenLabeledAtThisTime(i, HasLabeled.TargetCat, LabelClicked.Category, LabelClicked.getText());
