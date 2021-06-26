@@ -15,6 +15,9 @@ public class Global {
 	public static final String TemporaryPath = AppPath + "\\tmp";
 	public static final String LogPath = AppPath + "\\log";
 
+	// Encodings
+	public static final String[] EncodingNames = new String[]{ "US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16", "GB18030", "GBK", "GB2312" };
+
 	// Fonts
 	public static final int FontSizeD = 12;
 	public static final int FontSizeL = 16;

@@ -1,25 +1,26 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GUIImportFiles extends JFrame {
 	// 本窗体
 	final GUIImportFiles ThisForm = this;
 
 	// 按钮
-	final JPanel ButtonPanel = new JPanel(new GridLayout(1, 4));
+	final JPanel ButtonPanel = new JPanel(new GridLayout(1, 6));
 	final JButton btnConfirmImport = new JButton("确认导入");
 	final JButton btnAddFiles = new JButton("添加文件");
 	final JButton btnDeleteFiles = new JButton("删除文件");
 	final JButton btnClearList = new JButton("清空列表");
+	final JLabel lbEncoding = new JLabel("文件编码：");
+	final JComboBox cbEncoding = new JComboBox(Global.EncodingNames);
 
 	// 导入的文件列表
 	final ArrayList<String> ImportedFiles = new ArrayList<>();
@@ -61,7 +62,7 @@ public class GUIImportFiles extends JFrame {
 	}
 
 	// 加载导入文件窗口
-	public GUIImportFiles() {
+	public GUIImportFiles() throws XPathExpressionException {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setSize(Screen.width / 3, Screen.height / 3);
@@ -84,6 +85,9 @@ public class GUIImportFiles extends JFrame {
 		FileDialog.setMultiSelectionEnabled(true); // 允许多选
 		FileDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		FileDialog.setFileFilter(new CSVFilter());
+
+		// 默认编码
+		cbEncoding.setSelectedIndex(Arrays.asList(Global.EncodingNames).indexOf(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-import-encoding")));
 
 		// 动作监听程序
 		btnConfirmImport.addActionListener(new ActionListener() {
@@ -136,6 +140,8 @@ public class GUIImportFiles extends JFrame {
 		ButtonPanel.add(btnAddFiles);
 		ButtonPanel.add(btnDeleteFiles);
 		ButtonPanel.add(btnClearList);
+		ButtonPanel.add(lbEncoding);
+		ButtonPanel.add(cbEncoding);
 		super.add(ButtonPanel, ButtonPanelLayout);
 		super.add(FileListScrollPane, TableLayout);
 
