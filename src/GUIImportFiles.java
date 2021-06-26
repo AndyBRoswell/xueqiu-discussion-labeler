@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,7 +88,15 @@ public class GUIImportFiles extends JFrame {
 		// 动作监听程序
 		btnConfirmImport.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-
+				for (String Pathname : ImportedFiles) {
+					try {
+						StorageAccessor.LoadDiscussionFromCSV(Pathname);
+						Global.MainForm.ShowAllDiscussions();
+					}
+					catch (XPathExpressionException xPathExpressionException) {
+						xPathExpressionException.printStackTrace();
+					}
+				}
 			}
 		});
 

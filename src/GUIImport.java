@@ -21,7 +21,7 @@ public class GUIImport extends JFrame {
 	public GUIImport() {
 		final JFrame ImportFrame = new JFrame("导入");
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
-		ImportFrame.setBounds(new Rectangle(Screen.width / 4, Screen.height / 4));
+		ImportFrame.setBounds(new Rectangle(Screen.width / 3, Screen.height / 3));
 		ImportFrame.setLocationRelativeTo(null);
 		ImportFrame.setVisible(true);
 		Container ImportFrameContainer = ImportFrame.getContentPane();

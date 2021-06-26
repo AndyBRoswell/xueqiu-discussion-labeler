@@ -475,8 +475,8 @@ public class GUIMain extends JFrame {
 		}
 	}
 
-	// 显示股票讨论
-	public void ShowDiscussions(DiscussionTableModel Model, JTable Table, JScrollPane ScrollPane) {
+	// 显示股票讨论（内部用）
+	private void ShowDiscussions(DiscussionTableModel Model, JTable Table, JScrollPane ScrollPane) {
 		// 动作监听程序与单元格渲染程序
 		Model.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
