@@ -45,8 +45,12 @@ public class DataManipulator {
 	private static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>(); // 全部股票讨论
 	private static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>(); // 根据股票讨论查找所在位置（合并相同股评含有的不同标注用）
 
+//	static final SearchInspector SearchThreadsInspector = new SearchInspector();
 	private static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>(); // 用于存放搜索结果
 //	private static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
+
+	public static final int SEARCHPARAMLABELED = 0b10;
+	public static final int SEARCHPARAMUNLABELED = 0b1;
 
 	/* 对可选标注的维护 */
 
@@ -73,16 +77,14 @@ public class DataManipulator {
 		if (Labels == null) return;
 		Labels.remove(Label);
 		if (Labels.size() == 0) AllLabels.remove(Category);
-		DeleteCategoryOfLabel(Category, Label);
+		DeleteCategoryOfLabel(Label, Category);
 	}
 
 	// 获得一个标签属于的全部标签类
-	static HashSet<String> GetCategoriesOfLabel(String Label) {
-		return LabelToCategory.get(Label);
-	}
+	static HashSet<String> GetCategoriesOfLabel(String Label) { return LabelToCategory.get(Label); }
 
 	// 为某标签登记新的所属标签类
-	static void AddCategoryOfLabel(String Category, String Label) {
+	static void AddCategoryOfLabel(String Label, String Category) {
 		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
 		if (Categories == null) {
 			DataManipulator.LabelToCategory.put(Label, new HashSet<>());
@@ -92,12 +94,15 @@ public class DataManipulator {
 	}
 
 	// 为某标签删除所属的一类标签类
-	static void DeleteCategoryOfLabel(String Category, String Label) {
+	static void DeleteCategoryOfLabel(String Label, String Category) {
 		HashSet<String> Categories = DataManipulator.GetCategoriesOfLabel(Label);
 		if (Categories == null) return;
 		Categories.remove(Label);
 		if (Categories.size() == 0) LabelToCategory.remove(Category);
 	}
+
+	//
+	static ConcurrentHashMap<String, HashSet<String>> GetLabelToCategoryMap() { return LabelToCategory; }
 
 	/* 对股票讨论及其标注的维护 */
 
@@ -127,7 +132,7 @@ public class DataManipulator {
 						Integer Count = ExistedLabelsOfThisCat.get(f.getKey()).LabeledCount;
 						// 已存在条目的该标签类里没有当前标签，直接写入该标签
 						if (Count == null) ExistedLabelsOfThisCat.put(f.getKey(), f.getValue());
-						// 否则，累加该标签的被选中次数
+							// 否则，累加该标签的被选中次数
 						else ExistedLabelsOfThisCat.put(f.getKey(), new LabelStatus(Count + f.getValue().LabeledCount));
 					}
 				}
@@ -230,19 +235,33 @@ public class DataManipulator {
 	}
 
 	// 搜索
-	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) { // 搜索功能
+	public static void Search(int LabeledFlag, String[] Keywords, String[] Labels) throws InterruptedException { // 搜索功能
 		SearchResults.clear();
 		if (LabeledFlag != 0) {
 			SearchResults.add(new ArrayList<>());
+//			System.out.println("Begin SearchWithLabeledFlag...");
 			new Thread(() -> SearchWithLabeledFlag(LabeledFlag, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
+//			System.out.println("Begin waiting for the completion of SearchWithLabeledFlag...");
+			SearchInspector.WaitForSearchCompletion();
+//			System.out.println("End waiting for the completion of SearchWithLabeledFlag.");
 		}
-		if (Keywords != null && Keywords.length != 0) {
+
+		if (Keywords != null && Keywords[0].equals("") == false) {
 			SearchResults.add(new ArrayList<>());
+//			System.out.println("Begin SearchWithKeywords...");
 			new Thread(() -> SearchWithKeywords(Keywords, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
+//			System.out.println("Begin waiting for the completion of SearchWithKeywords...");
+			SearchInspector.WaitForSearchCompletion();
+//			System.out.println("End waiting for the completion of SearchWithKeywords.");
 		}
-		if (Labels != null && Labels.length != 0) {
+
+		if (Labels != null && Labels[0].equals("") == false) {
 			SearchResults.add(new ArrayList<>());
+//			System.out.println("Begin SearchWithLabels...");
 			new Thread(() -> SearchWithLabels(Labels, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
+//			System.out.println("Begin waiting for the completion of SearchWithLabeledFlag...");
+			SearchInspector.WaitForSearchCompletion();
+//			System.out.println("End waiting for the completion of SearchWithKeywords.");
 		}
 //		FinalSearchResult.clear();
 		// 怪事，这里不加延迟结果就不对，添加不进去
@@ -254,7 +273,10 @@ public class DataManipulator {
 //		for (ArrayList<Integer> Result : SearchResults) {
 //			FinalSearchResult.addAll(Result);
 //		}
-//		System.out.println(SearchResults.size());
+//		System.out.println("SearchResults.size() = " + SearchResults.size());
+//		synchronized (SearchInspector.UniqueMonitor()) {
+//			SearchInspector.UniqueMonitor().wait();
+//		}
 	}
 
 	private static ArrayList<Integer> GetSecondToTheLastSearchResult() { // 返回倒数第二个搜索结果（供搜索函数内部使用）
@@ -267,7 +289,40 @@ public class DataManipulator {
 		return SearchResults.get(SearchResults.size() - 1);
 	}
 
+	public static void ClearSearchResult() { SearchResults.clear(); }
+
+	static class SearchInspector {
+		private static Integer SearchThreadsRemaining = 0;
+		private static final Object Instance = new Object();
+
+		public static Object UniqueMonitor() { return Instance; }
+
+		public static void WaitForSearchCompletion() throws InterruptedException {
+			synchronized (SearchInspector.UniqueMonitor()) {
+				SearchInspector.UniqueMonitor().wait();
+			}
+		}
+
+		public static void AThreadHasStarted() {
+			synchronized (UniqueMonitor()) {
+				++SearchThreadsRemaining;
+//				System.out.println("Now SearchThreadsRemaining = " + SearchThreadsRemaining);
+			}
+		}
+
+		public static void AThreadHasCompleted() {
+			synchronized (UniqueMonitor()) {
+				--SearchThreadsRemaining;
+//				System.out.println("Now SearchThreadsRemaining = " + SearchThreadsRemaining);
+				if (SearchThreadsRemaining == 0) Instance.notifyAll();
+			}
+		}
+
+		public static int RunningThreadsCount() { return SearchThreadsRemaining; }
+	}
+
 	private static void SearchWithLabeledFlag(int LabeledFlag, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按快捷筛选条件（目前主要有已标注、未标注两种）搜索
+		SearchInspector.AThreadHasStarted();
 		switch (LabeledFlag) {
 			case 1: // Unlabeled
 				if (SearchRange == null) {
@@ -294,27 +349,36 @@ public class DataManipulator {
 				}
 				break;
 			default:
+				for (int i = 0; i < DiscussionList.size(); ++i) SearchResult.add(i);
 				break;
 		}
+//		System.out.println("Entries remaining after SearchWithLabeledFlag: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
+		SearchInspector.AThreadHasCompleted();
 	}
 
 	private static void SearchWithKeywords(String[] Keywords, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按关键词搜索
+		SearchInspector.AThreadHasStarted();
 		final int AvailableCPUThreadCount = Runtime.getRuntime().availableProcessors();
 		int LastEndIndex = 0;
 		if (SearchRange == null) {
 			for (int i = 1; i <= AvailableCPUThreadCount; ++i) {
 				int StartIndex = LastEndIndex;
 				int EndIndex = DiscussionList.size() * i / AvailableCPUThreadCount;
+//				System.out.println("SearchWithKeywords: Thread 1: [" + StartIndex + ", " + EndIndex + ")");
 				new Thread(() -> {
+					SearchInspector.AThreadHasStarted();
 					for (int j = StartIndex; j < EndIndex; ++j) {
 						boolean found = true;
-						for (String keyword : Keywords) {
-							if (DiscussionList.get(j).GetText().contains(keyword) == false) { found = false; break; }
+						for (String Keyword : Keywords) {
+							if (DiscussionList.get(j).GetText().contains(Keyword) == false) { found = false; break; }
 						}
 						if (found == true) {
+//							System.out.println("Found at discussion " + j);
 							synchronized (SearchResult) { SearchResult.add(j); }
 						}
+//						else System.out.println("Not found at discussion " + j);
 					}
+					SearchInspector.AThreadHasCompleted();
 				}).start();
 				LastEndIndex = EndIndex;
 			}
@@ -324,22 +388,27 @@ public class DataManipulator {
 				int StartIndex = LastEndIndex;
 				int EndIndex = SearchRange.size() * i / AvailableCPUThreadCount;
 				new Thread(() -> {
+					SearchInspector.AThreadHasStarted();
 					for (int j = StartIndex; j < EndIndex; ++j) {
 						boolean found = true;
-						for (String keyword : Keywords) {
-							if (DiscussionList.get(SearchRange.get(j)).GetText().contains(keyword) == false) { found = false; break; }
+						for (String Keyword : Keywords) {
+							if (DiscussionList.get(SearchRange.get(j)).GetText().contains(Keyword) == false) { found = false; break; }
 						}
 						if (found == true) {
 							synchronized (SearchResult) { SearchResult.add(j); }
 						}
 					}
+					SearchInspector.AThreadHasCompleted();
 				}).start();
 				LastEndIndex = EndIndex;
 			}
 		}
+		SearchInspector.AThreadHasCompleted();
+//		System.out.println("Entries remaining after SearchWithKeywords: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按标签搜索
+		SearchInspector.AThreadHasStarted();
 		if (SearchRange == null) {
 			for (int i = 0; i < DiscussionList.size(); ++i) {
 				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
@@ -350,13 +419,15 @@ public class DataManipulator {
 				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
 			}
 		}
+//		System.out.println("Entries remaining after SearchWithLabels: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
+		SearchInspector.AThreadHasCompleted();
 	}
 
 	private static void SearchDiscussionItemWithLabels(String[] Labels, int index, ArrayList<Integer> SearchResult) { // 按标签搜索（内部使用）
 		boolean Found = true;
 		for (String Label : Labels) {
 			if (DiscussionList.get(index).GetLabels().containsKey(Label)) continue; // 该标签恰好为该条股票讨论包含的一个标签类的名称，符合条件，继续考察其它标签
-			HashSet<String> Categories = GetCategoriesOfLabel(Label); // 否则，先查询该标签属于的标签类
+			final HashSet<String> Categories = GetCategoriesOfLabel(Label); // 否则，先查询该标签属于的标签类
 			if (Categories == null) { return; } // 该标签不属于任何已知的标签类（每个标签属于的类在读入全部可用标签与指定的股票讨论 CSV 文件时都会被登记），不符合条件
 			boolean FoundSingle = false;
 			for (String Category : Categories) { // 查找该条股票讨论是否包含该标签所属的某一个类；如果包含，则在类中查找
