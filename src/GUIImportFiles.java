@@ -19,7 +19,7 @@ public class GUIImportFiles extends JFrame {
 	final JButton btnAddFiles = new JButton("添加文件");
 	final JButton btnDeleteFiles = new JButton("删除文件");
 	final JButton btnClearList = new JButton("清空列表");
-	final JLabel lbEncoding = new JLabel("文件编码：");
+//	final JLabel lbEncoding = new JLabel("文件编码：");
 	final JComboBox cbEncoding = new JComboBox(Global.EncodingNames);
 
 	// 导入的文件列表
@@ -93,13 +93,8 @@ public class GUIImportFiles extends JFrame {
 		btnConfirmImport.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				for (String Pathname : ImportedFiles) {
-					try {
-						StorageAccessor.LoadDiscussionFromCSV(Pathname);
-						Global.MainForm.ShowAllDiscussions();
-					}
-					catch (XPathExpressionException xPathExpressionException) {
-						xPathExpressionException.printStackTrace();
-					}
+					StorageAccessor.LoadDiscussionFromCSV(Pathname, (String) cbEncoding.getSelectedItem());
+					Global.MainForm.ShowAllDiscussions();
 				}
 				ThisForm.dispose();
 			}
@@ -140,7 +135,7 @@ public class GUIImportFiles extends JFrame {
 		ButtonPanel.add(btnAddFiles);
 		ButtonPanel.add(btnDeleteFiles);
 		ButtonPanel.add(btnClearList);
-		ButtonPanel.add(lbEncoding);
+//		ButtonPanel.add(lbEncoding);
 		ButtonPanel.add(cbEncoding);
 		super.add(ButtonPanel, ButtonPanelLayout);
 		super.add(FileListScrollPane, TableLayout);
