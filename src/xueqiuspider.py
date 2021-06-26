@@ -108,17 +108,22 @@ params = {}
 def deserialize_param():
 	for i in range(1, len(sys.argv)):
 		pos = sys.argv[i].find('=')
-		key = params[sys.argv[i][2: pos]]
-		value = sys.argv[i][pos + 1: len(sys.argv[i])]
-		if value[0] == '"' and value[-1] == '"': # 去掉双引号（如果有）
-			value = value[1: len(value)-1]
+		key = sys.argv[i][2: pos]
 		if pos != -1:
+			key = sys.argv[i][2: pos]
+			value = sys.argv[i][pos + 1: len(sys.argv[i])]
+			if value[0] == '"' and value[-1] == '"': # 去掉双引号（如果有）
+				value = value[1: len(value)-1]
 			params[key] = value
 		else:
+			key = sys.argv[i][2: ]
 			params[key] = ""
 
 
 # Parameters for crawling
+deserialize_param()
+print(params)
+
 access_delay = 3 if "access-delay" not in params else int(params["access-delay"])		# 访问延迟
 retry_delay = 5 if "retry-delay" not in params else int(params["retry-delay"])			# 重试延迟
 page_count = 100 if "pages" not in params else int(params["pages"])						# 爬取页数
