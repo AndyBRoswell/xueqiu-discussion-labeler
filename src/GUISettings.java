@@ -41,7 +41,7 @@ public class GUISettings extends JFrame {
 	}
 
 	// 加载设置窗口
-	public GUISettings() {
+	public GUISettings() throws IOException {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setSize(Screen.width / 3, Screen.height / 3);
@@ -125,6 +125,9 @@ public class GUISettings extends JFrame {
 				}
 			}
 		});
+
+		// 设置界面加载时，读入默认的配置文件
+		Config.LoadConfigXMLWithoutParsing(Global.DefaultConfig);
 
 		// 添加控件
 		ButtonPanel.add(btnOK);
