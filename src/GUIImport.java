@@ -103,10 +103,10 @@ class GUIImportList extends JFrame {
 	//操作面板，用于放置增删改按钮
 	private final JPanel controlPanel;
 	private final JPanel controlPanel1;
-	public DefaultTableModel FileListModel;
+	public static DefaultTableModel FileListModel;
 
 	// 已导入的文件列表
-	public Object[][] datas;
+	public static Object[][] datas;
 	private JTable FileListTable;
 	private JScrollPane FileListScrollPane;
 
@@ -121,11 +121,11 @@ class GUIImportList extends JFrame {
 
 	public GUIImportList() {
 		frame.setBounds(580, 280, 500, 500);
-		final String[] FileListHead = { "序号", "导入文件" };
+		final String[] head = { "序号", "导入文件" };
 
 		//datas = new Object[][]{{GUIImport.i, filename}};
 
-		FileListModel = new DefaultTableModel(datas, FileListHead);
+		FileListModel = new DefaultTableModel(datas, head);
 		FileListTable = new JTable(FileListModel);
 		FileListScrollPane = new JScrollPane(FileListTable);
 
