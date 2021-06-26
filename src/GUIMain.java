@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class GUIMain extends JFrame {
+	// 本窗体
+	final GUIMain ThisForm = this;
+
 	// 默认字体
 	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
@@ -148,9 +151,8 @@ public class GUIMain extends JFrame {
 		static final int ButtonPadding = 3 * Global.StringPaddingInChrD;
 
 		@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
-			final GUIMain MainFrame = (GUIMain) e.getComponent();
-			final int X = MainFrame.getContentPane().getWidth();
-			final int Y = MainFrame.getContentPane().getHeight();
+			final int X = ThisForm.getContentPane().getWidth();
+			final int Y = ThisForm.getContentPane().getHeight();
 
 			/*按钮*/
 			btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
@@ -508,7 +510,7 @@ public class GUIMain extends JFrame {
 //		Model.fireTableDataChanged();
 
 		this.add(ScrollPane);
-//		Refresh();
+		Refresh();
 	}
 
 	public void ShowAllDiscussions() {
