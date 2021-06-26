@@ -72,7 +72,7 @@ public class GUISettings extends JFrame {
 		btnOK.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				try { // 配置文件强制 UTF-8 编码
-					SettingsEditingArea.setText(Config.LoadConfigXMLWithoutParsing(ImportSettingsDialog.getSelectedFile().getAbsolutePath()));
+					Config.SaveConfig(SettingsEditingArea.getText(), Global.DefaultConfig);
 				}
 				catch (IOException fileNotFoundException) {
 					fileNotFoundException.printStackTrace();
