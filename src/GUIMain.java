@@ -628,10 +628,12 @@ public class GUIMain extends JFrame {
 		try {
 			synchronized (DataManipulator.SearchInspector.UniqueInspector()) {
 				DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
+				System.out.println("Waiting for the completion of search...");
 				DataManipulator.SearchInspector.UniqueInspector().wait();
+				System.out.println("Wait failed. This statement should never be executed.");
 			}
 		}
-		catch (final InterruptedException ignored) {}
+		catch (final InterruptedException ignored) { System.out.println("Search complete!"); }
 		SearchResultModel = new DiscussionTableModel(true);
 		SearchResultTable = new JTable(SearchResultModel);
 		SearchResultScrollPane = new JScrollPane(SearchResultTable);

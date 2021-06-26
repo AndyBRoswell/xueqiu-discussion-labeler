@@ -68,7 +68,15 @@ public class Main {
 //		DataManipulator.Search(0, null, new String[]{ "是" });
 //		DataManipulator.Search(0, new String[]{ "梭哈" }, null);
 //		DataManipulator.Search(0, new String[]{ "20W" }, null);
-		DataManipulator.Search(0, null, new String[]{"手机"});
+		try {
+			synchronized (DataManipulator.SearchInspector.UniqueInspector()) {
+				DataManipulator.Search(0, null, new String[]{ "手机" });
+				System.out.println("Waiting for the completion of search...");
+				DataManipulator.SearchInspector.UniqueInspector().wait();
+				System.out.println("Wait failed. This statement should never be executed.");
+			}
+		}
+		catch (final InterruptedException ignored) { System.out.println("Search complete!"); }
 //		DataManipulator.Search(0, null, new String[]{"手机","数码"});
 
 		// 最终的搜索结果
