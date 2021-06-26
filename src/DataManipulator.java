@@ -352,7 +352,7 @@ public class DataManipulator {
 				for (int i = 0; i < DiscussionList.size(); ++i) SearchResult.add(i);
 				break;
 		}
-		System.out.println("Entries remaining after SearchWithLabeledFlag: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
+//		System.out.println("Entries remaining after SearchWithLabeledFlag: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 		SearchInspector.AThreadHasCompleted();
 	}
 
@@ -404,7 +404,7 @@ public class DataManipulator {
 			}
 		}
 		SearchInspector.AThreadHasCompleted();
-		System.out.println("Entries remaining after SearchWithKeywords: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
+//		System.out.println("Entries remaining after SearchWithKeywords: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按标签搜索
@@ -419,7 +419,7 @@ public class DataManipulator {
 				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
 			}
 		}
-		System.out.println("Entries remaining after SearchWithLabels: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
+//		System.out.println("Entries remaining after SearchWithLabels: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 		SearchInspector.AThreadHasCompleted();
 	}
 
