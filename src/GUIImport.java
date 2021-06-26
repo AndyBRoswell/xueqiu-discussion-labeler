@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,33 +12,33 @@ import java.util.ArrayList;
 
 public class GUIImport extends JFrame {
 	private static final Logger logger = Logger.getLogger(GUIImport.class);
-	final JButton yes = new JButton("确定");
-	final JButton no = new JButton("取消");
-	final JButton chooseFile = new JButton("浏览");
+	final JButton buttonYes = new JButton("确定");
+	final JButton buttonNo = new JButton("取消");
+	final JButton buttonChooseFile = new JButton("浏览");
 	static final ArrayList<String> list = new ArrayList<String>();
 	static int i;
 
 	public GUIImport() {
-		final JFrame frame = new JFrame("导入");
+		final JFrame ImportFrame = new JFrame("导入");
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(new Rectangle(Screen.width / 4, Screen.height / 4));
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		Container container = frame.getContentPane();
-		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		ImportFrame.setBounds(new Rectangle(Screen.width / 4, Screen.height / 4));
+		ImportFrame.setLocationRelativeTo(null);
+		ImportFrame.setVisible(true);
+		Container ImportFrameContainer = ImportFrame.getContentPane();
+		ImportFrameContainer.setLayout(new BoxLayout(ImportFrameContainer, BoxLayout.Y_AXIS));
 		JPanel panel = new JPanel(new FlowLayout());
 		JPanel panel2 = new JPanel(new FlowLayout());
 		JLabel label = new JLabel("导入文件:");
 		JTextField textField = new JTextField(30);
 		panel.add(label);
 		panel.add(textField);
-		panel.add(chooseFile);
-		panel2.add(yes);
-		panel2.add(no);
-		container.add(panel);
-		container.add(panel2);
-		frame.pack();
-		yes.addActionListener(new ActionListener() {
+		panel.add(buttonChooseFile);
+		panel2.add(buttonYes);
+		panel2.add(buttonNo);
+		ImportFrameContainer.add(panel);
+		ImportFrameContainer.add(panel2);
+		ImportFrame.pack();
+		buttonYes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String string = textField.getText();
@@ -48,20 +47,20 @@ public class GUIImport extends JFrame {
 				}
 				else {
 					setChooseFileName(string);
-					frame.dispose();
+					ImportFrame.dispose();
 
 					textField.setText("");
 				}
 			}
 		});
-		no.addActionListener(new ActionListener() {
+		buttonNo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				ImportFrame.dispose();
 			}
 		});
 		//浏览的按钮,选择文件
-		chooseFile.addActionListener(new ActionListener() {
+		buttonChooseFile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				fileChoose();
@@ -85,7 +84,7 @@ public class GUIImport extends JFrame {
 					str = file.getAbsoluteFile().toString();
 					list.add(str);
 					i = list.indexOf(str) + 1;
-					GUIImportList.model.addRow(new Object[]{ GUIImport.i, GUIImport.list.get(GUIImport.i - 1) });
+					GUIImportList.FileListModel.addRow(new Object[]{ GUIImport.i, GUIImport.list.get(GUIImport.i - 1) });
 				}
 			}
 		}
@@ -101,44 +100,54 @@ public class GUIImport extends JFrame {
 }
 
 class GUIImportList extends JFrame {
-	public static Object[][] datas;
 	//操作面板，用于放置增删改按钮
-	private JPanel controlPanel;
-	private JPanel controlPanel1;
-	public static DefaultTableModel model;
-	private JTable table;
-	private JScrollPane scrollPane;
-	private JButton deleteBtn = new JButton("删除导入");
-	private JButton yesBtn = new JButton("确认导入");
-	private JButton addBtn = new JButton("添加任务");
-	private JButton allDeleteBtn = new JButton("全部清空");
-	JFrame frame = new JFrame("导入列表");
+	private final JPanel controlPanel;
+	private final JPanel controlPanel1;
+	public DefaultTableModel FileListModel;
+
+	// 已导入的文件列表
+	public Object[][] datas;
+	private JTable FileListTable;
+	private JScrollPane FileListScrollPane;
+
+	// 按钮
+	private final JButton DeleteButton = new JButton("删除导入");
+	private final JButton ConfirmButton = new JButton("确认导入");
+	private final JButton AddButton = new JButton("添加任务");
+	private final JButton ClearButton = new JButton("全部清空");
+
+	// 主窗体
+	final JFrame frame = new JFrame("导入列表");
 
 	public GUIImportList() {
 		frame.setBounds(580, 280, 500, 500);
-		String[] head = { "序号", "导入文件" };
+		final String[] FileListHead = { "序号", "导入文件" };
 
 		//datas = new Object[][]{{GUIImport.i, filename}};
 
-		model = new DefaultTableModel(datas, head);
-		table = new JTable(model);
-		scrollPane = new JScrollPane(table);
+		FileListModel = new DefaultTableModel(datas, FileListHead);
+		FileListTable = new JTable(FileListModel);
+		FileListScrollPane = new JScrollPane(FileListTable);
+
 		controlPanel1 = new JPanel();
-		controlPanel1.add(deleteBtn);
-		controlPanel1.add(allDeleteBtn);
+		controlPanel1.add(DeleteButton);
+		controlPanel1.add(ClearButton);
+
 		controlPanel = new JPanel();
-		controlPanel.add(addBtn);
-		controlPanel.add(yesBtn);
+		controlPanel.add(AddButton);
+		controlPanel.add(ConfirmButton);
+
 		frame.add(controlPanel1, BorderLayout.NORTH);
 		frame.add(controlPanel, BorderLayout.SOUTH);
-		frame.add(scrollPane, BorderLayout.CENTER);
+		frame.add(FileListScrollPane, BorderLayout.CENTER);
 
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 		render.setHorizontalAlignment(SwingConstants.CENTER);
-		table.getColumn("序号").setCellRenderer(render);
-		table.getColumn("导入文件").setCellRenderer(render);
+		FileListTable.getColumn("序号").setCellRenderer(render);
+		FileListTable.getColumn("导入文件").setCellRenderer(render);
+
 		//设置行宽
-		DefaultTableColumnModel dcm = (DefaultTableColumnModel) table.getColumnModel();
+		DefaultTableColumnModel dcm = (DefaultTableColumnModel) FileListTable.getColumnModel();
 		dcm.getColumn(0).setPreferredWidth(60); //设置表格显示的最好宽度，即此时表格显示的宽度。
 		dcm.getColumn(0).setMinWidth(45);//设置表格通过拖动列可以的最小宽度。
 		dcm.getColumn(0).setMaxWidth(75);//设置表格通过拖动列可以的最大宽度。
@@ -146,33 +155,35 @@ class GUIImportList extends JFrame {
 		frame.setVisible(true);
 
 		//删除按钮
-		deleteBtn.addActionListener(new ActionListener() {
+		DeleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int row = table.getSelectedRow();
+				int row = FileListTable.getSelectedRow();
 				//int num= (int) model.getValueAt(row,0);
 				//System.out.println(num);
 				if (row == -1) {
 					JOptionPane.showMessageDialog(null, "请先选择一条记录！");
 					return;
 				}
-				model.removeRow(table.getSelectedRow());
+				FileListModel.removeRow(FileListTable.getSelectedRow());
 				GUIImport.list.remove(row);
 			}
 		});
+
 		//全部清空按钮
-		allDeleteBtn.addActionListener(new ActionListener() {
+		ClearButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for (int index = table.getModel().getRowCount() - 1; index >= 0; index--) {
-					model.removeRow(index);
+				for (int index = FileListTable.getModel().getRowCount() - 1; index >= 0; index--) {
+					FileListModel.removeRow(index);
 				}
 				GUIImport.list.clear();
 				JOptionPane.showMessageDialog(null, "清空成功！");
 			}
 		});
+
 		//确认导入按钮
-		yesBtn.addActionListener(new ActionListener() {
+		ConfirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println(GUIImport.list);
@@ -189,8 +200,9 @@ class GUIImportList extends JFrame {
 				frame.dispose();
 			}
 		});
+
 		//继续添加按钮
-		addBtn.addActionListener(new ActionListener() {
+		AddButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				GUIImport.fileChoose();
