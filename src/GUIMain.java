@@ -453,12 +453,7 @@ public class GUIMain extends JFrame {
 
 	// 重绘主界面
 	public void Refresh() {
-		final Dimension d = this.getSize();
-		--d.height;
-		this.setSize(d);
-		++d.height;
-		this.setSize(d);
-//		SwingUtilities.updateComponentTreeUI(ThisForm);
+		RearrangeComponents();
 	}
 
 	// 选中动作监听程序（内部类）
