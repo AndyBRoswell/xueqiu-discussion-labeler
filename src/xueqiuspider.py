@@ -105,14 +105,14 @@ def parse_comment_url_with_random_test_labels(url):
 
 # Parameters for crawling
 access_delay = 3
-reaccess_delay = 5
-crawl_pages = 100
+retry_delay = 5
+page_count = 100
 
 file_name = sys.argv[1]		# 保存的文件名
-stock_num = sys.argv[2]		# 输入股票代码
+ticker_symbol = sys.argv[2]		# 输入股票代码
 encoding = sys.argv[3]		# 保存文件的编码
-for i in range(crawl_pages):
-	detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(stock_num, i + 1)
+for i in range(page_count):
+	detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(ticker_symbol, i + 1)
 	try:
 		if ("--random" in sys.argv):
 			print("正爬取：" + detail_url + " 并生成测试用的随机标注。")
@@ -123,12 +123,12 @@ for i in range(crawl_pages):
 		time.sleep(access_delay)
 	except Exception as e: 
 		print("Error: ", e)
-		time.sleep(reaccess_delay)
+		time.sleep(retry_delay)
 		if ("--random" in sys.argv):
 			print("正爬取：" + detail_url + " 并生成测试用的随机标注。")
 			comment_data, count = parse_comment_url_with_random_test_labels(detail_url)
 		else:
 			print("正爬取：" + detail_url)
 			comment_data, count = parse_comment_url(detail_url)
-		time.sleep(reaccess_delay)
+		time.sleep(retry_delay)
 	save_file(comment_data, encoding)
