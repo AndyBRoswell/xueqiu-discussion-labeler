@@ -42,16 +42,17 @@ public class GUIImportFiles extends JFrame {
 		super.setSize(Screen.width / 4, Screen.height / 4);
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLocationRelativeTo(null);
+		final GridBagLayout GUIImportFilesLayout = new GridBagLayout();
 		super.getContentPane().setLayout(new GridBagLayout());
 
 		final GridBagConstraints TableLayout = new GridBagConstraints();
 		TableLayout.gridx = TableLayout.gridy = 0;
-		TableLayout.weighty = 1;
+		TableLayout.weightx = TableLayout.weighty = 1;
 		TableLayout.fill = GridBagConstraints.BOTH;
 
 		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
 		ButtonPanelLayout.gridx = 0; ButtonPanelLayout.gridy = 1;
-		ButtonPanelLayout.weighty = 0;
+		ButtonPanelLayout.weightx = 1; ButtonPanelLayout.weighty = 0;
 		ButtonPanelLayout.fill = GridBagConstraints.BOTH;
 
 		// 动作监听程序
