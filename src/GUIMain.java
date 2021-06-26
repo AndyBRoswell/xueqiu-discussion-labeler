@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class GUIMain extends JFrame {
+	// 本窗体
+	final GUIMain ThisForm = this;
+
 	// 默认字体
 	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
@@ -140,131 +143,146 @@ public class GUIMain extends JFrame {
 
 	// 主窗体动作监听程序（内部类）
 	class MainFrameListener implements ComponentListener {
-		static final int w0 = Global.FontSizeD;
-		static final int h0 = 2 * Global.FontSizeD;
-		static final int wGUILabel = 6 * w0;
-		static final int gap = Global.ComponentGapD;
-		static final int LabelPadding = Global.StringPaddingInChrD;
-		static final int ButtonPadding = 3 * Global.StringPaddingInChrD;
-
-		@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
-			final GUIMain MainFrame = (GUIMain) e.getComponent();
-			final int X = MainFrame.getContentPane().getWidth();
-			final int Y = MainFrame.getContentPane().getHeight();
-
-			/*按钮*/
-			btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
-
-			/*搜索*/
-			btnSearch.setBounds(btnTaskList.getX() - w0 * (btnSearch.getText().length() + ButtonPadding), 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
-			btnBack.setBounds(btnTaskList.getX() - w0 * (btnBack.getText().length() + ButtonPadding), h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
-			cbLabeled.setBounds(btnSearch.getX() - wGUILabel, 0, wGUILabel, h0);
-			cbUnlabeled.setBounds(btnSearch.getX() - wGUILabel, cbLabeled.getHeight(), wGUILabel, h0);
-			tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
-			tfSearchByLabel.setBounds(0, cbLabeled.getHeight(), cbLabeled.getX(), h0);
-
-			/*表格*/
-			DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
-			DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
-			if (SearchResultScrollPane != null) { // 如果有搜索结果，将覆盖原来显示全部股评的位置
-				SearchResultTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
-				SearchResultScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
-			}
-
-			/*标注添加标签与按钮*/
-			AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
-			btnAddAvailableLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
-			btnAddAvailableLabelCategory.setBorderPainted(false);
-			btnSaveAvailableLabels.setBounds(0, btnAddAvailableLabelCategory.getY() + btnAddAvailableLabelCategory.getHeight(), wGUILabel, 2 * h0);
-			btnSaveAvailableLabels.setBorderPainted(false);
-
-			/*可选标注滚动面板*/
-//			AllLabelsPanel.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
-			AllLabelsPanel.setLayout(null);
-			AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
-			AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-//			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
-//			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
-//				for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
-//					DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
-			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
-				DiscussionModel.fireTableChanged(new TableModelEvent(DiscussionModel, i));
-			if (SearchResultModel != null) { // 如果存在搜索结果
-//				for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
-//					for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
-//						SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
-				for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
-					SearchResultModel.fireTableChanged(new TableModelEvent(SearchResultModel, i));
-			}
-
-			{
-				int XC = 0, YC = 0; // 当前摆放控件的位置
-				final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
-
-				SelectedRows = DiscussionTable.getSelectedRows();
-				int Ci = 0;
-				final Component[] Components = AllLabelsPanel.getComponents();
-				final Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
-				for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
-					int w, h;
-
-					// 更改标签类名称控件的位置与大小
-					final String CatName = Cat.getKey();
-					final LabelCategoryComponent lbCatName = (LabelCategoryComponent) Components[Ci];
-					w = w0 * (CatName.length() + LabelPadding);
-					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-					lbCatName.setBounds(XC, YC, w, h0);
-					XC += lbCatName.getWidth();
-					++Ci; // 取下一个部件
-
-					// 该标签类下的全部标签及其使用数据对应的控件的大小
-					for (String LabelName : Cat.getValue()) {
-						// 标签控件
-						final LabelButton btLabel = (LabelButton) Components[Ci];
-						w = w0 * (LabelName.length() + ButtonPadding);
-						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-						btLabel.setBounds(XC, YC, w, h0);
-						XC += btLabel.getWidth();
-						++Ci; // 取下一个部件
-
-						// 被选中次数标签控件（更新被选中次数）
-						int TotalLabeledCount = 0;
-						for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
-							final Map<String, LabelStatus> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条选中的股评，都要查找是否包含此标签类
-							if (ContainedLabels != null) { // 该股评条目的标注确包含该标签类
-								final LabelStatus ThisLabelStatus = ContainedLabels.get(LabelName);
-								if (ThisLabelStatus != null) TotalLabeledCount += ThisLabelStatus.LabeledCount;
-							}
-						}
-						LabeledCountComponent lbCount = (LabeledCountComponent) Components[Ci];
-						lbCount.setText(String.valueOf(TotalLabeledCount));
-						w = w0 + (lbCount.getText().length() + LabelPadding);
-						if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-						lbCount.setBounds(XC, YC, w, h0);
-						XC += lbCount.getWidth();
-						++Ci; // 取下一个部件
-					}
-
-					// 更改添加标签按钮的位置
-					final JButton btnAddLabel = (JButton) Components[Ci];
-					w = icoSmallAdd.getIconWidth() * 3 / 2;
-					h = icoSmallAdd.getIconHeight() * 3 / 2;
-					if (w > XM - XC) { XC = 0; YC += h0; } // 控件过长，放到下一行
-					btnAddLabel.setBounds(XC, YC, w, h);
-					XC += btnAddLabel.getWidth();
-					++Ci; // 取下一个部件
-				}
-
-				AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
-			}
-		}
+		@Override public void componentResized(ComponentEvent e) { RearrangeComponents(); }
 
 		@Override public void componentMoved(ComponentEvent e) {}
 
 		@Override public void componentShown(ComponentEvent e) {}
 
 		@Override public void componentHidden(ComponentEvent e) {}
+	}
+
+	public void RearrangeComponents() { // 调整各控件的位置与大小
+		final int w0 = Global.FontSizeD;
+		final int h0 = 2 * Global.FontSizeD;
+		final int wGUILabel = 6 * w0;
+		final int gap = Global.ComponentGapD;
+		final int LabelPadding = Global.StringPaddingInChrD;
+		final int ButtonPadding = 3 * Global.StringPaddingInChrD;
+
+		final int X = ThisForm.getContentPane().getWidth();
+		final int Y = ThisForm.getContentPane().getHeight();
+
+		/*按钮*/
+		btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
+
+		/*搜索*/
+		btnSearch.setBounds(btnTaskList.getX() - w0 * (btnSearch.getText().length() + ButtonPadding), 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
+		btnBack.setBounds(btnTaskList.getX() - w0 * (btnBack.getText().length() + ButtonPadding), h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
+		cbLabeled.setBounds(btnSearch.getX() - wGUILabel, 0, wGUILabel, h0);
+		cbUnlabeled.setBounds(btnSearch.getX() - wGUILabel, cbLabeled.getHeight(), wGUILabel, h0);
+		tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
+		tfSearchByLabel.setBounds(0, cbLabeled.getHeight(), cbLabeled.getX(), h0);
+
+		/*表格*/
+		DiscussionTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+		DiscussionScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+		if (SearchResultScrollPane != null) { // 如果有搜索结果，将覆盖原来显示全部股评的位置
+			SearchResultTable.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+			SearchResultScrollPane.setBounds(0, tfSearchByLabel.getY() + tfSearchByLabel.getHeight(), X, Y * 7 / 10);
+		}
+
+		/*标注添加标签与按钮*/
+		AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
+		btnAddAvailableLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
+		btnAddAvailableLabelCategory.setBorderPainted(false);
+		btnSaveAvailableLabels.setBounds(0, btnAddAvailableLabelCategory.getY() + btnAddAvailableLabelCategory.getHeight(), wGUILabel, 2 * h0);
+		btnSaveAvailableLabels.setBorderPainted(false);
+
+		/*可选标注滚动面板*/
+//			AllLabelsPanel.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+		AllLabelsPanel.setLayout(null);
+		AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+		AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
+//			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+//				for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
+//					DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+			DiscussionModel.fireTableChanged(new TableModelEvent(DiscussionModel, i));
+//			DiscussionModel.fireTableDataChanged();
+		if (SearchResultModel != null) { // 如果存在搜索结果
+//				for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
+//					for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
+//						SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+			for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
+				SearchResultModel.fireTableChanged(new TableModelEvent(SearchResultModel, i));
+//				SearchResultModel.fireTableDataChanged();
+		}
+
+		{
+			int XC = 0, YC = 0; // 当前摆放控件的位置
+			final int XM = AllLabelsScrollPane.getWidth(), YM = AllLabelsScrollPane.getHeight();
+
+			SelectedRows = DiscussionTable.getSelectedRows();
+			int Ci = 0;
+			final Component[] Components = AllLabelsPanel.getComponents();
+			final Map<String, HashSet<String>> AllLabels = DataManipulator.GetAllLabels();
+			for (Map.Entry<String, HashSet<String>> Cat : AllLabels.entrySet()) {
+				int w, h;
+
+				// 更改标签类名称控件的位置与大小
+				final String CatName = Cat.getKey();
+				final LabelCategoryComponent lbCatName = (LabelCategoryComponent) Components[Ci];
+				w = w0 * (CatName.length() + LabelPadding);
+				if (w > XM - XC) {
+					XC = 0;
+					YC += h0;
+				} // 控件过长，放到下一行
+				lbCatName.setBounds(XC, YC, w, h0);
+				XC += lbCatName.getWidth();
+				++Ci; // 取下一个部件
+
+				// 该标签类下的全部标签及其使用数据对应的控件的大小
+				for (String LabelName : Cat.getValue()) {
+					// 标签控件
+					final LabelButton btLabel = (LabelButton) Components[Ci];
+					w = w0 * (LabelName.length() + ButtonPadding);
+					if (w > XM - XC) {
+						XC = 0;
+						YC += h0;
+					} // 控件过长，放到下一行
+					btLabel.setBounds(XC, YC, w, h0);
+					XC += btLabel.getWidth();
+					++Ci; // 取下一个部件
+
+					// 被选中次数标签控件（更新被选中次数）
+					int TotalLabeledCount = 0;
+					for (int i : SelectedRows) { // 对所有选中的行，查找每个标签被标注的次数
+						final Map<String, LabelStatus> ContainedLabels = DataManipulator.GetDiscussionItem(i).GetLabels().get(CatName); // 对每一条选中的股评，都要查找是否包含此标签类
+						if (ContainedLabels != null) { // 该股评条目的标注确包含该标签类
+							final LabelStatus ThisLabelStatus = ContainedLabels.get(LabelName);
+							if (ThisLabelStatus != null) TotalLabeledCount += ThisLabelStatus.LabeledCount;
+						}
+					}
+					LabeledCountComponent lbCount = (LabeledCountComponent) Components[Ci];
+					lbCount.setText(String.valueOf(TotalLabeledCount));
+					w = w0 + (lbCount.getText().length() + LabelPadding);
+					if (w > XM - XC) {
+						XC = 0;
+						YC += h0;
+					} // 控件过长，放到下一行
+					lbCount.setBounds(XC, YC, w, h0);
+					XC += lbCount.getWidth();
+					++Ci; // 取下一个部件
+				}
+
+				// 更改添加标签按钮的位置
+				final JButton btnAddLabel = (JButton) Components[Ci];
+				w = icoSmallAdd.getIconWidth() * 3 / 2;
+				h = icoSmallAdd.getIconHeight() * 3 / 2;
+				if (w > XM - XC) {
+					XC = 0;
+					YC += h0;
+				} // 控件过长，放到下一行
+				btnAddLabel.setBounds(XC, YC, w, h);
+				XC += btnAddLabel.getWidth();
+				++Ci; // 取下一个部件
+			}
+
+			AllLabelsPanel.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), YC + h0)); // 不正确地设置此处的参数会导致可选标注面板的滚动范围不正确
+		}
 	}
 
 	// 初始化主界面
@@ -275,7 +293,7 @@ public class GUIMain extends JFrame {
 
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
-		super.setSize((int) Screen.getWidth() / 2, (int) Screen.getHeight() / 2);
+		super.setSize(Screen.width / 2, Screen.height / 2);
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		super.getContentPane().setLayout(null);
@@ -329,17 +347,25 @@ public class GUIMain extends JFrame {
 		// 菜单项的动作监听程序
 		ImportMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				new GUIImportList();
+//				new GUIImportList();
+				try { new GUIImportFiles(); }
+				catch (XPathExpressionException xPathExpressionException) { xPathExpressionException.printStackTrace(); }
 			}
 		});
 		ExportMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIExport(); }
+			@Override public void actionPerformed(ActionEvent e) {
+				try { new GUIExportFiles(); }
+				catch (XPathExpressionException xPathExpressionException) { xPathExpressionException.printStackTrace(); }
+			}
 		});
 		JournalMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { new GUIJournal(); }
 		});
 		SettingsMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIConfig(Global.DefaultConfig); }
+			@Override public void actionPerformed(ActionEvent e) {
+				try { new GUISettings(); }
+				catch (IOException ioException) { ioException.printStackTrace(); }
+			}
 		});
 		ExitMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { Global.MainForm.dispose(); }
@@ -427,11 +453,7 @@ public class GUIMain extends JFrame {
 
 	// 重绘主界面
 	public void Refresh() {
-		final Dimension d = this.getSize();
-		--d.height;
-		this.setSize(d);
-		++d.height;
-		this.setSize(d);
+		RearrangeComponents();
 	}
 
 	// 选中动作监听程序（内部类）
@@ -474,8 +496,8 @@ public class GUIMain extends JFrame {
 		}
 	}
 
-	// 显示股票讨论
-	public void ShowDiscussions(DiscussionTableModel Model, JTable Table, JScrollPane ScrollPane) {
+	// 显示股票讨论（内部用）
+	private void ShowDiscussions(DiscussionTableModel Model, JTable Table, JScrollPane ScrollPane) {
 		// 动作监听程序与单元格渲染程序
 		Model.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
@@ -495,6 +517,7 @@ public class GUIMain extends JFrame {
 		for (int i = 0; i < Model.getRowCount(); ++i)
 			for (int j = 0; j < Model.getColumnCount(); ++j)
 				Model.fireTableCellUpdated(i, j);
+//		Model.fireTableDataChanged();
 
 		this.add(ScrollPane);
 		Refresh();
