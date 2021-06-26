@@ -52,7 +52,7 @@ public class GUISettings extends JFrame {
 
 		final GridBagConstraints SettingsEditingAreaLayout = new GridBagConstraints();
 		SettingsEditingAreaLayout.gridx = SettingsEditingAreaLayout.gridy = 0;
-		SettingsEditingAreaLayout.weightx = 1; SettingsEditingAreaLayout.weighty = 0;
+		SettingsEditingAreaLayout.weightx = SettingsEditingAreaLayout.weighty = 1;
 		SettingsEditingAreaLayout.fill = GridBagConstraints.BOTH;
 
 		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
@@ -96,7 +96,10 @@ public class GUISettings extends JFrame {
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					try { // 配置文件强制 UTF-8 编码
 						final BufferedReader CfgFileReader = new BufferedReader(new FileReader(ImportSettingsDialog.getSelectedFile().getAbsolutePath(), StandardCharsets.UTF_8));
-						
+						String Line;
+						while ((Line = CfgFileReader.readLine()) != null) {
+							SettingsEditingArea.append(Line);
+						}
 					}
 					catch (IOException fileNotFoundException) {
 						fileNotFoundException.printStackTrace();
@@ -109,6 +112,14 @@ public class GUISettings extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) {
 				int ret = ExportSettingsDialog.showSaveDialog(null);
 				if (ret == JFileChooser.APPROVE_OPTION) {
+					try {
+						final BufferedWriter CfgFileWriter = new BufferedWriter(new FileWriter(ExportSettingsDialog.getSelectedFile().getAbsolutePath(), StandardCharsets.UTF_8));
+						CfgFileWriter.write(SettingsEditingArea.getText());
+						CfgFileWriter.close();
+					}
+					catch (IOException ioException) {
+						ioException.printStackTrace();
+					}
 
 				}
 			}
