@@ -275,7 +275,7 @@ public class GUIMain extends JFrame {
 
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
-		super.setSize((int) Screen.getWidth() / 2, (int) Screen.getHeight() / 2);
+		super.setSize(Screen.width / 2, Screen.height / 2);
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		super.getContentPane().setLayout(null);

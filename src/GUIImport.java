@@ -12,16 +12,17 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class GUIImport extends JFrame {
-	private static Logger logger = Logger.getLogger(GUIImport.class);
-	JButton yes = new JButton("确定");
-	JButton no = new JButton("取消");
-	JButton chooseFile = new JButton("浏览");
-	static ArrayList<String> list = new ArrayList<String>();
+	private static final Logger logger = Logger.getLogger(GUIImport.class);
+	final JButton yes = new JButton("确定");
+	final JButton no = new JButton("取消");
+	final JButton chooseFile = new JButton("浏览");
+	static final ArrayList<String> list = new ArrayList<String>();
 	static int i;
 
 	public GUIImport() {
-		JFrame frame = new JFrame("导入");
-		frame.setBounds(new Rectangle(500, 200));
+		final JFrame frame = new JFrame("导入");
+		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setBounds(new Rectangle(Screen.width / 4, Screen.height / 4));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		Container container = frame.getContentPane();
