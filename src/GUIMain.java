@@ -511,8 +511,8 @@ public class GUIMain extends JFrame {
 
 	public void ShowSearchResult() throws InterruptedException {
 		int LabeledFlag = 0;
-		if (cbLabeled.isSelected() == true) LabeledFlag |= 0b10;
-		if (cbUnlabeled.isSelected() == true) LabeledFlag |= 0b1;
+		if (cbLabeled.isSelected() == true) LabeledFlag |= DataManipulator.SEARCHPARAMLABELED;
+		if (cbUnlabeled.isSelected() == true) LabeledFlag |= DataManipulator.SEARCHPARAMUNLABELED;
 		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
 		SearchResultModel = new DiscussionTableModel(true);
 		SearchResultTable = new JTable(SearchResultModel);
@@ -526,9 +526,6 @@ public class GUIMain extends JFrame {
 	public void ClearSearchResult() {
 		DataManipulator.ClearSearchResult();
 		super.remove(SearchResultScrollPane);
-//		SearchResultModel = new DiscussionTableModel(true);
-//		SearchResultTable = new JTable(SearchResultModel);
-//		SearchResultScrollPane = new JScrollPane(SearchResultTable);
 		Refresh();
 		DiscussionTable.setVisible(true);
 		DiscussionScrollPane.setVisible(true);

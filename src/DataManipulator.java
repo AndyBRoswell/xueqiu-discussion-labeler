@@ -49,6 +49,9 @@ public class DataManipulator {
 	private static final ArrayList<ArrayList<Integer>> SearchResults = new ArrayList<>(); // 用于存放搜索结果
 //	private static final TreeSet<Integer> FinalSearchResult = new TreeSet<>();
 
+	public static final int SEARCHPARAMLABELED = 0b10;
+	public static final int SEARCHPARAMUNLABELED = 0b1;
+
 	/* 对可选标注的维护 */
 
 	// 获得全部可用标注
@@ -329,6 +332,7 @@ public class DataManipulator {
 				}
 				break;
 			default:
+				for (int i = 0; i < DiscussionList.size(); ++i) SearchResult.add(i);
 				break;
 		}
 //		System.out.println("Entries remaining after SearchWithLabeledFlag: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
