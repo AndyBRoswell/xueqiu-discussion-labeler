@@ -45,12 +45,12 @@ public class GUIExportFiles extends JFrame {
 		final GridBagConstraints PathnameBoxLayout = new GridBagConstraints();
 		PathnameBoxLayout.gridx = PathnameBoxLayout.gridy = 0;
 		PathnameBoxLayout.weightx = PathnameBoxLayout.weighty = 0;
-		PathnameBoxLayout.fill = GridBagConstraints.BOTH;
+		PathnameBoxLayout.fill = GridBagConstraints.HORIZONTAL;
 
 		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
 		ButtonPanelLayout.gridx = 0; ButtonPanelLayout.gridy = 1;
 		ButtonPanelLayout.weightx = 1; ButtonPanelLayout.weighty = 0;
-		ButtonPanelLayout.fill = GridBagConstraints.BOTH;
+		ButtonPanelLayout.fill = GridBagConstraints.HORIZONTAL;
 
 		// 文件对话框的设置
 		SaveDialog.setMultiSelectionEnabled(false);
@@ -61,7 +61,7 @@ public class GUIExportFiles extends JFrame {
 		cbEncoding.setSelectedIndex(Arrays.asList(Global.EncodingNames).indexOf(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-export-encoding")));
 
 		// 动作监听程序
-		
+
 
 		// 添加控件
 		ButtonPanel.add(btnOK);
