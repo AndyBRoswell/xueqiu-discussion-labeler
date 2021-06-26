@@ -25,7 +25,7 @@
 			<default-export-dir>//default-save-path//</default-export-dir>
 			<!-- <operation-for-filename-conflict></operation-for-filename-conflict> -->
 			<!-- 
-				文件冲突时的操作：
+				文件冲突时的操作（此功能暂不支持）：
 			 -->
 		</import-and-export>
 		<backup-and-restore>
