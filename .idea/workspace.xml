@@ -196,11 +196,6 @@
           <line>364</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GUIMain.java</url>
-          <line>515</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

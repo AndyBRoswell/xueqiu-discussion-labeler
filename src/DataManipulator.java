@@ -239,16 +239,22 @@ public class DataManipulator {
 		SearchResults.clear();
 		if (LabeledFlag != 0) {
 			SearchResults.add(new ArrayList<>());
+			System.out.println("Begin SearchWithLabeledFlag...");
 			new Thread(() -> SearchWithLabeledFlag(LabeledFlag, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
+		SearchInspector.WaitForSearchCompletion();
 		if (Keywords != null && Keywords[0].equals("") == false) {
 			SearchResults.add(new ArrayList<>());
+			System.out.println("Begin SearchWithKeywords...");
 			new Thread(() -> SearchWithKeywords(Keywords, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
+		SearchInspector.WaitForSearchCompletion();
 		if (Labels != null && Labels[0].equals("") == false) {
 			SearchResults.add(new ArrayList<>());
+			System.out.println("Begin SearchWithLabels...");
 			new Thread(() -> SearchWithLabels(Labels, GetSecondToTheLastSearchResult(), GetLastSearchResult())).start();
 		}
+		SearchInspector.WaitForSearchCompletion();
 //		FinalSearchResult.clear();
 		// 怪事，这里不加延迟结果就不对，添加不进去
 //		Thread.sleep(1000);
@@ -263,7 +269,6 @@ public class DataManipulator {
 //		synchronized (SearchInspector.UniqueMonitor()) {
 //			SearchInspector.UniqueMonitor().wait();
 //		}
-		SearchInspector.WaitForSearchCompletion();
 	}
 
 	private static ArrayList<Integer> GetSecondToTheLastSearchResult() { // 返回倒数第二个搜索结果（供搜索函数内部使用）
@@ -335,7 +340,7 @@ public class DataManipulator {
 				for (int i = 0; i < DiscussionList.size(); ++i) SearchResult.add(i);
 				break;
 		}
-//		System.out.println("Entries remaining after SearchWithLabeledFlag: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
+		System.out.println("Entries remaining after SearchWithLabeledFlag: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 		SearchInspector.AThreadHasCompleted();
 	}
 
@@ -387,7 +392,7 @@ public class DataManipulator {
 			}
 		}
 		SearchInspector.AThreadHasCompleted();
-//		System.out.println("Entries remaining after SearchWithKeywords: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
+		System.out.println("Entries remaining after SearchWithKeywords: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 	}
 
 	private static void SearchWithLabels(String[] Labels, ArrayList<Integer> SearchRange, ArrayList<Integer> SearchResult) { // 按标签搜索
@@ -402,7 +407,7 @@ public class DataManipulator {
 				SearchDiscussionItemWithLabels(Labels, i, SearchResult);
 			}
 		}
-//		System.out.println("Entries remaining after SearchWithLabels: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
+		System.out.println("Entries remaining after SearchWithLabels: " + (GetLastSearchResult() == null ? DiscussionList.size() : GetLastSearchResult().size()));
 		SearchInspector.AThreadHasCompleted();
 	}
 
