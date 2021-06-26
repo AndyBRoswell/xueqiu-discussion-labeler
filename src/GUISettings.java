@@ -61,18 +61,22 @@ public class GUISettings extends JFrame {
 		ButtonPanelLayout.fill = GridBagConstraints.BOTH;
 
 		// 文件对话框的设置
-		ImportSettingsDialog.setMultiSelectionEnabled(true); // 允许多选
+		ImportSettingsDialog.setMultiSelectionEnabled(false); // 禁止多选
 		ImportSettingsDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		ImportSettingsDialog.setFileFilter(new XMLFilter());
-		ExportSettingsDialog.setMultiSelectionEnabled(true); // 允许多选
+		ExportSettingsDialog.setMultiSelectionEnabled(false); // 禁止多选
 		ExportSettingsDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		ExportSettingsDialog.setFileFilter(new XMLFilter());
 
 		// 动作监听程序
 		btnOK.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				try { Config.SaveConfig(Global.DefaultConfig); }
-				catch (TransformerException transformerException) { transformerException.printStackTrace(); }
+				try { // 配置文件强制 UTF-8 编码
+					SettingsEditingArea.setText(Config.LoadConfigXMLWithoutParsing(ImportSettingsDialog.getSelectedFile().getAbsolutePath()));
+				}
+				catch (IOException fileNotFoundException) {
+					fileNotFoundException.printStackTrace();
+				}
 				ThisForm.dispose();
 			}
 		});
@@ -85,8 +89,12 @@ public class GUISettings extends JFrame {
 
 		btnApply.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				try { Config.SaveConfig(Global.DefaultConfig); }
-				catch (TransformerException transformerException) { transformerException.printStackTrace(); }
+				try { // 配置文件强制 UTF-8 编码
+					Config.SaveConfig(SettingsEditingArea.getText(), Global.DefaultConfig);
+				}
+				catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
 			}
 		});
 
@@ -95,12 +103,7 @@ public class GUISettings extends JFrame {
 				int ret = ImportSettingsDialog.showOpenDialog(null);
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					try { // 配置文件强制 UTF-8 编码
-						final BufferedReader CfgFileReader = new BufferedReader(new FileReader(ImportSettingsDialog.getSelectedFile().getAbsolutePath(), StandardCharsets.UTF_8));
-						SettingsEditingArea.setText("");
-						String Line;
-						while ((Line = CfgFileReader.readLine()) != null) {
-							SettingsEditingArea.append(Line + Global.LineSeparator);
-						}
+						SettingsEditingArea.setText(Config.LoadConfigXMLWithoutParsing(ImportSettingsDialog.getSelectedFile().getAbsolutePath()));
 					}
 					catch (IOException fileNotFoundException) {
 						fileNotFoundException.printStackTrace();
@@ -113,15 +116,12 @@ public class GUISettings extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) {
 				int ret = ExportSettingsDialog.showSaveDialog(null);
 				if (ret == JFileChooser.APPROVE_OPTION) {
-					try {
-						final BufferedWriter CfgFileWriter = new BufferedWriter(new FileWriter(ExportSettingsDialog.getSelectedFile().getAbsolutePath(), StandardCharsets.UTF_8));
-						CfgFileWriter.write(SettingsEditingArea.getText());
-						CfgFileWriter.close();
+					try { // 配置文件强制 UTF-8 编码
+						Config.SaveConfig(SettingsEditingArea.getText(), ExportSettingsDialog.getSelectedFile().getAbsolutePath());
 					}
 					catch (IOException ioException) {
 						ioException.printStackTrace();
 					}
-
 				}
 			}
 		});
