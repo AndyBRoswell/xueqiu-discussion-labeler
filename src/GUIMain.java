@@ -625,15 +625,17 @@ public class GUIMain extends JFrame {
 		int LabeledFlag = 0;
 		if (cbLabeled.isSelected() == true) LabeledFlag = 0b10;
 		if (cbUnlabeled.isSelected() == true) LabeledFlag = 0b1;
-		try {
-			synchronized (DataManipulator.SearchInspector.UniqueInspector()) {
-				DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
-				System.out.println("Waiting for the completion of search...");
-				DataManipulator.SearchInspector.UniqueInspector().wait();
-				System.out.println("Wait failed. This statement should never be executed.");
-			}
-		}
-		catch (final InterruptedException ignored) { System.out.println("Search complete!"); }
+//		try {
+//			synchronized (DataManipulator.SearchInspector.UniqueInspector()) {
+//				DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
+//				System.out.println("Waiting for the completion of search...");
+//				DataManipulator.SearchInspector.UniqueInspector().wait();
+//				System.out.println("Wait failed. This statement should never be executed.");
+//			}
+//		}
+//		catch (final InterruptedException ignored) { System.out.println("Search complete!"); }
+		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
+		DataManipulator.SearchInspector.WaitForSearchCompletion();
 		SearchResultModel = new DiscussionTableModel(true);
 		SearchResultTable = new JTable(SearchResultModel);
 		SearchResultScrollPane = new JScrollPane(SearchResultTable);

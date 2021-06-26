@@ -1,5 +1,8 @@
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 class LabelStatus {
 	int LabeledCount;
@@ -128,7 +131,7 @@ public class DataManipulator {
 						Integer Count = ExistedLabelsOfThisCat.get(f.getKey()).LabeledCount;
 						// 已存在条目的该标签类里没有当前标签，直接写入该标签
 						if (Count == null) ExistedLabelsOfThisCat.put(f.getKey(), f.getValue());
-						// 否则，累加该标签的被选中次数
+							// 否则，累加该标签的被选中次数
 						else ExistedLabelsOfThisCat.put(f.getKey(), new LabelStatus(Count + f.getValue().LabeledCount));
 					}
 				}
@@ -273,8 +276,16 @@ public class DataManipulator {
 	static class SearchInspector {
 		private static Integer SearchThreadsRemaining = 0;
 		private static final Object Instance = new Object();
+		private static final Lock SearchNotCompletedLock = new ReentrantLock();
+		private static final Condition SearchNotCompleted = SearchNotCompletedLock.newCondition();
 
-		public static Object UniqueInspector() { return Instance; }
+//		public static Object UniqueInspector() { return Instance; }
+
+		public static void WaitForSearchCompletion() {
+			try { while (SearchThreadsRemaining != 0) { SearchNotCompleted.await(); } }
+			catch (InterruptedException ignored) {}
+			finally { SearchNotCompletedLock.unlock(); }
+		}
 
 		public static void AThreadHasStarted() {
 			synchronized (Instance) { ++SearchThreadsRemaining; }
@@ -283,7 +294,8 @@ public class DataManipulator {
 		public static void AThreadHasCompleted() {
 			synchronized (Instance) {
 				--SearchThreadsRemaining;
-				if (SearchThreadsRemaining == 0) Instance.notifyAll();
+//				if (SearchThreadsRemaining == 0) Instance.notifyAll();
+				if (SearchThreadsRemaining == 0) SearchNotCompleted.signalAll();
 			}
 		}
 
