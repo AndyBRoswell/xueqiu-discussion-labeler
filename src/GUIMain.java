@@ -330,7 +330,8 @@ public class GUIMain extends JFrame {
 		ImportMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 //				new GUIImportList();
-				new GUIImportFiles();
+				try { new GUIImportFiles(); }
+				catch (XPathExpressionException xPathExpressionException) { xPathExpressionException.printStackTrace(); }
 			}
 		});
 		ExportMenuItem.addActionListener(new ActionListener() {
