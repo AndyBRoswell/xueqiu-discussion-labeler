@@ -4,7 +4,9 @@ import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class GUISettings extends JFrame {
 	// 本窗体
@@ -90,13 +92,25 @@ public class GUISettings extends JFrame {
 
 		btnImportSettings.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				ImportSettingsDialog.showOpenDialog(null);
+				int ret = ImportSettingsDialog.showOpenDialog(null);
+				if (ret == JFileChooser.APPROVE_OPTION) {
+					try { // 配置文件强制 UTF-8 编码
+						final BufferedReader CfgFileReader = new BufferedReader(new FileReader(ImportSettingsDialog.getSelectedFile().getAbsolutePath(), StandardCharsets.UTF_8));
+						
+					}
+					catch (IOException fileNotFoundException) {
+						fileNotFoundException.printStackTrace();
+					}
+				}
 			}
 		});
 
 		btnExportSettings.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				ImportSettingsDialog.showSaveDialog(null);
+				int ret = ExportSettingsDialog.showSaveDialog(null);
+				if (ret == JFileChooser.APPROVE_OPTION) {
+
+				}
 			}
 		});
 
