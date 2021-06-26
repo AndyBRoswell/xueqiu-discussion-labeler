@@ -335,7 +335,10 @@ public class GUIMain extends JFrame {
 			}
 		});
 		ExportMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIExportFiles(); }
+			@Override public void actionPerformed(ActionEvent e) {
+				try { new GUIExportFiles(); }
+				catch (XPathExpressionException xPathExpressionException) { xPathExpressionException.printStackTrace(); }
+			}
 		});
 		JournalMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { new GUIJournal(); }

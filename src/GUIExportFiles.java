@@ -1,7 +1,9 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.io.File;
+import java.util.Arrays;
 
 public class GUIExportFiles extends JFrame {
 	// 按钮
@@ -31,7 +33,7 @@ public class GUIExportFiles extends JFrame {
 	}
 
 	// 加载导出文件窗口
-	public GUIExportFiles() {
+	public GUIExportFiles() throws XPathExpressionException {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setSize(Screen.width / 3, Screen.height / 3);
@@ -55,7 +57,21 @@ public class GUIExportFiles extends JFrame {
 		SaveDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		SaveDialog.setFileFilter(new CSVFilter());
 
+		// 默认编码
+		cbEncoding.setSelectedIndex(Arrays.asList(Global.EncodingNames).indexOf(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-export-encoding")));
+
 		// 动作监听程序
 		
+
+		// 添加控件
+		ButtonPanel.add(btnOK);
+		ButtonPanel.add(btnCancel);
+		ButtonPanel.add(btnBrowse);
+		ButtonPanel.add(cbEncoding);
+		super.add(ButtonPanel, ButtonPanelLayout);
+		super.add(PathnameBox, PathnameBoxLayout);
+
+		// 显示
+		super.setVisible(true);
 	}
 }
