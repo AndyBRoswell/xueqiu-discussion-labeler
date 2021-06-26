@@ -15,7 +15,7 @@ public class GUIExportFiles extends JFrame {
 	final JTextField PathnameBox = new JTextField();
 
 	// 文件对话框
-	
+
 
 	// 文件类型过滤器
 	class CSVFilter extends FileFilter {
@@ -32,6 +32,19 @@ public class GUIExportFiles extends JFrame {
 
 	// 加载导出文件窗口
 	public GUIExportFiles() {
+		// 窗体的基本属性
+		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
+		super.setSize(Screen.width / 3, Screen.height / 3);
+		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super.setLocationRelativeTo(null);
+		final GridBagLayout GUIImportFilesLayout = new GridBagLayout();
+		super.getContentPane().setLayout(new GridBagLayout());
 
+		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
+		ButtonPanelLayout.gridx = 0; ButtonPanelLayout.gridy = 1;
+		ButtonPanelLayout.weightx = 1; ButtonPanelLayout.weighty = 0;
+		ButtonPanelLayout.fill = GridBagConstraints.BOTH;
+
+		
 	}
 }
