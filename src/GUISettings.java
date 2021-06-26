@@ -99,7 +99,7 @@ public class GUISettings extends JFrame {
 						SettingsEditingArea.setText("");
 						String Line;
 						while ((Line = CfgFileReader.readLine()) != null) {
-							SettingsEditingArea.append(Line);
+							SettingsEditingArea.append(Line + Global.LineSeparator);
 						}
 					}
 					catch (IOException fileNotFoundException) {
