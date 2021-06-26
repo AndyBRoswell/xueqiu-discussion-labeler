@@ -1,8 +1,5 @@
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 class LabelStatus {
 	int LabeledCount;
@@ -280,7 +277,7 @@ public class DataManipulator {
 //		private static final Lock SearchNotCompletedLock = new ReentrantLock();
 //		private static final Condition SearchNotCompleted = SearchNotCompletedLock.newCondition();
 
-		public static Object UniqueInspector() { return Instance; }
+		public static Object ThisUniqueInspector() { return Instance; }
 
 //		public static void WaitForSearchCompletion() {
 //			try { while (SearchThreadsRemaining != 0) { SearchNotCompleted.await(); } }
@@ -289,11 +286,11 @@ public class DataManipulator {
 //		}
 
 		public static void AThreadHasStarted() {
-			synchronized (Instance) { ++SearchThreadsRemaining; }
+			synchronized (ThisUniqueInspector()) { ++SearchThreadsRemaining; }
 		}
 
 		public static void AThreadHasCompleted() {
-			synchronized (Instance) {
+			synchronized (ThisUniqueInspector()) {
 				--SearchThreadsRemaining;
 				if (SearchThreadsRemaining == 0) Instance.notifyAll();
 //				if (SearchThreadsRemaining == 0) SearchNotCompleted.signalAll();

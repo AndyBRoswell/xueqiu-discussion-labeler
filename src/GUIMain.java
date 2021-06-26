@@ -626,10 +626,10 @@ public class GUIMain extends JFrame {
 		if (cbLabeled.isSelected() == true) LabeledFlag = 0b10;
 		if (cbUnlabeled.isSelected() == true) LabeledFlag = 0b1;
 		try {
-			synchronized (DataManipulator.SearchInspector.UniqueInspector()) {
+			synchronized (DataManipulator.SearchInspector.ThisUniqueInspector()) {
 				DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
 				System.out.println("Waiting for the completion of search...");
-				DataManipulator.SearchInspector.UniqueInspector().wait();
+				DataManipulator.SearchInspector.ThisUniqueInspector().wait();
 				System.out.println("Wait failed. This statement should never be executed.");
 			}
 		}
