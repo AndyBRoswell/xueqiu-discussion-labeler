@@ -143,7 +143,7 @@ public class GUIMain extends JFrame {
 
 	// 主窗体动作监听程序（内部类）
 	class MainFrameListener implements ComponentListener {
-		@Override public void componentResized(ComponentEvent e) { RearrangeComponents(); }
+		@Override public void componentResized(ComponentEvent e) { Refresh(); }
 
 		@Override public void componentMoved(ComponentEvent e) {}
 
@@ -152,7 +152,7 @@ public class GUIMain extends JFrame {
 		@Override public void componentHidden(ComponentEvent e) {}
 	}
 
-	public void RearrangeComponents() { // 调整各控件的位置与大小
+	private void RearrangeComponents() { // 调整各控件的位置与大小
 		final int w0 = Global.FontSizeD;
 		final int h0 = 2 * Global.FontSizeD;
 		final int wGUILabel = 6 * w0;
@@ -195,20 +195,20 @@ public class GUIMain extends JFrame {
 		AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 		AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-//			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
-//			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
-//				for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
-//					DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+//		AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
+//		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+//			for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
+//				DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
 		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
 			DiscussionModel.fireTableChanged(new TableModelEvent(DiscussionModel, i));
-//			DiscussionModel.fireTableDataChanged();
+//		DiscussionModel.fireTableDataChanged();
 		if (SearchResultModel != null) { // 如果存在搜索结果
-//				for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
-//					for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
-//						SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+//			for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
+//				for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
+//					SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
 			for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
 				SearchResultModel.fireTableChanged(new TableModelEvent(SearchResultModel, i));
-//				SearchResultModel.fireTableDataChanged();
+//			SearchResultModel.fireTableDataChanged();
 		}
 
 		{
@@ -458,13 +458,12 @@ public class GUIMain extends JFrame {
 	// 重绘主界面
 	public void Refresh() {
 		RearrangeComponents();
+		for (int i = 0; i < DiscussionModel.getRowCount(); ++i) SetRowHeightAdaptively(DiscussionModel, DiscussionTable, i);
 	}
 
 	// 选中动作监听程序（内部类）
 	class RowSelectionListener implements ListSelectionListener {
-		@Override public void valueChanged(ListSelectionEvent e) {
-			Refresh();
-		}
+		@Override public void valueChanged(ListSelectionEvent e) { Refresh(); }
 	}
 
 	// 用于多行显示的单元格渲染器（内部类）
@@ -500,27 +499,33 @@ public class GUIMain extends JFrame {
 		}
 	}
 
+	private void SetRowHeightAdaptively(DiscussionTableModel Model, JTable Table, int Row) {
+		int Height = 0;
+		for (int Column = 0; Column < Model.getColumnCount(); ++Column) {
+			Component comp = Table.prepareRenderer(Table.getCellRenderer(Row, Column), Row, Column);
+			Height = Math.max(Height, comp.getHeight());
+		}
+		Table.setRowHeight(Row, Height);
+	}
+
 	// 显示股票讨论（内部用）
 	private void ShowDiscussions(DiscussionTableModel Model, JTable Table, JScrollPane ScrollPane) {
 		// 动作监听程序与单元格渲染程序
 		Model.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
 				final int Row = e.getFirstRow();
-				int Height = 0;
-				for (int Column = 0; Column < Model.getColumnCount(); ++Column) {
-					Component comp = Table.prepareRenderer(Table.getCellRenderer(Row, Column), Row, Column);
-					Height = Math.max(Height, comp.getHeight());
-				}
-				Table.setRowHeight(Row, Height);
+				SetRowHeightAdaptively(Model, Table, Row);
 			}
 		});
 		Table.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		Table.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
 		Table.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
 
-		for (int i = 0; i < Model.getRowCount(); ++i)
-			for (int j = 0; j < Model.getColumnCount(); ++j)
-				Model.fireTableCellUpdated(i, j);
+//		for (int i = 0; i < Model.getRowCount(); ++i)
+//			for (int j = 0; j < Model.getColumnCount(); ++j)
+//				Model.fireTableCellUpdated(i, j);
+		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+			DiscussionModel.fireTableChanged(new TableModelEvent(DiscussionModel, i));
 //		Model.fireTableDataChanged();
 
 		this.add(ScrollPane);
@@ -548,6 +553,7 @@ public class GUIMain extends JFrame {
 		ShowDiscussions(SearchResultModel, SearchResultTable, SearchResultScrollPane);
 		DiscussionTable.setVisible(false);
 		DiscussionScrollPane.setVisible(false);
+		Refresh();
 	}
 
 	public void ClearSearchResult() {
