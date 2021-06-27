@@ -73,7 +73,6 @@ public class GUICrawling extends JFrame {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setSize(Screen.width / 3, Screen.height / 3);
-		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		final GridBagLayout GUIImportFilesLayout = new GridBagLayout();
 		super.getContentPane().setLayout(new GridBagLayout());
@@ -185,11 +184,5 @@ public class GUICrawling extends JFrame {
 		ButtonPanel.add(TickerSymbolBox, TickerSymbolBoxLayout);
 		super.add(ButtonPanel, ButtonPanelLayout);
 		super.add(TaskListScrollPane, TableLayout);
-
-		// 显示
-		ShowTaskList();
 	}
-
-	// 显示任务列表
-	public void ShowTaskList() { this.setVisible(true); }
 }

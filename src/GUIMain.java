@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.text.View;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.*;
@@ -13,6 +14,14 @@ import java.util.*;
 public class GUIMain extends JFrame {
 	// 本窗体
 	final GUIMain ThisForm = this;
+
+	// 所有已打开的子窗口
+	GUIImportFiles ImportForm;
+	GUIExportFiles ExportForm;
+	GUISettings SettingsForm;
+	GUIJournal LogForm;
+	final GUICrawling TaskListForm = new GUICrawling();
+	GUIStatistic StatForm;
 
 	// 默认字体
 	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
@@ -28,19 +37,18 @@ public class GUIMain extends JFrame {
 	final JMenuItem ExitMenuItem = new JMenuItem("退出");
 
 	final JMenu TaskMenu = new JMenu("任务");
-	final JMenuItem AddCrawlTaskMenuItem = new JMenuItem("添加爬取任务");
+	final JMenuItem ViewTaskListMenuItem = new JMenuItem("查看任务列表");
 
 	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
 
-	final JMenu StatisticMenu = new JMenu("统计");
+	final JMenu StatisticsMenu = new JMenu("统计");
+	final JMenuItem ViewStatisticsMenuItem = new JMenuItem("查看标注统计图");
 
 	// 主界面图标
-	static final ImageIcon icoDownload = new ImageIcon(Global.IconPath + "\\download.png");
 	static final ImageIcon icoAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
 	static final ImageIcon icoSmallAdd = new ImageIcon(Global.IconPath + "\\add.png");
 
 	/*按钮*/
-	final JButton btnTaskList = new JButton(icoDownload);
 	final JButton btnAddAvailableLabelCategory = new JButton(icoAdd);
 	final JButton btnSaveAvailableLabels = new JButton("保存可选标注");
 	final JButton btnSearch = new JButton("搜索");
@@ -70,9 +78,6 @@ public class GUIMain extends JFrame {
 	DiscussionTableModel SearchResultModel;
 	JTable SearchResultTable;
 	JScrollPane SearchResultScrollPane;
-
-	// 动作监听程序
-	final MainFrameListener Listener = new MainFrameListener();
 
 	// 标签按钮（内部类）：点击标签进行添加或删除
 	static class LabelButton extends JButton {
@@ -143,7 +148,7 @@ public class GUIMain extends JFrame {
 
 	// 主窗体动作监听程序（内部类）
 	class MainFrameListener implements ComponentListener {
-		@Override public void componentResized(ComponentEvent e) { RearrangeComponents(); }
+		@Override public void componentResized(ComponentEvent e) { Refresh(); }
 
 		@Override public void componentMoved(ComponentEvent e) {}
 
@@ -152,7 +157,7 @@ public class GUIMain extends JFrame {
 		@Override public void componentHidden(ComponentEvent e) {}
 	}
 
-	public void RearrangeComponents() { // 调整各控件的位置与大小
+	private void RearrangeComponents() { // 调整各控件的位置与大小
 		final int w0 = Global.FontSizeD;
 		final int h0 = 2 * Global.FontSizeD;
 		final int wGUILabel = 6 * w0;
@@ -163,12 +168,9 @@ public class GUIMain extends JFrame {
 		final int X = ThisForm.getContentPane().getWidth();
 		final int Y = ThisForm.getContentPane().getHeight();
 
-		/*按钮*/
-		btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
-
 		/*搜索*/
-		btnSearch.setBounds(btnTaskList.getX() - w0 * (btnSearch.getText().length() + ButtonPadding), 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
-		btnBack.setBounds(btnTaskList.getX() - w0 * (btnBack.getText().length() + ButtonPadding), h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
+		btnSearch.setBounds(X - w0 * (btnSearch.getText().length() + ButtonPadding), 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
+		btnBack.setBounds(X - w0 * (btnBack.getText().length() + ButtonPadding), h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
 		cbLabeled.setBounds(btnSearch.getX() - wGUILabel, 0, wGUILabel, h0);
 		cbUnlabeled.setBounds(btnSearch.getX() - wGUILabel, cbLabeled.getHeight(), wGUILabel, h0);
 		tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
@@ -190,25 +192,25 @@ public class GUIMain extends JFrame {
 		btnSaveAvailableLabels.setBorderPainted(false);
 
 		/*可选标注滚动面板*/
-//			AllLabelsPanel.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+//		AllLabelsPanel.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 		AllLabelsPanel.setLayout(null);
 		AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 		AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-//			AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
-//			for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
-//				for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
-//					DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+//		AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
+//		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+//			for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
+//				DiscussionModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
 		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
 			DiscussionModel.fireTableChanged(new TableModelEvent(DiscussionModel, i));
-//			DiscussionModel.fireTableDataChanged();
+//		DiscussionModel.fireTableDataChanged();
 		if (SearchResultModel != null) { // 如果存在搜索结果
-//				for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
-//					for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
-//						SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
+//			for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
+//				for (int j = 0; j < SearchResultModel.getColumnCount(); ++j)
+//					SearchResultModel.fireTableCellUpdated(i, j); // 通过引发单元格更新（tableChanged）事件，来激活设置行高的动作监听程序
 			for (int i = 0; i < SearchResultModel.getRowCount(); ++i)
 				SearchResultModel.fireTableChanged(new TableModelEvent(SearchResultModel, i));
-//				SearchResultModel.fireTableDataChanged();
+//			SearchResultModel.fireTableDataChanged();
 		}
 
 		{
@@ -294,12 +296,12 @@ public class GUIMain extends JFrame {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setSize(Screen.width / 2, Screen.height / 2);
-		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		super.getContentPane().setLayout(null);
 
 		// 添加菜单
-		MenuBar.add(FileMenu); MenuBar.add(TaskMenu); MenuBar.add(BackupRestoreMenu); MenuBar.add(StatisticMenu);
+		MenuBar.add(FileMenu); MenuBar.add(TaskMenu); MenuBar.add(BackupRestoreMenu); MenuBar.add(StatisticsMenu);
 		super.setJMenuBar(MenuBar);
 
 		FileMenu.add(ImportMenuItem); FileMenu.add(ExportMenuItem);
@@ -308,7 +310,9 @@ public class GUIMain extends JFrame {
 		FileMenu.addSeparator();
 		FileMenu.add(ExitMenuItem);
 
-		TaskMenu.add(AddCrawlTaskMenuItem);
+		TaskMenu.add(ViewTaskListMenuItem);
+
+		StatisticsMenu.add(ViewStatisticsMenuItem);
 
 		// 添加空白表格用于占位
 		DiscussionModel = new DiscussionTableModel(false);
@@ -316,10 +320,12 @@ public class GUIMain extends JFrame {
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 		// 添加动作监听程序
-		super.addComponentListener(Listener); // 主界面
-
-		btnTaskList.addActionListener(new ActionListener() { // 任务列表按钮
-			@Override public void actionPerformed(ActionEvent e) { new GUICrawling(); }
+		super.addComponentListener(new MainFrameListener()); // 主界面
+		super.addWindowListener(new WindowAdapter() {
+			@Override public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				Exit();
+			}
 		});
 
 		btnSearch.addActionListener(new ActionListener() { // 搜索按钮
@@ -351,36 +357,35 @@ public class GUIMain extends JFrame {
 		// 菜单项的动作监听程序
 		ImportMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-//				new GUIImportList();
-				try { new GUIImportFiles(); }
+				try { ImportForm = new GUIImportFiles(); }
 				catch (XPathExpressionException xPathExpressionException) { xPathExpressionException.printStackTrace(); }
 			}
 		});
 		ExportMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				try { new GUIExportFiles(); }
+				try { ExportForm = new GUIExportFiles(); }
 				catch (XPathExpressionException xPathExpressionException) { xPathExpressionException.printStackTrace(); }
 			}
 		});
 		JournalMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIJournal(); }
+			@Override public void actionPerformed(ActionEvent e) { LogForm = new GUIJournal(); }
 		});
 		SettingsMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				try { new GUISettings(); }
+				try { SettingsForm = new GUISettings(); }
 				catch (IOException ioException) { ioException.printStackTrace(); }
 			}
 		});
 		ExitMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { Global.MainForm.dispose(); }
+			@Override public void actionPerformed(ActionEvent e) { Exit(); }
 		});
 
-		AddCrawlTaskMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIAddStock(); }
+		ViewTaskListMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { TaskListForm.setVisible(true); }
 		});
 
-		StatisticMenu.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIStatistic(); }
+		ViewStatisticsMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { StatForm = new GUIStatistic(); }
 		});
 
 		// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
@@ -443,7 +448,7 @@ public class GUIMain extends JFrame {
 		}
 
 		// 添加控件
-		super.add(btnTaskList); super.add(btnSearch); super.add(btnBack);
+		super.add(btnSearch); super.add(btnBack);
 		super.add(cbLabeled); super.add(cbUnlabeled);
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
 		super.add(AllAvailableLabelsLabel); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);
@@ -458,13 +463,12 @@ public class GUIMain extends JFrame {
 	// 重绘主界面
 	public void Refresh() {
 		RearrangeComponents();
+		for (int i = 0; i < DiscussionModel.getRowCount(); ++i) SetRowHeightAdaptively(DiscussionModel, DiscussionTable, i);
 	}
 
 	// 选中动作监听程序（内部类）
 	class RowSelectionListener implements ListSelectionListener {
-		@Override public void valueChanged(ListSelectionEvent e) {
-			Refresh();
-		}
+		@Override public void valueChanged(ListSelectionEvent e) { Refresh(); }
 	}
 
 	// 用于多行显示的单元格渲染器（内部类）
@@ -500,27 +504,33 @@ public class GUIMain extends JFrame {
 		}
 	}
 
+	private void SetRowHeightAdaptively(DiscussionTableModel Model, JTable Table, int Row) {
+		int Height = 0;
+		for (int Column = 0; Column < Model.getColumnCount(); ++Column) {
+			Component comp = Table.prepareRenderer(Table.getCellRenderer(Row, Column), Row, Column);
+			Height = Math.max(Height, comp.getHeight());
+		}
+		Table.setRowHeight(Row, Height);
+	}
+
 	// 显示股票讨论（内部用）
 	private void ShowDiscussions(DiscussionTableModel Model, JTable Table, JScrollPane ScrollPane) {
 		// 动作监听程序与单元格渲染程序
 		Model.addTableModelListener(new TableModelListener() { // 表格内容改变时，行高自适应改变
 			@Override public void tableChanged(TableModelEvent e) {
 				final int Row = e.getFirstRow();
-				int Height = 0;
-				for (int Column = 0; Column < Model.getColumnCount(); ++Column) {
-					Component comp = Table.prepareRenderer(Table.getCellRenderer(Row, Column), Row, Column);
-					Height = Math.max(Height, comp.getHeight());
-				}
-				Table.setRowHeight(Row, Height);
+				SetRowHeightAdaptively(Model, Table, Row);
 			}
 		});
 		Table.getSelectionModel().addListSelectionListener(new RowSelectionListener()); // 当选中股评时，可选标注面板显示各个标签被选中的数量
 		Table.getColumnModel().getColumn(0).setCellRenderer(new LineWrapCellRenderer());
 		Table.getColumnModel().getColumn(1).setCellRenderer(new LineWrapCellRenderer());
 
-		for (int i = 0; i < Model.getRowCount(); ++i)
-			for (int j = 0; j < Model.getColumnCount(); ++j)
-				Model.fireTableCellUpdated(i, j);
+//		for (int i = 0; i < Model.getRowCount(); ++i)
+//			for (int j = 0; j < Model.getColumnCount(); ++j)
+//				Model.fireTableCellUpdated(i, j);
+		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
+			DiscussionModel.fireTableChanged(new TableModelEvent(DiscussionModel, i));
 //		Model.fireTableDataChanged();
 
 		this.add(ScrollPane);
@@ -548,6 +558,7 @@ public class GUIMain extends JFrame {
 		ShowDiscussions(SearchResultModel, SearchResultTable, SearchResultScrollPane);
 		DiscussionTable.setVisible(false);
 		DiscussionScrollPane.setVisible(false);
+		Refresh();
 	}
 
 	public void ClearSearchResult() {
@@ -556,5 +567,16 @@ public class GUIMain extends JFrame {
 		Refresh();
 		DiscussionTable.setVisible(true);
 		DiscussionScrollPane.setVisible(true);
+	}
+
+	public void Exit() {
+//		if (ImportForm != null) ImportForm.dispatchEvent(new WindowEvent(ImportForm, WindowEvent.WINDOW_CLOSING));
+//		if (ExportForm != null) ExportForm.dispatchEvent(new WindowEvent(ExportForm, WindowEvent.WINDOW_CLOSING));
+//		if (SettingsForm != null) SettingsForm.dispatchEvent(new WindowEvent(SettingsForm, WindowEvent.WINDOW_CLOSING));
+//		if (LogForm != null) LogForm.dispatchEvent(new WindowEvent(LogForm, WindowEvent.WINDOW_CLOSING));
+//		TaskListForm.dispatchEvent(new WindowEvent(TaskListForm, WindowEvent.WINDOW_CLOSING));
+//		if (StatForm != null) StatForm.dispatchEvent(new WindowEvent(StatForm, WindowEvent.WINDOW_CLOSING));
+//		Global.MainForm.dispose();
+		System.exit(0);
 	}
 }
