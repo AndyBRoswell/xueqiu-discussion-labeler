@@ -14,6 +14,14 @@ public class GUIMain extends JFrame {
 	// 本窗体
 	final GUIMain ThisForm = this;
 
+	// 所有已打开的子窗口
+	GUIImportFiles ImportForm;
+	GUIExportFiles ExportForm;
+	GUISettings SettingsForm;
+	GUIJournal LogForm;
+	final GUICrawling TaskListForm = new GUICrawling();
+	GUIStatistic StatForm;
+
 	// 默认字体
 	static final Font DefaultFont = new Font("微软雅黑", Font.PLAIN, Global.FontSizeD);
 
@@ -342,36 +350,38 @@ public class GUIMain extends JFrame {
 		// 菜单项的动作监听程序
 		ImportMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-//				new GUIImportList();
-				try { new GUIImportFiles(); }
+				try { ImportForm = new GUIImportFiles(); }
 				catch (XPathExpressionException xPathExpressionException) { xPathExpressionException.printStackTrace(); }
 			}
 		});
 		ExportMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				try { new GUIExportFiles(); }
+				try { ExportForm = new GUIExportFiles(); }
 				catch (XPathExpressionException xPathExpressionException) { xPathExpressionException.printStackTrace(); }
 			}
 		});
 		JournalMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIJournal(); }
+			@Override public void actionPerformed(ActionEvent e) { LogForm = new GUIJournal(); }
 		});
 		SettingsMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				try { new GUISettings(); }
+				try { SettingsForm = new GUISettings(); }
 				catch (IOException ioException) { ioException.printStackTrace(); }
 			}
 		});
 		ExitMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { Global.MainForm.dispose(); }
+			@Override public void actionPerformed(ActionEvent e) {
+				System.out.println(Arrays.toString(getOwnedWindows()));
+				Global.MainForm.dispose();
+			}
 		});
 
 		ViewTaskListMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUICrawling(); }
+			@Override public void actionPerformed(ActionEvent e) { TaskListForm.setVisible(true); }
 		});
 
 		StatisticMenu.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIStatistic(); }
+			@Override public void actionPerformed(ActionEvent e) { StatForm = new GUIStatistic(); }
 		});
 
 		// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
