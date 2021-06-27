@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -122,7 +123,10 @@ public class GUICrawling extends JFrame {
 
 		btnAddTasks.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-
+				final String[] TickerSymbols = TickerSymbolBox.getText().split("\\R+");
+				for (String TickerSymbol : TickerSymbols)
+					Tasks.add(new TaskInfo(TickerSymbol,  Global.DefaultSavePath + "\\" + TickerSymbol + LocalDateTime.now().format(Global.DefaultDateTimeFormatter) + ".csv"));
+				TaskListModel.fireTableDataChanged();
 			}
 		});
 
