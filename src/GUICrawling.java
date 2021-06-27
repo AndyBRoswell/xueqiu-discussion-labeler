@@ -1,13 +1,13 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class GUICrawling extends JFrame {
 	// 本窗体
@@ -61,7 +61,7 @@ public class GUICrawling extends JFrame {
 			fireTableCellUpdated(rowIndex, ColumnIndex);
 		}
 
-		@Override public boolean isCellEditable(int row, int col) { return col != 2; } // 仅文件名可更改
+		@Override public boolean isCellEditable(int row, int col) { return col == 1; } // 仅文件名可更改
 
 		@Override public Class getColumnClass(int c) { return getValueAt(0, c).getClass(); }
 	}
@@ -132,9 +132,9 @@ public class GUICrawling extends JFrame {
 
 		btnDeleteTasks.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				int[] Row;
-				while ((Row = TaskList.getSelectedRows()).length != 0) {
-					Tasks.remove(Row[Row.length - 1]);
+				final int[] Row = TaskList.getSelectedRows();
+				for (int i = Row.length - 1; i >= 0; --i) {
+					Tasks.remove(Row[i]);
 				}
 				TaskListModel.fireTableDataChanged();
 			}
