@@ -570,12 +570,13 @@ public class GUIMain extends JFrame {
 	}
 
 	public void Exit() {
-		if (ImportForm != null) ImportForm.dispatchEvent(new WindowEvent(ImportForm, WindowEvent.WINDOW_CLOSING));
-		if (ExportForm != null) ExportForm.dispatchEvent(new WindowEvent(ExportForm, WindowEvent.WINDOW_CLOSING));
-		if (SettingsForm != null) SettingsForm.dispatchEvent(new WindowEvent(SettingsForm, WindowEvent.WINDOW_CLOSING));
-		if (LogForm != null) LogForm.dispatchEvent(new WindowEvent(LogForm, WindowEvent.WINDOW_CLOSING));
-		TaskListForm.dispatchEvent(new WindowEvent(TaskListForm, WindowEvent.WINDOW_CLOSING));
-		if (StatForm != null) StatForm.dispatchEvent(new WindowEvent(StatForm, WindowEvent.WINDOW_CLOSING));
-		Global.MainForm.dispose();
+//		if (ImportForm != null) ImportForm.dispatchEvent(new WindowEvent(ImportForm, WindowEvent.WINDOW_CLOSING));
+//		if (ExportForm != null) ExportForm.dispatchEvent(new WindowEvent(ExportForm, WindowEvent.WINDOW_CLOSING));
+//		if (SettingsForm != null) SettingsForm.dispatchEvent(new WindowEvent(SettingsForm, WindowEvent.WINDOW_CLOSING));
+//		if (LogForm != null) LogForm.dispatchEvent(new WindowEvent(LogForm, WindowEvent.WINDOW_CLOSING));
+//		TaskListForm.dispatchEvent(new WindowEvent(TaskListForm, WindowEvent.WINDOW_CLOSING));
+//		if (StatForm != null) StatForm.dispatchEvent(new WindowEvent(StatForm, WindowEvent.WINDOW_CLOSING));
+//		Global.MainForm.dispose();
+		System.exit(0);
 	}
 }
