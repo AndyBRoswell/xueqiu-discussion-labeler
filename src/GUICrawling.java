@@ -97,15 +97,11 @@ public class GUICrawling extends JFrame {
 							};
 							t.Status = 1;
 							TaskListModel.fireTableDataChanged();
-							System.out.println(Arrays.toString(argv));
 							final Process p = Runtime.getRuntime().exec(argv, null);
 
 							// 等待爬取结束
 							final BufferedReader ProcessOutputReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-							String Line;
-							while ((Line = ProcessOutputReader.readLine()) != null) {
-								System.out.println();
-							}
+							while ((ProcessOutputReader.readLine()) != null) {}
 							ProcessOutputReader.close();
 							p.waitFor();
 
