@@ -103,18 +103,39 @@ def parse_comment_url_with_random_test_labels(url):
 		content_list.append(item)
 	return content_list, count
 
-# Parameters for crawling
-access_delay = 3
-reaccess_delay = 5
-crawl_pages = 100
+params = {}
 
-file_name = sys.argv[1]		# 保存的文件名
-stock_num = sys.argv[2]		# 输入股票代码
-encoding = sys.argv[3]		# 保存文件的编码
-for i in range(crawl_pages):
-	detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(stock_num, i + 1)
+def deserialize_param():
+	for i in range(1, len(sys.argv)):
+		pos = sys.argv[i].find('=')
+		key = sys.argv[i][2: pos]
+		if pos != -1:
+			key = sys.argv[i][2: pos]
+			value = sys.argv[i][pos + 1: len(sys.argv[i])]
+			if value[0] == '"' and value[-1] == '"': # 去掉双引号（如果有）
+				value = value[1: len(value)-1]
+			params[key] = value
+		else:
+			key = sys.argv[i][2: ]
+			params[key] = ""
+
+
+# Parameters for crawling
+deserialize_param()
+print(params)
+
+access_delay = 3 if "access-delay" not in params else int(params["access-delay"])		# 访问延迟
+retry_delay = 5 if "retry-delay" not in params else int(params["retry-delay"])			# 重试延迟
+page_count = 100 if "pages" not in params else int(params["pages"])						# 爬取页数
+
+file_name = params["file"]																# 保存的文件名
+ticker_symbol = params["stock"]															# 输入的股票代码
+encoding = "gbk" if "encoding" not in params else params["encoding"]					# 保存文件的编码
+
+for i in range(page_count):
+	detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(ticker_symbol, i + 1)
 	try:
-		if ("--random" in sys.argv):
+		if ("random" in params):
 			print("正爬取：" + detail_url + " 并生成测试用的随机标注。")
 			comment_data, count = parse_comment_url_with_random_test_labels(detail_url)
 		else:
@@ -123,12 +144,12 @@ for i in range(crawl_pages):
 		time.sleep(access_delay)
 	except Exception as e: 
 		print("Error: ", e)
-		time.sleep(reaccess_delay)
-		if ("--random" in sys.argv):
+		time.sleep(retry_delay)
+		if ("random" in params):
 			print("正爬取：" + detail_url + " 并生成测试用的随机标注。")
 			comment_data, count = parse_comment_url_with_random_test_labels(detail_url)
 		else:
 			print("正爬取：" + detail_url)
 			comment_data, count = parse_comment_url(detail_url)
-		time.sleep(reaccess_delay)
+		time.sleep(retry_delay)
 	save_file(comment_data, encoding)

@@ -113,8 +113,8 @@ public class GUIImportFiles extends JFrame {
 
 		btnDeleteFiles.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				final int[] Rows = FileList.getSelectedRows();
-				for (int i = Rows.length - 1; i >= 0; --i) { ImportedFiles.remove(i); }
+				final int[] Row = FileList.getSelectedRows();
+				for (int i = Row.length - 1; i >= 0; --i) { ImportedFiles.remove(Row[i]); }
 				FileListModel.fireTableDataChanged();
 			}
 		});
