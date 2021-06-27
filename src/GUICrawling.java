@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class GUICrawling extends JFrame {
 	// 本窗体
@@ -88,10 +89,17 @@ public class GUICrawling extends JFrame {
 		// 动作监听程序
 		btnStartAll.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
+				final HashMap<String, String> Params = new HashMap<>();
+				Params.put("pages", "100");
+				Params.put("access-delay", "2");
+				Params.put("retry-delay", "5");
+				Params.put("random", "");
 				for (TaskInfo t : Tasks) {
 					new Thread(() -> {
 						try {
-							final Process p = Runtime.getRuntime().exec("python ");
+							final StringBuilder argv = new StringBuilder("python");
+							for (Map.Entry<String, String> e : Params.entrySet()) argv.append(" --").append(e.getKey()).append("=\"").append(e.getValue()).append("\"");
+							final Process p = Runtime.getRuntime().exec(argv.toString());
 						}
 						catch (IOException ioException) {
 							ioException.printStackTrace();
