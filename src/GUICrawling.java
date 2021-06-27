@@ -29,8 +29,10 @@ public class GUICrawling extends JFrame {
 		int Status;
 
 		TaskInfo(String TickerSymbol, String Pathname) { this.TickerSymbol = TickerSymbol; this.Pathname = Pathname; this.Status = 0; }
+
 		TaskInfo(String TickerSymbol, String Pathname, int Status) { this.TickerSymbol = TickerSymbol; this.Pathname = Pathname; this.Status = Status; }
 	}
+
 	final ArrayList<TaskInfo> Tasks = new ArrayList<>();
 	final TaskTableModel TaskListModel = new TaskTableModel();
 	final JTable TaskList = new JTable(TaskListModel);
@@ -86,26 +88,24 @@ public class GUICrawling extends JFrame {
 		// 动作监听程序
 		btnStartAll.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				final HashMap<String, String> Params = new HashMap<>(); // 预设参数
-				Params.put("pages", "100");
-				Params.put("access-delay", "2");
-				Params.put("retry-delay", "5");
-				Params.put("random", "");
 				for (TaskInfo t : Tasks) {
 					new Thread(() -> {
 						try {
 							// 准备命令行参数并开始
-							final StringBuilder argv = new StringBuilder("python xueqiuspider.py");
-							argv.append(" --file=\"").append(t.Pathname).append("\"");
-							argv.append(" --stock=\"").append(t.TickerSymbol).append("\"");
-							for (Map.Entry<String, String> E : Params.entrySet()) argv.append(" --").append(E.getKey()).append("=\"").append(E.getValue()).append("\"");
+							final String[] argv = new String[]{
+								"python", Global.AppPath + "\\src\\xueqiuspider.py", "--pages=1", "--access-delay=2", "--retry-delay=5", "--random", "--file=" + t.Pathname, "--stock=" + t.TickerSymbol
+							};
 							t.Status = 1;
 							TaskListModel.fireTableDataChanged();
-							final Process p = Runtime.getRuntime().exec(argv.toString());
+							System.out.println(Arrays.toString(argv));
+							final Process p = Runtime.getRuntime().exec(argv, null);
 
 							// 等待爬取结束
 							final BufferedReader ProcessOutputReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-							while (ProcessOutputReader.readLine() != null) {}
+							String Line;
+							while ((Line = ProcessOutputReader.readLine()) != null) {
+								System.out.println();
+							}
 							ProcessOutputReader.close();
 							p.waitFor();
 
@@ -128,7 +128,7 @@ public class GUICrawling extends JFrame {
 				TickerSymbolBox.setText(TickerSymbolBox.getText().trim());
 				final String[] TickerSymbols = TickerSymbolBox.getText().split("\\R+");
 				for (String TickerSymbol : TickerSymbols)
-					Tasks.add(new TaskInfo(TickerSymbol,  Global.DefaultSavePath + "\\" + TickerSymbol + "-" + LocalDateTime.now().format(Global.DefaultDateTimeFormatter) + ".csv"));
+					Tasks.add(new TaskInfo(TickerSymbol, Global.DefaultSavePath + "\\" + TickerSymbol + "-" + LocalDateTime.now().format(Global.DefaultDateTimeFormatter) + ".csv"));
 				TaskListModel.fireTableDataChanged();
 			}
 		});
@@ -195,5 +195,5 @@ public class GUICrawling extends JFrame {
 	}
 
 	// 显示任务列表
-	public void ShowTaskList(){ this.setVisible(true); }
+	public void ShowTaskList() { this.setVisible(true); }
 }
