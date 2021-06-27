@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class GUICrawling extends JFrame {
@@ -14,7 +16,7 @@ public class GUICrawling extends JFrame {
 	// 任务列表
 	TaskTableModel TaskListModel = new TaskTableModel();
 	JTable TaskList = new JTable(TaskListModel);
-	JScrollPane TaskListCrollPane = new JScrollPane(TaskList);
+	JScrollPane TaskListScrollPane = new JScrollPane(TaskList);
 
 	// 任务列表模型
 	static class TaskTableModel extends AbstractTableModel {
@@ -55,7 +57,38 @@ public class GUICrawling extends JFrame {
 	// 加载任务列表（仅在软件启动时调用）
 	public GUICrawling() {
 		// 窗体的基本属性
+		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
+		super.setSize(Screen.width / 3, Screen.height / 3);
+		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super.setLocationRelativeTo(null);
+		final GridBagLayout GUIImportFilesLayout = new GridBagLayout();
+		super.getContentPane().setLayout(new GridBagLayout());
 		super.setDefaultCloseOperation(HIDE_ON_CLOSE); // 点击关闭按钮时隐藏窗口
+
+		final GridBagConstraints TableLayout = new GridBagConstraints();
+		TableLayout.gridx = TableLayout.gridy = 0;
+		TableLayout.weightx = TableLayout.weighty = 1;
+		TableLayout.fill = GridBagConstraints.BOTH;
+
+		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
+		ButtonPanelLayout.gridx = 0; ButtonPanelLayout.gridy = 1;
+		ButtonPanelLayout.weightx = 1; ButtonPanelLayout.weighty = 0;
+//		ButtonPanelLayout.fill = GridBagConstraints.HORIZONTAL;
+
+		// 动作监听程序
+		btnStartAll.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+
+		// 添加控件
+		ButtonPanel.add(btnStartAll);
+		super.add(ButtonPanel, ButtonPanelLayout);
+		super.add(TaskListScrollPane, TableLayout);
+
+		// 显示
+		ShowTaskList();
 	}
 
 	// 显示任务列表
