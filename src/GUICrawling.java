@@ -101,7 +101,6 @@ public class GUICrawling extends JFrame {
 							for (Map.Entry<String, String> E : Params.entrySet()) argv.append(" --").append(E.getKey()).append("=\"").append(E.getValue()).append("\"");
 							t.Status = 1;
 							TaskListModel.fireTableDataChanged();
-							System.out.println(argv);
 							final Process p = Runtime.getRuntime().exec(argv.toString());
 
 							// 等待爬取结束
