@@ -132,9 +132,9 @@ public class GUICrawling extends JFrame {
 
 		btnDeleteTasks.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				final int[] Row = TaskList.getSelectedRows();
-				for (int i = Row[Row.length - 1]; i >= 0; --i) {
-					TaskList.remove(Row[i]);
+				int[] Row;
+				while ((Row = TaskList.getSelectedRows()).length != 0) {
+					Tasks.remove(Row[Row.length - 1]);
 				}
 				TaskListModel.fireTableDataChanged();
 			}
