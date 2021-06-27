@@ -7,7 +7,7 @@ public class Global {
 	public static final int StringPaddingInChrD = 1;
 
 	// DateTime
-	public static final DateTimeFormatter DefaultDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+	public static final DateTimeFormatter DefaultDateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd-HH-mm-ss");
 
 	// Directories
 	public static final String AppPath = System.getProperty("user.dir");

@@ -51,7 +51,7 @@ public class GUICrawling extends JFrame {
 			return switch (columnIndex) {
 				case 0 -> Tasks.get(rowIndex).TickerSymbol;
 				case 1 -> Tasks.get(rowIndex).Pathname;
-				case 2 -> Tasks.get(rowIndex).Status;
+				case 2 -> StatusNames[Tasks.get(rowIndex).Status];
 				default -> null;
 			};
 		}
@@ -100,6 +100,7 @@ public class GUICrawling extends JFrame {
 							argv.append(" --stock=\"").append(t.TickerSymbol).append("\"");
 							for (Map.Entry<String, String> E : Params.entrySet()) argv.append(" --").append(E.getKey()).append("=\"").append(E.getValue()).append("\"");
 							t.Status = 1;
+							TaskListModel.fireTableDataChanged();
 							final Process p = Runtime.getRuntime().exec(argv.toString());
 
 							// 等待爬取结束
@@ -112,6 +113,7 @@ public class GUICrawling extends JFrame {
 							final File f = new File(t.Pathname);
 							if (f.exists() == true) t.Status = 2;
 							else t.Status = 3;
+							TaskListModel.fireTableDataChanged();
 						}
 						catch (IOException | InterruptedException Exception) {
 							Exception.printStackTrace();
