@@ -123,6 +123,7 @@ public class GUICrawling extends JFrame {
 
 		btnAddTasks.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
+				TickerSymbolBox.setText(TickerSymbolBox.getText().trim());
 				final String[] TickerSymbols = TickerSymbolBox.getText().split("\\R+");
 				for (String TickerSymbol : TickerSymbols)
 					Tasks.add(new TaskInfo(TickerSymbol,  Global.DefaultSavePath + "\\" + TickerSymbol + "-" + LocalDateTime.now().format(Global.DefaultDateTimeFormatter) + ".csv"));
