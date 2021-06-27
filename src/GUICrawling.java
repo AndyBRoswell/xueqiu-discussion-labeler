@@ -90,9 +90,6 @@ public class GUICrawling extends JFrame {
 		TaskList.getColumnModel().getColumn(2).setMinWidth(80);
 		TaskList.getColumnModel().getColumn(2).setMaxWidth(80);
 
-		// 股票代码输入栏的属性
-		
-
 		// 动作监听程序
 		btnStartAll.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
@@ -147,13 +144,36 @@ public class GUICrawling extends JFrame {
 			}
 		});
 
-		// 添加控件
-		ButtonPanel.add(btnStartAll);
-		ButtonPanel.add(TickerSymbolBox);
-		ButtonPanel.add(btnAddTasks);
-		ButtonPanel.add(btnDeleteTasks);
-		ButtonPanel.add(btnClearTasks);
+		btnClearTasks.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				Tasks.clear();
+				TaskListModel.fireTableDataChanged();
+			}
+		});
 
+		// 按钮的属性与添加
+		GridBagConstraints ButtonConstraints;
+		ButtonConstraints = new GridBagConstraints();
+		ButtonConstraints.gridx = 0; ButtonConstraints.gridy = 0;
+		ButtonConstraints.weightx = ButtonConstraints.weighty = 0;
+		ButtonPanel.add(btnStartAll, ButtonConstraints);
+
+		ButtonConstraints.gridx = 0; ButtonConstraints.gridy = 1;
+		ButtonPanel.add(btnAddTasks, ButtonConstraints);
+
+		ButtonConstraints.gridx = 0; ButtonConstraints.gridy = 2;
+		ButtonPanel.add(btnDeleteTasks, ButtonConstraints);
+
+		ButtonConstraints.gridx = 0; ButtonConstraints.gridy = 3;
+		ButtonPanel.add(btnClearTasks, ButtonConstraints);
+
+		// 股票代码输入栏的属性
+		final GridBagConstraints TickerSymbolBoxLayout = new GridBagConstraints();
+		TickerSymbolBoxLayout.gridx = 0; TickerSymbolBoxLayout.gridy = 4;
+		TickerSymbolBoxLayout.weighty = 1;
+
+		// 添加其它控件
+		ButtonPanel.add(TickerSymbolBox, TickerSymbolBoxLayout);
 		super.add(ButtonPanel, ButtonPanelLayout);
 		super.add(TaskListScrollPane, TableLayout);
 
