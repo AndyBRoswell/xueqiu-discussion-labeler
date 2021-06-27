@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.text.View;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.*;
@@ -40,7 +41,8 @@ public class GUIMain extends JFrame {
 
 	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
 
-	final JMenu StatisticMenu = new JMenu("统计");
+	final JMenu StatisticsMenu = new JMenu("统计");
+	final JMenuItem ViewStatisticsMenuItem = new JMenuItem("查看标注统计图");
 
 	// 主界面图标
 	static final ImageIcon icoAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
@@ -294,12 +296,12 @@ public class GUIMain extends JFrame {
 		// 窗体的基本属性
 		final Dimension Screen = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setSize(Screen.width / 2, Screen.height / 2);
-		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		super.getContentPane().setLayout(null);
 
 		// 添加菜单
-		MenuBar.add(FileMenu); MenuBar.add(TaskMenu); MenuBar.add(BackupRestoreMenu); MenuBar.add(StatisticMenu);
+		MenuBar.add(FileMenu); MenuBar.add(TaskMenu); MenuBar.add(BackupRestoreMenu); MenuBar.add(StatisticsMenu);
 		super.setJMenuBar(MenuBar);
 
 		FileMenu.add(ImportMenuItem); FileMenu.add(ExportMenuItem);
@@ -309,6 +311,8 @@ public class GUIMain extends JFrame {
 		FileMenu.add(ExitMenuItem);
 
 		TaskMenu.add(ViewTaskListMenuItem);
+
+		StatisticsMenu.add(ViewStatisticsMenuItem);
 
 		// 添加空白表格用于占位
 		DiscussionModel = new DiscussionTableModel(false);
@@ -380,7 +384,7 @@ public class GUIMain extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) { TaskListForm.setVisible(true); }
 		});
 
-		StatisticMenu.addActionListener(new ActionListener() {
+		ViewStatisticsMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { StatForm = new GUIStatistic(); }
 		});
 
