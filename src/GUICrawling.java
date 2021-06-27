@@ -125,16 +125,16 @@ public class GUICrawling extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) {
 				final String[] TickerSymbols = TickerSymbolBox.getText().split("\\R+");
 				for (String TickerSymbol : TickerSymbols)
-					Tasks.add(new TaskInfo(TickerSymbol,  Global.DefaultSavePath + "\\" + TickerSymbol + LocalDateTime.now().format(Global.DefaultDateTimeFormatter) + ".csv"));
+					Tasks.add(new TaskInfo(TickerSymbol,  Global.DefaultSavePath + "\\" + TickerSymbol + "-" + LocalDateTime.now().format(Global.DefaultDateTimeFormatter) + ".csv"));
 				TaskListModel.fireTableDataChanged();
 			}
 		});
 
 		btnDeleteTasks.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				final int[] Rows = TaskList.getSelectedRows();
-				for (int i = Rows[Rows.length - 1]; i >= 0; --i) {
-					TaskList.remove(i);
+				final int[] Row = TaskList.getSelectedRows();
+				for (int i = Row[Row.length - 1]; i >= 0; --i) {
+					TaskList.remove(Row[i]);
 				}
 				TaskListModel.fireTableDataChanged();
 			}
