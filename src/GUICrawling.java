@@ -18,6 +18,7 @@ public class GUICrawling extends JFrame {
 	final JButton btnAddTasks = new JButton("添加任务");
 	final JButton btnDeleteTasks = new JButton("删除任务");
 	final JButton btnClearTasks = new JButton("清空列表");
+	final JLabel lbInputTickerSymbols = new JLabel("输入股票代码：");
 	final JTextArea TickerSymbolBox = new JTextArea();
 
 	// 任务列表
@@ -74,15 +75,6 @@ public class GUICrawling extends JFrame {
 		final GridBagLayout GUIImportFilesLayout = new GridBagLayout();
 		super.getContentPane().setLayout(new GridBagLayout());
 		super.setDefaultCloseOperation(HIDE_ON_CLOSE); // 点击关闭按钮时隐藏窗口
-
-		final GridBagConstraints TableLayout = new GridBagConstraints();
-		TableLayout.gridx = TableLayout.gridy = 0;
-		TableLayout.weightx = TableLayout.weighty = 1;
-		TableLayout.fill = GridBagConstraints.BOTH;
-
-		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
-		ButtonPanelLayout.gridx = 1; ButtonPanelLayout.gridy = 0;
-		ButtonPanelLayout.weightx = 0; ButtonPanelLayout.weighty = 1;
 
 		// 表格的设置
 		TaskList.getColumnModel().getColumn(0).setMinWidth(80);
@@ -151,7 +143,17 @@ public class GUICrawling extends JFrame {
 			}
 		});
 
-		// 按钮的属性与添加
+		// 主要控件的属性与添加
+		final GridBagConstraints TableLayout = new GridBagConstraints();
+		TableLayout.gridx = TableLayout.gridy = 0;
+		TableLayout.weightx = TableLayout.weighty = 1;
+		TableLayout.fill = GridBagConstraints.BOTH;
+
+		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
+		ButtonPanelLayout.gridx = 1; ButtonPanelLayout.gridy = 0;
+		ButtonPanelLayout.weightx = 0; ButtonPanelLayout.weighty = 1;
+		ButtonPanelLayout.fill = GridBagConstraints.BOTH;
+
 		GridBagConstraints ButtonConstraints;
 		ButtonConstraints = new GridBagConstraints();
 		ButtonConstraints.gridx = 0; ButtonConstraints.gridy = 0;
@@ -167,10 +169,16 @@ public class GUICrawling extends JFrame {
 		ButtonConstraints.gridx = 0; ButtonConstraints.gridy = 3;
 		ButtonPanel.add(btnClearTasks, ButtonConstraints);
 
+		ButtonConstraints.gridx = 0; ButtonConstraints.gridy = 4;
+		ButtonPanel.add(lbInputTickerSymbols, ButtonConstraints);
+
 		// 股票代码输入栏的属性
+		TickerSymbolBox.setMinimumSize(new Dimension(btnClearTasks.getWidth(), TickerSymbolBox.getMinimumSize().height));
+		TickerSymbolBox.setMaximumSize(new Dimension(btnClearTasks.getWidth(), TickerSymbolBox.getMaximumSize().height));
 		final GridBagConstraints TickerSymbolBoxLayout = new GridBagConstraints();
-		TickerSymbolBoxLayout.gridx = 0; TickerSymbolBoxLayout.gridy = 4;
-		TickerSymbolBoxLayout.weighty = 1;
+		TickerSymbolBoxLayout.gridx = 0; TickerSymbolBoxLayout.gridy = 5;
+		TickerSymbolBoxLayout.weightx = 0; TickerSymbolBoxLayout.weighty = 1;
+		TickerSymbolBoxLayout.fill = GridBagConstraints.BOTH;
 
 		// 添加其它控件
 		ButtonPanel.add(TickerSymbolBox, TickerSymbolBoxLayout);
