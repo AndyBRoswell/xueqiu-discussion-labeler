@@ -95,12 +95,13 @@ public class GUICrawling extends JFrame {
 					new Thread(() -> {
 						try {
 							// 准备命令行参数并开始
-							final StringBuilder argv = new StringBuilder("python");
+							final StringBuilder argv = new StringBuilder("python xueqiuspider.py");
 							argv.append(" --file=\"").append(t.Pathname).append("\"");
 							argv.append(" --stock=\"").append(t.TickerSymbol).append("\"");
 							for (Map.Entry<String, String> E : Params.entrySet()) argv.append(" --").append(E.getKey()).append("=\"").append(E.getValue()).append("\"");
 							t.Status = 1;
 							TaskListModel.fireTableDataChanged();
+							System.out.println(argv);
 							final Process p = Runtime.getRuntime().exec(argv.toString());
 
 							// 等待爬取结束
