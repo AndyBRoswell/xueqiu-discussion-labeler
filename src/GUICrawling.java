@@ -20,7 +20,7 @@ public class GUICrawling extends JFrame {
 
 	// 任务列表模型
 	static class TaskTableModel extends AbstractTableModel {
-		class TaskInfo {
+		static class TaskInfo {
 			String FileName;
 			int Status;
 
@@ -71,9 +71,12 @@ public class GUICrawling extends JFrame {
 		TableLayout.fill = GridBagConstraints.BOTH;
 
 		final GridBagConstraints ButtonPanelLayout = new GridBagConstraints();
-		ButtonPanelLayout.gridx = 0; ButtonPanelLayout.gridy = 1;
-		ButtonPanelLayout.weightx = 1; ButtonPanelLayout.weighty = 0;
-//		ButtonPanelLayout.fill = GridBagConstraints.HORIZONTAL;
+		ButtonPanelLayout.gridx = 1; ButtonPanelLayout.gridy = 0;
+		ButtonPanelLayout.weightx = 0; ButtonPanelLayout.weighty = 1;
+
+		// 表格的设置
+		TaskList.getColumnModel().getColumn(1).setMinWidth(80);
+		TaskList.getColumnModel().getColumn(1).setMaxWidth(80);
 
 		// 动作监听程序
 		btnStartAll.addActionListener(new ActionListener() {
