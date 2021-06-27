@@ -28,19 +28,17 @@ public class GUIMain extends JFrame {
 	final JMenuItem ExitMenuItem = new JMenuItem("退出");
 
 	final JMenu TaskMenu = new JMenu("任务");
-	final JMenuItem AddCrawlTaskMenuItem = new JMenuItem("添加爬取任务");
+	final JMenuItem ViewTaskListMenuItem = new JMenuItem("查看任务列表");
 
 	final JMenu BackupRestoreMenu = new JMenu("备份/恢复");
 
 	final JMenu StatisticMenu = new JMenu("统计");
 
 	// 主界面图标
-	static final ImageIcon icoDownload = new ImageIcon(Global.IconPath + "\\download.png");
 	static final ImageIcon icoAdd = new ImageIcon(Global.IconPath + "\\addplus.png");
 	static final ImageIcon icoSmallAdd = new ImageIcon(Global.IconPath + "\\add.png");
 
 	/*按钮*/
-	final JButton btnTaskList = new JButton(icoDownload);
 	final JButton btnAddAvailableLabelCategory = new JButton(icoAdd);
 	final JButton btnSaveAvailableLabels = new JButton("保存可选标注");
 	final JButton btnSearch = new JButton("搜索");
@@ -163,12 +161,9 @@ public class GUIMain extends JFrame {
 		final int X = ThisForm.getContentPane().getWidth();
 		final int Y = ThisForm.getContentPane().getHeight();
 
-		/*按钮*/
-		btnTaskList.setBounds(X - icoDownload.getIconWidth(), h0 / 2, icoDownload.getIconWidth(), icoDownload.getIconHeight());
-
 		/*搜索*/
-		btnSearch.setBounds(btnTaskList.getX() - w0 * (btnSearch.getText().length() + ButtonPadding), 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
-		btnBack.setBounds(btnTaskList.getX() - w0 * (btnBack.getText().length() + ButtonPadding), h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
+		btnSearch.setBounds(X - w0 * (btnSearch.getText().length() + ButtonPadding), 0, w0 * (btnSearch.getText().length() + ButtonPadding), h0);
+		btnBack.setBounds(X - w0 * (btnBack.getText().length() + ButtonPadding), h0, w0 * (btnBack.getText().length() + ButtonPadding), h0);
 		cbLabeled.setBounds(btnSearch.getX() - wGUILabel, 0, wGUILabel, h0);
 		cbUnlabeled.setBounds(btnSearch.getX() - wGUILabel, cbLabeled.getHeight(), wGUILabel, h0);
 		tfSearchByText.setBounds(0, 0, cbLabeled.getX(), h0);
@@ -308,7 +303,7 @@ public class GUIMain extends JFrame {
 		FileMenu.addSeparator();
 		FileMenu.add(ExitMenuItem);
 
-		TaskMenu.add(AddCrawlTaskMenuItem);
+		TaskMenu.add(ViewTaskListMenuItem);
 
 		// 添加空白表格用于占位
 		DiscussionModel = new DiscussionTableModel(false);
@@ -317,10 +312,6 @@ public class GUIMain extends JFrame {
 
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
-
-		btnTaskList.addActionListener(new ActionListener() { // 任务列表按钮
-			@Override public void actionPerformed(ActionEvent e) { new GUICrawling(); }
-		});
 
 		btnSearch.addActionListener(new ActionListener() { // 搜索按钮
 			@Override public void actionPerformed(ActionEvent e) {
@@ -375,8 +366,8 @@ public class GUIMain extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) { Global.MainForm.dispose(); }
 		});
 
-		AddCrawlTaskMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIAddStock(); }
+		ViewTaskListMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) { new GUICrawling(); }
 		});
 
 		StatisticMenu.addActionListener(new ActionListener() {
@@ -443,7 +434,7 @@ public class GUIMain extends JFrame {
 		}
 
 		// 添加控件
-		super.add(btnTaskList); super.add(btnSearch); super.add(btnBack);
+		super.add(btnSearch); super.add(btnBack);
 		super.add(cbLabeled); super.add(cbUnlabeled);
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
 		super.add(AllAvailableLabelsLabel); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);

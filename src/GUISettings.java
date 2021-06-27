@@ -1,12 +1,9 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 public class GUISettings extends JFrame {
 	// 本窗体
