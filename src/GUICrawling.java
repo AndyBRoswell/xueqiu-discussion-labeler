@@ -1,11 +1,9 @@
-import org.jfree.data.gantt.Task;
-
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,14 +15,19 @@ public class GUICrawling extends JFrame {
 	// 按钮面板
 	final JPanel ButtonPanel = new JPanel(new GridBagLayout());
 	final JButton btnStartAll = new JButton("全部开始");
+	final JButton btnAddTasks = new JButton("添加任务");
+	final JButton btnDeleteTasks = new JButton("删除任务");
+	final JButton btnClearTasks = new JButton("清空列表");
+	final JTextArea TickerSymbolBox = new JTextArea();
 
 	// 任务列表
 	static class TaskInfo {
 		String TickerSymbol;
-		String FileName;
+		String Pathname;
 		int Status;
 
-		TaskInfo(String TickerSymbol, String FileName, int Status) { this.TickerSymbol = TickerSymbol; this.FileName = FileName; this.Status = Status; }
+		TaskInfo(String TickerSymbol, String Pathname) { this.TickerSymbol = TickerSymbol; this.Pathname = Pathname; this.Status = 0; }
+		TaskInfo(String TickerSymbol, String Pathname, int Status) { this.TickerSymbol = TickerSymbol; this.Pathname = Pathname; this.Status = Status; }
 	}
 	final ArrayList<TaskInfo> Tasks = new ArrayList<>();
 	final TaskTableModel TaskListModel = new TaskTableModel();
@@ -34,6 +37,7 @@ public class GUICrawling extends JFrame {
 	// 任务列表模型
 	class TaskTableModel extends AbstractTableModel {
 		private final String[] TaskListColumnNames = new String[]{ "股票代码", "文件名", "状态" };
+		private final String[] StatusNames = new String[]{ "未开始", "爬取中", "已结束", "失败" };
 
 		@Override public int getRowCount() { return Tasks.size(); }
 
@@ -44,14 +48,14 @@ public class GUICrawling extends JFrame {
 		@Override public Object getValueAt(int rowIndex, int columnIndex) {
 			return switch (columnIndex) {
 				case 0 -> Tasks.get(rowIndex).TickerSymbol;
-				case 1 -> Tasks.get(rowIndex).FileName;
+				case 1 -> Tasks.get(rowIndex).Pathname;
 				case 2 -> Tasks.get(rowIndex).Status;
 				default -> null;
 			};
 		}
 
 		@Override public void setValueAt(Object value, int rowIndex, int ColumnIndex) { // 仅文件名可更改
-			Tasks.get(rowIndex).FileName = (String) value;
+			Tasks.get(rowIndex).Pathname = (String) value;
 			fireTableCellUpdated(rowIndex, ColumnIndex);
 		}
 
@@ -86,10 +90,13 @@ public class GUICrawling extends JFrame {
 		TaskList.getColumnModel().getColumn(2).setMinWidth(80);
 		TaskList.getColumnModel().getColumn(2).setMaxWidth(80);
 
+		// 股票代码输入栏的属性
+		
+
 		// 动作监听程序
 		btnStartAll.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				final HashMap<String, String> Params = new HashMap<>();
+				final HashMap<String, String> Params = new HashMap<>(); // 预设参数
 				Params.put("pages", "100");
 				Params.put("access-delay", "2");
 				Params.put("retry-delay", "5");
@@ -97,20 +104,56 @@ public class GUICrawling extends JFrame {
 				for (TaskInfo t : Tasks) {
 					new Thread(() -> {
 						try {
+							// 准备命令行参数并开始
 							final StringBuilder argv = new StringBuilder("python");
-							for (Map.Entry<String, String> e : Params.entrySet()) argv.append(" --").append(e.getKey()).append("=\"").append(e.getValue()).append("\"");
+							argv.append(" --file=\"").append(t.Pathname).append("\"");
+							argv.append(" --stock=\"").append(t.TickerSymbol).append("\"");
+							for (Map.Entry<String, String> E : Params.entrySet()) argv.append(" --").append(E.getKey()).append("=\"").append(E.getValue()).append("\"");
+							t.Status = 1;
 							final Process p = Runtime.getRuntime().exec(argv.toString());
+
+							// 等待爬取结束
+							final BufferedReader ProcessOutputReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+							while (ProcessOutputReader.readLine() != null) {}
+							ProcessOutputReader.close();
+							p.waitFor();
+
+							// 爬取完毕
+							final File f = new File(t.Pathname);
+							if (f.exists() == true) t.Status = 2;
+							else t.Status = 3;
 						}
-						catch (IOException ioException) {
-							ioException.printStackTrace();
+						catch (IOException | InterruptedException Exception) {
+							Exception.printStackTrace();
 						}
 					}).start();
 				}
 			}
 		});
 
+		btnAddTasks.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
+		btnDeleteTasks.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				final int[] Rows = TaskList.getSelectedRows();
+				for (int i = Rows[Rows.length - 1]; i >= 0; --i) {
+					TaskList.remove(i);
+				}
+				TaskListModel.fireTableDataChanged();
+			}
+		});
+
 		// 添加控件
 		ButtonPanel.add(btnStartAll);
+		ButtonPanel.add(TickerSymbolBox);
+		ButtonPanel.add(btnAddTasks);
+		ButtonPanel.add(btnDeleteTasks);
+		ButtonPanel.add(btnClearTasks);
+
 		super.add(ButtonPanel, ButtonPanelLayout);
 		super.add(TaskListScrollPane, TableLayout);
 
@@ -119,7 +162,5 @@ public class GUICrawling extends JFrame {
 	}
 
 	// 显示任务列表
-	public void ShowTaskList(){
-		this.setVisible(true);
-	}
+	public void ShowTaskList(){ this.setVisible(true); }
 }
