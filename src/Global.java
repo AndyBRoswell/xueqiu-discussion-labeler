@@ -1,7 +1,13 @@
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 public class Global {
 	// Controls
 	public static final int ComponentGapD = 5;
 	public static final int StringPaddingInChrD = 1;
+
+	// DateTime
+	public static final DateTimeFormatter DefaultDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
 
 	// Directories
 	public static final String AppPath = System.getProperty("user.dir");

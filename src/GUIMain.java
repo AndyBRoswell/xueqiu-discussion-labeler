@@ -318,6 +318,10 @@ public class GUIMain extends JFrame {
 		// 添加动作监听程序
 		super.addComponentListener(Listener); // 主界面
 
+		btnTaskList.addActionListener(new ActionListener() { // 任务列表按钮
+			@Override public void actionPerformed(ActionEvent e) { new GUIDownLoad(); }
+		});
+
 		btnSearch.addActionListener(new ActionListener() { // 搜索按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				try { ShowSearchResult(); }
@@ -372,7 +376,7 @@ public class GUIMain extends JFrame {
 		});
 
 		AddCrawlTaskMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new GUIDownLoad(); }
+			@Override public void actionPerformed(ActionEvent e) { new GUIAddStock(); }
 		});
 
 		StatisticMenu.addActionListener(new ActionListener() {

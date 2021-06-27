@@ -128,9 +128,9 @@ access_delay = 3 if "access-delay" not in params else int(params["access-delay"]
 retry_delay = 5 if "retry-delay" not in params else int(params["retry-delay"])			# 重试延迟
 page_count = 100 if "pages" not in params else int(params["pages"])						# 爬取页数
 
-file_name = params["file"]			# 保存的文件名
-ticker_symbol = params["stock"]		# 输入的股票代码
-encoding = "gbk" if "encoding" not in params else params["encoding"]		# 保存文件的编码
+file_name = params["file"]																# 保存的文件名
+ticker_symbol = params["stock"]															# 输入的股票代码
+encoding = "gbk" if "encoding" not in params else params["encoding"]					# 保存文件的编码
 
 for i in range(page_count):
 	detail_url = "https://xueqiu.com/statuses/search.json?count=10&comment=0&symbol={}&hl=0&source=all&sort=&page={}&q=&type=11".format(ticker_symbol, i + 1)
