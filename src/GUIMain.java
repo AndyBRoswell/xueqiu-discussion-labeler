@@ -319,7 +319,7 @@ public class GUIMain extends JFrame {
 		super.addComponentListener(Listener); // 主界面
 
 		btnTaskList.addActionListener(new ActionListener() { // 任务列表按钮
-			@Override public void actionPerformed(ActionEvent e) { new GUIDownLoad(); }
+			@Override public void actionPerformed(ActionEvent e) { new GUICrawling(); }
 		});
 
 		btnSearch.addActionListener(new ActionListener() { // 搜索按钮
