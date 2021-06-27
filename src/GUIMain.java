@@ -77,9 +77,6 @@ public class GUIMain extends JFrame {
 	JTable SearchResultTable;
 	JScrollPane SearchResultScrollPane;
 
-	// 动作监听程序
-	final MainFrameListener Listener = new MainFrameListener();
-
 	// 标签按钮（内部类）：点击标签进行添加或删除
 	static class LabelButton extends JButton {
 		String Category;
@@ -319,7 +316,13 @@ public class GUIMain extends JFrame {
 		DiscussionScrollPane = new JScrollPane(DiscussionTable);
 
 		// 添加动作监听程序
-		super.addComponentListener(Listener); // 主界面
+		super.addComponentListener(new MainFrameListener()); // 主界面
+		super.addWindowListener(new WindowAdapter() {
+			@Override public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				Exit();
+			}
+		});
 
 		btnSearch.addActionListener(new ActionListener() { // 搜索按钮
 			@Override public void actionPerformed(ActionEvent e) {
@@ -370,10 +373,7 @@ public class GUIMain extends JFrame {
 			}
 		});
 		ExitMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) {
-				System.out.println(Arrays.toString(getOwnedWindows()));
-				Global.MainForm.dispose();
-			}
+			@Override public void actionPerformed(ActionEvent e) { Exit(); }
 		});
 
 		ViewTaskListMenuItem.addActionListener(new ActionListener() {
@@ -563,5 +563,15 @@ public class GUIMain extends JFrame {
 		Refresh();
 		DiscussionTable.setVisible(true);
 		DiscussionScrollPane.setVisible(true);
+	}
+
+	public void Exit() {
+		ImportForm.dispatchEvent(new WindowEvent(ImportForm, WindowEvent.WINDOW_CLOSING));
+		ExportForm.dispatchEvent(new WindowEvent(ExportForm, WindowEvent.WINDOW_CLOSING));
+		SettingsForm.dispatchEvent(new WindowEvent(SettingsForm, WindowEvent.WINDOW_CLOSING));
+		LogForm.dispatchEvent(new WindowEvent(LogForm, WindowEvent.WINDOW_CLOSING));
+		TaskListForm.dispatchEvent(new WindowEvent(TaskListForm, WindowEvent.WINDOW_CLOSING));
+		StatForm.dispatchEvent(new WindowEvent(StatForm, WindowEvent.WINDOW_CLOSING));
+		Global.MainForm.dispose();
 	}
 }
