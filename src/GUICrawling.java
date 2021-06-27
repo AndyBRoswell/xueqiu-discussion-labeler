@@ -1,3 +1,5 @@
+import org.jfree.data.gantt.Task;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
@@ -14,21 +16,20 @@ public class GUICrawling extends JFrame {
 	final JButton btnStartAll = new JButton("全部开始");
 
 	// 任务列表
-	TaskTableModel TaskListModel = new TaskTableModel();
-	JTable TaskList = new JTable(TaskListModel);
-	JScrollPane TaskListScrollPane = new JScrollPane(TaskList);
+	static class TaskInfo {
+		String FileName;
+		int Status;
+
+		TaskInfo(String FileName, int Status) { this.FileName = FileName; this.Status = Status; }
+	}
+	final ArrayList<TaskInfo> Tasks = new ArrayList<>();
+	final TaskTableModel TaskListModel = new TaskTableModel();
+	final JTable TaskList = new JTable(TaskListModel);
+	final JScrollPane TaskListScrollPane = new JScrollPane(TaskList);
 
 	// 任务列表模型
-	static class TaskTableModel extends AbstractTableModel {
-		static class TaskInfo {
-			String FileName;
-			int Status;
-
-			TaskInfo(String FileName, int Status) { this.FileName = FileName; this.Status = Status; }
-		}
-
+	class TaskTableModel extends AbstractTableModel {
 		private final String[] TaskListColumnNames = new String[]{ "文件名", "状态" };
-		private final ArrayList<TaskInfo> Tasks = new ArrayList<>();
 
 		@Override public int getRowCount() { return Tasks.size(); }
 
@@ -81,7 +82,9 @@ public class GUICrawling extends JFrame {
 		// 动作监听程序
 		btnStartAll.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-
+				for (TaskInfo t : Tasks) {
+					
+				}
 			}
 		});
 
