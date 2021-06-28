@@ -50,7 +50,7 @@ public class StorageAccessor {
 	}
 
 	private static void ParseSingleLabelLineToLabelCategoryAndAdd(String line, ConcurrentHashMap<String, HashSet<String>> dest) {
-		final String[] LabelCategory = line.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签
+		final String[] LabelCategory = line.split("\\s+"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签
 		dest.put(LabelCategory[0], new HashSet<>());
 		for (int i = 1; i < LabelCategory.length; ++i) {
 			dest.get(LabelCategory[0]).add(LabelCategory[i]); // 为该标签类添加具体的标签项
@@ -59,7 +59,7 @@ public class StorageAccessor {
 	}
 
 	private static void ParseSingleLabelLineToLabelCategoryWithCountAndAdd(String LabelLine, ConcurrentHashMap<String, HashMap<String, LabelStatus>> Dest) {
-		final String[] LabelCategory = LabelLine.split("\\s"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签，以及被选中（标注）次数
+		final String[] LabelCategory = LabelLine.split("\\s+"); // 按空格分裂一行，第0个词为标签类，剩下的词都为该类的标签，以及被选中（标注）次数
 		Dest.put(LabelCategory[0], new HashMap<>());
 		for (int i = 1; i < LabelCategory.length; i += 2) {
 			Dest.get(LabelCategory[0]).put(LabelCategory[i], new LabelStatus(Integer.parseInt(LabelCategory[i + 1]))); // 为该标签类添加具体的标签项及被标注次数
@@ -69,7 +69,7 @@ public class StorageAccessor {
 
 	private static void ParseStringToLabelCategoriesWithCountsAndAdd(String string, ConcurrentHashMap<String, HashMap<String, LabelStatus>> dest) {
 		// 原格式：在单个单元格中存储全部类别的标签。新格式：股评后的每个单元格存储一类标签。此方法不受影响。
-		final String[] lines = string.split("\\s"); // 空行将被忽略
+		final String[] lines = string.split("\\s+"); // 空行将被忽略
 		for (String line : lines) {
 			ParseSingleLabelLineToLabelCategoryWithCountAndAdd(line, dest);
 		}
@@ -130,7 +130,7 @@ public class StorageAccessor {
 					}
 					catch (TextParsingException e) {
 //						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
-						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R")[0]);
+						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R+")[0]);
 					}
 					DiscussionItem item = new DiscussionItem(SingleRow[0]);
 //					ParseStringToLabelCategoriesWithCountsAndAdd(SingleRow[1], item.GetLabels());
@@ -148,7 +148,7 @@ public class StorageAccessor {
 					}
 					catch (TextParsingException e) {
 //						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage());
-						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R")[0]);
+						System.out.println(e.getLineIndex() + 1 + ": " + e.getMessage().split("\\R+")[0]);
 					}
 					DiscussionItem item = new DiscussionItem(SingleRow[0]);
 					DataManipulator.AddDiscussionItem(item);
