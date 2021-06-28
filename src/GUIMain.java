@@ -550,7 +550,7 @@ public class GUIMain extends JFrame {
 		int LabeledFlag = 0;
 		if (cbLabeled.isSelected() == true) LabeledFlag |= DataManipulator.SEARCHPARAMLABELED;
 		if (cbUnlabeled.isSelected() == true) LabeledFlag |= DataManipulator.SEARCHPARAMUNLABELED;
-		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s"), tfSearchByLabel.getText().split("\\s"));
+		DataManipulator.Search(LabeledFlag, tfSearchByText.getText().split("\\s+"), tfSearchByLabel.getText().split("\\s+"));
 		SearchResultModel = new DiscussionTableModel(true);
 		SearchResultTable = new JTable(SearchResultModel);
 		SearchResultScrollPane = new JScrollPane(SearchResultTable);
