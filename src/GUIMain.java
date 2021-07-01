@@ -361,7 +361,6 @@ public class GUIMain extends JFrame {
 				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddAvailableLabelCategory));
 			}
 		});
-
 		btnSaveAvailableLabels.addActionListener(new ActionListener() { // 添加标注按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				try { StorageAccessor.SaveAllAvailableLabels(); }

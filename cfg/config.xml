@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <config>
 	<crawling>
-		<proxy>
-		</proxy>
+		<cookie>
+			Hm_lvt_1db88642e346389874251b5a1eded6e3=1622879531; device_id=24700f9f1986800ab4fcc880530dd0ed; s=cu12f28pr7; bid=d360692e02eca5f65721540af3850bb8_km5upvbt; __utma=1.881906705.1615526421.1615560584.1619190910.4; __utmz=1.1615527147.2.2.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); Hm_lpvt_1db88642e346389874251b5a1eded6e3=1625117051; xq_a_token=1ca9c6a2567716451c6c72e6d8c1f94141a6a4a5; xqat=1ca9c6a2567716451c6c72e6d8c1f94141a6a4a5; xq_r_token=a5d9078efc1b81ac77d0d3339d79169b6cba72a4; xq_id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOjk2NDE5MTEwNzUsImlzcyI6InVjIiwiZXhwIjoxNjI3MzkyNjIxLCJjdG0iOjE2MjUxMTI5MjczMDcsImNpZCI6ImQ5ZDBuNEFadXAifQ.KKchyomhWIntaPZNyIP3NeOoXwJxbDpcMS7oonhtKQ-aBrTmLwSuyrPNZaPAexSPf8ghCDNilAMwQ2pFvG4TrvbubMfc7DBlZW3CobTVYOwAUaeQ4QneykW1UbTl0PKpvsbgWpF6bnyiWYfywc52GYEQVpd_kpHKilssQKwqeKj6nc_sTOFQqacgANpc0qJC7s8e9npn7mvsiwqOsIV_yvFOt2YtKnUx_1RFtN9u0vDot_0svHiE0Kw0hX3dTJPwHdUQ0Mibqfh0Dmdge0gdKZzPHtWqRjF1tKlzN6K_zM7-83Gx_b6j47vgNzSIEpYJd9HGt3t2Mdt6mT-KD2Lv5g; u=9641911075; remember=1; xq_is_login=1; acw_tc=2760820816251165186124829e502422068ca35b1bbfbadfbc9694629a0768
+		</cookie>
+		<proxy></proxy>
 	</crawling>
 	<storage>
 		<import-and-export>

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import javax.swing.table.AbstractTableModel;
+import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.List;
 import java.awt.event.ActionEvent;
@@ -92,7 +93,10 @@ public class GUICrawling extends JFrame {
 						try {
 							// 准备命令行参数并开始
 							final String[] argv = new String[]{
-								"python", Global.AppPath + "\\src\\xueqiuspider.py", "--pages=1", "--access-delay=2", "--retry-delay=5", "--random", "--file=" + t.Pathname, "--stock=" + t.TickerSymbol
+								"python", Global.AppPath + "\\src\\xueqiuspider.py",
+								"--pages=100", "--access-delay=2", "--retry-delay=5",
+								"--file=" + t.Pathname, "--stock=" + t.TickerSymbol,
+								"--cookie=" + Config.QuerySingleConfigEntry("/config/crawling/cookie")
 							};
 							t.Status = 1;
 							TaskListModel.fireTableDataChanged();
@@ -110,7 +114,7 @@ public class GUICrawling extends JFrame {
 							else t.Status = 3;
 							TaskListModel.fireTableDataChanged();
 						}
-						catch (IOException | InterruptedException Exception) {
+						catch (IOException | InterruptedException | XPathExpressionException Exception) {
 							Exception.printStackTrace();
 						}
 					}).start();

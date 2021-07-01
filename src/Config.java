@@ -52,7 +52,7 @@ public class Config {
 	public static String QuerySingleConfigEntry(String XPathExpr) throws XPathExpressionException {
 		XPathExpression expr = xpath.compile(XPathExpr);
 		NodeList EvalResult = (NodeList) expr.evaluate(ConfigXML, XPathConstants.NODESET);
-		return Config.ReplaceVariable(EvalResult.item(0).getTextContent());
+		return Config.ReplaceVariable(EvalResult.item(0).getTextContent()).trim();
 	}
 
 	private static String ReplaceVariable(String Str) {
