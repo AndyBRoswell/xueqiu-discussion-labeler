@@ -334,13 +334,28 @@ public class GUIMain extends JFrame {
 				catch (InterruptedException interruptedException) { interruptedException.printStackTrace(); }
 			}
 		});
-
 		btnBack.addActionListener(new ActionListener() { // 从搜索结果返回按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				ClearSearchResult();
 			}
 		});
 
+		btnClearDiscussionList.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				DataManipulator.ClearDiscussionList();
+				ThisForm.remove(DiscussionScrollPane);
+				DiscussionModel = new DiscussionTableModel(false);
+				DiscussionTable = new JTable(DiscussionModel);
+				DiscussionScrollPane = new JScrollPane(DiscussionTable);
+//				DiscussionModel.fireTableDataChanged();
+//				Refresh();
+				final Dimension CurrentSize = ThisForm.getSize();
+				--CurrentSize.height;
+				ThisForm.setSize(CurrentSize);
+				++CurrentSize.height;
+				ThisForm.setSize(CurrentSize);
+			}
+		});
 		btnAddAvailableLabelCategory.addActionListener(new ActionListener() { // 添加标注类按钮
 			@Override public void actionPerformed(ActionEvent e) {
 				new GUIAddLabelCategory((GUIMain) SwingUtilities.getRoot(btnAddAvailableLabelCategory));

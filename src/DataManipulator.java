@@ -144,6 +144,12 @@ public class DataManipulator {
 		}
 	}
 
+	// 清空股评列表
+	public static void ClearDiscussionList() {
+		DiscussionList.clear();
+		DiscussionToIndex.clear();
+	}
+
 	// 查询指定的股票讨论是否在本轮已标注此标签
 	public static LabeledResponse LabeledAtThisTime(int Index, String Category, String Label) {
 		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
