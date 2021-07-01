@@ -42,6 +42,7 @@ public class DataManipulator {
 	private static final ConcurrentHashMap<String, HashSet<String>> AllLabels = new ConcurrentHashMap<>(); // 所有可用标注
 	private static final ConcurrentHashMap<String, HashSet<String>> LabelToCategory = new ConcurrentHashMap<>(); // 标注所属的类（搜索用）
 
+	static String LastFileImported = "";
 	private static final ArrayList<DiscussionItem> DiscussionList = new ArrayList<>(); // 全部股票讨论
 	private static final HashMap<String, Integer> DiscussionToIndex = new HashMap<>(); // 根据股票讨论查找所在位置（合并相同股评含有的不同标注用）
 

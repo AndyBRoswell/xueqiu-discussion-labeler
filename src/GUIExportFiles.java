@@ -20,7 +20,7 @@ public class GUIExportFiles extends JFrame {
 	final JComboBox cbEncoding = new JComboBox(Global.EncodingNames);
 
 	// 路径框
-	final JTextField PathnameBox = new JTextField();
+	final JTextField PathnameBox = new JTextField(Config.QuerySingleConfigEntry("/config/storage/import-and-export/default-filename"));
 
 	// 文件对话框
 	final JFileChooser SaveDialog = new JFileChooser(Global.DefaultSavePath);

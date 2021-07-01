@@ -103,6 +103,7 @@ public class StorageAccessor {
 	public static void LoadDiscussionFromCSV(String pathname, String encoding) {
 		DiscussionCSVFile = new File(pathname);
 		ParseCSVFile(encoding, 0);
+		DataManipulator.LastFileImported = DiscussionCSVFile.getAbsolutePath();
 	}
 
 	public static void LoadDiscussionFromCSV(String pathname, String encoding, int PreprocessMode) {

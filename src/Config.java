@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.regex.*;
+import javax.xml.crypto.Data;
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -59,6 +60,7 @@ public class Config {
 		Str = Str.replaceAll("//config-path//", Matcher.quoteReplacement(Global.AppPath));
 		Str = Str.replaceAll("//default-save-path//", Matcher.quoteReplacement(Global.DefaultSavePath));
 		Str = Str.replaceAll("//datetime//", Matcher.quoteReplacement(LocalDateTime.now().format(Global.DefaultDateTimeFormatter)));
+		Str = Str.replaceAll("//last-file-imported//", Matcher.quoteReplacement(DataManipulator.LastFileImported));
 		return Str;
 	}
 

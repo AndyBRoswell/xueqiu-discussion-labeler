@@ -26,11 +26,11 @@
 				GBK
 				GB2312
 			 -->
-			<default-filename>//datetime//</default-filename>
+			<default-filename>//last-file-imported//</default-filename>
 			<!-- 
 				变量说明：
-				//datetime//	——当前的日期时间
-				（暂未支持根据配置文件中的内容设定默认文件名）
+				//datetime//				——当前的日期时间
+				//last-file-imported//		——最近一次导入的文件
 			 -->
 			<default-export-dir>//default-save-path//</default-export-dir>
 			<!-- <operation-for-filename-conflict></operation-for-filename-conflict> -->
