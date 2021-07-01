@@ -155,6 +155,11 @@ public class DataManipulator {
 		return new LabeledResponse(true, TargetCat);
 	}
 
+	// 在保存或清空股评列表后，解除每条股评仅能为每个标签增加 1 次标注的限制。
+	public static void ClearLabelOnlyOnceConstraints() {
+
+	}
+
 	// 为指定的股票讨论添加新的标签
 	public static boolean AddLabel(int Index, String Category, String Label) {
 		ConcurrentHashMap<String, HashMap<String, LabelStatus>> TargetLabels = GetDiscussionItem(Index).GetLabels(); // 先获得指定股评的全部标签
