@@ -188,7 +188,7 @@ public class StorageAccessor {
 				final StringBuilder builder = new StringBuilder();
 				builder.append(entry.getKey()); // 标注类名称
 				for (Map.Entry<String, LabelStatus> e : entry.getValue().entrySet()) { // 逐步构建该类标注数据为字符串
-					builder.append(' ').append(e.getKey()).append(' ').append(e.getValue().toString());
+					builder.append(' ').append(e.getKey()).append(' ').append(e.getValue().LabeledCount);
 				}
 				row.add(builder.toString()); // 将该类标签写入该行的一个单元格
 			}
