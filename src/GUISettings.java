@@ -25,7 +25,7 @@ public class GUISettings extends JFrame {
 	final JFileChooser ExportSettingsDialog = new JFileChooser(Global.ConfigPath);
 
 	// 文件类型过滤器
-	class XMLFilter extends FileFilter {
+	static class XMLFilter extends FileFilter {
 		@Override public boolean accept(File f) {
 			final String extension = f.getName().substring(f.getName().lastIndexOf('.') + 1);
 			if (extension != null) { return extension.equals("xml"); }

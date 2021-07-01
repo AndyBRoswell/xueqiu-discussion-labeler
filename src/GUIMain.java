@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.text.View;
 import javax.xml.xpath.XPathExpressionException;
 import java.awt.*;
 import java.awt.event.*;
@@ -53,6 +52,7 @@ public class GUIMain extends JFrame {
 	final JButton btnSaveAvailableLabels = new JButton("保存可选标注");
 	final JButton btnSearch = new JButton("搜索");
 	final JButton btnBack = new JButton("返回");
+	final JButton btnClearDiscussionList = new JButton("清空股评列表");
 
 	/*快捷筛选复选框*/
 	final JCheckBox cbLabeled = new JCheckBox("已标注");
@@ -66,7 +66,7 @@ public class GUIMain extends JFrame {
 	int[] SelectedRows;
 	final JPanel AllLabelsPanel = new JPanel();
 	final JScrollPane AllLabelsScrollPane = new JScrollPane(AllLabelsPanel);
-	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
+//	final JLabel AllAvailableLabelsLabel = new JLabel("可选标注");
 
 	// 表格
 	DiscussionTableModel DiscussionModel;
@@ -185,18 +185,18 @@ public class GUIMain extends JFrame {
 		}
 
 		/*标注添加标签与按钮*/
-		AllAvailableLabelsLabel.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), wGUILabel, h0);
-		btnAddAvailableLabelCategory.setBounds(0, AllAvailableLabelsLabel.getY() + AllAvailableLabelsLabel.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
+		btnClearDiscussionList.setBounds(0, DiscussionTable.getY() + DiscussionTable.getHeight(), 108, h0);
+		btnAddAvailableLabelCategory.setBounds(0, btnClearDiscussionList.getY() + btnClearDiscussionList.getHeight(), GUIMain.icoAdd.getIconWidth(), GUIMain.icoAdd.getIconHeight());
 		btnAddAvailableLabelCategory.setBorderPainted(false);
-		btnSaveAvailableLabels.setBounds(0, btnAddAvailableLabelCategory.getY() + btnAddAvailableLabelCategory.getHeight(), wGUILabel, 2 * h0);
+		btnSaveAvailableLabels.setBounds(0, btnAddAvailableLabelCategory.getY() + btnAddAvailableLabelCategory.getHeight(), 108, h0);
 		btnSaveAvailableLabels.setBorderPainted(false);
 
 		/*可选标注滚动面板*/
 //		AllLabelsPanel.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 		AllLabelsPanel.setLayout(null);
-		AllLabelsScrollPane.setBounds(AllAvailableLabelsLabel.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - AllAvailableLabelsLabel.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
+		AllLabelsScrollPane.setBounds(btnClearDiscussionList.getWidth(), DiscussionTable.getY() + DiscussionTable.getHeight(), X - btnClearDiscussionList.getWidth(), Y - (DiscussionTable.getY() + DiscussionTable.getHeight()));
 		AllLabelsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		AllLabelsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 //		AllLabelsScrollPane.setPreferredSize(new Dimension(AllLabelsScrollPane.getWidth(), AllLabelsScrollPane.getHeight()));
 //		for (int i = 0; i < DiscussionModel.getRowCount(); ++i)
 //			for (int j = 0; j < DiscussionModel.getColumnCount(); ++j)
@@ -451,7 +451,7 @@ public class GUIMain extends JFrame {
 		super.add(btnSearch); super.add(btnBack);
 		super.add(cbLabeled); super.add(cbUnlabeled);
 		super.add(tfSearchByText); super.add(tfSearchByLabel);
-		super.add(AllAvailableLabelsLabel); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);
+		super.add(btnClearDiscussionList); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);
 
 		super.add(DiscussionScrollPane);
 		super.add(AllLabelsScrollPane);
