@@ -1,7 +1,6 @@
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.regex.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
@@ -59,6 +58,7 @@ public class Config {
 		Str = Str.replaceAll("//app-path//", Matcher.quoteReplacement(Global.AppPath));
 		Str = Str.replaceAll("//config-path//", Matcher.quoteReplacement(Global.AppPath));
 		Str = Str.replaceAll("//default-save-path//", Matcher.quoteReplacement(Global.DefaultSavePath));
+		Str = Str.replaceAll("//datetime//", Matcher.quoteReplacement(LocalDateTime.now().format(Global.DefaultDateTimeFormatter)));
 		return Str;
 	}
 
