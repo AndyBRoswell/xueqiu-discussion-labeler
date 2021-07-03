@@ -4,6 +4,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class GUIAddLabel extends JFrame {
+	final GUIAddLabel ThisForm = this;
+
 	static final int h0 = Global.FontSizeD * 2;
 
 	final ArrayList<JTextField> tfLabels = new ArrayList<>();
@@ -23,9 +25,8 @@ public class GUIAddLabel extends JFrame {
 		// 动作监听程序
 		super.addComponentListener(new ComponentListener() {
 			@Override public void componentResized(ComponentEvent e) { // 设置各控件的位置与大小
-				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) e.getComponent();
-				final int X = GUIAddLabelForm.getContentPane().getWidth();
-				final int Y = GUIAddLabelForm.getContentPane().getHeight();
+				final int X = ThisForm.getContentPane().getWidth();
+				final int Y = ThisForm.getContentPane().getHeight();
 
 				int y = 0;
 				for (JTextField t : tfLabels) {
@@ -37,9 +38,9 @@ public class GUIAddLabel extends JFrame {
 				btnDelete.setBounds(X / 2, y, X / 4, h0);
 				btnCancel.setBounds(X * 3 / 4, y, X / 4, h0);
 
-//				GUIAddLabelForm.setSize((int) Screen.getWidth() / 4, y + h0 + 40);
-				GUIAddLabelForm.getContentPane().setSize((int) Screen.getWidth() / 4, y + h0);
-				GUIAddLabelForm.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
+//				ThisForm.setSize((int) Screen.getWidth() / 4, y + h0 + 40);
+				ThisForm.getContentPane().setSize((int) Screen.getWidth() / 4, y + h0);
+				ThisForm.setLocationRelativeTo(null); // 先设置大小，再改变相对位置原点，否则窗口的左上角将位于屏幕中央
 			}
 
 			@Override public void componentMoved(ComponentEvent e) {}
@@ -51,7 +52,6 @@ public class GUIAddLabel extends JFrame {
 
 		btnOK.addActionListener(new ActionListener() { // 应用更改
 			@Override public void actionPerformed(ActionEvent e) {
-				final GUIAddLabel ThisForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
 				for (JTextField t : tfLabels) {
 					String Label = t.getText();
 					if (Label.isBlank() == false) DataManipulator.AddAvailableLabelToCategory(Category, Label);
@@ -65,7 +65,6 @@ public class GUIAddLabel extends JFrame {
 
 		btnAdd.addActionListener(new ActionListener() { // 添加标签
 			@Override public void actionPerformed(ActionEvent e) {
-				final GUIAddLabel ThisForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
 				final int X = ThisForm.getContentPane().getWidth();
 				final int Y = ThisForm.getContentPane().getHeight();
 				final JTextField tfLabel = new JTextField();
@@ -77,9 +76,8 @@ public class GUIAddLabel extends JFrame {
 			}
 		});
 
-		btnCancel.addActionListener(new ActionListener() { // 删除标签
+		btnDelete.addActionListener(new ActionListener() { // 删除标签
 			@Override public void actionPerformed(ActionEvent e) {
-				final GUIAddLabel ThisForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
 				if (tfLabels.isEmpty() == false) {
 					ThisForm.remove(tfLabels.get(tfLabels.size() - 1));
 					tfLabels.remove(tfLabels.get(tfLabels.size() - 1));
@@ -92,7 +90,6 @@ public class GUIAddLabel extends JFrame {
 
 		btnCancel.addActionListener(new ActionListener() { // 取消添加
 			@Override public void actionPerformed(ActionEvent e) {
-				final GUIAddLabel ThisForm = (GUIAddLabel) SwingUtilities.getRoot(btnCancel);
 				ThisForm.dispose();
 			}
 		});
