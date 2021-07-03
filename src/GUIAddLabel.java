@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class GUIAddLabel extends JFrame {
@@ -54,47 +51,49 @@ public class GUIAddLabel extends JFrame {
 
 		btnOK.addActionListener(new ActionListener() { // 应用更改
 			@Override public void actionPerformed(ActionEvent e) {
-				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
+				final GUIAddLabel ThisForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
 				for (JTextField t : tfLabels) {
 					String Label = t.getText();
 					if (Label.isBlank() == false) DataManipulator.AddAvailableLabelToCategory(Category, Label);
 				}
+				MainFrame.AllLabelsPanel.removeAll();
+				MainFrame.AddComponentsForAllLabelsPanel();
 				MainFrame.Refresh();
-				GUIAddLabelForm.dispose();
+				ThisForm.dispose();
 			}
 		});
 
 		btnAdd.addActionListener(new ActionListener() { // 添加标签
 			@Override public void actionPerformed(ActionEvent e) {
-				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
-				final int X = GUIAddLabelForm.getContentPane().getWidth();
-				final int Y = GUIAddLabelForm.getContentPane().getHeight();
+				final GUIAddLabel ThisForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
+				final int X = ThisForm.getContentPane().getWidth();
+				final int Y = ThisForm.getContentPane().getHeight();
 				final JTextField tfLabel = new JTextField();
 				tfLabels.add(tfLabel);
-				final Dimension d = GUIAddLabelForm.getSize();
+				final Dimension d = ThisForm.getSize();
 				d.height += h0;
-				GUIAddLabelForm.setSize(d);
-				GUIAddLabelForm.add(tfLabel);
+				ThisForm.setSize(d);
+				ThisForm.add(tfLabel);
 			}
 		});
 
 		btnCancel.addActionListener(new ActionListener() { // 删除标签
 			@Override public void actionPerformed(ActionEvent e) {
-				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
+				final GUIAddLabel ThisForm = (GUIAddLabel) SwingUtilities.getRoot(btnOK);
 				if (tfLabels.isEmpty() == false) {
-					GUIAddLabelForm.remove(tfLabels.get(tfLabels.size() - 1));
+					ThisForm.remove(tfLabels.get(tfLabels.size() - 1));
 					tfLabels.remove(tfLabels.get(tfLabels.size() - 1));
-					final Dimension d = GUIAddLabelForm.getSize();
+					final Dimension d = ThisForm.getSize();
 					d.height -= h0;
-					GUIAddLabelForm.setSize(d);
+					ThisForm.setSize(d);
 				}
 			}
 		});
 
 		btnCancel.addActionListener(new ActionListener() { // 取消添加
 			@Override public void actionPerformed(ActionEvent e) {
-				final GUIAddLabel GUIAddLabelForm = (GUIAddLabel) SwingUtilities.getRoot(btnCancel);
-				GUIAddLabelForm.dispose();
+				final GUIAddLabel ThisForm = (GUIAddLabel) SwingUtilities.getRoot(btnCancel);
+				ThisForm.dispose();
 			}
 		});
 

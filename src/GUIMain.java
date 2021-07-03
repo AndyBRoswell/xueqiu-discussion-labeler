@@ -402,7 +402,22 @@ public class GUIMain extends JFrame {
 			@Override public void actionPerformed(ActionEvent e) { StatForm = new GUIStatistic(); }
 		});
 
-		// 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
+		AddComponentsForAllLabelsPanel();
+
+		// 添加控件
+		super.add(btnSearch); super.add(btnBack);
+		super.add(cbLabeled); super.add(cbUnlabeled);
+		super.add(tfSearchByText); super.add(tfSearchByLabel);
+		super.add(btnClearDiscussionList); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);
+
+		super.add(DiscussionScrollPane);
+		super.add(AllLabelsScrollPane);
+
+		// 显示
+		super.setVisible(true);
+	}
+
+	public void AddComponentsForAllLabelsPanel(){ // 将全部可选标签布局在可选标签面板上，并显示当前选中的股评条目中，各标签被选中的总次数
 		for (Map.Entry<String, HashSet<String>> Cat : DataManipulator.GetAllLabels().entrySet()) {
 			AllLabelsPanel.add(new LabelCategoryComponent(Cat.getKey())); // 标签类名称控件
 			for (String LabelName : Cat.getValue()) { // 该标签类下的全部标签及其使用数据
@@ -460,18 +475,6 @@ public class GUIMain extends JFrame {
 			});
 			AllLabelsPanel.add(btnAddLabel);
 		}
-
-		// 添加控件
-		super.add(btnSearch); super.add(btnBack);
-		super.add(cbLabeled); super.add(cbUnlabeled);
-		super.add(tfSearchByText); super.add(tfSearchByLabel);
-		super.add(btnClearDiscussionList); super.add(btnAddAvailableLabelCategory); super.add(btnSaveAvailableLabels);
-
-		super.add(DiscussionScrollPane);
-		super.add(AllLabelsScrollPane);
-
-		// 显示
-		super.setVisible(true);
 	}
 
 	// 重绘主界面
